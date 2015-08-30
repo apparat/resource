@@ -1,0 +1,24 @@
+{
+  "name": "bauwerk/bauwerk-resource",
+  "description": "Resource type library and tools for working with resources",
+  "minimum-stability": "RC",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Joschi Kuphal",
+      "email": "joschi@kuphal.net"
+    }
+  ],
+  "require": {
+    "league/commonmark": "^0.10.0",
+    "symfony/yaml": "^2.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Bauwerk\\": "lib/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.8"
+  }
+}
