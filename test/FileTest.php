@@ -32,19 +32,21 @@
  *  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
-class FileTest extends PHPUnit_Framework_TestCase {
+
+namespace BauwerkTest;
+
+/**
+ * Basic tests for generic files
+ *
+ * @package BauwerkTest
+ */
+class FileTest extends TestBase {
 	/**
 	 * Example text data
 	 *
 	 * @var array
 	 */
 	protected $_text = null;
-	/**
-	 * Temporary files
-	 *
-	 * @var array
-	 */
-	protected $_tmpFiles = array();
 
 	/**
 	 * Example text file
@@ -67,28 +69,6 @@ class FileTest extends PHPUnit_Framework_TestCase {
 		parent::setUp();
 
 		$this->_text = file_get_contents(self::TXT_FILE);
-	}
-
-	/**
-	 * Tears down the fixture
-	 */
-	protected function tearDown() {
-		foreach ($this->_tmpFiles as $tmpFile) {
-			if (@is_file($tmpFile)) {
-				@unlink($tmpFile);
-			} else {
-				@rmdir($tmpFile);
-			}
-		}
-	}
-
-	/**
-	 * Prepare and register a temporary file name
-	 *
-	 * @return string				Temporary file name
-	 */
-	protected function _createTemporaryFile() {
-		return $this->_tmpFiles[] = tempnam(sys_get_temp_dir(), 'bw_test_');
 	}
 
 	/**

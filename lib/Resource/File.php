@@ -41,7 +41,7 @@ use \Bauwerk\Resource\File\OutOfBoundsException;
 use \Bauwerk\Resource\File\OutOfRangeException;
 
 /**
- * Abstract base class for files
+ * Base class for file resources
  *
  * @package Bauwerk\Resource
  */

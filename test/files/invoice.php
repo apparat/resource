@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Bauwerk
+ * bauwerk-resource
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -33,56 +33,55 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace BauwerkTest;
-
-/**
- * Tests for YAML file resource
- *
- * @package BauwerkTest
- */
-class YamlTest extends TestBase
-{
-    /**
-     * Example YAML data
-     *
-     * @var array
-     */
-    protected $_yaml = null;
-    /**
-     * Example YAML file
-     *
-     * @var string
-     */
-    const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.yaml';
-    /**
-     * Example YAML file as PHP array
-     *
-     * @var string
-     */
-    const YAML_PHP_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
-
-    /**
-     * Sets up the fixture
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->_yaml = require self::YAML_PHP_FILE;
-    }
-
-
-    /**
-     * Test constructor and content without argument
-     */
-    public function testContentWithoutFilePath()
-    {
-        $file = new \Bauwerk\Resource\File\Yaml(self::YAML_FILE);
-        $this->assertInstanceOf('Bauwerk\Resource\File\Yaml', $file);
-        $this->assertEquals(1, count($file));
-
-        $yamlPart = $file->getPart(\Bauwerk\Resource\Part::DEFAULT_NAME);
-        $this->assertInstanceOf('Bauwerk\Resource\Part\Yaml', $yamlPart);
-//        $this->assertArrayEquals($this->_yaml, $yamlPart->getData());
-    }
-}
+return array (
+    'invoice' => 34843,
+    'date' => 980204400,
+    'bill-to' =>
+        array (
+            'given' => 'Chris',
+            'family' => 'Dumars',
+            'address' =>
+                array (
+                    'lines' => '458 Walkman Dr.
+Suite #292
+',
+                    'city' => 'Royal Oak',
+                    'state' => 'MI',
+                    'postal' => 48046,
+                ),
+        ),
+    'ship-to' =>
+        array (
+            'given' => 'Chris',
+            'family' => 'Dumars',
+            'address' =>
+                array (
+                    'lines' => '458 Walkman Dr.
+Suite #292
+',
+                    'city' => 'Royal Oak',
+                    'state' => 'MI',
+                    'postal' => 48046,
+                ),
+        ),
+    'product' =>
+        array (
+            0 =>
+                array (
+                    'sku' => 'BL394D',
+                    'quantity' => 4,
+                    'description' => 'Basketball',
+                    'price' => 450,
+                ),
+            1 =>
+                array (
+                    'sku' => 'BL4438H',
+                    'quantity' => 1,
+                    'description' => 'Super Hoop',
+                    'price' => 2392,
+                ),
+        ),
+    'tax' => 251.41999999999999,
+    'total' => 4443.5200000000004,
+    'comments' => 'Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338.',
+);
