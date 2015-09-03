@@ -33,36 +33,11 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource;
+namespace Bauwerk;
 
 /**
- * File part
+ * Abstract resource
  *
- * @package Bauwerk\Resource
+ * @package Bauwerk
  */
-class Part implements PartInterface {
-	/**
-	 * Use the part methods & properties
-	 */
-	use PartTrait;
-
-	/**
-	 * Default part key
-	 *
-	 * @var string
-	 */
-	const DEFAULT_NAME = 'default';
-
-	/*******************************************************************************
-	 * PUBLIC METHODS
-	 *******************************************************************************/
-
-	/**
-	 * Constructor
-	 *
-	 * @param string $content   Part content
-	 */
-	public function __construct($content = '') {
-		$this->setContent($content);
-	}
-}
+abstract class Resource {}

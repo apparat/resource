@@ -33,36 +33,18 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource;
+namespace Bauwerk\Resource\Container;
 
 /**
- * File part
+ * Invalid argument file exception
  *
- * @package Bauwerk\Resource
+ * @package Resource\Container
  */
-class Part implements PartInterface {
+class OutOfBoundsException extends \OutOfBoundsException implements ContainerExceptionInterface {
 	/**
-	 * Use the part methods & properties
-	 */
-	use PartTrait;
-
-	/**
-	 * Default part key
+	 * Invalid part key position
 	 *
-	 * @var string
+	 * @var int
 	 */
-	const DEFAULT_NAME = 'default';
-
-	/*******************************************************************************
-	 * PUBLIC METHODS
-	 *******************************************************************************/
-
-	/**
-	 * Constructor
-	 *
-	 * @param string $content   Part content
-	 */
-	public function __construct($content = '') {
-		$this->setContent($content);
-	}
+	const INVALID_PART_KEY_POSITION = 1440524242;
 }

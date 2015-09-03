@@ -6,14 +6,14 @@
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ * @copyright   Copyright Â© 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
 
 /***********************************************************************************
  *  The MIT License (MIT)
  *
- *  Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ *  Copyright Â© 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
  *  this software and associated documentation files (the "Software"), to deal in
@@ -33,26 +33,8 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File;
+namespace Bauwerk\Resource;
 
-use Bauwerk\Resource\FileException;
-
-/**
- * Invalid argument file exception
- *
- * @package Resource\File
- */
-class OutOfRangeException extends \OutOfRangeException implements FileException {
-	/**
-	 * Invalid part key
-	 *
-	 * @var int
-	 */
-	const INVALID_PART_KEY = 1440524242;
-	/**
-	 * File part key is empty
-	 *
-	 * @var int
-	 */
-	const PART_KEY_EMPTY = 1440524760;
+interface FileExceptionInterface
+{
 }

@@ -110,7 +110,7 @@ class FileTest extends TestBase {
 	/**
 	 * Test invalid part key read access
 	 *
-	 * @expectedException \Bauwerk\Resource\File\OutOfRangeException
+	 * @expectedException \Bauwerk\Resource\Container\OutOfRangeException
 	 * @expectedExceptionCode 1440524242
 	 */
 	public function testInvalidPartKeyReadAccess() {
@@ -121,7 +121,7 @@ class FileTest extends TestBase {
 	/**
 	 * Test invalid part key write access
 	 *
-	 * @expectedException \Bauwerk\Resource\File\OutOfRangeException
+	 * @expectedException \Bauwerk\Resource\Container\OutOfRangeException
 	 * @expectedExceptionCode 1440524242
 	 */
 	public function testInvalidPartKeyWriteAccess() {

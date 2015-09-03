@@ -33,36 +33,18 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource;
+namespace Bauwerk\Resource\Container;
 
 /**
- * File part
+ * Invalid argument part exception
  *
- * @package Bauwerk\Resource
+ * @package Resource\Container
  */
-class Part implements PartInterface {
+class InvalidArgumentException extends \InvalidArgumentException implements ContainerExceptionInterface {
 	/**
-	 * Use the part methods & properties
-	 */
-	use PartTrait;
-
-	/**
-	 * Default part key
+	 * Invalid default part class
 	 *
-	 * @var string
+	 * @var int
 	 */
-	const DEFAULT_NAME = 'default';
-
-	/*******************************************************************************
-	 * PUBLIC METHODS
-	 *******************************************************************************/
-
-	/**
-	 * Constructor
-	 *
-	 * @param string $content   Part content
-	 */
-	public function __construct($content = '') {
-		$this->setContent($content);
-	}
+	const INVALID_DEFAULT_PART_CLASS = 1440530628;
 }

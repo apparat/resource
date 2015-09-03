@@ -35,14 +35,14 @@
 
 namespace Bauwerk\Resource\File;
 
-use Bauwerk\Resource\FileException;
+use Bauwerk\Resource\FileExceptionInterface;
 
 /**
  * Invalid argument file exception
  *
  * @package Resource\File
  */
-class InvalidArgumentException extends \InvalidArgumentException implements FileException {
+class InvalidArgumentException extends \InvalidArgumentException implements FileExceptionInterface {
 	/**
 	 * No source file
 	 *
@@ -73,10 +73,4 @@ class InvalidArgumentException extends \InvalidArgumentException implements File
 	 * @var int
 	 */
 	const INVALID_TARGET_FILE = 1440361529;
-	/**
-	 * Invalid default part class
-	 *
-	 * @var int
-	 */
-	const INVALID_DEFAULT_PART_CLASS = 1440530628;
 }

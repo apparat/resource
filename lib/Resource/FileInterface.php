@@ -35,7 +35,16 @@
 
 namespace Bauwerk\Resource;
 
-interface FileInterface extends \ArrayAccess, \Countable, \SeekableIterator {
+use Bauwerk\ResourceInterface;
+use Bauwerk\Resource\File\InvalidArgumentException;
+use Bauwerk\Resource\File\RuntimeException;
+
+/**
+ * File interface
+ *
+ * @package Bauwerk\Resource
+ */
+interface FileInterface extends ResourceInterface, ContainerInterface {
 	/**
 	 * Return the source of this file
 	 *
@@ -67,20 +76,14 @@ interface FileInterface extends \ArrayAccess, \Countable, \SeekableIterator {
 	public function setContent($content);
 
 	/**
-	 * Return a file part
+	 * Save the file
 	 *
-	 * @param string $key                       Part key
-	 * @return PartInterface                    Part
-	 * @throws \OutOfRangeException             If an invalid part is requested
+	 * @param string $target Target file
+	 * @param bool|false $createDirectories Create directories if necessary
+	 * @param bool|false $overwrite Overwrite existing file
+	 * @return int                              Number of bytes written
+	 * @throws InvalidArgumentException         If the target file is invalid
+	 * @throws RuntimeException                 If the target directory doesn't exist and cannot be created
 	 */
-	public function getPart($key);
-
-	/**
-	 * Set a file part
-	 *
-	 * @param string $key                       Part key
-	 * @param PartInterface $part               Part
-	 * @return File                             Self reference
-	 */
-	public function setPart($key, PartInterface $part);
+	public function save($target = null, $createDirectories = false, $overwrite = false);
 }

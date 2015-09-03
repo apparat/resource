@@ -6,14 +6,14 @@
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ * @copyright   Copyright Â© 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
 
 /***********************************************************************************
  *  The MIT License (MIT)
  *
- *  Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ *  Copyright Â© 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
  *  this software and associated documentation files (the "Software"), to deal in
@@ -33,36 +33,6 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource;
+namespace Bauwerk\Resource\Container;
 
-/**
- * File part
- *
- * @package Bauwerk\Resource
- */
-class Part implements PartInterface {
-	/**
-	 * Use the part methods & properties
-	 */
-	use PartTrait;
-
-	/**
-	 * Default part key
-	 *
-	 * @var string
-	 */
-	const DEFAULT_NAME = 'default';
-
-	/*******************************************************************************
-	 * PUBLIC METHODS
-	 *******************************************************************************/
-
-	/**
-	 * Constructor
-	 *
-	 * @param string $content   Part content
-	 */
-	public function __construct($content = '') {
-		$this->setContent($content);
-	}
-}
+interface ContainerExceptionInterface {}

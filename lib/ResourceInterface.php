@@ -35,7 +35,9 @@
 
 namespace Bauwerk;
 
-
-interface ResourceInterface {
-
-}
+/**
+ * Resource interface
+ *
+ * @package Bauwerk
+ */
+interface ResourceInterface {}

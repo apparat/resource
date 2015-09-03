@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Bauwerk
+ * bauwerk-resource
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -36,33 +36,70 @@
 namespace Bauwerk\Resource;
 
 /**
- * File part
+ * Container interface
  *
  * @package Bauwerk\Resource
  */
-class Part implements PartInterface {
-	/**
-	 * Use the part methods & properties
-	 */
-	use PartTrait;
+interface ContainerInterface extends \ArrayAccess, \Countable, \SeekableIterator
+{
+    /**
+     * Content model type
+     *
+     * @var string
+     */
+    const TYPE = 'type';
+    /**
+     * Part sequence type
+     *
+     * @var string
+     */
+    const TYPE_SEQUENCE = 'sequence';
+    /**
+     * Part choice type
+     *
+     * @var string
+     */
+    const TYPE_CHOICE = 'choice';
+    /**
+     * Minimum occurences
+     *
+     * @var string
+     */
+    const MIN = 'min';
+    /**
+     * Maximum occurences
+     *
+     * @var string
+     */
+    const MAX = 'max';
+    /**
+     * Unbound occurences
+     *
+     * @var string
+     */
+    const UNBOUND = 'unbound';
+    /**
+     * Part class name
+     *
+     * @var string
+     */
+    const CLASSES = 'classes';
 
-	/**
-	 * Default part key
-	 *
-	 * @var string
-	 */
-	const DEFAULT_NAME = 'default';
+    /**
+     * Return a file part
+     *
+     * @param string $key Part key
+     * @return PartInterface                    Part
+     * @throws \OutOfRangeException             If an invalid part is requested
+     */
+    public function getPart($key);
 
-	/*******************************************************************************
-	 * PUBLIC METHODS
-	 *******************************************************************************/
-
-	/**
-	 * Constructor
-	 *
-	 * @param string $content   Part content
-	 */
-	public function __construct($content = '') {
-		$this->setContent($content);
-	}
+    /**
+     * Set a file part
+     *
+     * @param string $key Part key
+     * @param PartInterface $part Part
+     * @return File                             Self reference
+     */
+    public function setPart($key, PartInterface $part);
 }

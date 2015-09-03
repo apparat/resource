@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Bauwerk
+ * bauwerk-resource
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @copyright   Copyright Â© 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
 
 /***********************************************************************************
  *  The MIT License (MIT)
  *
- *  Copyright Â© 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ *  Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
  *  this software and associated documentation files (the "Software"), to deal in
@@ -35,4 +35,78 @@
 
 namespace Bauwerk\Resource;
 
-interface FileException {}
+/**
+ * Part trait
+ *
+ * @package Bauwerk\Resource
+ */
+trait PartTrait
+{
+    /**
+     * MIME type
+     *
+     * @var string
+     */
+    protected $_mimeType = 'application/octet-stream';
+
+    /**
+     * Content
+     *
+     * @var string
+     */
+    protected $_content = '';
+
+    /**
+     * Return the part contents as string
+     *
+     * @return string           Part contents
+     */
+    public function __toString()
+    {
+        return strval($this->_content);
+    }
+
+    /**
+     * Return the part content
+     *
+     * @return string           Part content
+     */
+    public function getContent()
+    {
+        return $this->_content;
+    }
+
+    /**
+     * Set the part content
+     *
+     * @param string $content Part content
+     * @return Part             Self reference
+     */
+    public function setContent($content)
+    {
+        $this->_content = $content;
+        return $this;
+    }
+
+    /**
+     * Return the MIME type
+     *
+     * @return string           MIME type
+     */
+    public function getMimeType()
+    {
+        return $this->_mimeType;
+    }
+
+    /**
+     * Set the MIME type
+     *
+     * @param string $mimeType MIME type
+     * @return Part             Self reference
+     */
+    public function setMimeType($mimeType)
+    {
+        $this->_mimeType = $mimeType;
+        return $this;
+    }
+}

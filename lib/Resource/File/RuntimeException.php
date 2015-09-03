@@ -35,14 +35,14 @@
 
 namespace Bauwerk\Resource\File;
 
-use Bauwerk\Resource\FileException;
+use Bauwerk\Resource\FileExceptionInterface;
 
 /**
  * Runtime file exception
  *
  * @package Resource\File
  */
-class RuntimeException extends \RuntimeException implements FileException {
+class RuntimeException extends \RuntimeException implements FileExceptionInterface {
 	/**
 	 * Invalid target directory
 	 *

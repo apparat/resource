@@ -40,26 +40,42 @@ namespace Bauwerk\Resource;
  *
  * @package Bauwerk\Resource
  */
-interface PartInterface {
-	/**
-	 * Return the part content
-	 *
-	 * @return string           Part content
-	 */
-	public function getContent();
+interface PartInterface
+{
+    /**
+     * Return the part contents as string
+     *
+     * @return string           Part contents
+     */
+    public function __toString();
 
-	/**
-	 * Set the part content
-	 *
-	 * @param string $content   Part content
-	 * @return Part             Self reference
-	 */
-	public function setContent($content);
+    /**
+     * Return the part content
+     *
+     * @return string           Part content
+     */
+    public function getContent();
 
-	/**
-	 * Return the part contents as string
-	 *
-	 * @return string           Part contents
-	 */
-	public function __toString();
+    /**
+     * Set the part content
+     *
+     * @param string $content Part content
+     * @return Part             Self reference
+     */
+    public function setContent($content);
+
+    /**
+     * Return the MIME type
+     *
+     * @return string           MIME type
+     */
+    public function getMimeType();
+
+    /**
+     * Set the MIME type
+     *
+     * @param string $mimeType  MIME type
+     * @return Part             Self reference
+     */
+    public function setMimeType($mimeType);
 }
