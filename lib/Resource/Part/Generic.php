@@ -4,11 +4,13 @@
  * bauwerk-resource
  *
  * @category    Jkphl
- * @package     Jkphl_Bauwerk
+ * @package     Jkphl_bauwerk-resource
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
+
+namespace Jkphl;
 
 /***********************************************************************************
  *  The MIT License (MIT)
@@ -33,22 +35,18 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource;
+namespace Bauwerk\Resource\Part;
+
+
+use Bauwerk\Resource\Part;
 
 /**
- * Part trait
+ * Generic file part
  *
- * @package Bauwerk\Resource
+ * @package Bauwerk\Resource\Part
  */
-trait PartTrait
+class Generic extends Part
 {
-    /**
-     * MIME type
-     *
-     * @var string
-     */
-    protected $_mimeType = 'application/octet-stream';
-
     /**
      * Content
      *
@@ -85,28 +83,6 @@ trait PartTrait
     public function setContent($content)
     {
         $this->_content = $content;
-        return $this;
-    }
-
-    /**
-     * Return the MIME type
-     *
-     * @return string           MIME type
-     */
-    public function getMimeType()
-    {
-        return $this->_mimeType;
-    }
-
-    /**
-     * Set the MIME type
-     *
-     * @param string $mimeType MIME type
-     * @return Part             Self reference
-     */
-    public function setMimeType($mimeType)
-    {
-        $this->_mimeType = $mimeType;
         return $this;
     }
 }

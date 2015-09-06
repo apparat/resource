@@ -61,21 +61,6 @@ interface FileInterface extends ResourceInterface, ContainerInterface {
 	public function setSource($source);
 
 	/**
-	 * Return the file content
-	 *
-	 * @return string                           Content
-	 */
-	public function getContent();
-
-	/**
-	 * Set the file content
-	 *
-	 * @param string $content                   Content
-	 * @return File                             Self reference
-	 */
-	public function setContent($content);
-
-	/**
 	 * Save the file
 	 *
 	 * @param string $target Target file

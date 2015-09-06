@@ -36,7 +36,7 @@
 namespace Bauwerk\Resource;
 
 /**
- * Interface for fuile parts
+ * Interface for file parts
  *
  * @package Bauwerk\Resource
  */
@@ -78,4 +78,34 @@ interface PartInterface
      * @return Part             Self reference
      */
     public function setMimeType($mimeType);
+
+    /**
+     * Return the owner file
+     *
+     * @return FileInterface    Owner file
+     */
+    public function getOwnerFile();
+
+    /**
+     * Set the owner file
+     *
+     * @param FileInterface $ownerFile      Owner file
+     * @return Part                         Self reference
+     */
+    public function setOwnerFile(FileInterface $ownerFile);
+
+    /**
+     * Return the parent part
+     *
+     * @return PartInterface                Parent part
+     */
+    public function getParentPart();
+
+    /**
+     * Set the parent part
+     *
+     * @param PartInterface $part           Parent part
+     * @return Part                         Self reference
+     */
+    public function setParentPart(PartInterface $part);
 }

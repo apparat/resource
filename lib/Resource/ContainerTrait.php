@@ -122,6 +122,53 @@ trait ContainerTrait
     }
 
     /**
+     * Return the part contents as string
+     *
+     * @return string           Part contents
+     */
+    public function __toString() {
+        return implode('', array_map('strval', $this->_parts));
+    }
+
+    /**
+     * Return the part content
+     *
+     * @return string           Part content
+     */
+    public function getContent() {
+        return strval($this);
+    }
+
+    /**
+     * Set the part content
+     *
+     * @param string $content   Part content
+     * @return Part             Self reference
+     */
+    public function setContent($content) {
+
+    }
+
+    /**
+     * Return the MIME type
+     *
+     * @return string           MIME type
+     */
+    public function getMimeType() {
+
+    }
+
+    /**
+     * Set the MIME type
+     *
+     * @param string $mimeType  MIME type
+     * @return Part             Self reference
+     */
+    public function setMimeType($mimeType) {
+
+    }
+
+    /**
      * Return the current file part
      *
      * @link http://php.net/manual/en/iterator.current.php

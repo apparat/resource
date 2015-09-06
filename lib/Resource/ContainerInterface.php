@@ -40,7 +40,7 @@ namespace Bauwerk\Resource;
  *
  * @package Bauwerk\Resource
  */
-interface ContainerInterface extends \ArrayAccess, \Countable, \SeekableIterator
+interface ContainerInterface extends PartInterface, \ArrayAccess, \Countable, \SeekableIterator
 {
     /**
      * Return a file part

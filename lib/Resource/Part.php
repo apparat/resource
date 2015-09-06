@@ -40,11 +40,28 @@ namespace Bauwerk\Resource;
  *
  * @package Bauwerk\Resource
  */
-class Part implements PartInterface {
+abstract class Part implements PartInterface {
+
 	/**
-	 * Use the part methods & properties
+	 * Owner file
+	 *
+	 * @var FileInterface
 	 */
-	use PartTrait;
+	protected $_ownerFile = null;
+
+	/**
+	 * Parent part
+	 *
+	 * @var PartInterface
+	 */
+	protected $_parentPart = null;
+
+	/**
+	 * MIME type
+	 *
+	 * @var string
+	 */
+	protected $_mimeType = 'application/octet-stream';
 
 	/**
 	 * Default part key
@@ -64,5 +81,70 @@ class Part implements PartInterface {
 	 */
 	public function __construct($content = '') {
 		$this->setContent($content);
+	}
+
+	/**
+	 * Return the MIME type
+	 *
+	 * @return string           MIME type
+	 */
+	public function getMimeType()
+	{
+		return $this->_mimeType;
+	}
+
+	/**
+	 * Set the MIME type
+	 *
+	 * @param string $mimeType MIME type
+	 * @return Part             Self reference
+	 */
+	public function setMimeType($mimeType)
+	{
+		$this->_mimeType = $mimeType;
+		return $this;
+	}
+
+	/**
+	 * Return the owner file
+	 *
+	 * @return FileInterface    Owner file
+	 */
+	public function getOwnerFile()
+	{
+		return $this->_ownerFile;
+	}
+
+	/**
+	 * Set the owner file
+	 *
+	 * @param FileInterface $ownerFile Owner file
+	 * @return Part                         Self reference
+	 */
+	public function setOwnerFile(FileInterface $ownerFile)
+	{
+		$this->_ownerFile = $ownerFile;
+	}
+
+	/**
+	 * Return the parent part
+	 *
+	 * @return PartInterface                Parent part
+	 */
+	public function getParentPart()
+	{
+		return $this->_parentPart;
+	}
+
+	/**
+	 * Set the parent part
+	 *
+	 * @param PartInterface $part Parent part
+	 * @return Part                         Self reference
+	 */
+	public function setParentPart(PartInterface $part)
+	{
+		$this->_parentPart = $part;
+		$this->setOwnerFile(($this->_parentPart instanceof FileInterface) ? $this->_parentPart : $this->_parentPart->getOwnerFile());
 	}
 }

@@ -39,6 +39,6 @@ namespace Bauwerk\Resource\File;
 use Bauwerk\Resource\File;
 use Bauwerk\Resource\MultipartInterface;
 
-class YamlFrontmatterMarkdown extends File implements MultipartInterface {
+class YamlFrontmatterMarkdown extends File {
 
 }
