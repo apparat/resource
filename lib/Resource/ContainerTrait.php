@@ -58,17 +58,6 @@ trait ContainerTrait
      * @var int
      */
     protected $_partPosition = 0;
-    /**
-     * Container content model
-     *
-     * @var array
-     */
-    protected $_contentModel = array(
-        ContainerInterface::TYPE => ContainerInterface::TYPE_SEQUENCE,
-        ContainerInterface::MIN => 1,
-        ContainerInterface::MAX => 1,
-        ContainerInterface::CLASSES => ['Bauwerk\\Resource\\Part'],
-    );
 
     /*******************************************************************************
      * PUBLIC METHODS

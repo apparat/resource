@@ -138,6 +138,8 @@ class FileTest extends TestBase {
 		$this->assertEquals(1, count($file));
 		$this->assertInstanceOf('Bauwerk\Resource\Part', $file->getPart(\Bauwerk\Resource\Part::DEFAULT_NAME));
 
+		print_r($file->getContentModel());
+
 		// Iterate through all parts
 		$count		= 0;
 		foreach ($file as $part) {

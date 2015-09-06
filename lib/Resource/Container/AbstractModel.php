@@ -33,37 +33,65 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource;
+namespace Bauwerk\Resource\Container;
 
-/**
- * Container interface
- *
- * @package Bauwerk\Resource
- */
-interface ContainerInterface extends \ArrayAccess, \Countable, \SeekableIterator
+
+abstract class AbstractModel
 {
     /**
-     * Return a file part
+     * Minimum occurrences
      *
-     * @param string $key Part key
-     * @return PartInterface                    Part
-     * @throws \OutOfRangeException             If an invalid part is requested
+     * @var int
      */
-    public function getPart($key);
+    protected $_min = 0;
+    /**
+     * Maximum occurrences
+     *
+     * @var int
+     */
+    protected $_max = 0;
+    /**
+     * Content classes
+     *
+     * @var array
+     */
+    protected $_classes = array();
+    /**
+     * Unbound occurences
+     *
+     * @var int
+     */
+    const UNBOUND = -1;
 
     /**
-     * Set a file part
+     * Constructor
      *
-     * @param string $key Part key
-     * @param PartInterface $part Part
-     * @return File                             Self reference
+     * @param array $classes Part class names and their keys
+     * @param int $min Minimum occurences
+     * @param int $max Maximum occurences
+     * @throws InvalidArgumentException     If the class names array is empty
+     * @throws InvalidArgumentException     If the minimum / maximum occurences is not an integer
+     * @throws InvalidArgumentException     If the minimum / maximum occurences is out of range
      */
-    public function setPart($key, PartInterface $part);
+    public function __construct(array $classes, $min, $max)
+    {
+        if (!count($classes)) {
+            throw new InvalidArgumentException('Invalid class names array for container model',
+                InvalidArgumentException::INVALID_CLASSNAMES_ARRAY);
+        }
 
-    /**
-     * Return the content model of this container
-     *
-     * @return Container\AbstractModel          Container model
-     */
-    public function getContentModel();
+        $this->_classes = $classes;
+
+        if (!is_int($min) || ($min < 0)) {
+            throw new InvalidArgumentException(sprintf('Invalid minimum occurences value "%s"', $min),
+                InvalidArgumentException::INVALID_MINIMUM_OCCURENCES);
+        }
+        $this->_min = intval($min);
+
+        if (!is_int($max) || ($max < -1)) {
+            throw new InvalidArgumentException(sprintf('Invalid maximum occurences value "%s"', $max),
+                InvalidArgumentException::INVALID_MAXIMUM_OCCURENCES);
+        }
+        $this->_max = intval($max);
+    }
 }

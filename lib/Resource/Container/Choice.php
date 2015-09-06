@@ -33,37 +33,10 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource;
+namespace Bauwerk\Resource\Container;
 
-/**
- * Container interface
- *
- * @package Bauwerk\Resource
- */
-interface ContainerInterface extends \ArrayAccess, \Countable, \SeekableIterator
+
+class Choice extends AbstractModel
 {
-    /**
-     * Return a file part
-     *
-     * @param string $key Part key
-     * @return PartInterface                    Part
-     * @throws \OutOfRangeException             If an invalid part is requested
-     */
-    public function getPart($key);
 
-    /**
-     * Set a file part
-     *
-     * @param string $key Part key
-     * @param PartInterface $part Part
-     * @return File                             Self reference
-     */
-    public function setPart($key, PartInterface $part);
-
-    /**
-     * Return the content model of this container
-     *
-     * @return Container\AbstractModel          Container model
-     */
-    public function getContentModel();
 }

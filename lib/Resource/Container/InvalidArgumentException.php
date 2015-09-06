@@ -47,4 +47,22 @@ class InvalidArgumentException extends \InvalidArgumentException implements Cont
 	 * @var int
 	 */
 	const INVALID_DEFAULT_PART_CLASS = 1440530628;
+	/**
+	 * Invalid minimum occurences value
+	 *
+	 * @var int
+	 */
+	const INVALID_MINIMUM_OCCURENCES = 1441485633;
+	/**
+	 * Invalid maximum occurences value
+	 *
+	 * @var int
+	 */
+	const INVALID_MAXIMUM_OCCURENCES = 1441485648;
+	/**
+	 * Invalid class names array
+	 *
+	 * @var int
+	 */
+	const INVALID_CLASSNAMES_ARRAY = 1441485730;
 }

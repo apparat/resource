@@ -251,4 +251,14 @@ class File extends Resource implements FileInterface
 
         return true;
     }
+
+    /**
+     * Return the content model of this container
+     *
+     * @return Container\Sequence          Container model
+     */
+    public function getContentModel()
+    {
+        return new Container\Sequence(array('\\Bauwerk\\Resource\\Part'), 1, 1);
+    }
 }
