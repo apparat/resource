@@ -1,7 +1,7 @@
 <?php
 
 /**
- * bauwerk-resource
+ * Bauwerk
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -33,39 +33,26 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File;
+namespace Bauwerk\Resource\File\Part\Container\Exception;
 
-use Bauwerk\Resource\File;
-use Bauwerk\Resource\File\Part\Container\SequenceInterface;
-use Bauwerk\Resource\File\Part\ContainerInterface;
-use Bauwerk\Resource\FileInterface;
+use Bauwerk\Resource\File\Part\Container\ExceptionInterface;
 
 /**
- * Generic file
+ * Invalid argument container file part exception
  *
- * @package Bauwerk\Resource\File
+ * @package Resource\Container
  */
-class Generic extends File implements SequenceInterface
-{
-    /**
-     * Constructor
-     *
-     * @param string $source Source file
-     */
-    public function __construct($source = null)
-    {
-        $this->_setPartModel(array(PartInterface::DEFAULT_NAME => \Bauwerk\Resource\File\Part\Body\Generic::class), 1, 1);
-        $this->setSource($source);
-    }
-
-    /**
-     * Parse a content string and bring the part model to live
-     *
-     * @param string $content Content string
-     * @return ContainerInterface       Self reference
-     */
-    public function parse($content)
-    {
-        $this->getPart(PartInterface::DEFAULT_NAME)->parse($content);
-    }
+class OutOfRange extends \OutOfRangeException implements ExceptionInterface {
+	/**
+	 * Invalid part key
+	 *
+	 * @var int
+	 */
+	const INVALID_PART_KEY = 1440524242;
+	/**
+	 * File part key is empty
+	 *
+	 * @var int
+	 */
+	const PART_KEY_EMPTY = 1440524760;
 }

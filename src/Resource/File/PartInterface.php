@@ -35,6 +35,8 @@
 
 namespace Bauwerk\Resource\File;
 
+use Bauwerk\Resource\FileInterface;
+
 /**
  * Abstract file part interface
  *
@@ -42,5 +44,70 @@ namespace Bauwerk\Resource\File;
  */
 interface PartInterface
 {
+    /**
+     * Default part name
+     *
+     * @var string
+     */
+    const DEFAULT_NAME = 'default';
 
+    /**
+     * Return the part contents as string
+     *
+     * @return string                       Part contents
+     */
+    public function __toString();
+
+    /**
+     * Parse a content string and bring the part model to live
+     *
+     * @param string $content               Content string
+     * @return ContainerInterface           Self reference
+     */
+    public function parse($content);
+
+    /**
+     * Return the MIME type
+     *
+     * @return string                       MIME type
+     */
+    public function getMimeType();
+
+    /**
+     * Set the MIME type
+     *
+     * @param string $mimeType              MIME type
+     * @return PartInterface                Self reference
+     */
+    public function setMimeType($mimeType);
+
+    /**
+     * Return the owner file
+     *
+     * @return FileInterface                Owner file
+     */
+    public function getOwnerFile();
+
+    /**
+     * Set the owner file
+     *
+     * @param FileInterface $ownerFile      Owner file
+     * @return PartInterface                Self reference
+     */
+    public function setOwnerFile(FileInterface $ownerFile);
+
+    /**
+     * Return the parent part
+     *
+     * @return PartInterface                Parent part
+     */
+    public function getParentPart();
+
+    /**
+     * Set the parent part
+     *
+     * @param PartInterface $part           Parent part
+     * @return PartInterface                Self reference
+     */
+    public function setParentPart(PartInterface $part);
 }

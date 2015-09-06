@@ -35,6 +35,10 @@
 
 namespace Bauwerk\Resource;
 
+use Bauwerk\Resource\File\Part\ContainerTrait;
+use Bauwerk\Resource\File\Exception\InvalidArgument;
+use Bauwerk\Resource\File\PartInterface;
+
 /**
  * Abstract file resource
  *
@@ -43,4 +47,160 @@ namespace Bauwerk\Resource;
 abstract class File extends Resource implements FileInterface
 {
 
+    /**
+     * Use the file part container properties and methods
+     */
+    use ContainerTrait;
+
+    /**
+     * File source
+     *
+     * @var string
+     */
+    protected $_source = null;
+
+    /**
+     * MIME type
+     *
+     * @var string
+     */
+    protected $_mimeType = 'application/octet-stream';
+
+    /**
+     * Serialize this file
+     *
+     * @return string                           Serialized file contents
+     */
+    public function __toString()
+    {
+        return 'TBD'; // TODO
+    }
+
+    /**
+     * Return the source of this file
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return $this->_source;
+    }
+
+    /**
+     * Set the source of this file
+     *
+     * @param string $source                    Source
+     * @return File                             Self reference
+     * @throws InvalidArgument                  When the given source is not valid, doesn't exsit, is not a file or is not readable
+     */
+    public function setSource($source)
+    {
+
+        $this->_source = trim($source);
+
+        // If no source file is set
+        if (!$this->_source) {
+            throw new InvalidArgument('No source file given', InvalidArgument::NO_SOURCE_FILE);
+        }
+
+        // If source file doesn't exist
+        if (!@file_exists($this->_source)) {
+            throw new InvalidArgument(sprintf('Source file "%s" doesn\'t exist', $this->_source),
+                InvalidArgument::INVALID_SOURCE_FILE);
+        }
+
+        // If source file is not a directory
+        if (!@is_file($this->_source)) {
+            throw new InvalidArgument(sprintf('Source "%s" is not a file', $this->_source),
+                InvalidArgument::SOURCE_NOT_A_FILE);
+        }
+
+        // If the source file is not readable
+        if (fileperms($this->_source) & 0x04 != 0x04) {
+            throw new InvalidArgument(sprintf('Source file "%s" is not readable', $this->_source),
+                InvalidArgument::SOURCE_FILE_UNREADABLE);
+        }
+        
+        $this->parse(@file_get_contents($this->_source));
+        return $this;
+    }
+
+    /**
+     * Save the file
+     *
+     * @param string $target Target file
+     * @param bool|false $createDirectories Create directories if necessary
+     * @param bool|false $overwrite Overwrite existing file
+     * @return int                              Number of bytes written
+     * @throws InvalidArgument                  If the target file is invalid
+     * @throws Runtime                          If the target directory doesn't exist and cannot be created
+     */
+    public function save($target = null, $createDirectories = false, $overwrite = false)
+    {
+        // TODO
+    }
+
+    /**
+     * Return the MIME type
+     *
+     * @return string           MIME type
+     */
+    public function getMimeType()
+    {
+        return $this->_mimeType;
+    }
+
+    /**
+     * Set the MIME type
+     *
+     * @param string $mimeType MIME type
+     * @return Part             Self reference
+     */
+    public function setMimeType($mimeType)
+    {
+        $this->_mimeType = $mimeType;
+        return $this;
+    }
+
+    /**
+     * Return the owner file
+     *
+     * @return FileInterface    Owner file
+     */
+    public function getOwnerFile()
+    {
+        return $this;
+    }
+
+    /**
+     * Set the owner file
+     *
+     * @param FileInterface $ownerFile Owner file
+     * @return Part                         Self reference
+     */
+    public function setOwnerFile(FileInterface $ownerFile)
+    {
+        // Do nothing
+    }
+
+    /**
+     * Return the parent part
+     *
+     * @return PartInterface                Parent part
+     */
+    public function getParentPart()
+    {
+        return null;
+    }
+
+    /**
+     * Set the parent part
+     *
+     * @param PartInterface $part Parent part
+     * @return Part                         Self reference
+     */
+    public function setParentPart(PartInterface $part)
+    {
+        // Do nothing
+    }
 }

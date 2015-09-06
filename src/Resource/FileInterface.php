@@ -36,13 +36,55 @@
 namespace Bauwerk\Resource;
 
 use Bauwerk\ResourceInterface;
+use Bauwerk\Resource\File\Part\ContainerInterface;
+use Bauwerk\Resource\File\Exception\InvalidArgument;
+use Bauwerk\Resource\File\Exception\Runtime;
 
 /**
  * Abstract file resource interface
  *
  * @package Bauwerk\Resource
  */
-interface FileInterface extends ResourceInterface
+interface FileInterface extends ContainerInterface, ResourceInterface
 {
+    /**
+     * Constructor
+     *
+     * @param string $source                    Source file
+     */
+    public function __construct($source = null);
 
+    /**
+     * Serialize this file
+     *
+     * @return string                           Serialized file contents
+     */
+    public function __toString();
+
+    /**
+     * Return the source of this file
+     *
+     * @return string
+     */
+    public function getSource();
+
+    /**
+     * Set the source of this file
+     *
+     * @param string $source Source
+     * @return File                             Self reference
+     */
+    public function setSource($source);
+
+    /**
+     * Save the file
+     *
+     * @param string $target Target file
+     * @param bool|false $createDirectories Create directories if necessary
+     * @param bool|false $overwrite Overwrite existing file
+     * @return int                              Number of bytes written
+     * @throws InvalidArgument                  If the target file is invalid
+     * @throws Runtime                          If the target directory doesn't exist and cannot be created
+     */
+    public function save($target = null, $createDirectories = false, $overwrite = false);
 }

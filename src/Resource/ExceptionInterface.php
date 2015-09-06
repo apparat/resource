@@ -33,39 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File;
-
-use Bauwerk\Resource\File;
-use Bauwerk\Resource\File\Part\Container\SequenceInterface;
-use Bauwerk\Resource\File\Part\ContainerInterface;
-use Bauwerk\Resource\FileInterface;
+namespace Bauwerk\Resource;
 
 /**
- * Generic file
+ * Resource exception interface
  *
- * @package Bauwerk\Resource\File
+ * @package Bauwerk\Resource
  */
-class Generic extends File implements SequenceInterface
+interface ExceptionInterface
 {
-    /**
-     * Constructor
-     *
-     * @param string $source Source file
-     */
-    public function __construct($source = null)
-    {
-        $this->_setPartModel(array(PartInterface::DEFAULT_NAME => \Bauwerk\Resource\File\Part\Body\Generic::class), 1, 1);
-        $this->setSource($source);
-    }
 
-    /**
-     * Parse a content string and bring the part model to live
-     *
-     * @param string $content Content string
-     * @return ContainerInterface       Self reference
-     */
-    public function parse($content)
-    {
-        $this->getPart(PartInterface::DEFAULT_NAME)->parse($content);
-    }
 }

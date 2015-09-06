@@ -1,7 +1,7 @@
 <?php
 
 /**
- * bauwerk-resource
+ * Bauwerk
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -33,16 +33,38 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File\Part;
+namespace Bauwerk\Resource\File\Exception;
 
-use Bauwerk\Resource\File\Part;
+use Bauwerk\Resource\File\ExceptionInterface;
 
 /**
- * Multipart choice
+ * Runtime file exception
  *
- * @package Bauwerk\Resource\File\Part
+ * @package Resource\File
  */
-class Choice extends Part implements ContainerInterface
-{
-
+class Runtime extends \RuntimeException implements ExceptionInterface {
+	/**
+	 * Invalid target directory
+	 *
+	 * @var int
+	 */
+	const INVALID_TARGET_DIRECTORY = 1440361552;
+	/**
+	 * Target directory couldn't be created
+	 *
+	 * @var int
+	 */
+	const TARGET_DIRECTORY_NOT_CREATED = 1440361580;
+	/**
+	 * Target file already exists
+	 *
+	 * @var int
+	 */
+	const TARGET_EXISTS = 1440526568;
+	/**
+	 * Target file could not be overwritten
+	 *
+	 * @var int
+	 */
+	const TARGET_NOT_OVERWRITTEN = 1440526574;
 }

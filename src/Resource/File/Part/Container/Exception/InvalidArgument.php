@@ -1,7 +1,7 @@
 <?php
 
 /**
- * bauwerk-resource
+ * Bauwerk
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -33,16 +33,38 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File\Part;
+namespace Bauwerk\Resource\File\Part\Container\Exception;
 
-use Bauwerk\Resource\File\Part;
+use Bauwerk\Resource\File\Part\Container\ExceptionInterface;
 
 /**
- * Multipart sequence
+ * Invalid argument container file part exception
  *
- * @package Bauwerk\Resource\File\Part
+ * @package Resource\Container
  */
-class Sequence extends Part implements ContainerInterface
-{
-
+class InvalidArgument extends \InvalidArgumentException implements ExceptionInterface {
+	/**
+	 * Invalid default part class
+	 *
+	 * @var int
+	 */
+	const INVALID_DEFAULT_PART_CLASS = 1440530628;
+	/**
+	 * Invalid minimum occurences value
+	 *
+	 * @var int
+	 */
+	const INVALID_MINIMUM_OCCURENCES = 1441485633;
+	/**
+	 * Invalid maximum occurences value
+	 *
+	 * @var int
+	 */
+	const INVALID_MAXIMUM_OCCURENCES = 1441485648;
+	/**
+	 * Invalid class names array
+	 *
+	 * @var int
+	 */
+	const INVALID_CLASSNAMES_ARRAY = 1441485730;
 }

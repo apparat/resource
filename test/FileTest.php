@@ -69,6 +69,7 @@ class FileTest extends TestBase {
 		parent::setUp();
 
 		$this->_text = file_get_contents(self::TXT_FILE);
+		echo \Bauwerk\Resource\File\Part\Body\Generic::class;
 	}
 
 	/**
@@ -137,8 +138,6 @@ class FileTest extends TestBase {
 		$this->assertInstanceOf('Bauwerk\Resource\File', $file);
 		$this->assertEquals(1, count($file));
 		$this->assertInstanceOf('Bauwerk\Resource\Part', $file->getPart(\Bauwerk\Resource\Part::DEFAULT_NAME));
-
-		print_r($file->getContentModel());
 
 		// Iterate through all parts
 		$count		= 0;

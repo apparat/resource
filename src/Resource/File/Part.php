@@ -35,6 +35,8 @@
 
 namespace Bauwerk\Resource\File;
 
+use Bauwerk\Resource\FileInterface;
+
 /**
  * Abstract file part
  *
@@ -42,5 +44,83 @@ namespace Bauwerk\Resource\File;
  */
 abstract class Part implements PartInterface
 {
+    /**
+     * Owner file
+     *
+     * @var FileInterface
+     */
+    protected $_ownerFile = null;
 
+    /**
+     * Parent part
+     *
+     * @var PartInterface
+     */
+    protected $_parentPart = null;
+
+    /**
+     * MIME type
+     *
+     * @var string
+     */
+    protected $_mimeType = 'application/octet-stream';
+
+    /**
+     * Return the MIME type
+     *
+     * @return string           MIME type
+     */
+    public function getMimeType() {
+        return $this->_mimeType;
+    }
+
+    /**
+     * Set the MIME type
+     *
+     * @param string $mimeType  MIME type
+     * @return Part             Self reference
+     */
+    public function setMimeType($mimeType) {
+        $this->_mimeType = $mimeType;
+        return $this;
+    }
+
+    /**
+     * Return the owner file
+     *
+     * @return FileInterface    Owner file
+     */
+    public function getOwnerFile() {
+        return $this->_ownerFile;
+    }
+
+    /**
+     * Set the owner file
+     *
+     * @param FileInterface $ownerFile      Owner file
+     * @return Part                         Self reference
+     */
+    public function setOwnerFile(FileInterface $ownerFile) {
+        $this->_ownerFile = $ownerFile;
+    }
+
+    /**
+     * Return the parent part
+     *
+     * @return PartInterface                Parent part
+     */
+    public function getParentPart() {
+        return $this->_parentPart;
+    }
+
+    /**
+     * Set the parent part
+     *
+     * @param PartInterface $part           Parent part
+     * @return Part                         Self reference
+     */
+    public function setParentPart(PartInterface $part) {
+        $this->_parentPart = $part;
+        $this->setOwnerFile($part->getOwnerFile());
+    }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * bauwerk-resource
+ * Bauwerk
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -33,39 +33,44 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File;
+namespace Bauwerk\Resource\File\Exception;
 
-use Bauwerk\Resource\File;
-use Bauwerk\Resource\File\Part\Container\SequenceInterface;
-use Bauwerk\Resource\File\Part\ContainerInterface;
-use Bauwerk\Resource\FileInterface;
+use Bauwerk\Resource\File\ExceptionInterface;
 
 /**
- * Generic file
+ * Invalid argument file exception
  *
- * @package Bauwerk\Resource\File
+ * @package Resource\File
  */
-class Generic extends File implements SequenceInterface
-{
-    /**
-     * Constructor
-     *
-     * @param string $source Source file
-     */
-    public function __construct($source = null)
-    {
-        $this->_setPartModel(array(PartInterface::DEFAULT_NAME => \Bauwerk\Resource\File\Part\Body\Generic::class), 1, 1);
-        $this->setSource($source);
-    }
-
-    /**
-     * Parse a content string and bring the part model to live
-     *
-     * @param string $content Content string
-     * @return ContainerInterface       Self reference
-     */
-    public function parse($content)
-    {
-        $this->getPart(PartInterface::DEFAULT_NAME)->parse($content);
-    }
+class InvalidArgument extends \InvalidArgumentException implements ExceptionInterface {
+	/**
+	 * No source file
+	 *
+	 * @var int
+	 */
+	const NO_SOURCE_FILE = 1440346414;
+	/**
+	 * Source file doesn't exist or is not a file
+	 *
+	 * @var int
+	 */
+	const INVALID_SOURCE_FILE = 1440346451;
+	/**
+	 * Source is not a file
+	 *
+	 * @var int
+	 */
+	const SOURCE_NOT_A_FILE = 1440347668;
+	/**
+	 * Source file is not readable
+	 *
+	 * @var int
+	 */
+	const SOURCE_FILE_UNREADABLE = 1440346535;
+	/**
+	 * Invalid target file
+	 *
+	 * @var int
+	 */
+	const INVALID_TARGET_FILE = 1440361529;
 }
