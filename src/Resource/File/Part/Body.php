@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Bauwerk
+ * bauwerk-resource
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -33,54 +33,16 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File;
+namespace Bauwerk\Resource\File\Part;
 
-use Bauwerk\Resource\File;
-use Bauwerk\Resource\Part;
+use Bauwerk\Resource\File\Part;
 
 /**
- * YAML file
+ * File part body
  *
- * @package Bauwerk\Resource\File
- * @see http://yaml.org/spec/1.2/spec.pdf
+ * @package Bauwerk\Resource\File\Part
  */
-class Yaml extends File {
-	/**
-	 * Default part class
-	 *
-	 * @var string
-	 */
-	protected $_defaultPartClass = 'Bauwerk\\Resource\\Part\\Yaml';
+abstract class Body extends Part implements BodyInterface
+{
 
-	/**
-	 * Return a file part
-	 *
-	 * @param string $key                       Part key
-	 * @return Part\Yaml                        YAML part
-	 * @throws OutOfRangeException              If an invalid part is requested
-	 * @throws OutOfRangeException              If the requested part key is empty
-	 */
-	public function getPart($key) {
-		return parent::getPart($key);
-	}
-
-	/**
-	 * Return the YAML data
-	 *
-	 * @return array				YAML data
-	 */
-	public function getData() {
-		return $this->getPart(Part::DEFAULT_NAME)->getData();
-	}
-
-	/**
-	 * Set the YAML data
-	 *
-	 * @param array $data			YAML data
-	 * @return YamlTrait
-	 */
-	public function setData(array $data) {
-		$this->getPart(Part::DEFAULT_NAME)->setData($data);
-		return $this;
-	}
 }

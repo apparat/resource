@@ -33,9 +33,16 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\Container;
+namespace Bauwerk\Resource\File\Part;
 
+use Bauwerk\Resource\File\PartInterface;
 
-class Sequence extends AbstractModel
+/**
+ * File part body interface
+ *
+ * @package Bauwerk\Resource\File\Part
+ */
+interface BodyInterface extends PartInterface
 {
+
 }

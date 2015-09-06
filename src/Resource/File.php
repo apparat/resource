@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Bauwerk
+ * bauwerk-resource
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -33,24 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\Container;
+namespace Bauwerk\Resource;
 
 /**
- * Invalid argument file exception
+ * Abstract file resource
  *
- * @package Resource\Container
+ * @package Bauwerk\Resource
  */
-class OutOfRangeException extends \OutOfRangeException implements ContainerExceptionInterface {
-	/**
-	 * Invalid part key
-	 *
-	 * @var int
-	 */
-	const INVALID_PART_KEY = 1440524242;
-	/**
-	 * File part key is empty
-	 *
-	 * @var int
-	 */
-	const PART_KEY_EMPTY = 1440524760;
+abstract class File extends Resource implements FileInterface
+{
+
 }

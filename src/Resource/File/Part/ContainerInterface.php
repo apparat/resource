@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Bauwerk
+ * bauwerk-resource
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -33,9 +33,16 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\Repository;
+namespace Bauwerk\Resource\File\Part;
 
+use Bauwerk\Resource\File\PartInterface;
 
-class FileStorage extends \Bauwerk\Resource\Repository {
+/**
+ * Container file part interface
+ *
+ * @package Bauwerk\Resource\File\Part
+ */
+interface ContainerInterface extends PartInterface
+{
 
 }

@@ -33,8 +33,11 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File;
+namespace Bauwerk;
 
-trait MarkdownTrait {
-
-}
+/**
+ * Abstract resource
+ *
+ * @package Bauwerk
+ */
+abstract class Resource implements ResourceInterface {}

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Bauwerk
+ * bauwerk-resource
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -33,9 +33,16 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource;
+namespace Bauwerk\Resource\File;
 
+use Bauwerk\Resource\File;
 
-interface RepositoryInterface {
+/**
+ * Generic file
+ *
+ * @package Bauwerk\Resource\File
+ */
+class Generic extends File
+{
 
 }

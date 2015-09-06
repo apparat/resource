@@ -4,13 +4,11 @@
  * bauwerk-resource
  *
  * @category    Jkphl
- * @package     Jkphl_bauwerk-resource
+ * @package     Jkphl_Bauwerk
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
-
-namespace Jkphl;
 
 /***********************************************************************************
  *  The MIT License (MIT)
@@ -35,54 +33,16 @@ namespace Jkphl;
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\Part;
+namespace Bauwerk\Resource\File\Part\Body;
 
-
-use Bauwerk\Resource\Part;
+use Bauwerk\Resource\File\Part\Body;
 
 /**
- * Generic file part
- *
- * @package Bauwerk\Resource\Part
+ * Markdown file part
+ * 
+ * @package Bauwerk\Resource\File\Part\Body
  */
-class Generic extends Part
+class Markdown extends Body
 {
-    /**
-     * Content
-     *
-     * @var string
-     */
-    protected $_content = '';
 
-    /**
-     * Return the part contents as string
-     *
-     * @return string           Part contents
-     */
-    public function __toString()
-    {
-        return strval($this->_content);
-    }
-
-    /**
-     * Return the part content
-     *
-     * @return string           Part content
-     */
-    public function getContent()
-    {
-        return $this->_content;
-    }
-
-    /**
-     * Set the part content
-     *
-     * @param string $content Part content
-     * @return Part             Self reference
-     */
-    public function setContent($content)
-    {
-        $this->_content = $content;
-        return $this;
-    }
 }

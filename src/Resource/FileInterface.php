@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Bauwerk
+ * bauwerk-resource
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -33,10 +33,16 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File;
+namespace Bauwerk\Resource;
 
-use Bauwerk\Resource\File;
+use Bauwerk\ResourceInterface;
 
-class Markdown extends File {
-	use \Bauwerk\Resource\File\MarkdownTrait;
+/**
+ * Abstract file resource interface
+ *
+ * @package Bauwerk\Resource
+ */
+interface FileInterface extends ResourceInterface
+{
+
 }

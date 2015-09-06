@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Bauwerk
+ * bauwerk-resource
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -36,8 +36,11 @@
 namespace Bauwerk\Resource\File;
 
 /**
- * Interface for Yaml files
+ * Abstract file part interface
  *
  * @package Bauwerk\Resource\File
  */
-interface Yamlnterface extends \ArrayAccess, \Countable, \SeekableIterator {}
+interface PartInterface
+{
+
+}

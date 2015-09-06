@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Bauwerk
+ * bauwerk-resource
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -33,50 +33,16 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\Part;
+namespace Bauwerk\Resource\File;
 
-
-use Bauwerk\Resource\File\Yamlnterface;
-use Bauwerk\Resource\File\YamlTrait;
-use Bauwerk\Resource\Part;
+use Bauwerk\Resource\File;
 
 /**
- * Yaml file part
+ * Markdown file
  *
- * @package Bauwerk\Resource\Part
+ * @package Bauwerk\Resource\File
  */
-class Yaml extends Part implements Yamlnterface {
-	/**
-	 * Use YAML features
-	 */
-	use YamlTrait;
-	/**
-	 * MIME type
-	 *
-	 * @var string
-	 */
-	protected $_mimeType = 'text/x-yaml';
+class Markdown extends File
+{
 
-	/*******************************************************************************
-	 * PUBLIC METHODS
-	 *******************************************************************************/
-
-	/**
-	 * Constructor
-	 *
-	 * @param string $content Part content
-	 */
-	public function __construct($content = '') {
-		parent::__construct($content);
-		$this->_data = strlen($this->_content) ? \Symfony\Component\Yaml\Yaml::parse($this->_content) : array();
-	}
-
-	/**
-	 * Return the YAML data as string
-	 *
-	 * @return string           Part contents
-	 */
-	public function __toString() {
-		return \Symfony\Component\Yaml\Yaml::dump($this->_data);
-	}
 }

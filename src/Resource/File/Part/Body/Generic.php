@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Bauwerk
+ * bauwerk-resource
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -33,8 +33,16 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\Format;
+namespace Bauwerk\Resource\File\Part\Body;
 
-trait MarkdownTrait {
+use Bauwerk\Resource\File\Part\Body;
+
+/**
+ * Generic file part
+ *
+ * @package Bauwerk\Resource\File\Part\Body
+ */
+class Generic extends Body
+{
 
 }
