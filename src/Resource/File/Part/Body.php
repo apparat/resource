@@ -50,6 +50,16 @@ abstract class Body extends Part implements BodyInterface
      * @var string
      */
     protected $_content = '';
+
+    /**
+     * Reset the part to its default state
+     *
+     * @return Part             Self reference
+     */
+    public function reset() {
+        $this->_content = '';
+    }
+
     /**
      * Return the part contents as string
      *

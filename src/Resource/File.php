@@ -35,6 +35,7 @@
 
 namespace Bauwerk\Resource;
 
+use Bauwerk\Resource;
 use Bauwerk\Resource\File\Part\ContainerTrait;
 use Bauwerk\Resource\File\Exception\InvalidArgument;
 use Bauwerk\Resource\File\PartInterface;
@@ -46,7 +47,6 @@ use Bauwerk\Resource\File\PartInterface;
  */
 abstract class File extends Resource implements FileInterface
 {
-
     /**
      * Use the file part container properties and methods
      */
@@ -73,7 +73,7 @@ abstract class File extends Resource implements FileInterface
      */
     public function __toString()
     {
-        return 'TBD'; // TODO
+        return implode('', array_map('strval', $this->_parts));
     }
 
     /**
@@ -89,39 +89,43 @@ abstract class File extends Resource implements FileInterface
     /**
      * Set the source of this file
      *
-     * @param string $source                    Source
+     * @param string $source                    Source file
      * @return File                             Self reference
-     * @throws InvalidArgument                  When the given source is not valid, doesn't exsit, is not a file or is not readable
+     * @throws InvalidArgument                  When the given source is not valid, doesn't exist, is not a file or is not readable
      */
     public function setSource($source)
     {
+        $source = trim($source);
 
-        $this->_source = trim($source);
+        // If source is a non-empty string
+        if (strlen($source)) {
+            $this->_source = $source;
 
-        // If no source file is set
-        if (!$this->_source) {
-            throw new InvalidArgument('No source file given', InvalidArgument::NO_SOURCE_FILE);
+            // If source file doesn't exist
+            if (!@file_exists($this->_source)) {
+                throw new InvalidArgument(sprintf('Source file "%s" doesn\'t exist', $this->_source),
+                    InvalidArgument::INVALID_SOURCE_FILE);
+            }
+
+            // If source file is not a directory
+            if (!@is_file($this->_source)) {
+                throw new InvalidArgument(sprintf('Source "%s" is not a file', $this->_source),
+                    InvalidArgument::SOURCE_NOT_A_FILE);
+            }
+
+            // If the source file is not readable
+            if (fileperms($this->_source) & 0x04 != 0x04) {
+                throw new InvalidArgument(sprintf('Source file "%s" is not readable', $this->_source),
+                    InvalidArgument::SOURCE_FILE_UNREADABLE);
+            }
+
+            $this->parse(@file_get_contents($this->_source));
+
+        // If source is empty: Reset the file
+        } else {
+            $this->_source = null;
+            $this->reset();
         }
-
-        // If source file doesn't exist
-        if (!@file_exists($this->_source)) {
-            throw new InvalidArgument(sprintf('Source file "%s" doesn\'t exist', $this->_source),
-                InvalidArgument::INVALID_SOURCE_FILE);
-        }
-
-        // If source file is not a directory
-        if (!@is_file($this->_source)) {
-            throw new InvalidArgument(sprintf('Source "%s" is not a file', $this->_source),
-                InvalidArgument::SOURCE_NOT_A_FILE);
-        }
-
-        // If the source file is not readable
-        if (fileperms($this->_source) & 0x04 != 0x04) {
-            throw new InvalidArgument(sprintf('Source file "%s" is not readable', $this->_source),
-                InvalidArgument::SOURCE_FILE_UNREADABLE);
-        }
-        
-        $this->parse(@file_get_contents($this->_source));
         return $this;
     }
 

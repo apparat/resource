@@ -44,12 +44,6 @@ use Bauwerk\Resource\File\ExceptionInterface;
  */
 class InvalidArgument extends \InvalidArgumentException implements ExceptionInterface {
 	/**
-	 * No source file
-	 *
-	 * @var int
-	 */
-	const NO_SOURCE_FILE = 1440346414;
-	/**
 	 * Source file doesn't exist or is not a file
 	 *
 	 * @var int

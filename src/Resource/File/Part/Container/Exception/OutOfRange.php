@@ -44,15 +44,9 @@ use Bauwerk\Resource\File\Part\Container\ExceptionInterface;
  */
 class OutOfRange extends \OutOfRangeException implements ExceptionInterface {
 	/**
-	 * Invalid part key
+	 * Invalid part key position
 	 *
 	 * @var int
 	 */
-	const INVALID_PART_KEY = 1440524242;
-	/**
-	 * File part key is empty
-	 *
-	 * @var int
-	 */
-	const PART_KEY_EMPTY = 1440524760;
+	const INVALID_PART_KEY_POSITION = 1440524242;
 }

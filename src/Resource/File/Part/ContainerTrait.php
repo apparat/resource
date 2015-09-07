@@ -62,6 +62,12 @@ trait ContainerTrait
      */
     protected $_parts = array();
     /**
+     * Part sequence / choice occurrences
+     *
+     * @var array
+     */
+    protected $_occurences = array();
+    /**
      * Current part index
      *
      * @var int
@@ -85,45 +91,66 @@ trait ContainerTrait
      *******************************************************************************/
 
     /**
-     * Return a file part
+     * Reset the file to its default state
      *
-     * @param string $key Part key
-     * @return PartInterface                    Part
-     * @throws OutOfRange                       If an invalid part is requested
-     * @throws OutOfRange                       If the requested part key is empty
+     * @return ContainerInterface               Self reference
      */
-    public function getPart($key)
-    {
+    public function reset() {
+        $this->_parts = array();
+        $this->_occurences = array();
+        $this->_partPosition = 0;
+    }
 
+    /**
+     * Return a container part
+     *
+     * @param string $key                       Part key
+     * @param int $occurrence                   Part index (within the same key)
+     * @return PartInterface                    Part
+     * @throws OutOfBounds                      If an invalid part is requested
+     * @throws OutOfRange                       If an invalid occurrence is requested
+     */
+    public function getPart($key, $occurrence = 0)
+    {
         // Verify the container's part model
         $this->_verifyPartModel();
 
-        // TODO: Parts must be created on the fly according to the part model
-
         // If the requested part key is not valid
         if (!$this->_isValidPartKey($key)) {
-            throw new OutOfRange(sprintf('Invalid file part key "%s"', $key),
-                OutOfRange::INVALID_PART_KEY);
+            throw new OutOfBounds(sprintf('Invalid file part key "%s"', $key),
+                OutOfBounds::INVALID_PART_KEY);
 
-        // Else: If the requested part key is not set
-        } elseif (!isset($this->_parts[$key])) {
-            throw new OutOfRange(sprintf('File part key "%s" is empty', $key),
-                OutOfRange::PART_KEY_EMPTY);
+        // If the requested occurrence is out of the valid range
+        } elseif(($occurrence < 0) || (($this->_maxOccurs > ContainerInterface::UNBOUND) && ($occurrence >= $this->_maxOccurs))) {
+            throw new OutOfRange(sprintf('Invalid occurence index %s (%s to %s)', $occurrence, $this->_minOccurs, $this->_maxOccurs),
+                OutOfBounds::INVALID_OCCURRENCE_INDEX);
         }
 
-        return $this->_parts[$key];
+        // Fill up the occurrences if necessary
+        while(count($this->_occurences) < $occurrence) {
+            $this->_occurences[] = ($this instanceof Part\Container\Sequence) ? array_fill_keys(array_keys($this->_partModel), null) : array();
+        }
+
+        // Create the requested object if necessary
+        if (empty($this->_occurences[$occurrence][$key])) {
+            $this->_occurences[$occurrence][$key] = new $this->_partModel[$key]();
+            $this->_occurences[$occurrence][$key]->setParentPart($this);
+        }
+
+        return $this->_occurences[$occurrence][$key];
     }
 
     /**
      * Set a file part
      *
-     * @param string $key Part key
-     * @param PartInterface $part Part
+     * @param string $key                       Part key
+     * @param PartInterface $part               Part
+     * @param int $occurrence                    Part index (within the same key)
      * @return File                             Self reference
      * @throws OutOfRange                       If an invalid part is requested
      * @todo Implement in accordance to the part model
      */
-    public function setPart($key, PartInterface $part)
+    public function setPart($key, PartInterface $part, $occurrence = 0)
     {
         // Verify the container's part model
         $this->_verifyPartModel();
@@ -366,10 +393,7 @@ trait ContainerTrait
      */
     protected function _isValidPartKey($key)
     {
-
-        // TODO: Needs to be checked against the part model
-
-        return $key == Part::DEFAULT_NAME;
+        return array_key_exists($key, $this->_partModel);
     }
 
     /**
@@ -410,6 +434,9 @@ trait ContainerTrait
                 InvalidArgument::INVALID_MAXIMUM_OCCURENCES);
         }
         $this->_maxOccurs = intval($maxOccurs);
+
+        // Resent the container
+        $this->reset();
     }
 
     /**

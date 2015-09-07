@@ -54,7 +54,7 @@ class Generic extends File implements SequenceInterface
      */
     public function __construct($source = null)
     {
-        $this->_setPartModel(array(PartInterface::DEFAULT_NAME => \Bauwerk\Resource\File\Part\Body\Generic::class), 1, 1);
+        $this->_setPartModel(array(PartInterface::DEFAULT_NAME => Part\Body\Generic::class), 1, 1);
         $this->setSource($source);
     }
 
@@ -66,6 +66,6 @@ class Generic extends File implements SequenceInterface
      */
     public function parse($content)
     {
-        $this->getPart(PartInterface::DEFAULT_NAME)->parse($content);
+        $this->getPart(PartInterface::DEFAULT_NAME, 0)->parse($content);
     }
 }

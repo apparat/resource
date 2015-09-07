@@ -62,9 +62,16 @@ interface PartInterface
      * Parse a content string and bring the part model to live
      *
      * @param string $content               Content string
-     * @return ContainerInterface           Self reference
+     * @return PartInterface                Self reference
      */
     public function parse($content);
+
+    /**
+     * Reset the part to its default state
+     *
+     * @return PartInterface                Self reference
+     */
+    public function reset();
 
     /**
      * Return the MIME type

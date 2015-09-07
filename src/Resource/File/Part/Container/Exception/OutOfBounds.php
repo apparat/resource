@@ -42,11 +42,15 @@ use Bauwerk\Resource\File\Part\Container\ExceptionInterface;
  *
  * @package Resource\Container
  */
-class OutOfBoundsException extends \OutOfBoundsException implements ExceptionInterface {
+class OutOfBounds extends \OutOfBoundsException implements ExceptionInterface {
 	/**
-	 * Invalid part key position
+	 * Invalid part key
 	 *
 	 * @var int
 	 */
-	const INVALID_PART_KEY_POSITION = 1440524242;
+	const INVALID_PART_KEY = 1440524242;
+	/**
+	 * Invalid occurrence index
+	 */
+	const INVALID_OCCURRENCE_INDEX = 1441660164;
 }
