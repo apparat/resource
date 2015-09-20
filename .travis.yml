@@ -10,6 +10,7 @@ matrix:
     - php: hhvm
 
 before_script:
+  - phpenv config-add phpunit.ini
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
   - touch .env
