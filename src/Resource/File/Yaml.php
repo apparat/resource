@@ -41,8 +41,37 @@ use Bauwerk\Resource\File;
  * YAML file
  *
  * @package Bauwerk\Resource\File
+ * @see http://yaml.org/spec/1.2/spec.pdf
  */
 class Yaml extends File
 {
+    /**
+     * MIME type
+     *
+     * @var string
+     */
+    protected $_mimeType = 'text/x-yaml';
 
+    /**
+     * Constructor
+     *
+     * @param string $source Source file
+     */
+    public function __construct($source = null)
+    {
+        $this->_setPartModel(array(PartInterface::DEFAULT_NAME => Part\Body\Yaml::class), 1, 1);
+        $this->setSource($source);
+    }
+
+    /**
+     * Parse a content string and bring the part model to live
+     *
+     * @param string $content Content string
+     * @return Yaml        Self reference
+     */
+    public function parse($content)
+    {
+        $this->getPart(PartInterface::DEFAULT_NAME, 0)->parse($content);
+        return $this;
+    }
 }

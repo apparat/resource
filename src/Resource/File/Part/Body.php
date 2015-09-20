@@ -44,41 +44,5 @@ use Bauwerk\Resource\File\Part;
  */
 abstract class Body extends Part implements BodyInterface
 {
-    /**
-     * File part string content
-     *
-     * @var string
-     */
-    protected $_content = '';
 
-    /**
-     * Reset the part to its default state
-     *
-     * @return Part             Self reference
-     */
-    public function reset() {
-        $this->_content = '';
-    }
-
-    /**
-     * Return the part contents as string
-     *
-     * @return string           Part contents
-     */
-    public function __toString()
-    {
-        return strval($this->_content);
-    }
-
-    /**
-     * Parse a content string and bring the part model to live
-     *
-     * @param string $content Content string
-     * @return Body                Self reference
-     */
-    public function parse($content)
-    {
-        $this->_content = strval($content);
-        return $this;
-    }
 }

@@ -33,56 +33,26 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace BauwerkTest;
+namespace Bauwerk\Resource\File\Part\Body\Exception;
+
+use Bauwerk\Resource\File\Part\Body\ExceptionInterface;
 
 /**
- * Tests for YAML file resource
+ * Invalid argument container file part exception
  *
- * @package BauwerkTest
+ * @package Resource\Body
  */
-class YamlTest extends TestBase
-{
-    /**
-     * Example YAML data
-     *
-     * @var array
-     */
-    protected $_yaml = null;
-    /**
-     * Example YAML file
-     *
-     * @var string
-     */
-    const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.yaml';
-    /**
-     * Example YAML file as PHP array
-     *
-     * @var string
-     */
-    const YAML_PHP_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
-
-    /**
-     * Sets up the fixture
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->_yaml = require self::YAML_PHP_FILE;
-    }
-
-
-    /**
-     * Test constructor and content without argument
-     */
-    public function testContentWithoutFilePath()
-    {
-        $file = new \Bauwerk\Resource\File\Yaml(self::YAML_FILE);
-        $this->assertInstanceOf('Bauwerk\Resource\File\Yaml', $file);
-        $this->assertEquals(1, count($file));
-
-        $yamlPart = $file->getPart(\Bauwerk\Resource\Part::DEFAULT_NAME);
-        $this->assertInstanceOf('Bauwerk\Resource\Part\Yaml', $yamlPart);
-//        $this->assertArrayEquals($this->_yaml, $yamlPart->getData());
-    }
+class OutOfBounds extends \OutOfBoundsException implements ExceptionInterface {
+	/**
+	 * Invalid data key
+	 *
+	 * @var int
+	 */
+	const INVALID_DATA_KEY = 1442785310;
+	/**
+	 * Invalid seek position
+	 *
+	 * @var int
+	 */
+	const INVALID_SEEK_POSITION = 1442785234;
 }

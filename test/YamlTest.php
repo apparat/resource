@@ -1,7 +1,7 @@
 <?php
 
 /**
- * bauwerk-resource
+ * Bauwerk
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -33,54 +33,58 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File\Part\Body;
+namespace BauwerkTest;
 
-use Bauwerk\Resource\File\Part\Body;
+use Bauwerk\Resource\File\Yaml;
 
 /**
- * Generic file part
+ * Tests for YAML file resource
  *
- * @package Bauwerk\Resource\File\Part\Body
+ * @package BauwerkTest
  */
-class Generic extends Body
+class YamlTest extends TestBase
 {
     /**
-     * File part string content
+     * Example YAML data
+     *
+//     * @var array
+     */
+    protected $_yaml = null;
+    /**
+     * Example YAML file
      *
      * @var string
      */
-    protected $_content = '';
+    const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.yaml';
+    /**
+     * Example YAML file as PHP array
+     *
+     * @var string
+     */
+    const YAML_PHP_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
 
     /**
-     * Reset the part to its default state
-     *
-     * @return Generic             Self reference
+     * Sets up the fixture
      */
-    public function reset()
+    protected function setUp()
     {
-        $this->_content = '';
-        return $this;
+        parent::setUp();
+
+        $this->_yaml = require self::YAML_PHP_FILE;
     }
 
     /**
-     * Return the part contents as string
-     *
-     * @return string           Part contents
+     * Test constructor and content without argument
      */
-    public function __toString()
+    public function testContentWithoutFilePath()
     {
-        return strval($this->_content);
-    }
+        $file = new Yaml(self::YAML_FILE);
+        $this->assertInstanceOf('Bauwerk\Resource\File\Yaml', $file);
+        $this->assertEquals(1, count($file));
 
-    /**
-     * Parse a content string and bring the part model to live
-     *
-     * @param string $content Content string
-     * @return Body                Self reference
-     */
-    public function parse($content)
-    {
-        $this->_content = strval($content);
-        return $this;
+        /** @var \Bauwerk\Resource\File\Part\Body\Yaml $yamlPart */
+        $yamlPart = $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME);
+        $this->assertInstanceOf('Bauwerk\Resource\File\Part\Body\Yaml', $yamlPart);
+        $this->assertArrayEquals($this->_yaml, $yamlPart->getData());
     }
 }

@@ -37,8 +37,6 @@ namespace Bauwerk\Resource\File;
 
 use Bauwerk\Resource\File;
 use Bauwerk\Resource\File\Part\Container\SequenceInterface;
-use Bauwerk\Resource\File\Part\ContainerInterface;
-use Bauwerk\Resource\FileInterface;
 
 /**
  * Generic file
@@ -62,10 +60,11 @@ class Generic extends File implements SequenceInterface
      * Parse a content string and bring the part model to live
      *
      * @param string $content Content string
-     * @return ContainerInterface       Self reference
+     * @return Generic       Self reference
      */
     public function parse($content)
     {
         $this->getPart(PartInterface::DEFAULT_NAME, 0)->parse($content);
+        return $this;
     }
 }
