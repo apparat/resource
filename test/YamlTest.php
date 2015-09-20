@@ -82,6 +82,8 @@ class YamlTest extends TestBase
         $this->assertInstanceOf('Bauwerk\Resource\File\Yaml', $file);
         $this->assertEquals(1, count($file));
 
+        echo ini_get('date.timezone');
+
         /** @var \Bauwerk\Resource\File\Part\Body\Yaml $yamlPart */
         $yamlPart = $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME);
         $this->assertInstanceOf('Bauwerk\Resource\File\Part\Body\Yaml', $yamlPart);

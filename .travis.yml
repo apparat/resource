@@ -10,10 +10,10 @@ matrix:
     - php: hhvm
 
 before_script:
-  - phpenv config-add phpunit.ini
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
   - touch .env
+  - echo 'date.timezone = Europe/Berlin' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
 script:
   - bash -c 'if [ "$TRAVIS_PHP_VERSION" == "hhvm" ]; then vendor/bin/phpunit; fi;'
