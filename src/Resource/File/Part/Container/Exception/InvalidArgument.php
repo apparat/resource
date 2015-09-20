@@ -67,4 +67,10 @@ class InvalidArgument extends \InvalidArgumentException implements ExceptionInte
 	 * @var int
 	 */
 	const INVALID_CLASSNAMES_ARRAY = 1441485730;
+	/**
+	 * Invalid part class
+	 *
+	 * @var int
+	 */
+	const INVALID_PART_CLASS = 1442783125;
 }

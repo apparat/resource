@@ -51,6 +51,14 @@ class OutOfBounds extends \OutOfBoundsException implements ExceptionInterface {
 	const INVALID_PART_KEY = 1440524242;
 	/**
 	 * Invalid occurrence index
+	 *
+	 * @var int
 	 */
 	const INVALID_OCCURRENCE_INDEX = 1441660164;
+	/**
+	 * Invalid seek position
+	 *
+	 * @var int
+	 */
+	const INVALID_SEEK_POSITION = 1442775654;
 }

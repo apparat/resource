@@ -50,23 +50,27 @@ use Bauwerk\Resource\File\Part;
 trait ContainerTrait
 {
     /**
+     * @implements ContainerInterface
+     */
+
+    /**
      * Part model of this container
      *
      * @var array
      */
     protected $_partModel = null;
     /**
-     * File parts
-     *
-     * @var array
-     */
-    protected $_parts = array();
-    /**
      * Part sequence / choice occurrences
      *
      * @var array
      */
-    protected $_occurences = array();
+    protected $_occurrences = array();
+    /**
+     * Current occurrence index
+     *
+     * @var int
+     */
+    protected $_occurrencePosition = 0;
     /**
      * Current part index
      *
@@ -74,13 +78,13 @@ trait ContainerTrait
      */
     protected $_partPosition = 0;
     /**
-     * Minimum occurences
+     * Minimum occurrences
      *
      * @var int
      */
     protected $_minOccurs = 1;
     /**
-     * Maximum occurences
+     * Maximum occurrences
      *
      * @var int
      */
@@ -95,17 +99,25 @@ trait ContainerTrait
      *
      * @return ContainerInterface               Self reference
      */
-    public function reset() {
-        $this->_parts = array();
-        $this->_occurences = array();
+    public function reset()
+    {
         $this->_partPosition = 0;
+        $this->_occurrencePosition = 0;
+
+        // Fill up the occurrences if necessary
+        $this->_occurrences = array();
+        $isSequence = ($this instanceof Part\Container\SequenceInterface);
+        while (count($this->_occurrences) < $this->_minOccurs) {
+            $this->_occurrences[] = $isSequence ? array_fill_keys(array_keys($this->_partModel),
+                null) : array();
+        }
     }
 
     /**
      * Return a container part
      *
-     * @param string $key                       Part key
-     * @param int $occurrence                   Part index (within the same key)
+     * @param string $key Part key
+     * @param int $occurrence Part index (within the same key)
      * @return PartInterface                    Part
      * @throws OutOfBounds                      If an invalid part is requested
      * @throws OutOfRange                       If an invalid occurrence is requested
@@ -120,54 +132,55 @@ trait ContainerTrait
             throw new OutOfBounds(sprintf('Invalid file part key "%s"', $key),
                 OutOfBounds::INVALID_PART_KEY);
 
-        // If the requested occurrence is out of the valid range
-        } elseif(($occurrence < 0) || (($this->_maxOccurs > ContainerInterface::UNBOUND) && ($occurrence >= $this->_maxOccurs))) {
-            throw new OutOfRange(sprintf('Invalid occurence index %s (%s to %s)', $occurrence, $this->_minOccurs, $this->_maxOccurs),
+            // If the requested occurrence is out of the valid range
+        } elseif (($occurrence < 0) || (($this->_maxOccurs > ContainerInterface::UNBOUND) && ($occurrence >= $this->_maxOccurs))) {
+            throw new OutOfRange(sprintf('Invalid occurrence index %s (%s to %s)', $occurrence, $this->_minOccurs,
+                $this->_maxOccurs),
                 OutOfBounds::INVALID_OCCURRENCE_INDEX);
         }
 
         // Fill up the occurrences if necessary
-        while(count($this->_occurences) < $occurrence) {
-            $this->_occurences[] = ($this instanceof Part\Container\Sequence) ? array_fill_keys(array_keys($this->_partModel), null) : array();
+        $isSequence = ($this instanceof Part\Container\SequenceInterface);
+        while (count($this->_occurrences) < $occurrence) {
+            $this->_occurrences[] = $isSequence ? array_fill_keys(array_keys($this->_partModel),
+                null) : array();
         }
 
         // Create the requested object if necessary
-        if (empty($this->_occurences[$occurrence][$key])) {
-            $this->_occurences[$occurrence][$key] = new $this->_partModel[$key]();
-            $this->_occurences[$occurrence][$key]->setParentPart($this);
+        if (empty($this->_occurrences[$occurrence][$key])) {
+            /* @var PartInterface $part */
+            $part = new $this->_partModel[$key]();
+            /** @noinspection PhpParamsInspection */
+            $part->setParentPart($this);
+            $this->_occurrences[$occurrence][$key] = $part;
         }
 
-        return $this->_occurences[$occurrence][$key];
+        return $this->_occurrences[$occurrence][$key];
     }
 
     /**
      * Set a file part
      *
-     * @param string $key                       Part key
-     * @param PartInterface $part               Part
-     * @param int $occurrence                    Part index (within the same key)
-     * @return File                             Self reference
-     * @throws OutOfRange                       If an invalid part is requested
-     * @todo Implement in accordance to the part model
+     * @param string $key Part key
+     * @param PartInterface $part Part
+     * @param int $occurrence Part index (within the same key)
+     * @return ContainerInterface    Self reference
+     * @throws InvalidArgument       If the part class is invalid
      */
     public function setPart($key, PartInterface $part, $occurrence = 0)
     {
-        // Verify the container's part model
-        $this->_verifyPartModel();
 
-        // If the requested part key is not valid
-        if (!$this->_isValidPartKey($key)) {
-            throw new OutOfRange(sprintf('Invalid file part key "%s"', $key),
-                OutOfRange::INVALID_PART_KEY);
+        // Prepare and retrieve the requested file part
+        $this->getPart($key, $occurrence);
+
+        // Check if the part is of the right type
+        if (!($part instanceof $this->_partModel[$key])) {
+            throw new InvalidArgument(sprintf('Invalid part class "%s"', get_class($part)), InvalidArgument::INVALID_PART_CLASS);
         }
 
-        // If the default part is set and doesn't match the default part class
-        if (($key == Part::DEFAULT_NAME) && !($part instanceof $this->_defaultPartClass)) {
-            throw new InvalidArgument(sprintf('Invalid default part class "%s"', get_class($part)),
-                InvalidArgument::INVALID_DEFAULT_PART_CLASS);
-        }
+        // If no error occurred: Set the new file part
+        $this->_occurrences[$occurrence][$key] = $part;
 
-        $this->_parts[$key] = $part;
         return $this;
     }
 
@@ -178,7 +191,12 @@ trait ContainerTrait
      */
     public function __toString()
     {
-        return implode('', array_map('strval', $this->_parts));
+        $content = '';
+        foreach ($this->_occurrences as $occurrence) {
+            $content .= implode('', array_map('strval', $occurrence));
+        }
+
+        return $content;
     }
 
     /**
@@ -190,7 +208,8 @@ trait ContainerTrait
      */
     public function current()
     {
-        return $this->_parts[$this->_partAtPosition($this->_partPosition)];
+        return $this->_occurrences[$this->_occurrencePosition][$this->_partAtPosition($this->_partPosition,
+            $this->_occurrencePosition)];
     }
 
     /**
@@ -202,21 +221,27 @@ trait ContainerTrait
      */
     public function next()
     {
-        ++$this->_partPosition;
+        if (++$this->_partPosition >= count($this->_occurrences[$this->_occurrencePosition])) {
+            $this->_partPosition = 0;
+            ++$this->_occurrencePosition;
+        }
     }
 
     /**
      * Return the key of the current element
      *
      * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed                    Scalar on success, or null on failure.
+     * @return mixed                    Array on success or null on failure.
      * @since 5.0.0
      */
     public function key()
     {
         try {
-            return $this->_partAtPosition($this->_partPosition);
-        } catch (OutOfBounds $e) {
+            return array(
+                $this->_partAtPosition($this->_partPosition, $this->_occurrencePosition),
+                $this->_occurrencePosition
+            );
+        } catch (OutOfRange $e) {
             return null;
         }
     }
@@ -231,8 +256,9 @@ trait ContainerTrait
     public function valid()
     {
         try {
-            return isset($this->_parts[$this->_partAtPosition($this->_partPosition)]);
-        } catch (OutOfBounds $e) {
+            $this->_partAtPosition($this->_partPosition, $this->_occurrencePosition);
+            return true;
+        } catch (OutOfRange $e) {
             return false;
         }
     }
@@ -246,6 +272,7 @@ trait ContainerTrait
      */
     public function rewind()
     {
+        $this->_occurrencePosition = 0;
         $this->_partPosition = 0;
     }
 
@@ -253,7 +280,7 @@ trait ContainerTrait
      * Whether a offset exists
      *
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-     * @param string $offset An offset to check for
+     * @param array $offset Combination of occurrence and part key to check for
      * @return boolean              TRUE on success or false on failure.
      * @since 5.0.0
      */
@@ -263,14 +290,22 @@ trait ContainerTrait
         // Verify the container's part model
         $this->_verifyPartModel();
 
-        return isset($this->_parts[$offset]);
+        if (is_array($offset) && (count($offset) == 2)) {
+            $offset = array_values($offset);
+            try {
+                $this->_partAtPosition($offset[0], $offset[1]);
+                return true;
+            } catch (OutOfRange $e) {
+            }
+        }
+        return false;
     }
 
     /**
-     * Offset to retrieve
+     * Retrieve an offset
      *
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     * @param string $offset The offset to retrieve
+     * @param string $offset Combination of occurrence and part key to retrieve
      * @return mixed                Element at offset
      * @since 5.0.0
      */
@@ -280,15 +315,24 @@ trait ContainerTrait
         // Verify the container's part model
         $this->_verifyPartModel();
 
-        return isset($this->_parts[$offset]) ? $this->_parts[$offset] : null;
+        if (is_array($offset) && (count($offset) == 2)) {
+            $offset = array_values($offset);
+            try {
+                $this->_partAtPosition($offset[0], $offset[1]);
+                return $this->_occurrences[$offset[1]][$offset[0]];
+            } catch (OutOfRange $e) {
+            }
+        }
+
+        return null;
     }
 
     /**
-     * Offset to set
+     * Set an offset
      *
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
-     * @param mixed $offset The offset to assign the value to.
-     * @param PartInterface $value The value to set
+     * @param array $offset Combination of occurrence and part key to set
+     * @param PartInterface $value The part to set
      * @return void
      * @since 5.0.0
      */
@@ -298,8 +342,13 @@ trait ContainerTrait
         // Verify the container's part model
         $this->_verifyPartModel();
 
-        if ($offset !== null) {
-            $this->_parts[$offset] = $value;
+        if (is_array($offset) && (count($offset) == 2)) {
+            $offset = array_values($offset);
+            try {
+                $this->_partAtPosition($offset[0], $offset[1]);
+                $this->_occurrences[$offset[1]][$offset[0]] = $value;
+            } catch (OutOfRange $e) {
+            }
         }
     }
 
@@ -307,7 +356,7 @@ trait ContainerTrait
      * Offset to unset
      *
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
-     * @param mixed $offset The offset to unset
+     * @param mixed $offset Combination of occurrence and part key to unset (reset)
      * @return void
      * @since 5.0.0
      */
@@ -317,7 +366,19 @@ trait ContainerTrait
         // Verify the container's part model
         $this->_verifyPartModel();
 
-        unset($this->_parts[$offset]);
+        if (is_array($offset) && (count($offset) == 2)) {
+            $offset = array_values($offset);
+            try {
+                $this->_partAtPosition($offset[0], $offset[1]);
+                $isSequence = ($this instanceof Part\Container\SequenceInterface);
+                if ($isSequence) {
+                    $this->_occurrences[$offset[1]][$offset[0]] = null;
+                } else {
+                    $this->_occurrences[$offset[1]] = array();
+                }
+            } catch (OutOfRange $e) {
+            }
+        }
     }
 
     /**
@@ -333,7 +394,7 @@ trait ContainerTrait
         // Verify the container's part model
         $this->_verifyPartModel();
 
-        return count($this->_parts);
+        return array_sum(array_map('count', $this->_occurrences));
     }
 
     /**
@@ -351,12 +412,22 @@ trait ContainerTrait
         // Verify the container's part model
         $this->_verifyPartModel();
 
-        // If the requested position doesn't exist
-        if (!isset($this->_parts[$this->_partAtPosition($position)])) {
-            throw new OutOfBounds(sprintf('Invalid seek position (%s)', $position));
+        $outOfRange = true;
+        foreach ($this->_occurrences as $occurrencePosition => $occurrence) {
+            if (count($occurrence) > $position) {
+                $this->_occurrencePosition = $occurrencePosition;
+                $this->_partAtPosition = ($position - count($occurrence));
+                $outOfRange = false;
+                break;
+            } else {
+                $position -= count($occurrence);
+            }
         }
 
-        $this->_partPosition = $position;
+        // If the requested position doesn't exist
+        if ($outOfRange) {
+            throw new OutOfBounds(sprintf('Invalid seek position (%s)', $position), OutOfBounds::INVALID_SEEK_POSITION);
+        }
     }
 
     /*******************************************************************************
@@ -366,21 +437,30 @@ trait ContainerTrait
     /**
      * Return the part key at a particular position
      *
-     * @param int $position Position
+     * @param int $position Part position
+     * @param int $occurrence Occurence position
      * @return string                   Part key
-     * @throws OutOfBounds              If the requested position doesn't exist
+     * @throws OutOfRange               If the requested occurrence doesn't exist
+     * @throws OutOfRange               If the requested position doesn't exist
      */
-    protected function _partAtPosition($position)
+    protected function _partAtPosition($position, $occurrence)
     {
 
         // Verify the container's part model
         $this->_verifyPartModel();
 
-        $partKeys = array_keys($this->_parts);
-        if (!isset($partKeys[$position])) {
-            throw new OutOfBounds(sprintf('Invalid part key position (%s)', $position),
-                OutOfBounds::INVALID_PART_KEY_POSITION);
+        // If a non-valid occurrence is requested
+        if (($occurrence < 0) || ($occurrence >= count($this->_occurrences))) {
+            throw new OutOfRange(sprintf('Invalid occurrence (%s)', $occurrence),
+                OutOfRange::INVALID_OCCURRENCE_INDEX);
         }
+
+        $partKeys = array_keys($this->_occurrences[$occurrence]);
+        if (!isset($partKeys[$position])) {
+            throw new OutOfRange(sprintf('Invalid part key position (%s)', $position),
+                OutOfRange::INVALID_PART_KEY_POSITION);
+        }
+
         return $partKeys[$position];
     }
 
@@ -400,8 +480,8 @@ trait ContainerTrait
      * Set the part model of this container
      *
      * @param array $partModel Container part model
-     * @param int $minOccurs                Minimum occurences
-     * @param int $maxOccurs                Maximum occurences
+     * @param int $minOccurs Minimum occurrences
+     * @param int $maxOccurs Maximum occurrences
      * @throws InvalidArgument              If the class names list is not valid
      * @throws InvalidArgument              If the minimum / maximum occurrences are invalid
      */
@@ -419,23 +499,24 @@ trait ContainerTrait
                 InvalidArgument::INVALID_CLASSNAMES_ARRAY);
         }
 
+        // Adopt the part model
         $this->_partModel = $partModel;
 
-        // Verify and set the minimum occurences
+        // Verify and set the minimum occurrences
         if (!is_int($minOccurs) || ($minOccurs < 0)) {
-            throw new InvalidArgument(sprintf('Invalid minimum occurences value "%s"', $minOccurs),
+            throw new InvalidArgument(sprintf('Invalid minimum occurrences value "%s"', $minOccurs),
                 InvalidArgument::INVALID_MINIMUM_OCCURENCES);
         }
         $this->_minOccurs = intval($minOccurs);
 
-        // Verify and set the maximum occurences
+        // Verify and set the maximum occurrences
         if (!is_int($maxOccurs) || ($maxOccurs < -1)) {
-            throw new InvalidArgument(sprintf('Invalid maximum occurences value "%s"', $maxOccurs),
+            throw new InvalidArgument(sprintf('Invalid maximum occurrences value "%s"', $maxOccurs),
                 InvalidArgument::INVALID_MAXIMUM_OCCURENCES);
         }
         $this->_maxOccurs = intval($maxOccurs);
 
-        // Resent the container
+        // Reset the container
         $this->reset();
     }
 

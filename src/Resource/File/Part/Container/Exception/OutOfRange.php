@@ -49,4 +49,10 @@ class OutOfRange extends \OutOfRangeException implements ExceptionInterface {
 	 * @var int
 	 */
 	const INVALID_PART_KEY_POSITION = 1440524242;
+	/**
+	 * Invalid occurrence
+	 *
+	 * @var int
+	 */
+	const INVALID_OCCURRENCE_INDEX = 1442774011;
 }

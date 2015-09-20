@@ -38,6 +38,7 @@ namespace Bauwerk\Resource;
 use Bauwerk\Resource;
 use Bauwerk\Resource\File\Part\ContainerTrait;
 use Bauwerk\Resource\File\Exception\InvalidArgument;
+use Bauwerk\Resource\File\Exception\Runtime;
 use Bauwerk\Resource\File\PartInterface;
 
 /**
@@ -67,16 +68,6 @@ abstract class File extends Resource implements FileInterface
     protected $_mimeType = 'application/octet-stream';
 
     /**
-     * Serialize this file
-     *
-     * @return string                           Serialized file contents
-     */
-    public function __toString()
-    {
-        return implode('', array_map('strval', $this->_parts));
-    }
-
-    /**
      * Return the source of this file
      *
      * @return string
@@ -89,7 +80,7 @@ abstract class File extends Resource implements FileInterface
     /**
      * Set the source of this file
      *
-     * @param string $source                    Source file
+     * @param string $source Source file
      * @return File                             Self reference
      * @throws InvalidArgument                  When the given source is not valid, doesn't exist, is not a file or is not readable
      */
@@ -121,7 +112,7 @@ abstract class File extends Resource implements FileInterface
 
             $this->parse(@file_get_contents($this->_source));
 
-        // If source is empty: Reset the file
+            // If source is empty: Reset the file
         } else {
             $this->_source = null;
             $this->reset();
@@ -141,7 +132,42 @@ abstract class File extends Resource implements FileInterface
      */
     public function save($target = null, $createDirectories = false, $overwrite = false)
     {
-        // TODO
+        // Use the source path if target was not given
+        if ($target === null) {
+            $target = $this->_source;
+        }
+
+        $target = trim($target);
+        if (!strlen($target)) {
+            throw new InvalidArgument(sprintf('Invalid target file "%s"', $target),
+                InvalidArgument::INVALID_TARGET_FILE);
+        }
+
+        // If the target directory doesn't exist and should not be created
+        if (!@is_dir(dirname($target)) && !$createDirectories) {
+            throw new Runtime(sprintf('Directory "%s" doesn\'t exist', dirname($target)),
+                Runtime::INVALID_TARGET_DIRECTORY);
+        }
+
+        // If the target directory doesn't exist and could not be created
+        if (!@is_dir(dirname($target)) && !mkdir(dirname($target), 0777, true)) {
+            throw new Runtime(sprintf('Directory "%s" couldn\'t be created', dirname($target)),
+                Runtime::TARGET_DIRECTORY_NOT_CREATED);
+        }
+
+        // If the target file already exists but should not be overwritten
+        if (@file_exists($target) && !$overwrite) {
+            throw new Runtime(sprintf('Target file "%s" already exists', $target),
+                Runtime::TARGET_EXISTS);
+        }
+
+        // If the target file already exists but can't be overwritten
+        if (@file_exists($target) && !@unlink($target)) {
+            throw new Runtime(sprintf('Target file "%s" already exists and couldn\'t be overwritten', $target),
+                Runtime::TARGET_NOT_OVERWRITTEN);
+        }
+
+        return @file_put_contents($target, strval($this));
     }
 
     /**
@@ -158,7 +184,7 @@ abstract class File extends Resource implements FileInterface
      * Set the MIME type
      *
      * @param string $mimeType MIME type
-     * @return Part             Self reference
+     * @return File             Self reference
      */
     public function setMimeType($mimeType)
     {
@@ -180,7 +206,7 @@ abstract class File extends Resource implements FileInterface
      * Set the owner file
      *
      * @param FileInterface $ownerFile Owner file
-     * @return Part                         Self reference
+     * @return File                         Self reference
      */
     public function setOwnerFile(FileInterface $ownerFile)
     {
@@ -201,7 +227,7 @@ abstract class File extends Resource implements FileInterface
      * Set the parent part
      *
      * @param PartInterface $part Parent part
-     * @return Part                         Self reference
+     * @return File                         Self reference
      */
     public function setParentPart(PartInterface $part)
     {

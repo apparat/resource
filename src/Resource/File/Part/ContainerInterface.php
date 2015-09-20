@@ -36,13 +36,14 @@
 namespace Bauwerk\Resource\File\Part;
 
 use Bauwerk\Resource\File\PartInterface;
+use Bauwerk\Resource\File\Part\Container\Exception\OutOfRange;
 
 /**
  * Container file part interface
  *
  * @package Bauwerk\Resource\File\Part
  */
-interface ContainerInterface extends PartInterface
+interface ContainerInterface extends PartInterface, \ArrayAccess , \SeekableIterator , \Countable
 {
     /**
      * Unbound parts
@@ -58,7 +59,7 @@ interface ContainerInterface extends PartInterface
      * @param int $occurrence                   Part index (within the same key)
      * @return PartInterface                    Part
      * @throws OutOfRange                       If an invalid part is requested
-     * @throws OutOfRange                       If the requested part key is empty
+     * @throws OutOfRange                       If the requested part key is emptyW
      */
     public function getPart($key, $occurrence = 0);
 
@@ -68,7 +69,7 @@ interface ContainerInterface extends PartInterface
      * @param string $key                       Part key
      * @param PartInterface $part               Part
      * @param int $occurrence                   Part index (within the same key)
-     * @return File                             Self reference
+     * @return ContainerInterface               Self reference
      * @throws OutOfRange                       If an invalid part is requested
      */
     public function setPart($key, PartInterface $part, $occurrence = 0);
