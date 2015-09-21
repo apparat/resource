@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "league/commonmark": "^0.10.0",
+    "league/commonmark": "^0.11.0",
     "symfony/yaml": "^2.7"
   },
   "require-dev": {

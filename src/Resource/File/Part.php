@@ -66,6 +66,11 @@ abstract class Part implements PartInterface
     protected $_mimeType = 'application/octet-stream';
 
     /**
+     * Constructor
+     */
+    public function __construct() {}
+
+    /**
      * Return the MIME type
      *
      * @return string           MIME type

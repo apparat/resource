@@ -35,33 +35,21 @@
 
 namespace BauwerkTest;
 
-use Bauwerk\Resource\File\Yaml;
+use Bauwerk\Resource\File\CommonMark;
 
 /**
- * Tests for YAML file resource
+ * Tests for CommonMark file resource
  *
  * @package BauwerkTest
  */
-class YamlTest extends TestBase
+class CommonMarkTest extends TestBase
 {
     /**
-     * Example YAML data
-     *
-//     * @var array
-     */
-    protected $_yaml = null;
-    /**
-     * Example YAML file
+     * Example CommonMark file
      *
      * @var string
      */
-    const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.yaml';
-    /**
-     * Example YAML file as PHP array
-     *
-     * @var string
-     */
-    const YAML_PHP_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
+    const COMMONMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'commonmark.md';
 
     /**
      * Sets up the fixture
@@ -70,7 +58,7 @@ class YamlTest extends TestBase
     {
         parent::setUp();
 
-        $this->_yaml = require self::YAML_PHP_FILE;
+//        $this->_yaml = require self::YAML_PHP_FILE;
     }
 
     /**
@@ -78,13 +66,13 @@ class YamlTest extends TestBase
      */
     public function testContentWithoutFilePath()
     {
-        $file = new Yaml(self::YAML_FILE);
-        $this->assertInstanceOf('Bauwerk\Resource\File\Yaml', $file);
+        $file = new CommonMark(self::COMMONMARK_FILE);
+        $this->assertInstanceOf('Bauwerk\Resource\File\CommonMark', $file);
         $this->assertEquals(1, count($file));
 
-        /** @var \Bauwerk\Resource\File\Part\Body\Yaml $yamlPart */
-        $yamlPart = $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME);
-        $this->assertInstanceOf('Bauwerk\Resource\File\Part\Body\Yaml', $yamlPart);
-        $this->assertArrayEquals($this->_yaml, $yamlPart->getData());
+        /** @var \Bauwerk\Resource\File\Part\Body\CommonMark $commonMarkPart */
+        $commonMarkPart = $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME);
+        $this->assertInstanceOf('Bauwerk\Resource\File\Part\Body\CommonMark', $commonMarkPart);
+//        echo $commonMarkPart->toHTML();
     }
 }

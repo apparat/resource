@@ -33,16 +33,57 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File\Part\Body;
+namespace Bauwerk\Resource\File;
 
-use Bauwerk\Resource\File\Part\Body;
+use Bauwerk\Resource\File;
 
 /**
- * Markdown file part
- * 
- * @package Bauwerk\Resource\File\Part\Body
+ * CommonMark file
+ *
+ * @package Bauwerk\Resource\File
+ * @see http://commonmark.org/
  */
-class Markdown extends Body
+class CommonMark extends File
 {
+    /**
+     * MIME type
+     *
+     * @var string
+     */
+    protected $_mimeType = 'text/x-markdown';
 
+    /**
+     * Constructor
+     *
+     * @param string $source Source file
+     */
+    public function __construct($source = null)
+    {
+        $this->_setPartModel(array(PartInterface::DEFAULT_NAME => Part\Body\CommonMark::class), 1, 1);
+        $this->setSource($source);
+    }
+
+    /**
+     * Parse a content string and bring the part model to live
+     *
+     * @param string $content Content string
+     * @return Yaml        Self reference
+     */
+    public function parse($content)
+    {
+        $this->getPart(PartInterface::DEFAULT_NAME, 0)->parse($content);
+        return $this;
+    }
+
+    /**
+     * Convert the markdown file to HTML
+     *
+     * @return string       HTML
+     */
+    public function toHTML()
+    {
+        /** @var Part\Body\CommonMark $defaultPart */
+        $defaultPart = $this->getPart(PartInterface::DEFAULT_NAME, 0);
+        return $defaultPart->toHTML();
+    }
 }
