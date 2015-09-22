@@ -36,42 +36,52 @@
 namespace Bauwerk\Resource\File;
 
 use Bauwerk\Resource\File;
-use Bauwerk\Resource\File\Part\Container\SequenceInterface;
 
 /**
- * Text file
+ * Generic file
  *
  * @package Bauwerk\Resource\File
  */
-class Generic extends File implements SequenceInterface
+class Text extends Generic
 {
     /**
      * Default body part classs
      *
      * @var string
      */
-    protected $_defaultBodyPartClass = Part\Body\Generic::class;
+    protected $_defaultBodyPartClass = Part\Body\Text::class;
+    /**
+     * MIME type
+     *
+     * @var string
+     */
+    protected $_mimeType = 'text/plain';
 
     /**
-     * Constructor
+     * Prepend text content
      *
-     * @param string $source Source file
+     * @param string $content Text content to be prepended
+     * @return Text Self reference
      */
-    public function __construct($source = null)
+    public function prepend($content)
     {
-        $this->_setPartModel(array(PartInterface::DEFAULT_NAME => $this->_defaultBodyPartClass), 1, 1);
-        $this->setSource($source);
+        /** @var \Bauwerk\Resource\File\Part\Body\Text $defaultPart */
+        $defaultPart = $this->getPart(PartInterface::DEFAULT_NAME, 0);
+        $defaultPart->prepend($content);
+        return $this;
     }
 
     /**
-     * Parse a content string and bring the part model to live
+     * Append text content
      *
-     * @param string $content Content string
-     * @return Generic       Self reference
+     * @param string $content Text content to be appended
+     * @return Text Self reference
      */
-    public function parse($content)
+    public function append($content)
     {
-        $this->getPart(PartInterface::DEFAULT_NAME, 0)->parse($content);
+        /** @var \Bauwerk\Resource\File\Part\Body\Text $defaultPart */
+        $defaultPart = $this->getPart(PartInterface::DEFAULT_NAME, 0);
+        $defaultPart->append($content);
         return $this;
     }
 }

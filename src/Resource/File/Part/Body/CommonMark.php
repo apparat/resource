@@ -46,7 +46,7 @@ use League\CommonMark\Block\Element\Document;
  *
  * @package Bauwerk\Resource\File\Part\Body
  */
-class CommonMark extends Generic
+class CommonMark extends Text
 {
     /**
      * CommonMark document parser
@@ -99,6 +99,28 @@ class CommonMark extends Generic
     }
 
     /**
+     * Prepend text content
+     *
+     * @param string $content Text content to be prepended
+     * @return CommonMark Self reference
+     */
+    public function prepend($content)
+    {
+        return $this->parse($content.$this->_content);
+    }
+
+    /**
+     * Append text content
+     *
+     * @param string $content Text content to be appended
+     * @return CommonMark Self reference
+     */
+    public function append($content)
+    {
+        return $this->parse($this->_content.$content);
+    }
+
+    /**
      * Reset the part to its default state
      *
      * @return CommonMark                Self reference
@@ -114,7 +136,8 @@ class CommonMark extends Generic
      *
      * @return string                       CommonMark HTML
      */
-    public function toHTML() {
+    public function toHTML()
+    {
         return ($this->_ast instanceof Document) ? $this->_renderer->renderBlock($this->_ast) : '';
     }
 

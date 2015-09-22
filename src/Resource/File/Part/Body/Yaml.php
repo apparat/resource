@@ -43,7 +43,7 @@ use Bauwerk\Resource\File\Part\Body\Exception\OutOfBounds;
  *
  * @package Bauwerk\Resource\File\Part\Body
  */
-class Yaml extends Generic implements \ArrayAccess, \Countable, \SeekableIterator
+class Yaml extends Text implements \ArrayAccess, \Countable, \SeekableIterator
 {
     /**
      * MIME type
@@ -91,13 +91,35 @@ class Yaml extends Generic implements \ArrayAccess, \Countable, \SeekableIterato
      * Parse a content string and bring the part model to live
      *
      * @param string $content Content string
-     * @return Body                Self reference
+     * @return Yaml                Self reference
      */
     public function parse($content)
     {
         parent::parse($content);
         $this->_data = strlen($this->_content) ? \Symfony\Component\Yaml\Yaml::parse($this->_content) : array();
         return $this;
+    }
+
+    /**
+     * Prepend text content
+     *
+     * @param string $content Text content to be prepended
+     * @return Yaml Self reference
+     */
+    public function prepend($content)
+    {
+        return $this->parse($content.$this->_content);
+    }
+
+    /**
+     * Append text content
+     *
+     * @param string $content Text content to be appended
+     * @return Yaml Self reference
+     */
+    public function append($content)
+    {
+        return $this->parse($this->_content.$content);
     }
 
     /**

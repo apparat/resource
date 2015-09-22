@@ -43,7 +43,7 @@ use Bauwerk\Resource\File;
  * @package Bauwerk\Resource\File
  * @see http://yaml.org/spec/1.2/spec.pdf
  */
-class Yaml extends Generic
+class Yaml extends Text
 {
     /**
      * MIME type
