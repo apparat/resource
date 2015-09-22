@@ -43,7 +43,7 @@ use Bauwerk\Resource\File\Part\Body\Exception\OutOfBounds;
  *
  * @package Bauwerk\Resource\File\Part\Body
  */
-class Yaml extends Body implements \ArrayAccess, \Countable, \SeekableIterator
+class Yaml extends Generic implements \ArrayAccess, \Countable, \SeekableIterator
 {
     /**
      * MIME type
@@ -74,7 +74,7 @@ class Yaml extends Body implements \ArrayAccess, \Countable, \SeekableIterator
     {
         $this->_data = null;
         $this->_position = 0;
-        return $this;
+        return parent::reset();
     }
 
     /**
@@ -95,7 +95,8 @@ class Yaml extends Body implements \ArrayAccess, \Countable, \SeekableIterator
      */
     public function parse($content)
     {
-        $this->_data = strlen($content) ? \Symfony\Component\Yaml\Yaml::parse($content) : array();
+        parent::parse($content);
+        $this->_data = strlen($this->_content) ? \Symfony\Component\Yaml\Yaml::parse($this->_content) : array();
         return $this;
     }
 

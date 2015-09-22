@@ -43,7 +43,7 @@ use Bauwerk\Resource\File;
  * @package Bauwerk\Resource\File
  * @see http://commonmark.org/
  */
-class CommonMark extends File
+class CommonMark extends Generic
 {
     /**
      * MIME type
@@ -51,29 +51,12 @@ class CommonMark extends File
      * @var string
      */
     protected $_mimeType = 'text/x-markdown';
-
     /**
-     * Constructor
+     * Default body part classs
      *
-     * @param string $source Source file
+     * @var string
      */
-    public function __construct($source = null)
-    {
-        $this->_setPartModel(array(PartInterface::DEFAULT_NAME => Part\Body\CommonMark::class), 1, 1);
-        $this->setSource($source);
-    }
-
-    /**
-     * Parse a content string and bring the part model to live
-     *
-     * @param string $content Content string
-     * @return Yaml        Self reference
-     */
-    public function parse($content)
-    {
-        $this->getPart(PartInterface::DEFAULT_NAME, 0)->parse($content);
-        return $this;
-    }
+    protected $_defaultBodyPartClass = Part\Body\CommonMark::class;
 
     /**
      * Convert the markdown file to HTML

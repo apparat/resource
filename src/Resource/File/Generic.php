@@ -46,13 +46,20 @@ use Bauwerk\Resource\File\Part\Container\SequenceInterface;
 class Generic extends File implements SequenceInterface
 {
     /**
+     * Default body part classs
+     *
+     * @var string
+     */
+    protected $_defaultBodyPartClass = Part\Body\Generic::class;
+
+    /**
      * Constructor
      *
      * @param string $source Source file
      */
     public function __construct($source = null)
     {
-        $this->_setPartModel(array(PartInterface::DEFAULT_NAME => Part\Body\Generic::class), 1, 1);
+        $this->_setPartModel(array(PartInterface::DEFAULT_NAME => $this->_defaultBodyPartClass), 1, 1);
         $this->setSource($source);
     }
 

@@ -36,7 +36,6 @@
 namespace Bauwerk\Resource\File\Part\Body;
 
 use Bauwerk\Resource\File\Part\Body;
-use Bauwerk\Resource\File\PartInterface;
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
 use League\CommonMark\HtmlRenderer;
@@ -47,7 +46,7 @@ use League\CommonMark\Block\Element\Document;
  *
  * @package Bauwerk\Resource\File\Part\Body
  */
-class CommonMark extends Body
+class CommonMark extends Generic
 {
     /**
      * CommonMark document parser
@@ -61,12 +60,6 @@ class CommonMark extends Body
      * @var HtmlRenderer
      */
     protected $_renderer = null;
-    /**
-     * Markdown content
-     *
-     * @var string
-     */
-    protected $_markdown = '';
     /**
      * Markdown AST
      *
@@ -93,36 +86,27 @@ class CommonMark extends Body
     }
 
     /**
-     * Return the part contents as string
-     *
-     * @return string                       Part contents
-     */
-    public function __toString()
-    {
-        return strval($this->_markdown);
-    }
-
-    /**
      * Parse a content string and bring the part model to live
      *
      * @param string $content Content string
-     * @return PartInterface                Self reference
+     * @return CommonMark                Self reference
      */
     public function parse($content)
     {
-        $this->_markdown = strval($content);
-        $this->_ast = $this->_parser->parse($this->_markdown);
+        parent::parse($content);
+        $this->_ast = $this->_parser->parse($this->_content);
+        return $this;
     }
 
     /**
      * Reset the part to its default state
      *
-     * @return PartInterface                Self reference
+     * @return CommonMark                Self reference
      */
     public function reset()
     {
-        $this->_markdown = '';
         $this->_ast = null;
+        return parent::reset();
     }
 
     /**
