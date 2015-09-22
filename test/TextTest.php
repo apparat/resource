@@ -35,33 +35,28 @@
 
 namespace BauwerkTest;
 
-use Bauwerk\Resource\File\Yaml;
+use Bauwerk\Resource\File\Text;
 
 /**
- * Tests for YAML file resource
+ * Tests for text file resource
  *
  * @package BauwerkTest
  */
-class YamlTest extends TestBase
+class TextTest extends TestBase
 {
     /**
-     * Example YAML data
+     * Example text data
      *
      * @var array
      */
-    protected $_yaml = null;
+    protected $_text = null;
+
     /**
-     * Example YAML file
+     * Example text file
      *
      * @var string
      */
-    const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.yaml';
-    /**
-     * Example YAML file as PHP array
-     *
-     * @var string
-     */
-    const YAML_PHP_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
+    const TXT_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'cc0.txt';
 
     /**
      * Sets up the fixture
@@ -69,7 +64,7 @@ class YamlTest extends TestBase
     protected function setUp()
     {
         parent::setUp();
-        $this->_yaml = require self::YAML_PHP_FILE;
+        $this->_text = file_get_contents(self::TXT_FILE);
     }
 
     /**
@@ -77,43 +72,33 @@ class YamlTest extends TestBase
      */
     public function testContent()
     {
-        $file = new Yaml(self::YAML_FILE);
-        $this->assertInstanceOf('Bauwerk\Resource\File\Yaml', $file);
+        $file = new Text(self::TXT_FILE);
+        $this->assertInstanceOf('Bauwerk\Resource\File\Text', $file);
         $this->assertEquals(1, count($file));
 
-        /** @var \Bauwerk\Resource\File\Part\Body\Yaml $yamlPart */
-        $yamlPart = $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME);
-        $this->assertInstanceOf('Bauwerk\Resource\File\Part\Body\Yaml', $yamlPart);
-        $this->assertArrayEquals($this->_yaml, $yamlPart->getData());
+        /** @var \Bauwerk\Resource\File\Part\Body\Text $textPart */
+        $textPart = $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME);
+        $this->assertInstanceOf('Bauwerk\Resource\File\Part\Body\Text', $textPart);
+        $this->assertEquals($this->_text, strval($textPart));
     }
 
     /**
      * Test content modifications via prepend()
      */
     public function testContentModificationViaPrepend() {
-        $file = new Yaml(self::YAML_FILE);
+        $file = new Text(self::TXT_FILE);
         $now = time();
-        $file->prepend("now: $now");
-        $yaml = $this->_yaml;
-        $yaml['now'] = $now;
-
-        /** @var \Bauwerk\Resource\File\Part\Body\Yaml $yamlPart */
-        $yamlPart = $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME);
-        $this->assertArrayEquals($yaml, $yamlPart->getData());
+        $file->prepend($now);
+        $this->assertEquals($now.$this->_text, strval($file));
     }
 
     /**
      * Test content modifications via append()
      */
     public function testContentModificationViaAppend() {
-        $file = new Yaml(self::YAML_FILE);
+        $file = new Text(self::TXT_FILE);
         $now = time();
-        $file->append("now: $now");
-        $yaml = $this->_yaml;
-        $yaml['now'] = $now;
-
-        /** @var \Bauwerk\Resource\File\Part\Body\Yaml $yamlPart */
-//        $yamlPart = $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME);
-//        $this->assertArrayEquals($yaml, $yamlPart->getData());
+        $file->append($now);
+        $this->assertEquals($this->_text.$now, strval($file));
     }
 }

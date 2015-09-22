@@ -71,7 +71,6 @@ class FileTest extends TestBase
     protected function setUp()
     {
         parent::setUp();
-
         $this->_text = file_get_contents(self::TXT_FILE);
     }
 

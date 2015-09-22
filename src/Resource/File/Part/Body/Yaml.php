@@ -42,6 +42,7 @@ use Bauwerk\Resource\File\Part\Body\Exception\OutOfBounds;
  * YAML file part
  *
  * @package Bauwerk\Resource\File\Part\Body
+ * @see http://yaml.org/spec/1.2/spec.pdf
  */
 class Yaml extends Text implements \ArrayAccess, \Countable, \SeekableIterator
 {
@@ -108,7 +109,14 @@ class Yaml extends Text implements \ArrayAccess, \Countable, \SeekableIterator
      */
     public function prepend($content)
     {
-        return $this->parse($content.$this->_content);
+        // Check if the content starts with a document marker
+        if (!strncmp($this->_content, '---', 3)) {
+            $content = implode(PHP_EOL.trim($content).PHP_EOL, preg_split("%\R%u", $this->_content, 2));
+        } else {
+            $content = trim($content).PHP_EOL.$this->_content;
+        }
+
+        return $this->parse($content);
     }
 
     /**
@@ -119,7 +127,8 @@ class Yaml extends Text implements \ArrayAccess, \Countable, \SeekableIterator
      */
     public function append($content)
     {
-        return $this->parse($this->_content.$content);
+        $content = $this->_content.(preg_match("%\R$%u", $this->_content) ? '' : PHP_EOL).trim($content);
+        return $this->parse($content);
     }
 
     /**
