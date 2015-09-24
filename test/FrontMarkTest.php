@@ -1,7 +1,7 @@
 <?php
 
 /**
- * bauwerk-resource
+ * Bauwerk
  *
  * @category    Jkphl
  * @package     Jkphl_Bauwerk
@@ -33,58 +33,55 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File;
+namespace BauwerkTest;
 
-use Bauwerk\Resource\File;
-use Bauwerk\Resource\File\Part\Container\SequenceInterface;
+use Bauwerk\Resource\File\Frontmatter\Yaml\CommonMark;
 
 /**
- * Text file
+ * Tests for CommonMark file resource
  *
- * @package Bauwerk\Resource\File
+ * @package BauwerkTest
  */
-class Generic extends File implements SequenceInterface
+class FrontMarkTest extends TestBase
 {
     /**
-     * Default body part classs
+     * Example FrontMark file
      *
      * @var string
      */
-    protected $_defaultBodyPartClass = Part\Body\Generic::class;
+    const FRONTMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'frontmark.md';
 
     /**
-     * Constructor
-     *
-     * @param string $source Source file
+     * Sets up the fixture
      */
-    public function __construct($source = null)
+    protected function setUp()
     {
-        if ($this->_partModel === null) {
-            $this->_setPartModel(array(PartInterface::DEFAULT_NAME => $this->_defaultBodyPartClass), 1, 1);
-        }
+        parent::setUp();
 
-        $this->setSource($source);
+//        $this->_yaml = require self::YAML_PHP_FILE;
     }
 
     /**
-     * Parse a content string and bring the part model to live
-     *
-     * @param string $content Content string
-     * @return Generic       Self reference
+     * Test constructor and content without argument
      */
-    public function parse($content)
+    public function testContentWithoutFilePath()
     {
-        $this->getBody()->parse($content);
-        return $this;
-    }
+        $file = new CommonMark(self::FRONTMARK_FILE);
+        $this->assertInstanceOf('Bauwerk\Resource\File\Frontmatter\Yaml\CommonMark', $file);
+        $this->assertEquals(2, count($file));
 
-    /**
-     * Return the default body part
-     *
-     * @return Part\Body\Generic        Default body part
-     */
-    public function getBody()
-    {
-        return $this->getPart(PartInterface::DEFAULT_NAME, 0);
+        /** @var \Bauwerk\Resource\File\Part\Body\Yaml $yamlFrontmatterPart */
+        $yamlFrontmatterPart = $file->getPart(\Bauwerk\Resource\File\FrontmatterInterface::FRONTMATTER_NAME);
+        $this->assertInstanceOf('Bauwerk\Resource\File\Part\Body\Yaml', $yamlFrontmatterPart);
+
+        /** @var \Bauwerk\Resource\File\Part\Body\CommonMark $commonMarkPart */
+        $commonMarkPart = $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME);
+        $this->assertInstanceOf('Bauwerk\Resource\File\Part\Body\CommonMark', $commonMarkPart);
+//        echo $commonMarkPart->toHTML();
+
+        $file->getMeta()['title'] = 'test';
+        $file->getMeta()['test'] = array('wert' => 'bla');
+
+        echo strval($file);
     }
 }

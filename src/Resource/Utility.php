@@ -33,58 +33,24 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File;
-
-use Bauwerk\Resource\File;
-use Bauwerk\Resource\File\Part\Container\SequenceInterface;
+namespace Bauwerk\Resource;
 
 /**
- * Text file
+ * Helper class with utility methods
  *
- * @package Bauwerk\Resource\File
+ * @package Bauwerk\Resource
  */
-class Generic extends File implements SequenceInterface
+class Utility
 {
     /**
-     * Default body part classs
+     * Strip the byte order mark off the begining of a string
      *
-     * @var string
+     * @param string $str           String with byte order mark
+     * @return string               String without byte order mark
      */
-    protected $_defaultBodyPartClass = Part\Body\Generic::class;
-
-    /**
-     * Constructor
-     *
-     * @param string $source Source file
-     */
-    public function __construct($source = null)
+    public static function stripBom($str)
     {
-        if ($this->_partModel === null) {
-            $this->_setPartModel(array(PartInterface::DEFAULT_NAME => $this->_defaultBodyPartClass), 1, 1);
-        }
-
-        $this->setSource($source);
-    }
-
-    /**
-     * Parse a content string and bring the part model to live
-     *
-     * @param string $content Content string
-     * @return Generic       Self reference
-     */
-    public function parse($content)
-    {
-        $this->getBody()->parse($content);
-        return $this;
-    }
-
-    /**
-     * Return the default body part
-     *
-     * @return Part\Body\Generic        Default body part
-     */
-    public function getBody()
-    {
-        return $this->getPart(PartInterface::DEFAULT_NAME, 0);
+        $bom = pack('H*', 'EFBBBF');
+        return preg_replace("/^$bom/", '', $str);
     }
 }

@@ -35,56 +35,24 @@
 
 namespace Bauwerk\Resource\File;
 
-use Bauwerk\Resource\File;
-use Bauwerk\Resource\File\Part\Container\SequenceInterface;
+use Bauwerk\Resource\File\Part\BodyInterface;
 
 /**
- * Text file
+ * Frontmatter file interface
  *
  * @package Bauwerk\Resource\File
  */
-class Generic extends File implements SequenceInterface
+interface FrontmatterInterface
 {
     /**
-     * Default body part classs
-     *
-     * @var string
+     * Default frontmatter part name
      */
-    protected $_defaultBodyPartClass = Part\Body\Generic::class;
+    const FRONTMATTER_NAME = 'frontmatter';
 
     /**
-     * Constructor
+     * Return the meta data part
      *
-     * @param string $source Source file
+     * @return BodyInterface
      */
-    public function __construct($source = null)
-    {
-        if ($this->_partModel === null) {
-            $this->_setPartModel(array(PartInterface::DEFAULT_NAME => $this->_defaultBodyPartClass), 1, 1);
-        }
-
-        $this->setSource($source);
-    }
-
-    /**
-     * Parse a content string and bring the part model to live
-     *
-     * @param string $content Content string
-     * @return Generic       Self reference
-     */
-    public function parse($content)
-    {
-        $this->getBody()->parse($content);
-        return $this;
-    }
-
-    /**
-     * Return the default body part
-     *
-     * @return Part\Body\Generic        Default body part
-     */
-    public function getBody()
-    {
-        return $this->getPart(PartInterface::DEFAULT_NAME, 0);
-    }
+    public function getMeta();
 }

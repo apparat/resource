@@ -33,58 +33,19 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File;
-
-use Bauwerk\Resource\File;
-use Bauwerk\Resource\File\Part\Container\SequenceInterface;
+namespace Bauwerk\Resource\File\Frontmatter\Yaml\Exception;
 
 /**
- * Text file
+ * InvalidArgument exceptions for YAML frontmatter files
  *
- * @package Bauwerk\Resource\File
+ * @package Bauwerk\Resource\File\Frontmatter\Yaml\Exception
  */
-class Generic extends File implements SequenceInterface
+class InvalidArgument extends \InvalidArgumentException
 {
     /**
-     * Default body part classs
+     * Invalid YAML frontmatter document
      *
-     * @var string
+     * @var int
      */
-    protected $_defaultBodyPartClass = Part\Body\Generic::class;
-
-    /**
-     * Constructor
-     *
-     * @param string $source Source file
-     */
-    public function __construct($source = null)
-    {
-        if ($this->_partModel === null) {
-            $this->_setPartModel(array(PartInterface::DEFAULT_NAME => $this->_defaultBodyPartClass), 1, 1);
-        }
-
-        $this->setSource($source);
-    }
-
-    /**
-     * Parse a content string and bring the part model to live
-     *
-     * @param string $content Content string
-     * @return Generic       Self reference
-     */
-    public function parse($content)
-    {
-        $this->getBody()->parse($content);
-        return $this;
-    }
-
-    /**
-     * Return the default body part
-     *
-     * @return Part\Body\Generic        Default body part
-     */
-    public function getBody()
-    {
-        return $this->getPart(PartInterface::DEFAULT_NAME, 0);
-    }
+    const INVALID_YAML_FRONTMATTER_DOCUMENT = 1443126030;
 }

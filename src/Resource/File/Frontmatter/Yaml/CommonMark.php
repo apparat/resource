@@ -33,24 +33,22 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File;
+namespace Bauwerk\Resource\File\Frontmatter\Yaml;
 
-use Bauwerk\Resource\File;
-use Bauwerk\Resource\File\Part\Container\SequenceInterface;
+use Bauwerk\Resource\File\Frontmatter\Yaml\Exception\InvalidArgument;
+use Bauwerk\Resource\File\FrontmatterInterface;
+use Bauwerk\Resource\File\PartInterface;
+use Bauwerk\Resource\File\Part\Body\Yaml;
+use Bauwerk\Resource\Utility;
 
 /**
- * Text file
+ * CommonMark file
  *
  * @package Bauwerk\Resource\File
+ * @see http://commonmark.org/
  */
-class Generic extends File implements SequenceInterface
+class CommonMark extends \Bauwerk\Resource\File\CommonMark implements FrontmatterInterface
 {
-    /**
-     * Default body part classs
-     *
-     * @var string
-     */
-    protected $_defaultBodyPartClass = Part\Body\Generic::class;
 
     /**
      * Constructor
@@ -59,32 +57,59 @@ class Generic extends File implements SequenceInterface
      */
     public function __construct($source = null)
     {
-        if ($this->_partModel === null) {
-            $this->_setPartModel(array(PartInterface::DEFAULT_NAME => $this->_defaultBodyPartClass), 1, 1);
-        }
+        $this->_setPartModel(array(
+            FrontmatterInterface::FRONTMATTER_NAME => \Bauwerk\Resource\File\Part\Body\Yaml::class,
+            PartInterface::DEFAULT_NAME => $this->_defaultBodyPartClass
+        ), 1, 1);
 
-        $this->setSource($source);
+        parent::__construct();
+    }
+
+    public function __toString()
+    {
+        return '---'.PHP_EOL.trim($this->getMeta()).PHP_EOL.'...'.PHP_EOL.strval($this->getBody());
     }
 
     /**
      * Parse a content string and bring the part model to live
      *
      * @param string $content Content string
-     * @return Generic       Self reference
+     * @return CommonMark       Self reference
+     * @throws InvalidArgument  If the file doesn't start with a valid YAML document
      */
     public function parse($content)
     {
-        $this->getBody()->parse($content);
+        $content = Utility::stripBom($content);
+
+        // Check if the file starts with a YAML document
+        if (strncmp($content, '---', 3)) {
+            throw new InvalidArgument('Frontmatter file content must start with a YAML document part (---)',
+                InvalidArgument::INVALID_YAML_FRONTMATTER_DOCUMENT);
+        }
+
+        // Extract the leading YAML document
+        $partContent = preg_split("%\R((\.\.\.)|(---.*?))\R%", substr($content, 3), 2);
+
+        // Parse the YAML part
+        if (strlen(trim($partContent[0]))) {
+            $this->getMeta()->parse($partContent[0]);
+        }
+
+        // Parse the CommonMark part
+        if (count($partContent) > 1) {
+            $this->getBody()->parse($partContent[1]);
+        }
+
         return $this;
     }
 
     /**
-     * Return the default body part
+     * Return the meta data part
      *
-     * @return Part\Body\Generic        Default body part
+     * @return Yaml         YAML metadata part
      */
-    public function getBody()
+    public function getMeta()
     {
-        return $this->getPart(PartInterface::DEFAULT_NAME, 0);
+        return $this->getPart(FrontmatterInterface::FRONTMATTER_NAME);
     }
 }
