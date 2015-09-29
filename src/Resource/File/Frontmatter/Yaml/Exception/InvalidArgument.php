@@ -1,10 +1,10 @@
 <?php
 
 /**
- * bauwerk-resource
+ * resource
  *
  * @category    Jkphl
- * @package     Jkphl_Bauwerk
+ * @package     Jkphl_Apparat
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -33,12 +33,12 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File\Frontmatter\Yaml\Exception;
+namespace Apparat\Resource\File\Frontmatter\Yaml\Exception;
 
 /**
  * InvalidArgument exceptions for YAML frontmatter files
  *
- * @package Bauwerk\Resource\File\Frontmatter\Yaml\Exception
+ * @package Apparat\Resource\File\Frontmatter\Yaml\Exception
  */
 class InvalidArgument extends \InvalidArgumentException
 {

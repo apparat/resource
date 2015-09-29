@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Bauwerk
+ * Apparat
  *
  * @category    Jkphl
- * @package     Jkphl_Bauwerk
+ * @package     Jkphl_Apparat
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -33,14 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace BauwerkTest;
+namespace ApparatTest;
 
-use Bauwerk\Resource\File\Text;
+use Apparat\Resource\File\Text;
 
 /**
  * Tests for text file resource
  *
- * @package BauwerkTest
+ * @package ApparatTest
  */
 class TextTest extends TestBase
 {
@@ -73,12 +73,12 @@ class TextTest extends TestBase
     public function testContent()
     {
         $file = new Text(self::TXT_FILE);
-        $this->assertInstanceOf('Bauwerk\Resource\File\Text', $file);
+        $this->assertInstanceOf('Apparat\Resource\File\Text', $file);
         $this->assertEquals(1, count($file));
 
-        /** @var \Bauwerk\Resource\File\Part\Body\Text $textPart */
-        $textPart = $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME);
-        $this->assertInstanceOf('Bauwerk\Resource\File\Part\Body\Text', $textPart);
+        /** @var \Apparat\Resource\File\Part\Body\Text $textPart */
+        $textPart = $file->getPart(\Apparat\Resource\File\PartInterface::DEFAULT_NAME);
+        $this->assertInstanceOf('Apparat\Resource\File\Part\Body\Text', $textPart);
         $this->assertEquals($this->_text, strval($textPart));
     }
 

@@ -1,10 +1,10 @@
 <?php
 
 /**
- * bauwerk-resource
+ * resource
  *
  * @category    Jkphl
- * @package     Jkphl_Bauwerk
+ * @package     Jkphl_Apparat
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -33,14 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File\Part;
+namespace Apparat\Resource\File\Part;
 
-use Bauwerk\Resource\File\PartInterface;
+use Apparat\Resource\File\PartInterface;
 
 /**
  * File part body interface
  *
- * @package Bauwerk\Resource\File\Part
+ * @package Apparat\Resource\File\Part
  */
 interface BodyInterface extends PartInterface
 {

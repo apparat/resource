@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Bauwerk
+ * Apparat
  *
  * @category    Jkphl
- * @package     Jkphl_Bauwerk
+ * @package     Jkphl_Apparat
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -33,14 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace BauwerkTest;
+namespace ApparatTest;
 
-use Bauwerk\Resource\File\Yaml;
+use Apparat\Resource\File\Yaml;
 
 /**
  * Tests for YAML file resource
  *
- * @package BauwerkTest
+ * @package ApparatTest
  */
 class YamlTest extends TestBase
 {
@@ -78,12 +78,12 @@ class YamlTest extends TestBase
     public function testContent()
     {
         $file = new Yaml(self::YAML_FILE);
-        $this->assertInstanceOf('Bauwerk\Resource\File\Yaml', $file);
+        $this->assertInstanceOf('Apparat\Resource\File\Yaml', $file);
         $this->assertEquals(1, count($file));
 
-        /** @var \Bauwerk\Resource\File\Part\Body\Yaml $yamlPart */
-        $yamlPart = $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME);
-        $this->assertInstanceOf('Bauwerk\Resource\File\Part\Body\Yaml', $yamlPart);
+        /** @var \Apparat\Resource\File\Part\Body\Yaml $yamlPart */
+        $yamlPart = $file->getPart(\Apparat\Resource\File\PartInterface::DEFAULT_NAME);
+        $this->assertInstanceOf('Apparat\Resource\File\Part\Body\Yaml', $yamlPart);
         $this->assertArrayEquals($this->_yaml, $yamlPart->getData());
     }
 
@@ -97,8 +97,8 @@ class YamlTest extends TestBase
         $yaml = $this->_yaml;
         $yaml['now'] = $now;
 
-        /** @var \Bauwerk\Resource\File\Part\Body\Yaml $yamlPart */
-        $yamlPart = $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME);
+        /** @var \Apparat\Resource\File\Part\Body\Yaml $yamlPart */
+        $yamlPart = $file->getPart(\Apparat\Resource\File\PartInterface::DEFAULT_NAME);
         $this->assertArrayEquals($yaml, $yamlPart->getData());
     }
 
@@ -112,8 +112,8 @@ class YamlTest extends TestBase
         $yaml = $this->_yaml;
         $yaml['now'] = $now;
 
-        /** @var \Bauwerk\Resource\File\Part\Body\Yaml $yamlPart */
-//        $yamlPart = $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME);
+        /** @var \Apparat\Resource\File\Part\Body\Yaml $yamlPart */
+//        $yamlPart = $file->getPart(\Apparat\Resource\File\PartInterface::DEFAULT_NAME);
 //        $this->assertArrayEquals($yaml, $yamlPart->getData());
     }
 }

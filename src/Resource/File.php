@@ -1,10 +1,10 @@
 <?php
 
 /**
- * bauwerk-resource
+ * resource
  *
  * @category    Jkphl
- * @package     Jkphl_Bauwerk
+ * @package     Jkphl_Apparat
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -33,18 +33,18 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource;
+namespace Apparat\Resource;
 
-use Bauwerk\Resource;
-use Bauwerk\Resource\File\Part\ContainerTrait;
-use Bauwerk\Resource\File\Exception\InvalidArgument;
-use Bauwerk\Resource\File\Exception\Runtime;
-use Bauwerk\Resource\File\PartInterface;
+use Apparat\Resource;
+use Apparat\Resource\File\Part\ContainerTrait;
+use Apparat\Resource\File\Exception\InvalidArgument;
+use Apparat\Resource\File\Exception\Runtime;
+use Apparat\Resource\File\PartInterface;
 
 /**
  * Abstract file resource
  *
- * @package Bauwerk\Resource
+ * @package Apparat\Resource
  */
 abstract class File extends Resource implements FileInterface
 {

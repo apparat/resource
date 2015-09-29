@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Bauwerk
+ * Apparat
  *
  * @category    Jkphl
- * @package     Jkphl_Bauwerk
+ * @package     Jkphl_Apparat
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -33,14 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace BauwerkTest;
+namespace ApparatTest;
 
-use Bauwerk\Resource\File\CommonMark;
+use Apparat\Resource\File\CommonMark;
 
 /**
  * Tests for CommonMark file resource
  *
- * @package BauwerkTest
+ * @package ApparatTest
  */
 class CommonMarkTest extends TestBase
 {
@@ -67,12 +67,12 @@ class CommonMarkTest extends TestBase
     public function testContentWithoutFilePath()
     {
         $file = new CommonMark(self::COMMONMARK_FILE);
-        $this->assertInstanceOf('Bauwerk\Resource\File\CommonMark', $file);
+        $this->assertInstanceOf('Apparat\Resource\File\CommonMark', $file);
         $this->assertEquals(1, count($file));
 
-        /** @var \Bauwerk\Resource\File\Part\Body\CommonMark $commonMarkPart */
-        $commonMarkPart = $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME);
-        $this->assertInstanceOf('Bauwerk\Resource\File\Part\Body\CommonMark', $commonMarkPart);
+        /** @var \Apparat\Resource\File\Part\Body\CommonMark $commonMarkPart */
+        $commonMarkPart = $file->getPart(\Apparat\Resource\File\PartInterface::DEFAULT_NAME);
+        $this->assertInstanceOf('Apparat\Resource\File\Part\Body\CommonMark', $commonMarkPart);
 //        echo $commonMarkPart->toHTML();
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
 /**
- * bauwerk-resource
+ * resource
  *
  * @category    Jkphl
- * @package     Jkphl_Bauwerk
+ * @package     Jkphl_Apparat
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -33,21 +33,21 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File\Frontmatter\Yaml;
+namespace Apparat\Resource\File\Frontmatter\Yaml;
 
-use Bauwerk\Resource\File\Frontmatter\Yaml\Exception\InvalidArgument;
-use Bauwerk\Resource\File\FrontmatterInterface;
-use Bauwerk\Resource\File\PartInterface;
-use Bauwerk\Resource\File\Part\Body\Yaml;
-use Bauwerk\Resource\Utility;
+use Apparat\Resource\File\Frontmatter\Yaml\Exception\InvalidArgument;
+use Apparat\Resource\File\FrontmatterInterface;
+use Apparat\Resource\File\PartInterface;
+use Apparat\Resource\File\Part\Body\Yaml;
+use Apparat\Resource\Utility;
 
 /**
  * CommonMark file
  *
- * @package Bauwerk\Resource\File
+ * @package Apparat\Resource\File
  * @see http://commonmark.org/
  */
-class CommonMark extends \Bauwerk\Resource\File\CommonMark implements FrontmatterInterface
+class CommonMark extends \Apparat\Resource\File\CommonMark implements FrontmatterInterface
 {
 
     /**
@@ -58,7 +58,7 @@ class CommonMark extends \Bauwerk\Resource\File\CommonMark implements Frontmatte
     public function __construct($source = null)
     {
         $this->_setPartModel(array(
-            FrontmatterInterface::FRONTMATTER_NAME => \Bauwerk\Resource\File\Part\Body\Yaml::class,
+            FrontmatterInterface::FRONTMATTER_NAME => \Apparat\Resource\File\Part\Body\Yaml::class,
             PartInterface::DEFAULT_NAME => $this->_defaultBodyPartClass
         ), 1, 1);
 

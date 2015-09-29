@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Bauwerk
+ * Apparat
  *
  * @category    Jkphl
- * @package     Jkphl_Bauwerk
+ * @package     Jkphl_Apparat
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -33,9 +33,9 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File\Exception;
+namespace Apparat\Resource\File\Exception;
 
-use Bauwerk\Resource\File\ExceptionInterface;
+use Apparat\Resource\File\ExceptionInterface;
 
 /**
  * Runtime file exception

@@ -1,5 +1,5 @@
 {
-  "name": "bauwerk/bauwerk-resource",
+  "name": "apparat/resource",
   "description": "Resource type library and tools for working with resources",
   "minimum-stability": "RC",
   "license": "MIT",
@@ -19,12 +19,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Bauwerk\\": "src/"
+      "Apparat\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "BauwerkTest\\": "test/"
+      "ApparatTest\\": "test/"
     }
   }
 }

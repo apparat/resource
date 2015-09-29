@@ -1,10 +1,10 @@
 <?php
 
 /**
- * bauwerk-resource
+ * resource
  *
  * @category    Jkphl
- * @package     Jkphl_Bauwerk
+ * @package     Jkphl_Apparat
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -33,14 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File;
+namespace Apparat\Resource\File;
 
-use Bauwerk\Resource\File;
+use Apparat\Resource\File;
 
 /**
  * Generic file
  *
- * @package Bauwerk\Resource\File
+ * @package Apparat\Resource\File
  */
 class Text extends Generic
 {
@@ -65,7 +65,7 @@ class Text extends Generic
      */
     public function prepend($content)
     {
-        /** @var \Bauwerk\Resource\File\Part\Body\Text $defaultPart */
+        /** @var \Apparat\Resource\File\Part\Body\Text $defaultPart */
         $defaultPart = $this->getPart(PartInterface::DEFAULT_NAME, 0);
         $defaultPart->prepend($content);
         return $this;
@@ -79,7 +79,7 @@ class Text extends Generic
      */
     public function append($content)
     {
-        /** @var \Bauwerk\Resource\File\Part\Body\Text $defaultPart */
+        /** @var \Apparat\Resource\File\Part\Body\Text $defaultPart */
         $defaultPart = $this->getPart(PartInterface::DEFAULT_NAME, 0);
         $defaultPart->append($content);
         return $this;

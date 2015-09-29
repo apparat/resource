@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Bauwerk
+ * Apparat
  *
  * @category    Jkphl
- * @package     Jkphl_Bauwerk
+ * @package     Jkphl_Apparat
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -33,14 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace BauwerkTest;
+namespace ApparatTest;
 
-use Bauwerk\Resource\File\Generic;
+use Apparat\Resource\File\Generic;
 
 /**
  * Basic tests for generic files
  *
- * @package BauwerkTest
+ * @package ApparatTest
  */
 class FileTest extends TestBase
 {
@@ -80,7 +80,7 @@ class FileTest extends TestBase
     public function testContentWithoutFilePath()
     {
         $file = new Generic();
-        $this->assertInstanceOf('Bauwerk\Resource\File\Generic', $file);
+        $this->assertInstanceOf('Apparat\Resource\File\Generic', $file);
         $this->assertEquals(1, count($file));
         $this->assertEquals(0, strlen($file));
     }
@@ -88,7 +88,7 @@ class FileTest extends TestBase
     /**
      * Test constructor and content with invalid file path
      *
-     * @expectedException \Bauwerk\Resource\File\Exception\InvalidArgument
+     * @expectedException \Apparat\Resource\File\Exception\InvalidArgument
      * @expectedExceptionCode 1440346451
      */
     public function testContentWithInvalidFilePath()
@@ -99,7 +99,7 @@ class FileTest extends TestBase
     /**
      * Test constructor and content with directory path
      *
-     * @expectedException \Bauwerk\Resource\File\Exception\InvalidArgument
+     * @expectedException \Apparat\Resource\File\Exception\InvalidArgument
      * @expectedExceptionCode 1440347668
      */
     public function testContentWithDirectoryPath()
@@ -110,7 +110,7 @@ class FileTest extends TestBase
     /**
      * Test invalid part key read access
      *
-     * @expectedException \Bauwerk\Resource\File\Part\Container\Exception\OutOfBounds
+     * @expectedException \Apparat\Resource\File\Part\Container\Exception\OutOfBounds
      * @expectedExceptionCode 1440524242
      */
     public function testInvalidPartKeyReadAccess()
@@ -122,13 +122,13 @@ class FileTest extends TestBase
     /**
      * Test invalid part key write access
      *
-     * @expectedException \Bauwerk\Resource\File\Part\Container\Exception\OutOfBounds
+     * @expectedException \Apparat\Resource\File\Part\Container\Exception\OutOfBounds
      * @expectedExceptionCode 1440524242
      */
     public function testInvalidPartKeyWriteAccess()
     {
         $file = new Generic(self::TXT_FILE);
-        $file->setPart('invalid', new \Bauwerk\Resource\File\Part\Body\Generic());
+        $file->setPart('invalid', new \Apparat\Resource\File\Part\Body\Generic());
     }
 
 
@@ -138,15 +138,15 @@ class FileTest extends TestBase
     public function testContentWithTextFile()
     {
         $file = new Generic(self::TXT_FILE);
-        $this->assertInstanceOf('Bauwerk\Resource\File\Generic', $file);
+        $this->assertInstanceOf('Apparat\Resource\File\Generic', $file);
         $this->assertEquals(1, count($file));
-        $this->assertInstanceOf('Bauwerk\Resource\File\Part\Body\Generic',
-            $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME));
+        $this->assertInstanceOf('Apparat\Resource\File\Part\Body\Generic',
+            $file->getPart(\Apparat\Resource\File\PartInterface::DEFAULT_NAME));
 
         // Iterate through all parts
         $count = 0;
         foreach ($file as $part) {
-            $this->assertInstanceOf('Bauwerk\Resource\File\Part\Body\Generic', $part);
+            $this->assertInstanceOf('Apparat\Resource\File\Part\Body\Generic', $part);
             ++$count;
         }
         $this->assertEquals(1, $count);
@@ -160,7 +160,7 @@ class FileTest extends TestBase
     public function testContentManipulationViaPartParsing()
     {
         $file = new Generic(self::TXT_FILE);
-        $defaultPart = $file->getPart(\Bauwerk\Resource\File\PartInterface::DEFAULT_NAME);
+        $defaultPart = $file->getPart(\Apparat\Resource\File\PartInterface::DEFAULT_NAME);
         $content = strval($defaultPart);
         $defaultPart->parse($content.$content);
         $this->assertStringEqualsFile(self::TXT_PLUSPLUS_FILE, strval($file));
@@ -170,7 +170,7 @@ class FileTest extends TestBase
     /**
      * Save with no target file
      *
-     * @expectedException \Bauwerk\Resource\File\Exception\InvalidArgument
+     * @expectedException \Apparat\Resource\File\Exception\InvalidArgument
      * @expectedExceptionCode 1440361529
      */
     public function testSaveWithNoTarget()
@@ -183,7 +183,7 @@ class FileTest extends TestBase
     /**
      * Save with non-existing directory
      *
-     * @expectedException \Bauwerk\Resource\File\Exception\Runtime
+     * @expectedException \Apparat\Resource\File\Exception\Runtime
      * @expectedExceptionCode 1440361552
      */
     public function testSaveWithInvalidDirectory()
@@ -197,7 +197,7 @@ class FileTest extends TestBase
     /**
      * Save with already existing target file
      *
-     * @expectedException \Bauwerk\Resource\File\Exception\Runtime
+     * @expectedException \Apparat\Resource\File\Exception\Runtime
      * @expectedExceptionCode 1440526568
      */
     public function testSaveWithExistingTarget()
@@ -215,7 +215,7 @@ class FileTest extends TestBase
     /**
      * Save with already existing target file
      *
-     * @expectedException \Bauwerk\Resource\File\Exception\Runtime
+     * @expectedException \Apparat\Resource\File\Exception\Runtime
      * @expectedExceptionCode 1440526568
      */
     public function testSaveWithExistingTargetNoOverwrite()

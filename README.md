@@ -1,6 +1,6 @@
-# Bauwerk Resources
-[![Build Status](https://img.shields.io/travis/bauwerk-tools/bauwerk-resource.svg)](https://travis-ci.org/bauwerk-tools/bauwerk-resource)
-[![Code Coverage](https://img.shields.io/coveralls/bauwerk-tools/BauwerkResource.svg)](https://coveralls.io/r/bauwerk-tools/BauwerkResource)
+# Apparat Resources
+[![Build Status](https://img.shields.io/travis/apparat/resource.svg)](https://travis-ci.org/apparat/resource)
+[![Code Coverage](https://img.shields.io/coveralls/apparat/ApparatResource.svg)](https://coveralls.io/r/apparat/ApparatResource)
 
 # File types planned to be supported
 

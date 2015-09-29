@@ -1,10 +1,10 @@
 <?php
 
 /**
- * bauwerk-resource
+ * resource
  *
  * @category    Jkphl
- * @package     Jkphl_Bauwerk
+ * @package     Jkphl_Apparat
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -33,15 +33,15 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File;
+namespace Apparat\Resource\File;
 
-use Bauwerk\Resource\File;
-use Bauwerk\Resource\File\Part\Container\SequenceInterface;
+use Apparat\Resource\File;
+use Apparat\Resource\File\Part\Container\SequenceInterface;
 
 /**
  * Text file
  *
- * @package Bauwerk\Resource\File
+ * @package Apparat\Resource\File
  */
 class Generic extends File implements SequenceInterface
 {

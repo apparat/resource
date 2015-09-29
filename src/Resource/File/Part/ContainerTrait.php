@@ -1,10 +1,10 @@
 <?php
 
 /**
- * bauwerk-resource
+ * resource
  *
  * @category    Jkphl
- * @package     Jkphl_Bauwerk
+ * @package     Jkphl_Apparat
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -33,19 +33,19 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Bauwerk\Resource\File\Part;
+namespace Apparat\Resource\File\Part;
 
-use Bauwerk\Resource\File\PartInterface;
-use Bauwerk\Resource\File\Part\Container\Exception\OutOfBounds;
-use Bauwerk\Resource\File\Part\Container\Exception\OutOfRange;
-use Bauwerk\Resource\File\Part\Container\Exception\InvalidArgument;
-use Bauwerk\Resource\File\Part\Container\Exception\Runtime;
-use Bauwerk\Resource\File\Part;
+use Apparat\Resource\File\PartInterface;
+use Apparat\Resource\File\Part\Container\Exception\OutOfBounds;
+use Apparat\Resource\File\Part\Container\Exception\OutOfRange;
+use Apparat\Resource\File\Part\Container\Exception\InvalidArgument;
+use Apparat\Resource\File\Part\Container\Exception\Runtime;
+use Apparat\Resource\File\Part;
 
 /**
  * Container file part trait
  *
- * @package Bauwerk\Resource
+ * @package Apparat\Resource
  */
 trait ContainerTrait
 {
