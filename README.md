@@ -1,15 +1,15 @@
 # Apparat Resources
-[![Build Status](https://img.shields.io/travis/apparat/resource.svg)](https://travis-ci.org/apparat/resource)
-[![Code Coverage](https://img.shields.io/coveralls/apparat/ApparatResource.svg)](https://coveralls.io/r/apparat/ApparatResource)
+[![Build Status](https://secure.travis-ci.org/apparat/resource.svg)](https://travis-ci.org/apparat/resource)
+[![Code Coverage](https://img.shields.io/coveralls/apparat/resource.svg)](https://coveralls.io/r/apparat/ApparatResource)
 
 # File types planned to be supported
 
-* [ ] Generic
-* [ ] Text
-* [ ] Markdown (CommonMark)
-* [ ] YAML
+* [x] Generic
+* [x] Text
+* [x] Markdown (CommonMark)
+* [x] YAML
 * [ ] JSON
-* [ ] YFM-Markdown (Markdown with YAML front matter)
+* [x] YFM-Markdown (Markdown with YAML front matter)
 * [ ] JFM-Markdown (Markdown with JSON front matter)
 
 * [ ] MIME Messages
