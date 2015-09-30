@@ -13,7 +13,8 @@ before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
   - touch .env
-  - echo 'date.timezone = Europe/Berlin' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - if [ "$TRAVIS_PHP_VERSION" == "hhvm" ]; then echo 'date.timezone = Europe/Berlin' >> /etc/hhvm/php.ini; fi;
+  - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then echo 'date.timezone = Europe/Berlin' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi;
 
 script:
   - bash -c 'if [ "$TRAVIS_PHP_VERSION" == "hhvm" ]; then vendor/bin/phpunit; fi;'
