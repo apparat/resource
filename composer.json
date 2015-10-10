@@ -1,6 +1,6 @@
 {
   "name": "apparat/resource",
-  "description": "Resource type library and tools for working with resources",
+  "description": "Apparat resource abstraction layer",
   "minimum-stability": "RC",
   "license": "MIT",
   "authors": [

@@ -3,8 +3,8 @@
 /**
  * Apparat
  *
- * @category    Jkphl
- * @package     Jkphl_Apparat
+ * @category    Apparat
+ * @package     Apparat_Resource
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
