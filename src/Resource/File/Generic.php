@@ -41,7 +41,7 @@ use Apparat\Resource\File\Part\Container\SequenceInterface;
 /**
  * Text file
  *
- * @package Apparat\Resource\File
+ * @package     Apparat_Resource
  */
 class Generic extends File implements SequenceInterface
 {

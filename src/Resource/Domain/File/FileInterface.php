@@ -33,28 +33,58 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\File;
+namespace Apparat\Resource\Domain\File;
 
-use Apparat\Resource\File;
+use Apparat\Resource\Domain\Container\ContainerInterface;
+use Apparat\Resource\Domain\Resource\ResourceInterface;
+use Apparat\Resource\Domain\File\Exception\InvalidArgumentException;
+use Apparat\Resource\Domain\File\Exception\RuntimeException;
 
 /**
- * YAML file
+ * Abstract file resource interface
  *
  * @package     Apparat_Resource
- * @see http://yaml.org/spec/1.2/spec.pdf
  */
-class Yaml extends Text
+interface FileInterface extends ContainerInterface, ResourceInterface
 {
     /**
-     * MIME type
+     * Constructor
      *
-     * @var string
+     * @param string $source                    Source file
      */
-    protected $_mimeType = 'text/x-yaml';
+    public function __construct($source = null);
+
     /**
-     * Default body part classs
+     * Serialize this file
      *
-     * @var string
+     * @return string                           Serialized file contents
      */
-    protected $_defaultBodyPartClass = Part\Body\Yaml::class;
+    public function __toString();
+
+    /**
+     * Return the source of this file
+     *
+     * @return string
+     */
+    public function getSource();
+
+    /**
+     * Set the source of this file
+     *
+     * @param string $source Source
+     * @return File                             Self reference
+     */
+    public function setSource($source);
+
+    /**
+     * Save the file
+     *
+     * @param string $target Target file
+     * @param bool|false $createDirectories Create directories if necessary
+     * @param bool|false $overwrite Overwrite existing file
+     * @return int                              Number of bytes written
+     * @throws InvalidArgumentException         If the target file is invalid
+     * @throws RuntimeException                 If the target directory doesn't exist and cannot be created
+     */
+    public function save($target = null, $createDirectories = false, $overwrite = false);
 }

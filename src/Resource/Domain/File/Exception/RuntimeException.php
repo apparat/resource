@@ -1,7 +1,7 @@
 <?php
 
 /**
- * resource
+ * Apparat
  *
  * @category    Apparat
  * @package     Apparat_Resource
@@ -33,28 +33,37 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\File;
-
-use Apparat\Resource\File;
+namespace Apparat\Resource\Domain\File\Exception;
 
 /**
- * YAML file
+ * Runtime file exception
  *
  * @package     Apparat_Resource
- * @see http://yaml.org/spec/1.2/spec.pdf
  */
-class Yaml extends Text
+class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
     /**
-     * MIME type
+     * Invalid target directory
      *
-     * @var string
+     * @var int
      */
-    protected $_mimeType = 'text/x-yaml';
+    const INVALID_TARGET_DIRECTORY = 1440361552;
     /**
-     * Default body part classs
+     * Target directory couldn't be created
      *
-     * @var string
+     * @var int
      */
-    protected $_defaultBodyPartClass = Part\Body\Yaml::class;
+    const TARGET_DIRECTORY_NOT_CREATED = 1440361580;
+    /**
+     * Target file already exists
+     *
+     * @var int
+     */
+    const TARGET_EXISTS = 1440526568;
+    /**
+     * Target file could not be overwritten
+     *
+     * @var int
+     */
+    const TARGET_NOT_OVERWRITTEN = 1440526574;
 }

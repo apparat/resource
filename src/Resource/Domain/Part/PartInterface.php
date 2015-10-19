@@ -33,54 +33,88 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\File\Part\Body;
+namespace Apparat\Resource\Domain\Part;
 
-use Apparat\Resource\File\Part\Body;
+use Apparat\Resource\Domain\File\FileInterface;
 
 /**
- * Generic file part
+ * Abstract file part interface
  *
  * @package     Apparat_Resource
  */
-class Generic extends Body
+interface PartInterface
 {
     /**
-     * File part string content
+     * Default part name
      *
      * @var string
      */
-    protected $_content = '';
-
-    /**
-     * Reset the part to its default state
-     *
-     * @return Generic             Self reference
-     */
-    public function reset()
-    {
-        $this->_content = '';
-        return $this;
-    }
+    const DEFAULT_NAME = 'default';
 
     /**
      * Return the part contents as string
      *
-     * @return string           Part contents
+     * @return string                       Part contents
      */
-    public function __toString()
-    {
-        return strval($this->_content);
-    }
+    public function __toString();
 
     /**
      * Parse a content string and bring the part model to live
      *
      * @param string $content Content string
-     * @return Body                Self reference
+     * @return PartInterface                Self reference
      */
-    public function parse($content)
-    {
-        $this->_content = strval($content);
-        return $this;
-    }
+    public function parse($content);
+
+    /**
+     * Reset the part to its default state
+     *
+     * @return PartInterface                Self reference
+     */
+    public function reset();
+
+    /**
+     * Return the MIME type
+     *
+     * @return string                       MIME type
+     */
+    public function getMimeType();
+
+    /**
+     * Set the MIME type
+     *
+     * @param string $mimeType MIME type
+     * @return PartInterface                Self reference
+     */
+    public function setMimeType($mimeType);
+
+    /**
+     * Return the owner file
+     *
+     * @return FileInterface                Owner file
+     */
+    public function getOwnerFile();
+
+    /**
+     * Set the owner file
+     *
+     * @param FileInterface $ownerFile Owner file
+     * @return PartInterface                Self reference
+     */
+    public function setOwnerFile(FileInterface $ownerFile);
+
+    /**
+     * Return the parent part
+     *
+     * @return PartInterface                Parent part
+     */
+    public function getParentPart();
+
+    /**
+     * Set the parent part
+     *
+     * @param PartInterface $part Parent part
+     * @return PartInterface                Self reference
+     */
+    public function setParentPart(PartInterface $part);
 }

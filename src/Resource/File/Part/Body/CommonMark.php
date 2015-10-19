@@ -44,7 +44,7 @@ use League\CommonMark\Block\Element\Document;
 /**
  * Markdown file part
  *
- * @package Apparat\Resource\File\Part\Body
+ * @package     Apparat_Resource
  */
 class CommonMark extends Text
 {

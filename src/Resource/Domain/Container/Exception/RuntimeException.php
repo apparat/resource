@@ -1,7 +1,7 @@
 <?php
 
 /**
- * resource
+ * Apparat
  *
  * @category    Apparat
  * @package     Apparat_Resource
@@ -33,28 +33,18 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\File;
-
-use Apparat\Resource\File;
+namespace Apparat\Resource\Domain\Container\Exception;
 
 /**
- * YAML file
+ * Runtime container file part exception
  *
  * @package     Apparat_Resource
- * @see http://yaml.org/spec/1.2/spec.pdf
  */
-class Yaml extends Text
-{
-    /**
-     * MIME type
-     *
-     * @var string
-     */
-    protected $_mimeType = 'text/x-yaml';
-    /**
-     * Default body part classs
-     *
-     * @var string
-     */
-    protected $_defaultBodyPartClass = Part\Body\Yaml::class;
+class RuntimeException extends \RuntimeException implements ExceptionInterface {
+	/**
+	 * Invalid part model
+	 *
+	 * @var int
+	 */
+	const INVALID_PART_MODEL = 1441572532;
 }

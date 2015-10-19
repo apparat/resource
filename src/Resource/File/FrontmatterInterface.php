@@ -40,7 +40,7 @@ use Apparat\Resource\File\Part\BodyInterface;
 /**
  * Frontmatter file interface
  *
- * @package Apparat\Resource\File
+ * @package     Apparat_Resource
  */
 interface FrontmatterInterface
 {

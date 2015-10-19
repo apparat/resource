@@ -44,7 +44,7 @@ use Apparat\Resource\Utility;
 /**
  * CommonMark file
  *
- * @package Apparat\Resource\File
+ * @package     Apparat_Resource
  * @see http://commonmark.org/
  */
 class CommonMark extends \Apparat\Resource\File\CommonMark implements FrontmatterInterface

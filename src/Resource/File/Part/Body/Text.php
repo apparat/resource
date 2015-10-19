@@ -40,7 +40,7 @@ use Apparat\Resource\File\Part\Body;
 /**
  * Text file part
  *
- * @package Apparat\Resource\File\Part\Body
+ * @package     Apparat_Resource
  */
 class Text extends Generic
 {

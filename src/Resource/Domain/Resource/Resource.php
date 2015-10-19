@@ -1,7 +1,7 @@
 <?php
 
 /**
- * resource
+ * Apparat
  *
  * @category    Apparat
  * @package     Apparat_Resource
@@ -33,28 +33,13 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\File;
-
-use Apparat\Resource\File;
+namespace Apparat\Resource\Domain\Resource;
 
 /**
- * YAML file
+ * Abstract resource
  *
  * @package     Apparat_Resource
- * @see http://yaml.org/spec/1.2/spec.pdf
  */
-class Yaml extends Text
+abstract class Resource implements ResourceInterface
 {
-    /**
-     * MIME type
-     *
-     * @var string
-     */
-    protected $_mimeType = 'text/x-yaml';
-    /**
-     * Default body part classs
-     *
-     * @var string
-     */
-    protected $_defaultBodyPartClass = Part\Body\Yaml::class;
 }

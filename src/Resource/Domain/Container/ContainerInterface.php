@@ -33,28 +33,44 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\File;
+namespace Apparat\Resource\Domain\Container;
 
-use Apparat\Resource\File;
+use Apparat\Resource\Domain\Part\PartInterface;
+use Apparat\Resource\Domain\Container\Exception\OutOfRangeException;
 
 /**
- * YAML file
+ * Container file part interface
  *
  * @package     Apparat_Resource
- * @see http://yaml.org/spec/1.2/spec.pdf
  */
-class Yaml extends Text
+interface ContainerInterface extends PartInterface, \ArrayAccess , \SeekableIterator , \Countable
 {
     /**
-     * MIME type
+     * Unbound parts
      *
-     * @var string
+     * @var int
      */
-    protected $_mimeType = 'text/x-yaml';
+    const UNBOUND = -1;
+
     /**
-     * Default body part classs
+     * Return a container part
      *
-     * @var string
+     * @param string $key                       Part key
+     * @param int $occurrence                   Part index (within the same key)
+     * @return PartInterface                    Part
+     * @throws OutOfRangeException              If an invalid part is requested
+     * @throws OutOfRangeException              If the requested part key is emptyW
      */
-    protected $_defaultBodyPartClass = Part\Body\Yaml::class;
+    public function getPart($key, $occurrence = 0);
+
+    /**
+     * Set a file part
+     *
+     * @param string $key                       Part key
+     * @param PartInterface $part               Part
+     * @param int $occurrence                   Part index (within the same key)
+     * @return ContainerInterface               Self reference
+     * @throws OutOfRangeException              If an invalid part is requested
+     */
+    public function setPart($key, PartInterface $part, $occurrence = 0);
 }

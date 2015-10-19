@@ -41,7 +41,7 @@ use Apparat\Resource\File\Part\Body\Exception\OutOfBounds;
 /**
  * YAML file part
  *
- * @package Apparat\Resource\File\Part\Body
+ * @package     Apparat_Resource
  * @see http://yaml.org/spec/1.2/spec.pdf
  */
 class Yaml extends Text implements \ArrayAccess, \Countable, \SeekableIterator

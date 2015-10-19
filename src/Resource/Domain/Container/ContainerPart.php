@@ -33,28 +33,32 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\File;
+namespace Apparat\Resource\Domain\Container;
 
-use Apparat\Resource\File;
+use Apparat\Resource\Domain\Part\Part;
 
 /**
- * YAML file
+ * Abstract container part
  *
  * @package     Apparat_Resource
- * @see http://yaml.org/spec/1.2/spec.pdf
  */
-class Yaml extends Text
+abstract class ContainerPart extends Part implements ContainerInterface
 {
     /**
-     * MIME type
-     *
-     * @var string
+     * Use the file part container properties and methods
      */
-    protected $_mimeType = 'text/x-yaml';
+    use ContainerTrait;
+
     /**
-     * Default body part classs
+     * Constructor
      *
-     * @var string
+     * @param array $partModel          Container part model
+     * @param int $minOccurs            Minimum occurences
+     * @param int $maxOccurs            Maximum occurences
      */
-    protected $_defaultBodyPartClass = Part\Body\Yaml::class;
+    public function __construct(array $partModel, $minOccurs = 1, $maxOccurs = 1) {
+
+        // Set the part model
+        $this->_setPartModel($partModel, $minOccurs, $maxOccurs);
+    }
 }

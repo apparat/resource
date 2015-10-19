@@ -33,54 +33,107 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\File\Part\Body;
+namespace Apparat\Resource\Domain\Part;
 
-use Apparat\Resource\File\Part\Body;
+use Apparat\Resource\Domain\File\FileInterface;
 
 /**
- * Generic file part
+ * Abstract file part
  *
  * @package     Apparat_Resource
  */
-class Generic extends Body
+abstract class Part implements PartInterface
 {
     /**
-     * File part string content
+     * Owner file
+     *
+     * @var FileInterface
+     */
+    protected $_ownerFile = null;
+
+    /**
+     * Parent part
+     *
+     * @var PartInterface
+     */
+    protected $_parentPart = null;
+
+    /**
+     * MIME type
      *
      * @var string
      */
-    protected $_content = '';
+    protected $_mimeType = 'application/octet-stream';
 
     /**
-     * Reset the part to its default state
-     *
-     * @return Generic             Self reference
+     * Constructor
      */
-    public function reset()
+    public function __construct()
     {
-        $this->_content = '';
+    }
+
+    /**
+     * Return the MIME type
+     *
+     * @return string           MIME type
+     */
+    public function getMimeType()
+    {
+        return $this->_mimeType;
+    }
+
+    /**
+     * Set the MIME type
+     *
+     * @param string $mimeType MIME type
+     * @return Part             Self reference
+     */
+    public function setMimeType($mimeType)
+    {
+        $this->_mimeType = $mimeType;
         return $this;
     }
 
     /**
-     * Return the part contents as string
+     * Return the owner file
      *
-     * @return string           Part contents
+     * @return FileInterface    Owner file
      */
-    public function __toString()
+    public function getOwnerFile()
     {
-        return strval($this->_content);
+        return $this->_ownerFile;
     }
 
     /**
-     * Parse a content string and bring the part model to live
+     * Set the owner file
      *
-     * @param string $content Content string
-     * @return Body                Self reference
+     * @param FileInterface $ownerFile Owner file
+     * @return Part                         Self reference
      */
-    public function parse($content)
+    public function setOwnerFile(FileInterface $ownerFile)
     {
-        $this->_content = strval($content);
-        return $this;
+        $this->_ownerFile = $ownerFile;
+    }
+
+    /**
+     * Return the parent part
+     *
+     * @return PartInterface                Parent part
+     */
+    public function getParentPart()
+    {
+        return $this->_parentPart;
+    }
+
+    /**
+     * Set the parent part
+     *
+     * @param PartInterface $part Parent part
+     * @return Part                         Self reference
+     */
+    public function setParentPart(PartInterface $part)
+    {
+        $this->_parentPart = $part;
+        $this->setOwnerFile($part->getOwnerFile());
     }
 }

@@ -33,28 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\File;
-
-use Apparat\Resource\File;
+namespace Apparat\Resource\Domain\File\Exception;
 
 /**
- * YAML file
+ * File exception interface
  *
  * @package     Apparat_Resource
- * @see http://yaml.org/spec/1.2/spec.pdf
  */
-class Yaml extends Text
+interface ExceptionInterface extends \Apparat\Resource\Domain\Exception\ExceptionInterface
 {
-    /**
-     * MIME type
-     *
-     * @var string
-     */
-    protected $_mimeType = 'text/x-yaml';
-    /**
-     * Default body part classs
-     *
-     * @var string
-     */
-    protected $_defaultBodyPartClass = Part\Body\Yaml::class;
+
 }

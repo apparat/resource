@@ -38,7 +38,7 @@ namespace Apparat\Resource;
 /**
  * Helper class with utility methods
  *
- * @package Apparat\Resource
+ * @package     Apparat_Resource
  */
 class Utility
 {

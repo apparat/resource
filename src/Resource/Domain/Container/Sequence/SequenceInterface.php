@@ -33,28 +33,16 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\File;
+namespace Apparat\Resource\Domain\Container\Sequence;
 
-use Apparat\Resource\File;
+use Apparat\Resource\Domain\Container\ContainerInterface;
 
 /**
- * YAML file
+ * Multipart sequence interface
  *
  * @package     Apparat_Resource
- * @see http://yaml.org/spec/1.2/spec.pdf
  */
-class Yaml extends Text
+interface SequenceInterface extends ContainerInterface
 {
-    /**
-     * MIME type
-     *
-     * @var string
-     */
-    protected $_mimeType = 'text/x-yaml';
-    /**
-     * Default body part classs
-     *
-     * @var string
-     */
-    protected $_defaultBodyPartClass = Part\Body\Yaml::class;
+
 }

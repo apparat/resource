@@ -1,7 +1,7 @@
 <?php
 
 /**
- * resource
+ * Apparat
  *
  * @category    Apparat
  * @package     Apparat_Resource
@@ -33,28 +33,25 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\File;
-
-use Apparat\Resource\File;
+namespace Apparat\Resource\Domain\Body\Exception;
 
 /**
- * YAML file
+ * Out of bounds body part exception
  *
  * @package     Apparat_Resource
- * @see http://yaml.org/spec/1.2/spec.pdf
  */
-class Yaml extends Text
+class OutOfBounds extends \OutOfBoundsException implements ExceptionInterface
 {
     /**
-     * MIME type
+     * Invalid data key
      *
-     * @var string
+     * @var int
      */
-    protected $_mimeType = 'text/x-yaml';
+    const INVALID_DATA_KEY = 1442785310;
     /**
-     * Default body part classs
+     * Invalid seek position
      *
-     * @var string
+     * @var int
      */
-    protected $_defaultBodyPartClass = Part\Body\Yaml::class;
+    const INVALID_SEEK_POSITION = 1442785234;
 }

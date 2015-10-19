@@ -33,28 +33,25 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\File;
+namespace Apparat\Resource\Domain\Container\Choice;
 
-use Apparat\Resource\File;
+use Apparat\Resource\Domain\Container\ContainerPart;
 
 /**
- * YAML file
+ * Multipart choice
  *
  * @package     Apparat_Resource
- * @see http://yaml.org/spec/1.2/spec.pdf
  */
-class Yaml extends Text
+class Choice extends ContainerPart implements ChoiceInterface
 {
     /**
-     * MIME type
+     * Parse a content string and bring the part model to live
      *
-     * @var string
+     * @param string $content   Content string
+     * @return Choice           Self reference
      */
-    protected $_mimeType = 'text/x-yaml';
-    /**
-     * Default body part classs
-     *
-     * @var string
-     */
-    protected $_defaultBodyPartClass = Part\Body\Yaml::class;
+    public function parse($content)
+    {
+        // TODO: Implement parse() method.
+    }
 }

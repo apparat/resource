@@ -40,7 +40,7 @@ use Apparat\Resource\File;
 /**
  * CommonMark file
  *
- * @package Apparat\Resource\File
+ * @package     Apparat_Resource
  * @see http://commonmark.org/
  */
 class CommonMark extends Generic

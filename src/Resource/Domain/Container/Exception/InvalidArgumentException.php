@@ -1,7 +1,7 @@
 <?php
 
 /**
- * resource
+ * Apparat
  *
  * @category    Apparat
  * @package     Apparat_Resource
@@ -33,28 +33,43 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\File;
-
-use Apparat\Resource\File;
+namespace Apparat\Resource\Domain\Container\Exception;
 
 /**
- * YAML file
+ * Invalid argument container file part exception
  *
  * @package     Apparat_Resource
- * @see http://yaml.org/spec/1.2/spec.pdf
  */
-class Yaml extends Text
+class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
 {
     /**
-     * MIME type
+     * Invalid default part class
      *
-     * @var string
+     * @var int
      */
-    protected $_mimeType = 'text/x-yaml';
+    const INVALID_DEFAULT_PART_CLASS = 1440530628;
     /**
-     * Default body part classs
+     * Invalid minimum occurences value
      *
-     * @var string
+     * @var int
      */
-    protected $_defaultBodyPartClass = Part\Body\Yaml::class;
+    const INVALID_MINIMUM_OCCURENCES = 1441485633;
+    /**
+     * Invalid maximum occurences value
+     *
+     * @var int
+     */
+    const INVALID_MAXIMUM_OCCURENCES = 1441485648;
+    /**
+     * Invalid class names array
+     *
+     * @var int
+     */
+    const INVALID_CLASSNAMES_ARRAY = 1441485730;
+    /**
+     * Invalid part class
+     *
+     * @var int
+     */
+    const INVALID_PART_CLASS = 1442783125;
 }

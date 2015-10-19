@@ -38,7 +38,7 @@ namespace Apparat\Resource\File\Frontmatter\Yaml\Exception;
 /**
  * InvalidArgument exceptions for YAML frontmatter files
  *
- * @package Apparat\Resource\File\Frontmatter\Yaml\Exception
+ * @package     Apparat_Resource
  */
 class InvalidArgument extends \InvalidArgumentException
 {

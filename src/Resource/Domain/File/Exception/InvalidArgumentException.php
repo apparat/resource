@@ -1,7 +1,7 @@
 <?php
 
 /**
- * resource
+ * Apparat
  *
  * @category    Apparat
  * @package     Apparat_Resource
@@ -33,28 +33,37 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\File;
-
-use Apparat\Resource\File;
+namespace Apparat\Resource\Domain\File\Exception;
 
 /**
- * YAML file
+ * Invalid argument file exception
  *
  * @package     Apparat_Resource
- * @see http://yaml.org/spec/1.2/spec.pdf
  */
-class Yaml extends Text
+class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
 {
     /**
-     * MIME type
+     * Source file doesn't exist or is not a file
      *
-     * @var string
+     * @var int
      */
-    protected $_mimeType = 'text/x-yaml';
+    const INVALID_SOURCE_FILE = 1440346451;
     /**
-     * Default body part classs
+     * Source is not a file
      *
-     * @var string
+     * @var int
      */
-    protected $_defaultBodyPartClass = Part\Body\Yaml::class;
+    const SOURCE_NOT_A_FILE = 1440347668;
+    /**
+     * Source file is not readable
+     *
+     * @var int
+     */
+    const SOURCE_FILE_UNREADABLE = 1440346535;
+    /**
+     * Invalid target file
+     *
+     * @var int
+     */
+    const INVALID_TARGET_FILE = 1440361529;
 }
