@@ -4,6 +4,32 @@
 
 Apparat resource abstraction layer
 
+# Purpose of this module
+
+* Provide an abstract interface for basic file operations
+	* Creating
+	* Reading
+	* Writing / Updating
+	* Deleting
+	* Copying
+* Provide an easy-to-use interface for multipart files (e.g. files with YAML front matter)
+	* Support for arbitrary content models
+		* Parsing
+		* Serialisation
+	* File part operations
+		* Creating
+		* Reading
+		* Writing / Updating
+		* Deleting
+		* Copying
+* Reading from / writing to different sources
+	* File system
+	* Standard input / output
+	* FTP?
+	* Remote storage?
+* Implementing several file types and structures (see below)
+	* Possibly special behaviour based on file type
+
 # File types planned to be supported
 
 * [x] Generic
