@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Apparat
+ * apparat-resource
  *
  * @category    Apparat
- * @package     Apparat_Resource
+ * @package     Apparat_<Package>
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ * @copyright   Copyright Â© 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
 
 /***********************************************************************************
  *  The MIT License (MIT)
  *
- *  Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ *  Copyright Â© 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
  *  this software and associated documentation files (the "Software"), to deal in
@@ -33,37 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Domain\File\Exception;
+namespace Apparat\Resource\Model\File;
 
 /**
- * Invalid argument file exception
+ * File reader interface
  *
- * @package     Apparat_Resource
+ * @package Apparat\Resource\Model
  */
-class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
+interface FileReader
 {
-    /**
-     * Source file doesn't exist or is not a file
-     *
-     * @var int
-     */
-    const INVALID_SOURCE_FILE = 1440346451;
-    /**
-     * Source is not a file
-     *
-     * @var int
-     */
-    const SOURCE_NOT_A_FILE = 1440347668;
-    /**
-     * Source file is not readable
-     *
-     * @var int
-     */
-    const SOURCE_FILE_UNREADABLE = 1440346535;
-    /**
-     * Invalid target file
-     *
-     * @var int
-     */
-    const INVALID_TARGET_FILE = 1440361529;
+
 }

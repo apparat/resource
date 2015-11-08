@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Apparat
+ * apparat-resource
  *
  * @category    Apparat
- * @package     Apparat_Resource
+ * @package     Apparat_<Package>
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ * @copyright   Copyright Â© 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
 
 /***********************************************************************************
  *  The MIT License (MIT)
  *
- *  Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ *  Copyright Â© 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
  *  this software and associated documentation files (the "Software"), to deal in
@@ -33,13 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Domain\Resource;
+namespace Apparat\Resource\Model\File;
 
 /**
- * Abstract resource
+ * File writer interface
  *
- * @package     Apparat_Resource
+ * @package Apparat\Resource\Model
  */
-abstract class Resource implements ResourceInterface
+interface FileWriter
 {
+
 }

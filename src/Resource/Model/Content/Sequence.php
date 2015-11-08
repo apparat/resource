@@ -1,19 +1,19 @@
 <?php
 
 /**
- * resource
+ * apparat-resource
  *
  * @category    Apparat
- * @package     Apparat_Resource
+ * @package     Apparat_<Package>
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ * @copyright   Copyright Â© 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
 
 /***********************************************************************************
  *  The MIT License (MIT)
  *
- *  Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ *  Copyright Â© 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
  *  this software and associated documentation files (the "Software"), to deal in
@@ -33,54 +33,15 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\File\Part\Body;
+namespace Apparat\Resource\Model\Content;
 
-use Apparat\Resource\File\Part\Body;
 
-/**
- * Generic file part
- *
- * @package     Apparat_Resource
- */
-class Generic extends Body
+class Sequence extends ContentModel
 {
     /**
-     * File part string content
+     * Integer type
      *
-     * @var string
+     * @var int
      */
-    protected $_content = '';
-
-    /**
-     * Reset the part to its default state
-     *
-     * @return Generic             Self reference
-     */
-    public function reset()
-    {
-        $this->_content = '';
-        return $this;
-    }
-
-    /**
-     * Return the part contents as string
-     *
-     * @return string           Part contents
-     */
-    public function __toString()
-    {
-        return strval($this->_content);
-    }
-
-    /**
-     * Parse a content string and bring the part model to live
-     *
-     * @param string $content Content string
-     * @return Body                Self reference
-     */
-    public function parse($content)
-    {
-        $this->_content = strval($content);
-        return $this;
-    }
+    const TYPE_INT = 0;
 }

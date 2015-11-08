@@ -1,19 +1,19 @@
 <?php
 
 /**
- * resource
+ * apparat-resource
  *
  * @category    Apparat
- * @package     Apparat_Resource
+ * @package     Apparat_<Package>
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ * @copyright   Copyright Â© 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
 
 /***********************************************************************************
  *  The MIT License (MIT)
  *
- *  Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ *  Copyright Â© 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
  *  this software and associated documentation files (the "Software"), to deal in
@@ -33,16 +33,51 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Domain\Container\Sequence;
+namespace Apparat\Resource\Model\Content;
 
-use Apparat\Resource\Domain\Container\ContainerInterface;
 
-/**
- * Multipart sequence interface
- *
- * @package     Apparat_Resource
- */
-interface SequenceInterface extends ContainerInterface
+class InvalidArgumentException extends \InvalidArgumentException
 {
-
+    /**
+     * Invalid content model configuration
+     *
+     * @var int
+     */
+    const INVALID_CONTENT_MODEL_CONFIGURATION = 1447019565;
+    /**
+     * Invalid content model
+     *
+     * @var int
+     */
+    const INVALID_CONTENT_MODEL = 1447020287;
+    /**
+     * Invalid content model class
+     *
+     * @var int
+     */
+    const INVALID_CONTENT_MODEL_CLASS = 1447019978;
+    /**
+     * Invalid minimum occurrences
+     *
+     * @var int
+     */
+    const INVALID_MINIMUM_OCCURRENCES = 1447021191;
+    /**
+     * Invalid maximum occurrences
+     *
+     * @var int
+     */
+    const INVALID_MAXIMUM_OCCURRENCES = 1447021211;
+    /**
+     * Invalid part configuration
+     *
+     * @var int
+     */
+    const INVALID_PART_CONFIGURATION = 1447021916;
+    /**
+     * Invalid part class
+     *
+     * @var int
+     */
+    const INVALID_PART_CLASS = 1447022020;
 }
