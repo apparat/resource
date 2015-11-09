@@ -35,35 +35,15 @@
 
 namespace Apparat\Resource\Model\Hydrator;
 
+use Apparat\Resource\Model\Part\ContentPart;
 use Apparat\Resource\Model\Part\Part;
 
 /**
- * File hydrator interface
+ * Abstract hydrator
  *
  * @package Apparat\Resource\Model\Hydrator
  */
-interface Hydrator
+abstract class SimplepartHydrator extends AbstractHydrator
 {
-    /**
-     * Serialize a file part
-     *
-     * @param Part $part File part
-     * @return string Serialized file part
-     */
-    public function dehydrate(Part $part);
 
-    /**
-     * Translate data to a file part
-     *
-     * @param string $data Part data
-     * @return Part File part
-     */
-    public function hydrate($data);
-
-    /**
-     * Return the part name
-     *
-     * @return string Part name
-     */
-    public function getName();
 }

@@ -35,35 +35,67 @@
 
 namespace Apparat\Resource\Model\Hydrator;
 
-use Apparat\Resource\Model\Part\Part;
 
-/**
- * File hydrator interface
- *
- * @package Apparat\Resource\Model\Hydrator
- */
-interface Hydrator
+class InvalidArgumentException extends \InvalidArgumentException
 {
     /**
-     * Serialize a file part
+     * Invalid hydrator configuration
      *
-     * @param Part $part File part
-     * @return string Serialized file part
+     * @var int
      */
-    public function dehydrate(Part $part);
-
+    const INVALID_HYDRATOR_CONFIGURATION = 1447019565;
     /**
-     * Translate data to a file part
+     * Invalid hydrator content model
      *
-     * @param string $data Part data
-     * @return Part File part
+     * @var int
      */
-    public function hydrate($data);
-
+    const INVALID_HYDRATOR_CONTENT_MODEL = 1447020287;
     /**
-     * Return the part name
+     * Missing multipart hydrator
      *
-     * @return string Part name
+     * @var int
      */
-    public function getName();
+    const MISSING_MULTIPART_HYDRATOR = 1447107537;
+    /**
+     * Invalid simple hydrator class
+     *
+     * @var int
+     */
+    const INVALID_SIMPLEPART_HYDRATOR_CLASS = 1447110065;
+    /**
+     * Invalid multipart hydrator class
+     *
+     * @var int
+     */
+    const INVALID_MULTIPART_HYDRATOR_CLASS = 1447107792;
+    /**
+     * Invalid multipart hydrator parameters
+     *
+     * @var int
+     */
+    const INVALID_MULTIPART_HYDRATOR_PARAMETERS = 1447109790;
+    /**
+     * Invalid minimum occurrences
+     *
+     * @var int
+     */
+    const INVALID_MINIMUM_OCCURRENCES = 1447021191;
+    /**
+     * Invalid maximum occurrences
+     *
+     * @var int
+     */
+    const INVALID_MAXIMUM_OCCURRENCES = 1447021211;
+    /**
+     * Invalid part configuration
+     *
+     * @var int
+     */
+    const INVALID_PART_CONFIGURATION = 1447021916;
+    /**
+     * Invalid part class
+     *
+     * @var int
+     */
+    const INVALID_PART_CLASS = 1447022020;
 }

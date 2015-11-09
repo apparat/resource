@@ -33,51 +33,39 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Content;
+namespace Apparat\Resource\Model\Hydrator;
 
-
-class InvalidArgumentException extends \InvalidArgumentException
+/**
+ * Abstract hydrator
+ *
+ * @package Apparat\Resource\Model\Hydrator
+ */
+abstract class AbstractHydrator implements Hydrator
 {
     /**
-     * Invalid content model configuration
+     * Part name
      *
-     * @var int
+     * @var string
      */
-    const INVALID_CONTENT_MODEL_CONFIGURATION = 1447019565;
+    protected $_name = '';
+
     /**
-     * Invalid content model
+     * Hydrator constructor
      *
-     * @var int
+     * @param string $name Part name
      */
-    const INVALID_CONTENT_MODEL = 1447020287;
+    public function __construct($name)
+    {
+        $this->_name = trim($name);
+    }
+
     /**
-     * Invalid content model class
+     * Return the part name
      *
-     * @var int
+     * @return string Part name
      */
-    const INVALID_CONTENT_MODEL_CLASS = 1447019978;
-    /**
-     * Invalid minimum occurrences
-     *
-     * @var int
-     */
-    const INVALID_MINIMUM_OCCURRENCES = 1447021191;
-    /**
-     * Invalid maximum occurrences
-     *
-     * @var int
-     */
-    const INVALID_MAXIMUM_OCCURRENCES = 1447021211;
-    /**
-     * Invalid part configuration
-     *
-     * @var int
-     */
-    const INVALID_PART_CONFIGURATION = 1447021916;
-    /**
-     * Invalid part class
-     *
-     * @var int
-     */
-    const INVALID_PART_CLASS = 1447022020;
+    public function getName()
+    {
+        return $this->_name;
+    }
 }

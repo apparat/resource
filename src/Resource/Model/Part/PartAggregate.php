@@ -33,37 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
-
-use Apparat\Resource\Model\Part\Part;
+namespace Apparat\Resource\Model\Part;
 
 /**
- * File hydrator interface
+ * Abstract part aggregate
  *
- * @package Apparat\Resource\Model\Hydrator
+ * @package Apparat\Resource\Model\Part
  */
-interface Hydrator
+abstract class PartAggregate implements Part
 {
-    /**
-     * Serialize a file part
-     *
-     * @param Part $part File part
-     * @return string Serialized file part
-     */
-    public function dehydrate(Part $part);
 
-    /**
-     * Translate data to a file part
-     *
-     * @param string $data Part data
-     * @return Part File part
-     */
-    public function hydrate($data);
-
-    /**
-     * Return the part name
-     *
-     * @return string Part name
-     */
-    public function getName();
 }

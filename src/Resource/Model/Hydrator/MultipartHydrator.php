@@ -35,35 +35,18 @@
 
 namespace Apparat\Resource\Model\Hydrator;
 
-use Apparat\Resource\Model\Part\Part;
-
 /**
- * File hydrator interface
+ * Multipart hydrator
  *
  * @package Apparat\Resource\Model\Hydrator
  */
-interface Hydrator
+abstract class MultipartHydrator extends AbstractHydrator
 {
     /**
-     * Serialize a file part
+     * Validate a set of hydrator parameters
      *
-     * @param Part $part File part
-     * @return string Serialized file part
+     * @param array $parameters Hydrator parameters
+     * @return bool Parameters are valid
      */
-    public function dehydrate(Part $part);
-
-    /**
-     * Translate data to a file part
-     *
-     * @param string $data Part data
-     * @return Part File part
-     */
-    public function hydrate($data);
-
-    /**
-     * Return the part name
-     *
-     * @return string Part name
-     */
-    public function getName();
+    abstract public static function validateParameters(...$parameters);
 }

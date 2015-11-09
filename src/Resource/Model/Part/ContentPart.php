@@ -33,37 +33,39 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
-
-use Apparat\Resource\Model\Part\Part;
+namespace Apparat\Resource\Model\Part;
 
 /**
- * File hydrator interface
+ * Content part
  *
- * @package Apparat\Resource\Model\Hydrator
+ * @package Apparat\Resource\Model\Part
  */
-interface Hydrator
+class ContentPart implements Part
 {
     /**
-     * Serialize a file part
+     * Text content
      *
-     * @param Part $part File part
-     * @return string Serialized file part
+     * @var string
      */
-    public function dehydrate(Part $part);
+    protected $_content = '';
 
     /**
-     * Translate data to a file part
+     * Part constructor
      *
-     * @param string $data Part data
-     * @return Part File part
+     * @param string $content Part content
      */
-    public function hydrate($data);
+    public function __construct($content = '')
+    {
+        $this->_content = $content;
+    }
 
     /**
-     * Return the part name
+     * Serialize this file part
      *
-     * @return string Part name
+     * @return string   File part content
      */
-    public function getName();
+    public function __toString()
+    {
+        return strval($this->_content);
+    }
 }
