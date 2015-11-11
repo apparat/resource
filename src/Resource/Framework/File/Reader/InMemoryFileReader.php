@@ -33,69 +33,42 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
+namespace Apparat\Resource\Framework\File\Reader;
 
 
-class InvalidArgumentException extends \InvalidArgumentException
+use Apparat\Resource\Model\File\FileReader;
+
+/**
+ * In-memory file reader
+ *
+ * @package Apparat\Resource\Framework\File\Reader
+ */
+class InMemoryFileReader implements FileReader
 {
     /**
-     * Invalid hydrator configuration
+     * File data
      *
-     * @var int
+     * @var string
      */
-    const INVALID_HYDRATOR_CONFIGURATION = 1447019565;
+    protected $_data = '';
+
     /**
-     * Invalid hydrator content model
+     * Constructor
      *
-     * @var int
+     * @param string $data File data
      */
-    const INVALID_HYDRATOR_CONTENT_MODEL = 1447020287;
+    public function __construct($data)
+    {
+        $this->_data = $data;
+    }
+
     /**
-     * Missing multipart hydrator
+     * Read the file content
      *
-     * @var int
+     * @return string File content
      */
-    const MISSING_MULTIPART_HYDRATOR = 1447107537;
-    /**
-     * Invalid single part hydrator class
-     *
-     * @var int
-     */
-    const INVALID_SINGLEPART_HYDRATOR_CLASS = 1447110065;
-    /**
-     * Invalid multipart hydrator class
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_HYDRATOR_CLASS = 1447107792;
-    /**
-     * Invalid multipart hydrator parameters
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_HYDRATOR_PARAMETERS = 1447109790;
-    /**
-     * Invalid minimum occurrences
-     *
-     * @var int
-     */
-    const INVALID_MINIMUM_OCCURRENCES = 1447021191;
-    /**
-     * Invalid maximum occurrences
-     *
-     * @var int
-     */
-    const INVALID_MAXIMUM_OCCURRENCES = 1447021211;
-    /**
-     * Invalid part configuration
-     *
-     * @var int
-     */
-    const INVALID_PART_CONFIGURATION = 1447021916;
-    /**
-     * Invalid part class
-     *
-     * @var int
-     */
-    const INVALID_PART_CLASS = 1447022020;
+    public function read()
+    {
+        return $this->_data;
+    }
 }

@@ -40,8 +40,15 @@ namespace Apparat\Resource\Model\Part;
  *
  * @package Apparat\Resource\Model\Part
  */
-class ContentPart implements Part
+abstract class ContentPart implements Part
 {
+    /**
+     * Mime type
+     *
+     * @var string
+     */
+    const MIME_TYPE = 'application/octet-stream';
+
     /**
      * Text content
      *
@@ -67,5 +74,15 @@ class ContentPart implements Part
     public function __toString()
     {
         return strval($this->_content);
+    }
+
+    /**
+     * Return the mime type of this part
+     *
+     * @return string
+     */
+    public function getMimeType()
+    {
+        return static::MIME_TYPE;
     }
 }

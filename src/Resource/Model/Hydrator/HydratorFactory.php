@@ -58,6 +58,10 @@ class HydratorFactory
             throw new InvalidArgumentException('Invalid hydrator configuration',
                 InvalidArgumentException::INVALID_CONTENT_MODEL_CONFIGURATION);
 
+            // Else if it's the short instanciation notation
+        } elseif (is_string($config[0]) && is_subclass_of($config[0], SinglepartHydrator::class)) {
+            $config[0] = array(Hydrator::STANDARD => $config[0]);
+
             // Else: Make sure the content model is an array
         } elseif (!is_array($config[0]) || !count($config[0])) {
             throw new InvalidArgumentException('Invalid hydrator content model',
@@ -94,34 +98,17 @@ class HydratorFactory
             // Else
         } else {
             reset($config[0]);
-            $simplepartName = trim(key($config[0]));
-            $simplepartHydrator = trim(current($config[0]));
+            $singlepartName = trim(key($config[0]));
+            $singlepartHydrator = trim(current($config[0]));
 
             // If it's not a valid simple part hydrator
-            if (!($simplepartHydrator instanceof SimplepartHydrator)) {
-                throw new InvalidArgumentException(sprintf('Invalid simple part hydrator class "%s"', $simplepartHydrator),
-                    InvalidArgumentException::INVALID_SIMPLEPART_HYDRATOR_CLASS);
+            if (!is_subclass_of($singlepartHydrator, SinglepartHydrator::class)) {
+                throw new InvalidArgumentException(sprintf('Invalid single part hydrator class "%s"', $singlepartHydrator),
+                    InvalidArgumentException::INVALID_SINGLEPART_HYDRATOR_CLASS);
             }
 
             // Instanciate the simple hydrator
-            return new $simplepartHydrator($simplepartName);
+            return new $singlepartHydrator($singlepartName);
         }
-
-
-        // Add the sequence model as default
-        if (count($config) < 2) {
-            $config[1] = Sequence::class;
-
-            // Else: Make sure it's a valid content model
-        } elseif (!strlen($config[1]) || !($config[1] instanceof self)) {
-            throw new InvalidArgumentException(sprintf('Invalid content model class "%s"', $config[1]),
-                InvalidArgumentException::INVALID_CONTENT_MODEL_CLASS);
-        }
-
-        // Add 1 as default minimum and maximum occurences
-        $config = array_pad($config, 4, 1);
-
-        // Instanciate and return the content model class
-        return new $config[1]($config[0], $config[2], $config[3]);
     }
 }

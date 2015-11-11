@@ -42,5 +42,10 @@ namespace Apparat\Resource\Model\File;
  */
 interface FileReader
 {
-
+    /**
+     * Read the file content
+     *
+     * @return string File content
+     */
+    public function read();
 }

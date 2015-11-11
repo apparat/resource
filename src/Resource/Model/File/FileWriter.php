@@ -42,5 +42,11 @@ namespace Apparat\Resource\Model\File;
  */
 interface FileWriter
 {
-
+    /**
+     * Write data
+     *
+     * @param string $data Data to write
+     * @return int Bytes written
+     */
+    public function write($data);
 }

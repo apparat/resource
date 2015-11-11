@@ -55,4 +55,11 @@ interface Part
      * @return string   File part content
      */
     public function __toString();
+
+    /**
+     * Return the mime type of this part
+     *
+     * @return string
+     */
+    public function getMimeType();
 }

@@ -33,69 +33,40 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
+namespace Apparat\Resource\Framework\Hydrator;
 
 
-class InvalidArgumentException extends \InvalidArgumentException
+use Apparat\Resource\Framework\Part\TextPart;
+use Apparat\Resource\Model\Hydrator\SinglepartHydrator;
+use Apparat\Resource\Model\Part\Part;
+
+/**
+ * Text part hydrator
+ *
+ * @package Apparat\Resource\Framework\Hydrator
+ */
+class TextHydrator extends SinglepartHydrator
 {
+
     /**
-     * Invalid hydrator configuration
+     * Serialize a file part
      *
-     * @var int
+     * @param TextPart $part File part
+     * @return string Serialized file part
      */
-    const INVALID_HYDRATOR_CONFIGURATION = 1447019565;
+    public function dehydrate(Part $part)
+    {
+        return strval($part);
+    }
+
     /**
-     * Invalid hydrator content model
+     * Translate data to a file part
      *
-     * @var int
+     * @param string $data Part data
+     * @return TextPart File part
      */
-    const INVALID_HYDRATOR_CONTENT_MODEL = 1447020287;
-    /**
-     * Missing multipart hydrator
-     *
-     * @var int
-     */
-    const MISSING_MULTIPART_HYDRATOR = 1447107537;
-    /**
-     * Invalid single part hydrator class
-     *
-     * @var int
-     */
-    const INVALID_SINGLEPART_HYDRATOR_CLASS = 1447110065;
-    /**
-     * Invalid multipart hydrator class
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_HYDRATOR_CLASS = 1447107792;
-    /**
-     * Invalid multipart hydrator parameters
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_HYDRATOR_PARAMETERS = 1447109790;
-    /**
-     * Invalid minimum occurrences
-     *
-     * @var int
-     */
-    const INVALID_MINIMUM_OCCURRENCES = 1447021191;
-    /**
-     * Invalid maximum occurrences
-     *
-     * @var int
-     */
-    const INVALID_MAXIMUM_OCCURRENCES = 1447021211;
-    /**
-     * Invalid part configuration
-     *
-     * @var int
-     */
-    const INVALID_PART_CONFIGURATION = 1447021916;
-    /**
-     * Invalid part class
-     *
-     * @var int
-     */
-    const INVALID_PART_CLASS = 1447022020;
+    public function hydrate($data)
+    {
+        return new TextPart($data);
+    }
 }

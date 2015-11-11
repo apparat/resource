@@ -33,69 +33,17 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
+namespace Apparat\Resource\Framework\File;
 
 
-class InvalidArgumentException extends \InvalidArgumentException
+use Apparat\Resource\Model\File\File;
+
+/**
+ * Text file
+ *
+ * @package Apparat\Resource\Framework\File
+ */
+class TextFile extends File
 {
-    /**
-     * Invalid hydrator configuration
-     *
-     * @var int
-     */
-    const INVALID_HYDRATOR_CONFIGURATION = 1447019565;
-    /**
-     * Invalid hydrator content model
-     *
-     * @var int
-     */
-    const INVALID_HYDRATOR_CONTENT_MODEL = 1447020287;
-    /**
-     * Missing multipart hydrator
-     *
-     * @var int
-     */
-    const MISSING_MULTIPART_HYDRATOR = 1447107537;
-    /**
-     * Invalid single part hydrator class
-     *
-     * @var int
-     */
-    const INVALID_SINGLEPART_HYDRATOR_CLASS = 1447110065;
-    /**
-     * Invalid multipart hydrator class
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_HYDRATOR_CLASS = 1447107792;
-    /**
-     * Invalid multipart hydrator parameters
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_HYDRATOR_PARAMETERS = 1447109790;
-    /**
-     * Invalid minimum occurrences
-     *
-     * @var int
-     */
-    const INVALID_MINIMUM_OCCURRENCES = 1447021191;
-    /**
-     * Invalid maximum occurrences
-     *
-     * @var int
-     */
-    const INVALID_MAXIMUM_OCCURRENCES = 1447021211;
-    /**
-     * Invalid part configuration
-     *
-     * @var int
-     */
-    const INVALID_PART_CONFIGURATION = 1447021916;
-    /**
-     * Invalid part class
-     *
-     * @var int
-     */
-    const INVALID_PART_CLASS = 1447022020;
+
 }

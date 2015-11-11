@@ -33,69 +33,42 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
+namespace Apparat\Resource\Framework\File\Writer;
 
 
-class InvalidArgumentException extends \InvalidArgumentException
+use Apparat\Resource\Model\File\FileWriter;
+
+/**
+ * In-memory file writer
+ *
+ * @package Apparat\Resource\Framework\File\Writer
+ */
+class InMemoryFileWriter implements FileWriter
 {
     /**
-     * Invalid hydrator configuration
+     * File data
      *
-     * @var int
+     * @var string
      */
-    const INVALID_HYDRATOR_CONFIGURATION = 1447019565;
+    protected $_data = '';
+
     /**
-     * Invalid hydrator content model
+     * Write data
      *
-     * @var int
+     * @param string $data Data to write
+     * @return int Bytes written
      */
-    const INVALID_HYDRATOR_CONTENT_MODEL = 1447020287;
+    public function write($data)
+    {
+        $this->_data = $data;
+        return strlen($data);
+    }
+
     /**
-     * Missing multipart hydrator
+     * Return the in-memory data
      *
-     * @var int
+     * @return string in-memory data
      */
-    const MISSING_MULTIPART_HYDRATOR = 1447107537;
-    /**
-     * Invalid single part hydrator class
-     *
-     * @var int
-     */
-    const INVALID_SINGLEPART_HYDRATOR_CLASS = 1447110065;
-    /**
-     * Invalid multipart hydrator class
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_HYDRATOR_CLASS = 1447107792;
-    /**
-     * Invalid multipart hydrator parameters
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_HYDRATOR_PARAMETERS = 1447109790;
-    /**
-     * Invalid minimum occurrences
-     *
-     * @var int
-     */
-    const INVALID_MINIMUM_OCCURRENCES = 1447021191;
-    /**
-     * Invalid maximum occurrences
-     *
-     * @var int
-     */
-    const INVALID_MAXIMUM_OCCURRENCES = 1447021211;
-    /**
-     * Invalid part configuration
-     *
-     * @var int
-     */
-    const INVALID_PART_CONFIGURATION = 1447021916;
-    /**
-     * Invalid part class
-     *
-     * @var int
-     */
-    const INVALID_PART_CLASS = 1447022020;
+    public function getData() {
+        return $this->_data;    }
 }

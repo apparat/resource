@@ -35,7 +35,6 @@
 
 namespace Apparat\Resource\Model\File;
 
-use Apparat\Resource\Model\Content\ContentModel;
 use Apparat\Resource\Model\Hydrator\Hydrator;
 use Apparat\Resource\Model\Resource;
 
@@ -44,7 +43,7 @@ use Apparat\Resource\Model\Resource;
  *
  * @package Apparat\Resource\Model\File
  */
-class File extends Resource
+abstract class File extends Resource
 {
     /**
      * Reader instance
@@ -59,12 +58,6 @@ class File extends Resource
      */
     protected $_writer = null;
     /**
-     * Content model
-     *
-     * @var ContentModel
-     */
-    private $_contentModel;
-    /**
      * File hydrator
      *
      * @var Hydrator
@@ -78,14 +71,12 @@ class File extends Resource
     /**
      * Private constructor
      *
-     * @param ContentModel $contentModel Content model
      * @param Hydrator $hydrator File hydrator
      * @param FileReader $reader File reader instance
      * @param FileWriter $writer File writer instance
      */
-    public function __construct(ContentModel $contentModel, Hydrator $hydrator, FileReader $reader = null, FileWriter $writer = null)
+    public function __construct(Hydrator $hydrator, FileReader $reader = null, FileWriter $writer = null)
     {
-        $this->_contentModel = $contentModel;
         $this->_hydrator = $hydrator;
         $this->setReader($reader);
         $this->setWriter($writer);

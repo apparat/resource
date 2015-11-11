@@ -33,69 +33,51 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
+namespace ApparatTest;
 
+use Apparat\Resource\Framework\File\Reader\InMemoryFileReader;
+use Apparat\Resource\Framework\File\TextFile;
+use Apparat\Resource\Framework\File\Writer\InMemoryFileWriter;
+use Apparat\Resource\Framework\Hydrator\TextHydrator;
+use Apparat\Resource\Model\Hydrator\HydratorFactory;
 
-class InvalidArgumentException extends \InvalidArgumentException
+/**
+ * Text file tests
+ *
+ * @package ApparatTest
+ */
+class TextTest extends TestBase
 {
     /**
-     * Invalid hydrator configuration
+     * Example text data
      *
-     * @var int
+     * @var array
      */
-    const INVALID_HYDRATOR_CONFIGURATION = 1447019565;
+    protected $_text = null;
+
     /**
-     * Invalid hydrator content model
+     * Example text file
      *
-     * @var int
+     * @var string
      */
-    const INVALID_HYDRATOR_CONTENT_MODEL = 1447020287;
+    const TXT_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'cc0.txt';
+
     /**
-     * Missing multipart hydrator
-     *
-     * @var int
+     * Sets up the fixture
      */
-    const MISSING_MULTIPART_HYDRATOR = 1447107537;
-    /**
-     * Invalid single part hydrator class
-     *
-     * @var int
-     */
-    const INVALID_SINGLEPART_HYDRATOR_CLASS = 1447110065;
-    /**
-     * Invalid multipart hydrator class
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_HYDRATOR_CLASS = 1447107792;
-    /**
-     * Invalid multipart hydrator parameters
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_HYDRATOR_PARAMETERS = 1447109790;
-    /**
-     * Invalid minimum occurrences
-     *
-     * @var int
-     */
-    const INVALID_MINIMUM_OCCURRENCES = 1447021191;
-    /**
-     * Invalid maximum occurrences
-     *
-     * @var int
-     */
-    const INVALID_MAXIMUM_OCCURRENCES = 1447021211;
-    /**
-     * Invalid part configuration
-     *
-     * @var int
-     */
-    const INVALID_PART_CONFIGURATION = 1447021916;
-    /**
-     * Invalid part class
-     *
-     * @var int
-     */
-    const INVALID_PART_CLASS = 1447022020;
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->_text = file_get_contents(self::TXT_FILE);
+    }
+
+    public function testTextFile()
+    {
+        $textFile = new TextFile(
+            HydratorFactory::build([TextHydrator::class]),
+            new InMemoryFileReader($this->_text),
+            new InMemoryFileWriter()
+        );
+        print_r($textFile);
+    }
 }

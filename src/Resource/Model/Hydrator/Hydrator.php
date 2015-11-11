@@ -45,6 +45,12 @@ use Apparat\Resource\Model\Part\Part;
 interface Hydrator
 {
     /**
+     * Default hydrator name
+     *
+     * @var string
+     */
+    const STANDARD = 'standard';
+    /**
      * Serialize a file part
      *
      * @param Part $part File part

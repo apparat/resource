@@ -33,69 +33,34 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
+namespace ApparatTest;
 
+use Apparat\Resource\Framework\Hydrator\TextHydrator;
+use Apparat\Resource\Model\Hydrator\Hydrator;
+use Apparat\Resource\Model\Hydrator\HydratorFactory;
 
-class InvalidArgumentException extends \InvalidArgumentException
+/**
+ * Hydrator tests
+ *
+ * @package ApparatTest
+ */
+class HydratorTest extends TestBase
 {
     /**
-     * Invalid hydrator configuration
-     *
-     * @var int
+     * Test the text hydrator (short form)
      */
-    const INVALID_HYDRATOR_CONFIGURATION = 1447019565;
+    public function testTextHydratorShort()
+    {
+        $textHydrator = HydratorFactory::build([TextHydrator::class]);
+        $this->assertInstanceOf(TextHydrator::class, $textHydrator);
+    }
+
     /**
-     * Invalid hydrator content model
-     *
-     * @var int
+     * Test the text hydrator (verbose form)
      */
-    const INVALID_HYDRATOR_CONTENT_MODEL = 1447020287;
-    /**
-     * Missing multipart hydrator
-     *
-     * @var int
-     */
-    const MISSING_MULTIPART_HYDRATOR = 1447107537;
-    /**
-     * Invalid single part hydrator class
-     *
-     * @var int
-     */
-    const INVALID_SINGLEPART_HYDRATOR_CLASS = 1447110065;
-    /**
-     * Invalid multipart hydrator class
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_HYDRATOR_CLASS = 1447107792;
-    /**
-     * Invalid multipart hydrator parameters
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_HYDRATOR_PARAMETERS = 1447109790;
-    /**
-     * Invalid minimum occurrences
-     *
-     * @var int
-     */
-    const INVALID_MINIMUM_OCCURRENCES = 1447021191;
-    /**
-     * Invalid maximum occurrences
-     *
-     * @var int
-     */
-    const INVALID_MAXIMUM_OCCURRENCES = 1447021211;
-    /**
-     * Invalid part configuration
-     *
-     * @var int
-     */
-    const INVALID_PART_CONFIGURATION = 1447021916;
-    /**
-     * Invalid part class
-     *
-     * @var int
-     */
-    const INVALID_PART_CLASS = 1447022020;
+    public function testTextHydratorVerbose()
+    {
+        $textHydrator = HydratorFactory::build([[Hydrator::STANDARD => TextHydrator::class]]);
+        $this->assertInstanceOf(TextHydrator::class, $textHydrator);
+    }
 }

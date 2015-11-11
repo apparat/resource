@@ -33,17 +33,22 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
+namespace Apparat\Resource\Framework\Part;
+
 
 use Apparat\Resource\Model\Part\ContentPart;
-use Apparat\Resource\Model\Part\Part;
 
 /**
- * Abstract hydrator
+ * Text file part
  *
- * @package Apparat\Resource\Model\Hydrator
+ * @package Apparat\Resource\Framework\Part
  */
-abstract class SimplepartHydrator extends AbstractHydrator
+class TextPart extends ContentPart
 {
-
+    /**
+     * Mime type
+     *
+     * @var string
+     */
+    const MIME_TYPE = 'plain/text';
 }
