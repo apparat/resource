@@ -36,14 +36,29 @@
 namespace Apparat\Resource\Framework\File;
 
 
+use Apparat\Resource\Framework\Hydrator\TextHydrator;
 use Apparat\Resource\Model\File\File;
+use Apparat\Resource\Model\Reader;
+use Apparat\Resource\Model\Writer;
 
 /**
  * Text file
  *
  * @package Apparat\Resource\Framework\File
+ * @method TextFile set() set(string $data, string $part = '/') Set the content of the file
+ * @method TextFile append() append(string $data, string $part = '/') Append content to the file
+ * @method TextFile prepend() prepend(string $data, string $part = '/') Prepend content to the file
  */
 class TextFile extends File
 {
-
+    /**
+     * Text file constuctor
+     *
+     * @param Reader $reader Reader instance
+     * @param Writer $writer Writer instance
+     */
+    public function __construct(Reader $reader = null, Writer $writer = null)
+    {
+        parent::__construct($reader, $writer, TextHydrator::class);
+    }
 }

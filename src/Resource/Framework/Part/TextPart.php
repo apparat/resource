@@ -51,4 +51,26 @@ class TextPart extends ContentPart
      * @var string
      */
     const MIME_TYPE = 'plain/text';
+
+    /**
+     * Append content to this part
+     *
+     * @param string $data Contents
+     * @param array $subparts Subpart path identifier
+     */
+    public function append($data, array $subparts)
+    {
+        return $this->set($this->_content.$data, $subparts);
+    }
+
+    /**
+     * Prepend content to this part
+     *
+     * @param string $data Contents
+     * @param array $subparts Subpart path identifier
+     */
+    public function prepend($data, array $subparts)
+    {
+        return $this->set($data.$this->_content, $subparts);
+    }
 }

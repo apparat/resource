@@ -35,6 +35,8 @@
 
 namespace Apparat\Resource\Model\Hydrator;
 
+use Apparat\Resource\Model\Part\InvalidArgumentException;
+
 /**
  * Multipart hydrator
  *
@@ -43,10 +45,17 @@ namespace Apparat\Resource\Model\Hydrator;
 abstract class MultipartHydrator extends AbstractHydrator
 {
     /**
-     * Validate a set of hydrator parameters
+     * Multipart hydrator constructor
      *
-     * @param array $parameters Hydrator parameters
-     * @return bool Parameters are valid
+     * @param array $subpartHydrators Subpart hydrators
+     * @param int $minOccurs Minimum occurrences
+     * @param int $maxOccurs Maximum occurences
+     * @throws InvalidArgumentException If a part path identifier is invalid
      */
-    abstract public static function validateParameters(...$parameters);
+    public function __construct(array $subpartHydrators, $minOccurs = 1, $maxOccurs = 1)
+    {
+        parent::__construct(Hydrator::STANDARD);
+        // TODO: Implement
+        // InvalidArgumentException::INVALID_PART_IDENTIFIER
+    }
 }

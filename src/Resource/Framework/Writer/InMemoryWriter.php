@@ -33,17 +33,16 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\File\Reader;
+namespace Apparat\Resource\Framework\Writer;
 
-
-use Apparat\Resource\Model\File\FileReader;
+use Apparat\Resource\Model\Writer;
 
 /**
- * In-memory file reader
+ * In-memory writer
  *
- * @package Apparat\Resource\Framework\File\Reader
+ * @package Apparat\Resource\Framework\Writer
  */
-class InMemoryFileReader implements FileReader
+class InMemoryWriter implements Writer
 {
     /**
      * File data
@@ -53,21 +52,23 @@ class InMemoryFileReader implements FileReader
     protected $_data = '';
 
     /**
-     * Constructor
+     * Write data
      *
-     * @param string $data File data
+     * @param string $data Data to write
+     * @return int Bytes written
      */
-    public function __construct($data)
+    public function write($data)
     {
         $this->_data = $data;
+        return strlen($data);
     }
 
     /**
-     * Read the file content
+     * Return the in-memory data
      *
-     * @return string File content
+     * @return string in-memory data
      */
-    public function read()
+    public function getData()
     {
         return $this->_data;
     }

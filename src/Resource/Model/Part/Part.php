@@ -57,6 +57,15 @@ interface Part
     public function __toString();
 
     /**
+     * Set the contents of a this part
+     *
+     * @param mixed $data Contents
+     * @param array $subparts Subpart path identifiers
+     * @return Part Modified part
+     */
+    public function set($data, array $subparts);
+
+    /**
      * Return the mime type of this part
      *
      * @return string

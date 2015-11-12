@@ -35,11 +35,9 @@
 
 namespace ApparatTest;
 
-use Apparat\Resource\Framework\File\Reader\InMemoryFileReader;
 use Apparat\Resource\Framework\File\TextFile;
-use Apparat\Resource\Framework\File\Writer\InMemoryFileWriter;
-use Apparat\Resource\Framework\Hydrator\TextHydrator;
-use Apparat\Resource\Model\Hydrator\HydratorFactory;
+use Apparat\Resource\Framework\Reader\InMemoryReader;
+use Apparat\Resource\Framework\Writer\InMemoryWriter;
 
 /**
  * Text file tests
@@ -74,10 +72,10 @@ class TextTest extends TestBase
     public function testTextFile()
     {
         $textFile = new TextFile(
-            HydratorFactory::build([TextHydrator::class]),
-            new InMemoryFileReader($this->_text),
-            new InMemoryFileWriter()
+            new InMemoryReader($this->_text),
+            new InMemoryWriter()
         );
+        $textFile->set('HALLO')->append(' Joschi');
         print_r($textFile);
     }
 }

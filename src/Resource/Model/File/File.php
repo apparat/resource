@@ -36,7 +36,12 @@
 namespace Apparat\Resource\Model\File;
 
 use Apparat\Resource\Model\Hydrator\Hydrator;
+use Apparat\Resource\Model\Hydrator\HydratorFactory;
+use Apparat\Resource\Model\Part\InvalidArgumentException;
+use Apparat\Resource\Model\Part\Part;
+use Apparat\Resource\Model\Reader;
 use Apparat\Resource\Model\Resource;
+use Apparat\Resource\Model\Writer;
 
 /**
  * File
@@ -46,15 +51,22 @@ use Apparat\Resource\Model\Resource;
 abstract class File extends Resource
 {
     /**
+     * Part or part aggregate
+     *
+     * @var Part
+     */
+    protected $_part = null;
+
+    /**
      * Reader instance
      *
-     * @var FileReader
+     * @var Reader
      */
     protected $_reader = null;
     /**
      * Writer instance
      *
-     * @var FileWriter
+     * @var Writer
      */
     protected $_writer = null;
     /**
@@ -69,36 +81,110 @@ abstract class File extends Resource
      *******************************************************************************/
 
     /**
+     * Set the file reader instance
+     *
+     * @param Reader|null $reader File reader instance
+     */
+    public function setReader(Reader $reader = null)
+    {
+        $this->_reset();
+        $this->_reader = $reader;
+        $this->_part = $this->_hydrator->hydrate(($this->_reader instanceof Reader) ? $this->_reader->read() : '');
+    }
+
+    /**
+     * Set the file writer instance
+     *
+     * @param Writer|null $writer File writer instance
+     */
+    public function setWriter(Writer $writer = null)
+    {
+        $this->_writer = $writer;
+    }
+
+    /**
+     * Set the content of a particular part
+     *
+     * @param mixed $data Content
+     * @param string $part Part path
+     * @return File Self reference
+     */
+    public function set($data, $part = '/')
+    {
+        $this->_part = $this->_part->set($data, $this->_partPath($part));
+        return $this;
+    }
+
+    /**
+     * Magic caller for part methods
+     *
+     * @param string $name Part method name
+     * @param array $arguments Part method arguments
+     * @return File Self reference
+     */
+    public function __call($name, array $arguments)
+    {
+        if (@is_callable(array($this->_part, $name))) {
+            $data = (count($arguments) > 0) ? $arguments[0] : '';
+            $path = $this->_partPath((count($arguments) > 1) ? $arguments[1] : '/');
+            $this->_part = call_user_func(array($this->_part, $name), $data, $path);
+            return $this;
+        } else {
+            throw new InvalidArgumentException(sprintf('Invalid part method "%s%"', $name),
+                InvalidArgumentException::INVALID_PART_METHOD);
+        }
+    }
+
+    /*******************************************************************************
+     * PRIVATE METHODS
+     *******************************************************************************/
+
+
+    /**
      * Private constructor
      *
-     * @param Hydrator $hydrator File hydrator
-     * @param FileReader $reader File reader instance
-     * @param FileWriter $writer File writer instance
+     * @param Reader $reader Reader instance
+     * @param Writer $writer Writer instance
+     * @param Hydrator|array|string $hydrator File hydrator
      */
-    public function __construct(Hydrator $hydrator, FileReader $reader = null, FileWriter $writer = null)
+    protected function __construct(Reader $reader = null, Writer $writer = null, $hydrator)
     {
+        // If the hydrator needs to be instancianted from a string or array
+        if (!($hydrator instanceof Hydrator)) {
+            $hydrator = HydratorFactory::build((array)$hydrator);
+        }
+
         $this->_hydrator = $hydrator;
         $this->setReader($reader);
         $this->setWriter($writer);
     }
 
     /**
-     * Set the file reader instance
+     * Reset the file
      *
-     * @param FileReader|null $reader File reader instance
+     * @return void
      */
-    public function setReader(FileReader $reader = null)
+    protected function _reset()
     {
-        $this->_reader = $reader;
+        $this->_part = null;
     }
 
     /**
-     * Set the file writer instance
+     * Split a part path string into path identifiers
      *
-     * @param FileWriter|null $writer File writer instance
+     * @param string $path Part path string
+     * @return array Part path identifiers
+     * @throws InvalidArgumentException If an invalid path part identifier is found
      */
-    public function setWriter(FileWriter $writer = null)
+    protected function _partPath($path)
     {
-        $this->_writer = $writer;
+        return (trim($path) == '/') ? [] : array_map(function ($pathIdentifier) {
+            $pathIdentifier = trim($pathIdentifier);
+            if (!preg_match("%^[a-z0-9\_]+$%i", $pathIdentifier)) {
+                throw new InvalidArgumentException(sprintf('Invalid part path identifier "%s"', $pathIdentifier),
+                    InvalidArgumentException::INVALID_PART_IDENTIFIER);
+            }
+            return $pathIdentifier;
+        }, explode('/', ltrim('/', $path)));
     }
 }

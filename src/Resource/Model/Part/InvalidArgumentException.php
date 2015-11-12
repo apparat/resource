@@ -36,71 +36,28 @@
 namespace Apparat\Resource\Model\Part;
 
 /**
- * Content part
+ * Invalid part argument exception
  *
  * @package Apparat\Resource\Model\Part
  */
-abstract class ContentPart implements Part
+class InvalidArgumentException extends \InvalidArgumentException
 {
     /**
-     * Mime type
+     * Invalid part identifier
      *
-     * @var string
+     * @var int
      */
-    const MIME_TYPE = 'application/octet-stream';
-
+    const INVALID_PART_IDENTIFIER = 1447364401;
     /**
-     * Text content
+     * Subparts are not allowed
      *
-     * @var string
+     * @var int
      */
-    protected $_content = '';
-
+    const SUBPARTS_NOT_ALLOWED = 1447365624;
     /**
-     * Part constructor
+     * Invalid part method
      *
-     * @param string $content Part content
+     * @var int
      */
-    public function __construct($content = '')
-    {
-        $this->_content = $content;
-    }
-
-    /**
-     * Serialize this file part
-     *
-     * @return string   File part content
-     */
-    public function __toString()
-    {
-        return strval($this->_content);
-    }
-
-    /**
-     * Return the mime type of this part
-     *
-     * @return string
-     */
-    public function getMimeType()
-    {
-        return static::MIME_TYPE;
-    }
-
-    /**
-     * Set the contents of this part
-     *
-     * @param string $data Contents
-     * @param array $subparts Subpart path identifier
-     * @throws InvalidArgumentException If there are subpart identifiers given
-     */
-    public function set($data, array $subparts)
-    {
-        // If there are subpart identifiers given
-        if (count($subparts)) {
-            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)), InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
-        }
-
-        $class = get_class($this);
-        return new $class($data);
-    }
+    const INVALID_PART_METHOD = 1447366704;
 }
