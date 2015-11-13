@@ -37,6 +37,7 @@ namespace ApparatTest;
 
 use Apparat\Resource\Framework\File\TextFile;
 use Apparat\Resource\Framework\Part\TextPart;
+use Apparat\Resource\Framework\Reader\InMemoryReader;
 use Apparat\Resource\Model\File\RuntimeException;
 
 /**
@@ -77,6 +78,25 @@ class TextTest extends TestBase
         $textFile = new TextFile();
         $this->assertInstanceOf(TextFile::class, $textFile);
         $this->assertEquals(TextPart::MIME_TYPE, $textFile->getMimeTypePart());
+    }
+
+    /**
+     * Test the text file constructor with reader
+     */
+    public function testTextFileReader()
+    {
+        $textFile = new TextFile(new InMemoryReader($this->_text));
+        $this->assertEquals($this->_text, $textFile->getPart());
+    }
+
+    /**
+     * Test the text file constructor with explicit loading
+     */
+    public function testTextFileLoad()
+    {
+        $textFile = new TextFile();
+        $textFile->load(new InMemoryReader($this->_text));
+        $this->assertEquals($this->_text, $textFile->getPart());
     }
 
     /**
@@ -139,12 +159,36 @@ class TextTest extends TestBase
     }
 
     /**
-     * Test an unallowed subparts
+     * Test setting the content of a text filean unallowed subparts
      *
      * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
      * @expectedExceptionCode 1447365624
      */
-    public function testTextFileSubpartsNotAllowed()
+    public function testTextFileSetSubparts()
+    {
+        $textFile = new TextFile();
+        $textFile->setPart(md5(rand()), 'a/b/c');
+    }
+
+    /**
+     * Test appending to the content of a text filean unallowed subparts
+     *
+     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+     * @expectedExceptionCode 1447365624
+     */
+    public function testTextFileAppendSubparts()
+    {
+        $textFile = new TextFile();
+        $textFile->appendPart(md5(rand()), 'a/b/c');
+    }
+
+    /**
+     * Test getting the content of a text filean unallowed subparts
+     *
+     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+     * @expectedExceptionCode 1447365624
+     */
+    public function testTextFileGetSubparts()
     {
         $textFile = new TextFile();
         $textFile->getPart('a/b/c');

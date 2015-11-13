@@ -183,8 +183,8 @@ abstract class File extends Resource
         $this->_hydrator = $hydrator;
 
         // Register the reader if available
-        if ($this->_reader instanceof Reader) {
-            $this->load($this->_reader);
+        if ($reader instanceof Reader) {
+            $this->load($reader);
         }
     }
 
