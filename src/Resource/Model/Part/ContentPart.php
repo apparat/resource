@@ -116,7 +116,7 @@ abstract class ContentPart implements Part
      * Return the parts content
      *
      * @param array $subparts Subpart path identifiers
-     * @return string Part content
+     * @return ContentPart Self reference
      * @throws InvalidArgumentException If there are subpart identifiers given
      */
     public function get(array $subparts)
@@ -127,6 +127,6 @@ abstract class ContentPart implements Part
                 InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
         }
 
-        return strval($this);
+        return $this;
     }
 }

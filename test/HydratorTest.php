@@ -132,4 +132,13 @@ class HydratorTest extends TestBase
         $textHydrator = HydratorFactory::build([[Hydrator::STANDARD => TextHydrator::class]]);
         $this->assertInstanceOf(TextHydrator::class, $textHydrator);
     }
+
+    /**
+     * Test the text hydrator name
+     */
+    public function testTextHydratorName()
+    {
+        $textHydrator = HydratorFactory::build([[Hydrator::STANDARD => TextHydrator::class]]);
+        $this->assertEquals(Hydrator::STANDARD, $textHydrator->getName());
+    }
 }

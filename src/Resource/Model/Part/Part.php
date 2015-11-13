@@ -69,7 +69,7 @@ interface Part
      * Return the parts content
      *
      * @param array $subparts Subpart path identifiers
-     * @return string Part content
+     * @return Part Self reference
      */
     public function get(array $subparts);
 

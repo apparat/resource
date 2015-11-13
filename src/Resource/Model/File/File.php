@@ -120,7 +120,9 @@ abstract class File extends Resource
      */
     public function getPart($part = '/')
     {
-        return $this->_part()->get($this->_partPath($part));
+        $partPath = $this->_partPath($part);
+        $part = $this->_part()->get($partPath);
+        return $this->_hydrator->getSub($partPath)->dehydrate($part);
     }
 
     /**

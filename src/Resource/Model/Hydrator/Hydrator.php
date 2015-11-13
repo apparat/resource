@@ -50,6 +50,7 @@ interface Hydrator
      * @var string
      */
     const STANDARD = 'standard';
+
     /**
      * Serialize a file part
      *
@@ -72,4 +73,12 @@ interface Hydrator
      * @return string Part name
      */
     public function getName();
+
+    /**
+     * Get a subhydrator
+     *
+     * @param array $subparts Subpart path
+     * @return Hydrator Subhydrator
+     */
+    public function getSub(array $subparts);
 }
