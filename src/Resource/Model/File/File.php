@@ -95,7 +95,7 @@ abstract class File extends Resource
      */
     public function dump(Writer $writer)
     {
-        $writer->write($this->get());
+        $writer->write($this->getPart('/'));
         return $this;
     }
 

@@ -38,6 +38,7 @@ namespace ApparatTest;
 use Apparat\Resource\Framework\File\TextFile;
 use Apparat\Resource\Framework\Part\TextPart;
 use Apparat\Resource\Framework\Reader\InMemoryReader;
+use Apparat\Resource\Framework\Writer\InMemoryWriter;
 use Apparat\Resource\Model\File\RuntimeException;
 
 /**
@@ -159,7 +160,7 @@ class TextTest extends TestBase
     }
 
     /**
-     * Test setting the content of a text filean unallowed subparts
+     * Test setting the content of a text file with unallowed subparts
      *
      * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
      * @expectedExceptionCode 1447365624
@@ -171,7 +172,7 @@ class TextTest extends TestBase
     }
 
     /**
-     * Test appending to the content of a text filean unallowed subparts
+     * Test appending to the content of a text file with unallowed subparts
      *
      * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
      * @expectedExceptionCode 1447365624
@@ -183,7 +184,7 @@ class TextTest extends TestBase
     }
 
     /**
-     * Test getting the content of a text filean unallowed subparts
+     * Test getting the content of a text file with unallowed subparts
      *
      * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
      * @expectedExceptionCode 1447365624
@@ -192,5 +193,29 @@ class TextTest extends TestBase
     {
         $textFile = new TextFile();
         $textFile->getPart('a/b/c');
+    }
+
+    /**
+     * Test getting the MIME type of a text file with unallowed subparts
+     *
+     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+     * @expectedExceptionCode 1447365624
+     */
+    public function testTextFileMimeTypeSubparts()
+    {
+        $textFile = new TextFile();
+        $textFile->getMimeTypePart('a/b/c');
+    }
+
+    /**
+     * Test dumping the contents of a text file
+     */
+    public function testTextFileDump()
+    {
+        $randomSet = md5(rand());
+        $writer = new InMemoryWriter();
+        $textFile = new TextFile();
+        $textFile->setPart($randomSet)->dump($writer);
+        $this->assertEquals($randomSet, $writer->getData());
     }
 }
