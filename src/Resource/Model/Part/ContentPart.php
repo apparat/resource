@@ -79,10 +79,17 @@ abstract class ContentPart implements Part
     /**
      * Return the mime type of this part
      *
-     * @return string
+     * @param array $subparts Subpart path identifiers
+     * @return string   MIME type
      */
-    public function getMimeType()
+    public function getMimeType(array $subparts)
     {
+        // If there are subpart identifiers given
+        if (count($subparts)) {
+            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
+                InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
+        }
+
         return static::MIME_TYPE;
     }
 

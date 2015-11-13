@@ -36,8 +36,8 @@
 namespace ApparatTest;
 
 use Apparat\Resource\Framework\File\TextFile;
-use Apparat\Resource\Framework\Reader\InMemoryReader;
-use Apparat\Resource\Framework\Writer\InMemoryWriter;
+use Apparat\Resource\Framework\Part\TextPart;
+use Apparat\Resource\Model\File\RuntimeException;
 
 /**
  * Text file tests
@@ -69,13 +69,84 @@ class TextTest extends TestBase
         $this->_text = file_get_contents(self::TXT_FILE);
     }
 
+    /**
+     * Test the text file constructor
+     */
     public function testTextFile()
     {
-        $textFile = new TextFile(
-            new InMemoryReader($this->_text),
-            new InMemoryWriter()
-        );
-        $textFile->set('HALLO')->append(' Joschi');
-        print_r($textFile->get());
+        $textFile = new TextFile();
+        $this->assertInstanceOf(TextFile::class, $textFile);
+        $this->assertEquals(TextPart::MIME_TYPE, $textFile->getMimeTypePart());
+    }
+
+    /**
+     * Test invalid file method
+     *
+     * @expectedException RuntimeException
+     * @expectedExceptionCode 1447450449
+     */
+    public function testTextFileInvalidMethod()
+    {
+        $textFile = new TextFile();
+        $textFile->undefinedMethod();
+    }
+
+    /**
+     * Test invalid file part method
+     *
+     * @expectedException RuntimeException
+     * @expectedExceptionCode 1447366704
+     */
+    public function testTextFilePartInvalidMethod()
+    {
+        $textFile = new TextFile();
+        $textFile->undefinedMethodPart();
+    }
+
+    /**
+     * Test setting the content of a text file
+     */
+    public function testTextFileSet()
+    {
+        $randomSet = md5(rand());
+        $textFile = new TextFile();
+        $textFile->setPart($randomSet);
+        $this->assertEquals($randomSet, $textFile->getPart());
+    }
+
+    /**
+     * Test appending content to a text file
+     */
+    public function testTextFileAppend()
+    {
+        $randomSet = md5(rand());
+        $randomAppend = md5(rand());
+        $textFile = new TextFile();
+        $textFile->setPart($randomSet)->appendPart($randomAppend);
+        $this->assertEquals($randomSet.$randomAppend, $textFile->getPart());
+    }
+
+    /**
+     * Test an invalid path identifier
+     *
+     * @expectedException \Apparat\Resource\Model\File\InvalidArgumentException
+     * @expectedExceptionCode 1447364401
+     */
+    public function testTextFileInvalidPathIdentifier()
+    {
+        $textFile = new TextFile();
+        $textFile->getPart('-');
+    }
+
+    /**
+     * Test an unallowed subparts
+     *
+     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+     * @expectedExceptionCode 1447365624
+     */
+    public function testTextFileSubpartsNotAllowed()
+    {
+        $textFile = new TextFile();
+        $textFile->getPart('a/b/c');
     }
 }

@@ -33,30 +33,19 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\File;
-
-
-use Apparat\Resource\Framework\Hydrator\TextHydrator;
-use Apparat\Resource\Model\File\File;
-use Apparat\Resource\Model\Reader;
+namespace Apparat\Resource\Model\File;
 
 /**
- * Text file
+ * Invalid file argument exception
  *
- * @package Apparat\Resource\Framework\File
- * @method TextFile setPart() set(string $data, string $part = '/') Set the content of the file
- * @method TextFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
- * @method TextFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
+ * @package Apparat\Resource\Model\File
  */
-class TextFile extends File
+class InvalidArgumentException extends \InvalidArgumentException
 {
     /**
-     * Text file constuctor
+     * Invalid part identifier
      *
-     * @param Reader $reader Reader instance
+     * @var int
      */
-    public function __construct(Reader $reader = null)
-    {
-        parent::__construct($reader, TextHydrator::class);
-    }
+    const INVALID_PART_IDENTIFIER = 1447364401;
 }

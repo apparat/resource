@@ -45,7 +45,7 @@ interface Part
     /**
      * Part constructor
      *
-     * @param string $content   Part content
+     * @param string $content Part content
      */
     public function __construct($content = '');
 
@@ -76,7 +76,8 @@ interface Part
     /**
      * Return the mime type of this part
      *
-     * @return string
+     * @param array $subparts Subpart path identifiers
+     * @return string   MIME type
      */
-    public function getMimeType();
+    public function getMimeType(array $subparts);
 }

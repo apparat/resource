@@ -37,7 +37,7 @@ namespace Apparat\Resource\Model\File;
 
 use Apparat\Resource\Model\Hydrator\Hydrator;
 use Apparat\Resource\Model\Hydrator\HydratorFactory;
-use Apparat\Resource\Model\Part\InvalidArgumentException;
+use Apparat\Resource\Model\File\InvalidArgumentException;
 use Apparat\Resource\Model\Part\Part;
 use Apparat\Resource\Model\Reader;
 use Apparat\Resource\Model\Resource;
@@ -64,41 +64,39 @@ abstract class File extends Resource
      */
     protected $_reader = null;
     /**
-     * Writer instance
-     *
-     * @var Writer
-     */
-    protected $_writer = null;
-    /**
      * File hydrator
      *
      * @var Hydrator
      */
-    private $_hydrator;
+    private $_hydrator = null;
 
     /*******************************************************************************
      * PUBLIC METHODS
      *******************************************************************************/
 
     /**
-     * Set the file reader instance
+     * Set a reader instance for this file
      *
-     * @param Reader|null $reader File reader instance
+     * @param Reader $reader Reader instance
+     * @return File Self reference
      */
-    public function setReader(Reader $reader = null)
+    public function load(Reader $reader)
     {
         $this->_reset();
         $this->_reader = $reader;
+        return $this;
     }
 
     /**
-     * Set the file writer instance
+     * Dump this files contents into a writer
      *
-     * @param Writer|null $writer File writer instance
+     * @param Writer $writer Writer instance
+     * @return File Self reference
      */
-    public function setWriter(Writer $writer = null)
+    public function dump(Writer $writer)
     {
-        $this->_writer = $writer;
+        $writer->write($this->get());
+        return $this;
     }
 
     /**
@@ -108,7 +106,7 @@ abstract class File extends Resource
      * @param string $part Part path
      * @return File Self reference
      */
-    public function set($data, $part = '/')
+    public function setPart($data, $part = '/')
     {
         $this->_part = $this->_part()->set($data, $this->_partPath($part));
         return $this;
@@ -120,9 +118,20 @@ abstract class File extends Resource
      * @param string $part Part path
      * @return string Part content
      */
-    public function get($part = '/')
+    public function getPart($part = '/')
     {
         return $this->_part()->get($this->_partPath($part));
+    }
+
+    /**
+     * Return the MIME type of a particular part
+     *
+     * @param string $part Part path
+     * @return string MIME type
+     */
+    public function getMimeTypePart($part = '/')
+    {
+        return $this->_part()->getMimeType($this->_partPath($part));
     }
 
     /**
@@ -131,17 +140,24 @@ abstract class File extends Resource
      * @param string $name Part method name
      * @param array $arguments Part method arguments
      * @return File Self reference
+     * @throw RuntimeException  If an invalid file method is called
+     * @throw RuntimeException  If an invalid file part method is called
      */
     public function __call($name, array $arguments)
     {
-        if (@is_callable(array($this->_part(), $name))) {
-            $data = (count($arguments) > 0) ? $arguments[0] : '';
-            $path = $this->_partPath((count($arguments) > 1) ? $arguments[1] : '/');
-            $this->_part = call_user_func(array($this->_part(), $name), $data, $path);
-            return $this;
+        if (preg_match("%^(.+)Part$%", $name, $partMethod)) {
+            if (@is_callable(array($this->_part(), $partMethod[1]))) {
+                $data = (count($arguments) > 0) ? $arguments[0] : '';
+                $path = $this->_partPath((count($arguments) > 1) ? $arguments[1] : '/');
+                $this->_part = call_user_func(array($this->_part(), $partMethod[1]), $data, $path);
+                return $this;
+            } else {
+                throw new RuntimeException(sprintf('Invalid file part method "%s"', $partMethod[1]),
+                    RuntimeException::INVALID_FILE_PART_METHOD);
+            }
         } else {
-            throw new InvalidArgumentException(sprintf('Invalid part method "%s%"', $name),
-                InvalidArgumentException::INVALID_PART_METHOD);
+            throw new RuntimeException(sprintf('Invalid file method "%s"', $name),
+                RuntimeException::INVALID_FILE_METHOD);
         }
     }
 
@@ -154,19 +170,22 @@ abstract class File extends Resource
      * Private constructor
      *
      * @param Reader $reader Reader instance
-     * @param Writer $writer Writer instance
      * @param Hydrator|array|string $hydrator File hydrator
      */
-    protected function __construct(Reader $reader = null, Writer $writer = null, $hydrator)
+    protected function __construct(Reader $reader = null, $hydrator)
     {
         // If the hydrator needs to be instancianted from a string or array
         if (!($hydrator instanceof Hydrator)) {
             $hydrator = HydratorFactory::build((array)$hydrator);
         }
 
+        // Register the hydrator
         $this->_hydrator = $hydrator;
-        $this->setReader($reader);
-        $this->setWriter($writer);
+
+        // Register the reader if available
+        if ($this->_reader instanceof Reader) {
+            $this->load($this->_reader);
+        }
     }
 
     /**
@@ -208,6 +227,6 @@ abstract class File extends Resource
                     InvalidArgumentException::INVALID_PART_IDENTIFIER);
             }
             return $pathIdentifier;
-        }, explode('/', ltrim('/', $path)));
+        }, explode('/', ltrim($path, '/')));
     }
 }

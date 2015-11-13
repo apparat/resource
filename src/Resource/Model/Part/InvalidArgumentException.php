@@ -36,28 +36,16 @@
 namespace Apparat\Resource\Model\Part;
 
 /**
- * Invalid part argument exception
+ * Invalid file part argument exception
  *
  * @package Apparat\Resource\Model\Part
  */
 class InvalidArgumentException extends \InvalidArgumentException
 {
     /**
-     * Invalid part identifier
-     *
-     * @var int
-     */
-    const INVALID_PART_IDENTIFIER = 1447364401;
-    /**
      * Subparts are not allowed
      *
      * @var int
      */
     const SUBPARTS_NOT_ALLOWED = 1447365624;
-    /**
-     * Invalid part method
-     *
-     * @var int
-     */
-    const INVALID_PART_METHOD = 1447366704;
 }
