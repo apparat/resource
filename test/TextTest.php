@@ -148,6 +148,18 @@ class TextTest extends TestBase
     }
 
     /**
+     * Test prepending content to a text file
+     */
+    public function testTextFilePrepend()
+    {
+        $randomSet = md5(rand());
+        $randomPrepend = md5(rand());
+        $textFile = new TextFile();
+        $textFile->setPart($randomSet)->prependPart($randomPrepend);
+        $this->assertEquals($randomPrepend.$randomSet, $textFile->getPart());
+    }
+
+    /**
      * Test an invalid path identifier
      *
      * @expectedException \Apparat\Resource\Model\File\InvalidArgumentException
@@ -181,6 +193,18 @@ class TextTest extends TestBase
     {
         $textFile = new TextFile();
         $textFile->appendPart(md5(rand()), 'a/b/c');
+    }
+
+    /**
+     * Test prepending to the content of a text file with unallowed subparts
+     *
+     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+     * @expectedExceptionCode 1447365624
+     */
+    public function testTextFilePrependSubparts()
+    {
+        $textFile = new TextFile();
+        $textFile->prependPart(md5(rand()), 'a/b/c');
     }
 
     /**

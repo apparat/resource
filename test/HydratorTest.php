@@ -141,4 +141,16 @@ class HydratorTest extends TestBase
         $textHydrator = HydratorFactory::build([[Hydrator::STANDARD => TextHydrator::class]]);
         $this->assertEquals(Hydrator::STANDARD, $textHydrator->getName());
     }
+
+    /**
+     * Test subhydrators on a single part hydrator
+     *
+     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+     * @expectedExceptionCode 1447365624
+     */
+    public function testTextHydratorSub()
+    {
+        $textHydrator = HydratorFactory::build([[Hydrator::STANDARD => TextHydrator::class]]);
+        $textHydrator->getSub(['a', 'b', 'c']);
+    }
 }
