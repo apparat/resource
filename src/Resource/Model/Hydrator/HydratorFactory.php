@@ -56,7 +56,7 @@ class HydratorFactory
         // If the configuration is empty
         if (!count($config)) {
             throw new InvalidArgumentException('Invalid hydrator configuration',
-                InvalidArgumentException::INVALID_CONTENT_MODEL_CONFIGURATION);
+                InvalidArgumentException::INVALID_HYDRATOR_CONFIGURATION);
 
             // Else if it's the short instanciation notation
         } elseif (is_string($config[0]) && is_subclass_of($config[0], SinglepartHydrator::class)) {

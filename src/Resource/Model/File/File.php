@@ -89,7 +89,6 @@ abstract class File extends Resource
     {
         $this->_reset();
         $this->_reader = $reader;
-        $this->_part = $this->_hydrator->hydrate(($this->_reader instanceof Reader) ? $this->_reader->read() : '');
     }
 
     /**
@@ -111,8 +110,19 @@ abstract class File extends Resource
      */
     public function set($data, $part = '/')
     {
-        $this->_part = $this->_part->set($data, $this->_partPath($part));
+        $this->_part = $this->_part()->set($data, $this->_partPath($part));
         return $this;
+    }
+
+    /**
+     * Return the parts content
+     *
+     * @param string $part Part path
+     * @return string Part content
+     */
+    public function get($part = '/')
+    {
+        return $this->_part()->get($this->_partPath($part));
     }
 
     /**
@@ -124,10 +134,10 @@ abstract class File extends Resource
      */
     public function __call($name, array $arguments)
     {
-        if (@is_callable(array($this->_part, $name))) {
+        if (@is_callable(array($this->_part(), $name))) {
             $data = (count($arguments) > 0) ? $arguments[0] : '';
             $path = $this->_partPath((count($arguments) > 1) ? $arguments[1] : '/');
-            $this->_part = call_user_func(array($this->_part, $name), $data, $path);
+            $this->_part = call_user_func(array($this->_part(), $name), $data, $path);
             return $this;
         } else {
             throw new InvalidArgumentException(sprintf('Invalid part method "%s%"', $name),
@@ -167,6 +177,19 @@ abstract class File extends Resource
     protected function _reset()
     {
         $this->_part = null;
+    }
+
+    /**
+     * Lazy-hydrate and return the main file part
+     *
+     * @return Part Main file part
+     */
+    protected function _part()
+    {
+        if (!($this->_part instanceof Part)) {
+            $this->_part = $this->_hydrator->hydrate(($this->_reader instanceof Reader) ? $this->_reader->read() : '');
+        }
+        return $this->_part;
     }
 
     /**

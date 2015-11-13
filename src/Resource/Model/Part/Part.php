@@ -66,6 +66,14 @@ interface Part
     public function set($data, array $subparts);
 
     /**
+     * Return the parts content
+     *
+     * @param array $subparts Subpart path identifiers
+     * @return string Part content
+     */
+    public function get(array $subparts);
+
+    /**
      * Return the mime type of this part
      *
      * @return string

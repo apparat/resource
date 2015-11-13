@@ -38,6 +38,7 @@ namespace ApparatTest;
 use Apparat\Resource\Framework\Hydrator\TextHydrator;
 use Apparat\Resource\Model\Hydrator\Hydrator;
 use Apparat\Resource\Model\Hydrator\HydratorFactory;
+use Apparat\Resource\Model\Hydrator\InvalidArgumentException;
 
 /**
  * Hydrator tests
@@ -46,6 +47,74 @@ use Apparat\Resource\Model\Hydrator\HydratorFactory;
  */
 class HydratorTest extends TestBase
 {
+
+    /**
+     * Test an invalid hydrator configuraton
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionCode 1447019565
+     */
+    public function testInvalidHydratorConfig() {
+        $hydrator = HydratorFactory::build([]);
+    }
+
+    /**
+     * Test an invalid hydrator content model configuraton
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionCode 1447020287
+     */
+    public function testInvalidHydratorContentModel() {
+        $hydrator = HydratorFactory::build([[]]);
+    }
+
+    /**
+     * Test a missing multipart hydrator
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionCode 1447107537
+     */
+    public function testMissingMultipartHydrator() {
+        $hydrator = HydratorFactory::build([[1, 2]]);
+    }
+
+    /**
+     * Test an empty multipart hydrator class
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionCode 1447107792
+     */
+    public function testEmptyMultipartHydratorClass() {
+        $hydrator = HydratorFactory::build([[1, 2], '']);
+    }
+
+    /**
+     * Test an invalid multipart hydrator class
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionCode 1447107792
+     */
+    public function testInvalidMultipartHydratorClass() {
+        $hydrator = HydratorFactory::build([[1, 2], stdClass::class]);
+    }
+
+    /**
+     * Test invalid multipart hydrator parameters
+     */
+    public function testInvalidMultipartHydratorParameters() {
+        // TODO: Implement
+    }
+
+    /**
+     * Test an invalid singlepart hydrator class
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionCode 1447110065
+     */
+    public function testInvalidSinglepartHydratorClass() {
+        $hydrator = HydratorFactory::build([[Hydrator::STANDARD => stdClass::class]]);
+    }
+
     /**
      * Test the text hydrator (short form)
      */

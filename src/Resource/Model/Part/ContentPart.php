@@ -97,10 +97,29 @@ abstract class ContentPart implements Part
     {
         // If there are subpart identifiers given
         if (count($subparts)) {
-            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)), InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
+            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
+                InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
         }
 
         $class = get_class($this);
         return new $class($data);
+    }
+
+    /**
+     * Return the parts content
+     *
+     * @param array $subparts Subpart path identifiers
+     * @return string Part content
+     * @throws InvalidArgumentException If there are subpart identifiers given
+     */
+    public function get(array $subparts)
+    {
+        // If there are subpart identifiers given
+        if (count($subparts)) {
+            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
+                InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
+        }
+
+        return strval($this);
     }
 }

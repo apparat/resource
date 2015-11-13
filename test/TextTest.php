@@ -76,6 +76,6 @@ class TextTest extends TestBase
             new InMemoryWriter()
         );
         $textFile->set('HALLO')->append(' Joschi');
-        print_r($textFile);
+        print_r($textFile->get());
     }
 }

@@ -1,6 +1,6 @@
 # Apparat Resources
 [![Build Status](https://secure.travis-ci.org/apparat/resource.svg)](https://travis-ci.org/apparat/resource)
-[![Coverage Status](https://coveralls.io/repos/apparat/resource/badge.svg?branch=master&service=github)](https://coveralls.io/github/apparat/resource?branch=master)
+[![Coverage Status](https://coveralls.io/repos/apparat/resource/badge.svg?branch=ddd&service=github)](https://coveralls.io/github/apparat/resource?branch=ddd)
 
 Apparat resource abstraction layer
 
