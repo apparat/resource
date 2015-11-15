@@ -33,80 +33,96 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace ApparatTest;
+namespace Apparat\Resource\Framework\Io\File {
 
-use Apparat\Resource\Framework\Io\File\InvalidArgumentException;
-use Apparat\Resource\Framework\Io\File\Reader;
-
-/**
- * FileIo tests
- *
- * @package ApparatTest
- */
-class FileIoTest extends TestBase
-{
     /**
-     * Example text data
+     * Mocked version of the native is_readable() function
      *
-     * @var array
+     * @param $filename
+     * @return bool
      */
-    protected $_text = null;
+    function is_readable($filename) {
+        return empty($GLOBALS['mockIsReadable']) ? \is_readable($filename) : false;
+    }
+}
+
+namespace ApparatTest {
+
+    use Apparat\Resource\Framework\Io\File\InvalidArgumentException;
+    use Apparat\Resource\Framework\Io\File\Reader;
 
     /**
-     * Example text file
+     * FileIo tests
      *
-     * @var string
+     * @package ApparatTest
      */
-    const TXT_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'cc0.txt';
-
-    /**
-     * Sets up the fixture
-     */
-    protected function setUp()
+    class FileIoTest extends TestBase
     {
-        parent::setUp();
-        $this->_text = file_get_contents(self::TXT_FILE);
-    }
+        /**
+         * Example text data
+         *
+         * @var array
+         */
+        protected $_text = null;
 
-    /**
-     * Test the file reader
-     */
-    public function testFileReader() {
-        $reader = new Reader(self::TXT_FILE);
-        $this->assertInstanceOf(Reader::class, $reader);
-    }
+        /**
+         * Example text file
+         *
+         * @var string
+         */
+        const TXT_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'cc0.txt';
 
-    /**
-     * Test the file reader with an invalid file path
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1447616824
-     */
-    public function testFileReaderWithInvalidFilepath() {
-        new Reader(self::TXT_FILE.'_invalid');
-    }
+        /**
+         * Sets up the fixture
+         */
+        protected function setUp()
+        {
+            parent::setUp();
+            $this->_text = file_get_contents(self::TXT_FILE);
+        }
 
-    /**
-     * Test the file reader with a directory path
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1447618938
-     */
-    public function testFileReadeWithDirectory() {
-        new Reader(dirname(self::TXT_FILE));
-    }
+        /**
+         * Test the file reader
+         */
+        public function testFileReader()
+        {
+            $reader = new Reader(self::TXT_FILE);
+            $this->assertInstanceOf(Reader::class, $reader);
+        }
 
-    /**
-     * Test the file reader with an unreadable file
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1447617006
-     */
-    public function testFileReadeWithUnreadableFile() {
-        if (@file_exists('/etc/hosts')) {
-            new Reader('/etc/hosts');
-        } else {
-            $this->markTestSkipped('Skipping unreadable file test due to missing OS support');
+        /**
+         * Test the file reader with an invalid file path
+         *
+         * @expectedException InvalidArgumentException
+         * @expectedExceptionCode 1447616824
+         */
+        public function testFileReaderWithInvalidFilepath()
+        {
+            new Reader(self::TXT_FILE.'_invalid');
+        }
+
+        /**
+         * Test the file reader with a directory path
+         *
+         * @expectedException InvalidArgumentException
+         * @expectedExceptionCode 1447618938
+         */
+        public function testFileReadeWithDirectory()
+        {
+            new Reader(dirname(self::TXT_FILE));
+        }
+
+        /**
+         * Test the file reader with an unreadable file
+         *
+         * @expectedException InvalidArgumentException
+         * @expectedExceptionCode 1447617006
+         */
+        public function testFileReadeWithUnreadableFile()
+        {
+            $GLOBALS['mockIsReadable'] = true;
+            new Reader(self::TXT_FILE);
+            unset($GLOBALS['mockIsReadable']);
         }
     }
 }
