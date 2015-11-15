@@ -43,13 +43,6 @@ namespace Apparat\Resource\Framework\Io\InMemory;
 trait ReaderTrait
 {
     /**
-     * File data
-     *
-     * @var string
-     */
-    protected $_data = '';
-
-    /**
      * Constructor
      *
      * @param string $data File data

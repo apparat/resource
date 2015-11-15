@@ -35,32 +35,18 @@
 
 namespace Apparat\Resource\Framework\Io\InMemory;
 
+
 /**
- * In-memory writer trait
+ * Abstract base class for in-memory readers/writers
  *
- * @package Apparat\Resource\Framework\Writer
+ * @package Apparat\Resource\Framework\Io\InMemory
  */
-trait WriterTrait
+class AbstractInMemoryReaderWriter
 {
     /**
-     * Write data
+     * File data
      *
-     * @param string $data Data to write
-     * @return int Bytes written
+     * @var string
      */
-    public function write($data)
-    {
-        $this->_data = $data;
-        return strlen($data);
-    }
-
-    /**
-     * Return the in-memory data
-     *
-     * @return string in-memory data
-     */
-    public function getData()
-    {
-        return $this->_data;
-    }
+    protected $_data = '';
 }
