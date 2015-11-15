@@ -39,6 +39,7 @@ namespace Apparat\Resource\Framework\Io\File;
  * File reader trait
  *
  * @package Apparat\Resource\Framework\Io\File
+ * @property string $_file File path
  */
 trait ReaderTrait
 {
@@ -77,6 +78,6 @@ trait ReaderTrait
      */
     public function read()
     {
-        $this->_data = file_get_contents($this->_file);
+        return file_get_contents($this->_file);
     }
 }

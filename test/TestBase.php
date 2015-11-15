@@ -64,10 +64,15 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase {
     /**
      * Prepare and register a temporary file name
      *
-     * @return string				Temporary file name
+     * @param bool $nameOnly Return the name only (don't create file)
+     * @return string Temporary file name
      */
-    protected function _createTemporaryFile() {
-        return $this->_tmpFiles[] = tempnam(sys_get_temp_dir(), 'bw_test_');
+    protected function _createTemporaryFile($nameOnly = false) {
+        $this->_tmpFiles[] = $tempFileName = tempnam(sys_get_temp_dir(), 'apparat_test_');
+        if ($nameOnly) {
+            @unlink($tempFileName);
+        }
+        return $tempFileName;
     }
 
     /**

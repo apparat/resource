@@ -44,12 +44,25 @@ namespace Apparat\Resource\Framework\Io\File {
     function is_readable($filename) {
         return empty($GLOBALS['mockIsReadable']) ? \is_readable($filename) : false;
     }
+
+    /**
+     * Mocked version of the native is_writeable() function
+     *
+     * @param $filename
+     * @return bool
+     */
+    function is_writeable($filename) {
+        return empty($GLOBALS['mockIsWriteable']) ? \is_writeable($filename) : false;
+    }
 }
 
 namespace ApparatTest {
 
+    use Apparat\Resource\Framework\File\TextFile;
     use Apparat\Resource\Framework\Io\File\InvalidArgumentException;
     use Apparat\Resource\Framework\Io\File\Reader;
+    use Apparat\Resource\Framework\Io\File\ReaderWriter;
+    use Apparat\Resource\Framework\Io\File\Writer;
 
     /**
      * FileIo tests
@@ -82,15 +95,6 @@ namespace ApparatTest {
         }
 
         /**
-         * Test the file reader
-         */
-        public function testFileReader()
-        {
-            $reader = new Reader(self::TXT_FILE);
-            $this->assertInstanceOf(Reader::class, $reader);
-        }
-
-        /**
          * Test the file reader with an invalid file path
          *
          * @expectedException InvalidArgumentException
@@ -107,7 +111,7 @@ namespace ApparatTest {
          * @expectedException InvalidArgumentException
          * @expectedExceptionCode 1447618938
          */
-        public function testFileReadeWithDirectory()
+        public function testFileReaderWithDirectory()
         {
             new Reader(dirname(self::TXT_FILE));
         }
@@ -118,11 +122,103 @@ namespace ApparatTest {
          * @expectedException InvalidArgumentException
          * @expectedExceptionCode 1447617006
          */
-        public function testFileReadeWithUnreadableFile()
+        public function testFileReaderWithUnreadableFile()
         {
             $GLOBALS['mockIsReadable'] = true;
             new Reader(self::TXT_FILE);
             unset($GLOBALS['mockIsReadable']);
+        }
+
+        /**
+         * Test the file reader
+         */
+        public function testFileReader()
+        {
+            $fileReader = new Reader(self::TXT_FILE);
+            $this->assertInstanceOf(Reader::class, $fileReader);
+            $textFile = new TextFile($fileReader);
+            $inMemoryWriter = new \Apparat\Resource\Framework\Io\InMemory\Writer();
+            $textFile->dump($inMemoryWriter);
+            $this->assertEquals($this->_text, $inMemoryWriter->getData());
+        }
+
+        /**
+         * Test the file writer with invalid writer options
+         *
+         * @expectedException InvalidArgumentException
+         * @expectedExceptionCode 1447617559
+         */
+        public function testFileWriterWithInvalidOptions()
+        {
+            new \Apparat\Resource\Framework\Io\File\Writer(self::TXT_FILE, pow(2, 10));
+        }
+
+        /**
+         * Test the file writer with non-creatable file
+         *
+         * @expectedException InvalidArgumentException
+         * @expectedExceptionCode 1447617960
+         */
+        public function testFileWriterWithNonCreatableFile()
+        {
+            new \Apparat\Resource\Framework\Io\File\Writer(self::TXT_FILE.'_new', 0);
+        }
+
+        /**
+         * Test the file writer with non-overwriteable file
+         *
+         * @expectedException InvalidArgumentException
+         * @expectedExceptionCode 1447617979
+         */
+        public function testFileWriterWithNonOverwriteableFile()
+        {
+            new \Apparat\Resource\Framework\Io\File\Writer(self::TXT_FILE, 0);
+        }
+
+        /**
+         * Test the file writer with non-writeable file
+         *
+         * @expectedException InvalidArgumentException
+         * @expectedExceptionCode 1447617979
+         */
+        public function testFileWriterWithNonWriteableFile()
+        {
+            $GLOBALS['mockIsWriteable'] = true;
+            new \Apparat\Resource\Framework\Io\File\Writer(self::TXT_FILE, Writer::FILE_OVERWRITE);
+            unset($GLOBALS['mockIsWriteable']);
+        }
+
+        /**
+         * Test the file writer with a newly created file
+         */
+        public function testFileWriterWithCreatedFile() {
+            $textFile = new TextFile(new \Apparat\Resource\Framework\Io\InMemory\Reader($this->_text));
+            $tempFile = $this->_createTemporaryFile(true);
+            $textFile->dump(new Writer($tempFile, Writer::FILE_CREATE));
+            $this->assertFileEquals(self::TXT_FILE, $tempFile);
+        }
+
+        /**
+         * Test the file writer with an overwritten file
+         */
+        public function testFileWriterWithOverwrittenFile() {
+            $textFile = new TextFile(new \Apparat\Resource\Framework\Io\InMemory\Reader($this->_text));
+            $tempFile = $this->_createTemporaryFile();
+            $textFile->dump(new Writer($tempFile, Writer::FILE_OVERWRITE));
+            $this->assertFileEquals(self::TXT_FILE, $tempFile);
+        }
+
+        /**
+         * Test the file reader/writer
+         */
+        public function testFileReaderWriterWithCreatedFile() {
+            $tempFile = $this->_createTemporaryFile(true);
+            copy(self::TXT_FILE, $tempFile);
+            $randomAppend = md5(rand());
+            $fileReaderWriter = new ReaderWriter($tempFile);
+            $textFile = new TextFile($fileReaderWriter);
+            $textFile->appendPart($randomAppend)->dump($fileReaderWriter);
+            $this->assertStringEqualsFile($tempFile, $this->_text.$randomAppend);
         }
     }
 }

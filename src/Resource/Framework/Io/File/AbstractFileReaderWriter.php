@@ -50,13 +50,6 @@ class AbstractFileReaderWriter
     protected $_file;
 
     /**
-     * File data
-     *
-     * @var string
-     */
-    protected $_data = '';
-
-    /**
      * Constructor
      *
      * @param string $file File path

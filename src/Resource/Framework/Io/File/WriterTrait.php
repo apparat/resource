@@ -39,6 +39,7 @@ namespace Apparat\Resource\Framework\Io\File;
  * File writer trait
  *
  * @package Apparat\Resource\Framework\Io\File
+ * @property string $_file File path
  */
 trait WriterTrait
 
@@ -83,7 +84,7 @@ trait WriterTrait
         }
 
         // If the file exists but cannot be overwritten
-        if (@file_exists($this->_file) && (!@is_file($this->_file) || !@is_writable($this->_file) || !($this->_options & Writer::FILE_OVERWRITE))) {
+        if (@file_exists($this->_file) && (!@is_file($this->_file) || !@is_writeable($this->_file) || !($this->_options & Writer::FILE_OVERWRITE))) {
             throw new InvalidArgumentException(sprintf('File "%s" cannot be overwritten', $this->_file),
                 InvalidArgumentException::FILE_CANNOT_BE_OVERWRITTEN);
         }
@@ -97,7 +98,6 @@ trait WriterTrait
      */
     public function write($data)
     {
-        $this->_data = $data;
-        return file_put_contents($this->_file, $this->_data);
+        return file_put_contents($this->_file, $data);
     }
 }

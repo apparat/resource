@@ -56,9 +56,9 @@ class ReaderWriter extends Writer implements ReaderModel
      * @param string $file File path
      * @param int $options File options
      */
-    public function __construct($file, $options = self::FILE_CREATE)
+    public function __construct($file, $options = self::FILE_OVERWRITE)
     {
-        parent::__construct($file, $options);
+        parent::__construct($file, $options | self::FILE_OVERWRITE);
 
         // Validate the file
         $this->_validateReaderFile();
