@@ -33,43 +33,30 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Writer;
-
-use Apparat\Resource\Model\Writer;
+namespace Apparat\Resource\Framework\Io\File;
 
 /**
- * In-memory writer
+ * File reader
  *
- * @package Apparat\Resource\Framework\Writer
+ * @package Apparat\Resource\Framework\Io\File
  */
-class InMemoryWriter implements Writer
+class Reader extends AbstractFileReaderWriter implements \Apparat\Resource\Model\Reader
 {
     /**
-     * File data
-     *
-     * @var string
+     * Provide the reader properties and methods
      */
-    protected $_data = '';
+    use ReaderTrait;
 
     /**
-     * Write data
+     * Constructor
      *
-     * @param string $data Data to write
-     * @return int Bytes written
+     * @param string $file File path
      */
-    public function write($data)
+    public function __construct($file)
     {
-        $this->_data = $data;
-        return strlen($data);
-    }
+        parent::__construct($file);
 
-    /**
-     * Return the in-memory data
-     *
-     * @return string in-memory data
-     */
-    public function getData()
-    {
-        return $this->_data;
+        // Validate the file
+        $this->_validateReaderFile();
     }
 }

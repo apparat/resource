@@ -33,41 +33,34 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Reader;
+namespace Apparat\Resource\Framework\Io\File;
 
-use Apparat\Resource\Model\Reader;
+
+use Apparat\Resource\Model\Reader as ReaderModel;
 
 /**
- * In-memory reader
+ * Combined file reader / writer
  *
- * @package Apparat\Resource\Framework\Reader
+ * @package Apparat\Resource\Framework\Io\File
  */
-class InMemoryReader implements Reader
+class ReaderWriter extends Writer implements ReaderModel
 {
     /**
-     * File data
-     *
-     * @var string
+     * Provide the reader properties and methods
      */
-    protected $_data = '';
+    use ReaderTrait;
 
     /**
      * Constructor
      *
-     * @param string $data File data
+     * @param string $file File path
+     * @param int $options File options
      */
-    public function __construct($data)
+    public function __construct($file, $options = self::FILE_CREATE)
     {
-        $this->_data = $data;
-    }
+        parent::__construct($file, $options);
 
-    /**
-     * Read the file content
-     *
-     * @return string File content
-     */
-    public function read()
-    {
-        return $this->_data;
+        // Validate the file
+        $this->_validateReaderFile();
     }
 }

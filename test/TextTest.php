@@ -36,9 +36,10 @@
 namespace ApparatTest;
 
 use Apparat\Resource\Framework\File\TextFile;
+use Apparat\Resource\Framework\Io\InMemory\ReaderWriter;
 use Apparat\Resource\Framework\Part\TextPart;
-use Apparat\Resource\Framework\Reader\InMemoryReader;
-use Apparat\Resource\Framework\Writer\InMemoryWriter;
+use Apparat\Resource\Framework\Io\InMemory\Reader;
+use Apparat\Resource\Framework\Io\InMemory\Writer;
 use Apparat\Resource\Model\File\RuntimeException;
 
 /**
@@ -86,7 +87,7 @@ class TextTest extends TestBase
      */
     public function testTextFileReader()
     {
-        $textFile = new TextFile(new InMemoryReader($this->_text));
+        $textFile = new TextFile(new Reader($this->_text));
         $this->assertEquals($this->_text, $textFile->getPart());
     }
 
@@ -96,7 +97,7 @@ class TextTest extends TestBase
     public function testTextFileLoad()
     {
         $textFile = new TextFile();
-        $textFile->load(new InMemoryReader($this->_text));
+        $textFile->load(new Reader($this->_text));
         $this->assertEquals($this->_text, $textFile->getPart());
     }
 
@@ -237,9 +238,21 @@ class TextTest extends TestBase
     public function testTextFileDump()
     {
         $randomSet = md5(rand());
-        $writer = new InMemoryWriter();
+        $writer = new Writer();
         $textFile = new TextFile();
         $textFile->setPart($randomSet)->dump($writer);
         $this->assertEquals($randomSet, $writer->getData());
+    }
+
+    /**
+     * Test the in-memory universal reader / writer
+     */
+    public function testTextFileReaderWriter()
+    {
+        $randomAppend = md5(rand());
+        $readerWriter = new ReaderWriter($this->_text);
+        $textFile = new TextFile($readerWriter);
+        $textFile->appendPart($randomAppend)->dump($readerWriter);
+        $this->assertEquals($this->_text.$randomAppend, $readerWriter->getData());
     }
 }
