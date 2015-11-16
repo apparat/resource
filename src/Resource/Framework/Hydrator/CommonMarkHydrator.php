@@ -35,38 +35,23 @@
 
 namespace Apparat\Resource\Framework\Hydrator;
 
-
-use Apparat\Resource\Framework\Part\TextPart;
-use Apparat\Resource\Model\Hydrator\SinglepartHydrator;
-use Apparat\Resource\Model\Part\Part;
+use Apparat\Resource\Framework\Part\CommonMarkPart;
 
 /**
- * Text part hydrator
+ * CommonMark part hydrator
  *
  * @package Apparat\Resource\Framework\Hydrator
  */
-class TextHydrator extends SinglepartHydrator
+class CommonMarkHydrator extends TextHydrator
 {
-
     /**
-     * Serialize a file part
-     *
-     * @param TextPart $part File part
-     * @return string Serialized file part
-     */
-    public function dehydrate(Part $part)
-    {
-        return strval($part);
-    }
-
-    /**
-     * Translate data to a text file part
+     * Translate data to a CommonMark file part
      *
      * @param string $data Part data
-     * @return TextPart Text file part
+     * @return CommonMarkPart CommonMark file part
      */
     public function hydrate($data)
     {
-        return new TextPart($data);
+        return new CommonMarkPart($data);
     }
 }

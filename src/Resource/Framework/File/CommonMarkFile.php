@@ -33,40 +33,31 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Hydrator;
+namespace Apparat\Resource\Framework\File;
 
 
-use Apparat\Resource\Framework\Part\TextPart;
-use Apparat\Resource\Model\Hydrator\SinglepartHydrator;
-use Apparat\Resource\Model\Part\Part;
+use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
+use Apparat\Resource\Model\File\File;
+use Apparat\Resource\Model\Reader;
 
 /**
- * Text part hydrator
+ * Text file
  *
- * @package Apparat\Resource\Framework\Hydrator
+ * @package Apparat\Resource\Framework\File
+ * @method CommonMarkFile setPart() set(string $data, string $part = '/') Set the content of the file
+ * @method CommonMarkFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
+ * @method CommonMarkFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
+ * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the file
  */
-class TextHydrator extends SinglepartHydrator
+class CommonMarkFile extends File
 {
-
     /**
-     * Serialize a file part
+     * Text file constuctor
      *
-     * @param TextPart $part File part
-     * @return string Serialized file part
+     * @param Reader $reader Reader instance
      */
-    public function dehydrate(Part $part)
+    public function __construct(Reader $reader = null)
     {
-        return strval($part);
-    }
-
-    /**
-     * Translate data to a text file part
-     *
-     * @param string $data Part data
-     * @return TextPart Text file part
-     */
-    public function hydrate($data)
-    {
-        return new TextPart($data);
+        parent::__construct($reader, CommonMarkHydrator::class);
     }
 }

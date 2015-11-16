@@ -35,9 +35,9 @@
 
 namespace Apparat\Resource\Model\File;
 
+use Apparat\Resource\Framework\File\TextFile;
 use Apparat\Resource\Model\Hydrator\Hydrator;
 use Apparat\Resource\Model\Hydrator\HydratorFactory;
-use Apparat\Resource\Model\File\InvalidArgumentException;
 use Apparat\Resource\Model\Part\Part;
 use Apparat\Resource\Model\Reader;
 use Apparat\Resource\Model\Resource;
@@ -47,6 +47,8 @@ use Apparat\Resource\Model\Writer;
  * File
  *
  * @package Apparat\Resource\Model\File
+ * @method TextFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
+ * @method TextFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
  */
 abstract class File extends Resource
 {
@@ -149,10 +151,22 @@ abstract class File extends Resource
     {
         if (preg_match("%^(.+)Part$%", $name, $partMethod)) {
             if (@is_callable(array($this->_part(), $partMethod[1]))) {
-                $data = (count($arguments) > 0) ? $arguments[0] : '';
-                $path = $this->_partPath((count($arguments) > 1) ? $arguments[1] : '/');
-                $this->_part = call_user_func(array($this->_part(), $partMethod[1]), $data, $path);
-                return $this;
+
+                // If it's a getter
+                if (!strncmp('get', $partMethod[1], 3)) {
+                    return call_user_func(array($this->_part(), $partMethod[1]),
+                        $this->_partPath((count($arguments) > 0) ? $arguments[0] : '/'));
+
+                    // Else
+                } else {
+                    $this->_part = call_user_func_array(array($this->_part(), $partMethod[1]), array(
+                        (count($arguments) > 0) ? $arguments[0] : '',
+                        $this->_partPath((count($arguments) > 1) ? $arguments[1] : '/')
+                    ));
+
+                    return $this;
+                }
+
             } else {
                 throw new RuntimeException(sprintf('Invalid file part method "%s"', $partMethod[1]),
                     RuntimeException::INVALID_FILE_PART_METHOD);

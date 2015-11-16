@@ -52,7 +52,7 @@ class TextTest extends TestBase
     /**
      * Example text data
      *
-     * @var array
+     * @var string
      */
     protected $_text = null;
 

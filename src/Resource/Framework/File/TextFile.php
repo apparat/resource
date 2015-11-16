@@ -47,6 +47,8 @@ use Apparat\Resource\Model\Reader;
  * @method TextFile setPart() set(string $data, string $part = '/') Set the content of the file
  * @method TextFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
  * @method TextFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
+ * @method void undefinedMethod() undefinedMethod() Undefined method for testing purposes
+ * @method void undefinedMethodPart() undefinedMethodPart() Undefined method for testing purposes
  */
 class TextFile extends File
 {

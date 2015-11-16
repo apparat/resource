@@ -33,101 +33,84 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Part;
+namespace Apparat\Resource\Framework\Part;
+
+use Apparat\Resource\Model\Part\InvalidArgumentException;
+use League\CommonMark\DocParser;
+use League\CommonMark\Environment;
+use League\CommonMark\HtmlRenderer;
 
 /**
- * Content part
+ * CommonMark file part
  *
- * @package Apparat\Resource\Model\Part
+ * @package Apparat\Resource\Framework\Part
  */
-abstract class ContentPart implements Part
+class CommonMarkPart extends TextPart
 {
     /**
      * Mime type
      *
      * @var string
      */
-    const MIME_TYPE = 'application/octet-stream';
+    const MIME_TYPE = 'text/x-markdown';
 
     /**
-     * Text content
-     *
-     * @var string
-     */
-    protected $_content = '';
-
-    /**
-     * Part constructor
-     *
-     * @param string $content Part content
-     */
-    public function __construct($content = '')
-    {
-        $this->_content = $content;
-    }
-
-    /**
-     * Serialize this file part
-     *
-     * @return string   File part content
-     */
-    public function __toString()
-    {
-        return strval($this->_content);
-    }
-
-    /**
-     * Return the mime type of this part
+     * Convert the Markdown source to HTML
      *
      * @param array $subparts Subpart path identifiers
-     * @return string   MIME type
+     * @return string CommonMark HTML
      * @throws InvalidArgumentException If there are subpart identifiers given
      */
-    public function getMimeType(array $subparts)
+    public function getHtml(array $subparts)
     {
+
         // If there are subpart identifiers given
         if (count($subparts)) {
             throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
                 InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
         }
 
-        return static::MIME_TYPE;
+        if (strlen($this->_content)) {
+            $environment = $this->_environment();
+            $parser = new DocParser($environment);
+            $renderer = new HtmlRenderer($environment);
+            return $renderer->renderBlock($parser->parse($this->_content));
+        }
+
+        return '';
+    }
+
+    /*******************************************************************************
+     * PRIVATE METHODS
+     *******************************************************************************/
+
+    /**
+     * Create and return a CommonMark environment
+     *
+     * @return Environment CommonMark environment
+     */
+    protected function _environment()
+    {
+
+        // Obtain a pre-configured Environment with all the CommonMark parsers/renderers ready-to-go
+        $environment = Environment::createCommonMarkEnvironment();
+
+        // Custom environment initialization
+        $this->_initializeEnvironment($environment);
+
+        return $environment;
     }
 
     /**
-     * Set the contents of this part
+     * Custom environment initialization
      *
-     * @param string $data Contents
-     * @param array $subparts Subpart path identifier
-     * @throws InvalidArgumentException If there are subpart identifiers given
-     */
-    public function set($data, array $subparts)
-    {
-        // If there are subpart identifiers given
-        if (count($subparts)) {
-            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
-                InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
-        }
-
-        $class = get_class($this);
-        return new $class($data);
-    }
-
-    /**
-     * Return the parts content
+     * Overwrite this method in subclasses to register your own parsers/renderers.
      *
-     * @param array $subparts Subpart path identifiers
-     * @return ContentPart Self reference
-     * @throws InvalidArgumentException If there are subpart identifiers given
+     * @param Environment $environment
      */
-    public function get(array $subparts)
+    protected function _initializeEnvironment(Environment $environment)
     {
-        // If there are subpart identifiers given
-        if (count($subparts)) {
-            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
-                InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
-        }
-
-        return $this;
+        // Optional: Add your own parsers/renderers here, if desired
+        // For example:  $environment->addInlineParser(new TwitterHandleParser());
     }
 }
