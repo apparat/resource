@@ -33,31 +33,25 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\File;
+namespace Apparat\Resource\Framework\Hydrator;
 
-
-use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
-use Apparat\Resource\Model\File\File;
-use Apparat\Resource\Model\Reader;
+use Apparat\Resource\Framework\Part\YamlPart;
 
 /**
- * CommonMark file
+ * CommonMark part hydrator
  *
- * @package Apparat\Resource\Framework\File
- * @method CommonMarkFile setPart() set(string $data, string $part = '/') Set the content of the file
- * @method CommonMarkFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
- * @method CommonMarkFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
- * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the file
+ * @package Apparat\Resource\Framework\Hydrator
  */
-class CommonMarkFile extends File
+class YamlHydrator extends TextHydrator
 {
     /**
-     * Text file constuctor
+     * Translate data to a YAML file part
      *
-     * @param Reader $reader Reader instance
+     * @param string $data Part data
+     * @return YamlPart YAML file part
      */
-    public function __construct(Reader $reader = null)
+    public function hydrate($data)
     {
-        parent::__construct($reader, CommonMarkHydrator::class);
+        return new YamlPart($data);
     }
 }

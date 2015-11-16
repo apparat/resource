@@ -6,14 +6,14 @@
  * @category    Apparat
  * @package     Apparat_Resource
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ * @copyright   Copyright ï¿½ 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
 
 /***********************************************************************************
  *  The MIT License (MIT)
  *
- *  Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
+ *  Copyright ï¿½ 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
  *  this software and associated documentation files (the "Software"), to deal in
@@ -35,7 +35,7 @@
 
 return array (
     'invoice' => 34843,
-    'date' => 980204400,
+    'date' => 980208000,
     'bill-to' =>
         array (
             'given' => 'Chris',

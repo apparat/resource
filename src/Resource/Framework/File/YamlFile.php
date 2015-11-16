@@ -35,29 +35,27 @@
 
 namespace Apparat\Resource\Framework\File;
 
-
-use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
+use Apparat\Resource\Framework\Hydrator\YamlHydrator;
 use Apparat\Resource\Model\File\File;
 use Apparat\Resource\Model\Reader;
 
 /**
- * CommonMark file
+ * YAML file
  *
  * @package Apparat\Resource\Framework\File
- * @method CommonMarkFile setPart() set(string $data, string $part = '/') Set the content of the file
- * @method CommonMarkFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
- * @method CommonMarkFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
- * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the file
+ * @method YamlFile setPart() set(array $data, string $part = '/') Set the content of the file
+ * @method array getDataPart() getDataPart(array $part = '/') Get the YAML data of the file
+ * @method YamlFiile mergeDataPart() mergeDataPart(array $data, array $part = '/') Add new data to the YAML file
  */
-class CommonMarkFile extends File
+class YamlFile extends File
 {
     /**
-     * Text file constuctor
+     * YAML file constuctor
      *
      * @param Reader $reader Reader instance
      */
     public function __construct(Reader $reader = null)
     {
-        parent::__construct($reader, CommonMarkHydrator::class);
+        parent::__construct($reader, YamlHydrator::class);
     }
 }

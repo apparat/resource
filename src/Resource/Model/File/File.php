@@ -160,7 +160,7 @@ abstract class File extends Resource
                     // Else
                 } else {
                     $this->_part = call_user_func_array(array($this->_part(), $partMethod[1]), array(
-                        (count($arguments) > 0) ? $arguments[0] : '',
+                        (count($arguments) > 0) ? $arguments[0] : null,
                         $this->_partPath((count($arguments) > 1) ? $arguments[1] : '/')
                     ));
 

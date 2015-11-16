@@ -136,7 +136,7 @@ class CommonMarkTest extends TestBase
     }
 
     /**
-     * Test getting the HTML content of a CommonMark file with unallowed subparts
+     * Test getting the HTML content of a CommonMark file
      *
      * @todo Replace reference file as soon as the HTML entity parsing bug is fixed
      * @see https://github.com/thephpleague/commonmark/issues/206
