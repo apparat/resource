@@ -70,14 +70,16 @@ class CommonMarkPart extends TextPart
                 InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
         }
 
+        $html = '';
+
         if (strlen($this->_content)) {
             $environment = $this->_environment();
             $parser = new DocParser($environment);
             $renderer = new HtmlRenderer($environment);
-            return $renderer->renderBlock($parser->parse($this->_content));
+            $html = $renderer->renderBlock($parser->parse($this->_content));
         }
 
-        return '';
+        return $html;
     }
 
     /*******************************************************************************
