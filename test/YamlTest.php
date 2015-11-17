@@ -105,7 +105,7 @@ class YamlTest extends TestBase
     /**
      * Test getting the data of a Yaml file
      */
-    public function testYamlFileHtml()
+    public function testYamlFileGetData()
     {
         $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
         $yamlFile = new YamlFile(new Reader($this->_yaml));
@@ -113,13 +113,24 @@ class YamlTest extends TestBase
     }
 
     /**
-     * Test adding additional data to a Yaml file
+     * Test getting the data of a Yaml file
      */
-    public function testYamlFileHtmlMerge()
+    public function testYamlFileSetData()
     {
-//        $now = time();
-//        $yamlFile = new YamlFile(new Reader($this->_yaml));
-//        $yamlFile->mergeDataPart(array(array()));
-//        $this->assertArrayEquals($expectedData, $yamlFile->getDataPart());
+        // Prepare modified expected data
+        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
+        $expectedData['date'] = time();
+        $expectedData['bill-to']['given'] = 'John';
+        $expectedData['bill-to']['family'] = 'Doe';
+        $expectedData['product'][] = [
+            'sku' => 'ABC123',
+            'quantity' => 1,
+            'description' => 'Dummy',
+            'price' => 123
+        ];
+        unset($expectedData['comments']);
+        $yamlFile = new YamlFile(new Reader($this->_yaml));
+        $yamlFile->setDataPart($expectedData);
+        $this->assertArrayEquals($expectedData, $yamlFile->getDataPart());
     }
 }

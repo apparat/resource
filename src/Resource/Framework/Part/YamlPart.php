@@ -73,7 +73,6 @@ class YamlPart extends ContentPart
         $data = array();
 
         if (strlen($this->_content)) {
-
             $data =  Yaml::parse($this->_content);
         }
 
@@ -88,37 +87,8 @@ class YamlPart extends ContentPart
      * @return YamlPart Self reference
      * @throws InvalidArgumentException If there are subpart identifiers given
      */
-    public function mergeData(array $data, array $subparts)
+    public function setData(array $data, array $subparts)
     {
-        $orig = $this->getData($subparts);
-        $data = $this->_mergeArraysRecursive($orig, $data);
         return $this->set(Yaml::dump($data), $subparts);
-    }
-
-    /*******************************************************************************
-     * PRIVATE METHODS
-     *******************************************************************************/
-
-    /**
-     * Recursively merge two arrays (and potentially delete values)
-     *
-     * @param array $array1 Original array
-     * @param array $array2 Overlay array
-     * @param bool $unset Unset values
-     * @return array Merged array
-     */
-    protected function _mergeArraysRecursive($array1, $array2, $unset = false)
-    {
-        $merged = $array1;
-        foreach ($array2 as $key => $value) {
-            if (array_key_exists($key, $merged) && is_array($merged[$key]) && is_array($value)) {
-                $merged[$key] = $this->_mergeArraysRecursive($merged[$key], $value, $unset);
-            } elseif ($unset) {
-                unset($merged[$key]);
-            } else {
-                $merged[$key] = $value;
-            }
-        }
-        return $merged;
     }
 }

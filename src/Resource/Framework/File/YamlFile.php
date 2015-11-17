@@ -44,8 +44,8 @@ use Apparat\Resource\Model\Reader;
  *
  * @package Apparat\Resource\Framework\File
  * @method YamlFile setPart() set(array $data, string $part = '/') Set the content of the file
- * @method array getDataPart() getDataPart(array $part = '/') Get the YAML data of the file
- * @method YamlFiile mergeDataPart() mergeDataPart(array $data, array $part = '/') Add new data to the YAML file
+ * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the file
+ * @method YamlFile setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the file
  */
 class YamlFile extends File
 {
