@@ -33,63 +33,25 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Part;
+namespace Apparat\Resource\Framework\Hydrator;
 
-use Apparat\Resource\Model\Part\ContentPart;
-use Apparat\Resource\Model\Part\InvalidArgumentException;
-use Symfony\Component\Yaml\Yaml;
+use Apparat\Resource\Framework\Part\YamlPart;
 
 /**
- * YAML file part
+ * FrontMark part hydrator (combination of YAML / JSON front matter and CommonMark part)
  *
- * @package Apparat\Resource\Framework\Part
- * @see http://yaml.org/spec/1.2/spec.pdf
- * @see http://yaml.org/spec/1.2/spec.html
+ * @package Apparat\Resource\Framework\Hydrator
  */
-class YamlPart extends ContentPart
+class FrontMarkHydrator extends TextHydrator
 {
     /**
-     * Mime type
+     * Translate data to a YAML file part
      *
-     * @var string
+     * @param string $data Part data
+     * @return YamlPart YAML file part
      */
-    const MIME_TYPE = 'text/x-yaml';
-
-    /**
-     * Return the unserialized YAML source
-     *
-     * @param array $subparts Subpart path identifiers
-     * @return array Unserialized YAML data
-     * @throws InvalidArgumentException If there are subpart identifiers given
-     */
-    public function getData(array $subparts)
+    public function hydrate($data)
     {
-
-        // If there are subpart identifiers given
-        if (count($subparts)) {
-            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
-                InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
-        }
-
-        $data = array();
-
-        if (strlen($this->_content)) {
-            $data =  Yaml::parse($this->_content);
-        }
-
-        return $data;
-    }
-
-    /**
-     * Merge data
-     *
-     * @param array $data New data
-     * @param array $subparts Subpart path identifiers
-     * @return YamlPart Self reference
-     * @throws InvalidArgumentException If there are subpart identifiers given
-     */
-    public function setData(array $data, array $subparts)
-    {
-        return $this->set(Yaml::dump($data), $subparts);
+        // TODO: Implement
     }
 }
