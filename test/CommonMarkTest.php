@@ -137,13 +137,10 @@ class CommonMarkTest extends TestBase
 
     /**
      * Test getting the HTML content of a CommonMark file
-     *
-     * @todo Replace reference file as soon as the HTML entity parsing bug is fixed
-     * @see https://github.com/thephpleague/commonmark/issues/206
      */
     public function testCommonMarkFileHtml()
     {
-        $expectedHtml = $this->_normalizeHtml(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'commonmark#206.html'));
+        $expectedHtml = $this->_normalizeHtml(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'commonmark.html'));
         $commonMarkFile = new CommonMarkFile(new Reader($this->_commonMark));
         $this->assertEquals($expectedHtml, $this->_normalizeHtml($commonMarkFile->getHtmlPart()));
     }
