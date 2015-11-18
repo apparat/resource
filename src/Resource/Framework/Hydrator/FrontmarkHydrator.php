@@ -36,13 +36,15 @@
 namespace Apparat\Resource\Framework\Hydrator;
 
 use Apparat\Resource\Framework\Part\YamlPart;
+use Apparat\Resource\Model\Hydrator\MultipartHydrator;
+use Apparat\Resource\Model\Part\Part;
 
 /**
  * FrontMark part hydrator (combination of YAML / JSON front matter and CommonMark part)
  *
  * @package Apparat\Resource\Framework\Hydrator
  */
-class FrontMarkHydrator extends TextHydrator
+class FrontMarkHydrator extends MultipartHydrator
 {
     /**
      * Translate data to a YAML file part
@@ -53,5 +55,16 @@ class FrontMarkHydrator extends TextHydrator
     public function hydrate($data)
     {
         // TODO: Implement
+    }
+
+    /**
+     * Serialize a file part
+     *
+     * @param Part $part File part
+     * @return string Serialized file part
+     */
+    public function dehydrate(Part $part)
+    {
+        // TODO: Implement dehydrate() method.
     }
 }

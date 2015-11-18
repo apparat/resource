@@ -208,6 +208,25 @@ class HydratorTest extends TestBase
 	}
 
 	/**
+	 * Test an invalid multipart hydrator class
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionCode 1447868909
+	 */
+	public function testInvalidMultipartSubhydratorClass()
+	{
+		HydratorFactory::build([[\stdClass::class, \stdClass::class], MultipartHydrator::class, 1, 1]);
+	}
+
+	/**
+	 * Test multipart hydrator
+	 */
+	public function testMultipartHydrator()
+	{
+		HydratorFactory::build([[TextHydrator::class, TextHydrator::class], MultipartHydrator::class, 1, 1]);
+	}
+
+	/**
 	 * Test an invalid singlepart hydrator class
 	 *
 	 * @expectedException InvalidArgumentException

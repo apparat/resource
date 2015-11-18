@@ -69,6 +69,12 @@ class InvalidArgumentException extends \InvalidArgumentException
      */
     const INVALID_MULTIPART_HYDRATOR_CLASS = 1447107792;
     /**
+     * Invalid multipart subhydrator class
+     *
+     * @var int
+     */
+    const INVALID_MULTIPART_SUBHYDRATOR_CLASS = 1447868909;
+    /**
      * Invalid multipart hydrator parameters
      *
      * @var int

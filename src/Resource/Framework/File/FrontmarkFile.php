@@ -56,6 +56,13 @@ class FrontMarkFile extends File
      */
     public function __construct(Reader $reader = null)
     {
-        parent::__construct($reader, FrontMarkHydrator::class);
+        parent::__construct($reader, array(
+            array(
+
+            ),
+            FrontMarkHydrator::class,
+            1, // Minimum occurrences
+            1, // Maximum occurrences
+        ));
     }
 }
