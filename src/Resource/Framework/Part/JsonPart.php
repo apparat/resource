@@ -37,29 +37,26 @@ namespace Apparat\Resource\Framework\Part;
 
 use Apparat\Resource\Model\Part\ContentPart;
 use Apparat\Resource\Model\Part\InvalidArgumentException;
-use Symfony\Component\Yaml\Yaml;
 
 /**
- * YAML file part
+ * JSON file part
  *
  * @package Apparat\Resource\Framework\Part
- * @see http://yaml.org/spec/1.2/spec.pdf
- * @see http://yaml.org/spec/1.2/spec.html
  */
-class YamlPart extends ContentPart
+class JsonPart extends ContentPart
 {
     /**
      * Mime type
      *
      * @var string
      */
-    const MIME_TYPE = 'text/x-yaml';
+    const MIME_TYPE = 'application/json';
 
     /**
-     * Return the unserialized YAML source
+     * Return the unserialized JSON source
      *
      * @param array $subparts Subpart path identifiers
-     * @return array Unserialized YAML data
+     * @return array Unserialized JSON data
      * @throws InvalidArgumentException If there are subpart identifiers given
      */
     public function getData(array $subparts)
@@ -74,21 +71,21 @@ class YamlPart extends ContentPart
         $data = array();
 
         if (strlen($this->_content)) {
-            $data =  Yaml::parse($this->_content);
+            $data =  json_decode($this->_content);
         }
 
         return $data;
     }
 
     /**
-     * Set YAML data
+     * Set JSON data
      *
      * @param array $data New data
      * @param array $subparts Subpart path identifiers
-     * @return YamlPart Self reference
+     * @return JsonPart Self reference
      */
     public function setData(array $data, array $subparts)
     {
-        return $this->set(Yaml::dump($data), $subparts);
+        return $this->set(json_encode($data, JSON_PRETTY_PRINT), $subparts);
     }
 }

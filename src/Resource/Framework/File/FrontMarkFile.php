@@ -33,62 +33,46 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Part;
+namespace Apparat\Resource\Framework\File;
 
-use Apparat\Resource\Model\Part\ContentPart;
-use Apparat\Resource\Model\Part\InvalidArgumentException;
-use Symfony\Component\Yaml\Yaml;
+use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
+use Apparat\Resource\Framework\Hydrator\FrontMarkHydrator;
+use Apparat\Resource\Framework\Hydrator\FrontMatterHydrator;
+use Apparat\Resource\Framework\Hydrator\JsonHydrator;
+use Apparat\Resource\Framework\Hydrator\YamlHydrator;
+use Apparat\Resource\Model\File\File;
+use Apparat\Resource\Model\Hydrator\Hydrator;
+use Apparat\Resource\Model\Reader;
 
 /**
- * YAML file part
+ * FrontMark file (CommonMark file with YAML or JSON front matter)
  *
- * @package Apparat\Resource\Framework\Part
- * @see http://yaml.org/spec/1.2/spec.pdf
- * @see http://yaml.org/spec/1.2/spec.html
+ * @package Apparat\Resource\Framework\File
+ * @method FrontMarkFile setPart() set(array $data, string $part = '/') Set the content of the file
+ * @method array getDataPart() getDataPart(string $part = '/') Get the YAML / JSON front matter data of the file
+ * @method FrontMarkFile setDataPart() setDataPart(array $data, string $part = '/') Set the YAML / JSON front matter data of the file
  */
-class YamlPart extends ContentPart
+class FrontMarkFile extends File
 {
     /**
-     * Mime type
+     * FrontMark file constuctor
      *
-     * @var string
+     * @param Reader $reader Reader instance
      */
-    const MIME_TYPE = 'text/x-yaml';
-
-    /**
-     * Return the unserialized YAML source
-     *
-     * @param array $subparts Subpart path identifiers
-     * @return array Unserialized YAML data
-     * @throws InvalidArgumentException If there are subpart identifiers given
-     */
-    public function getData(array $subparts)
+    public function __construct(Reader $reader = null)
     {
-
-        // If there are subpart identifiers given
-        if (count($subparts)) {
-            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
-                InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
-        }
-
-        $data = array();
-
-        if (strlen($this->_content)) {
-            $data =  Yaml::parse($this->_content);
-        }
-
-        return $data;
-    }
-
-    /**
-     * Set YAML data
-     *
-     * @param array $data New data
-     * @param array $subparts Subpart path identifiers
-     * @return YamlPart Self reference
-     */
-    public function setData(array $data, array $subparts)
-    {
-        return $this->set(Yaml::dump($data), $subparts);
+        parent::__construct($reader, array(
+            [
+                'frontmatter' => [
+                    [
+                        'json' => JsonHydrator::class,
+                        'yaml' => YamlHydrator::class
+                    ],
+                    FrontMatterHydrator::class
+                ],
+                Hydrator::STANDARD => CommonMarkHydrator::class,
+            ],
+            FrontMarkHydrator::class
+        ));
     }
 }

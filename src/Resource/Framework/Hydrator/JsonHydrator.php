@@ -33,45 +33,25 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\File;
+namespace Apparat\Resource\Framework\Hydrator;
 
-use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
-use Apparat\Resource\Framework\Hydrator\FrontMarkHydrator;
-use Apparat\Resource\Framework\Hydrator\FrontMatterHydrator;
-use Apparat\Resource\Framework\Hydrator\YamlHydrator;
-use Apparat\Resource\Model\File\File;
-use Apparat\Resource\Model\Hydrator\Hydrator;
-use Apparat\Resource\Model\Reader;
+use Apparat\Resource\Framework\Part\JsonPart;
 
 /**
- * FrontMark file (CommonMark file with YAML or JSON front matter)
+ * CommonMark part hydrator
  *
- * @package Apparat\Resource\Framework\File
- * @method FrontMarkFile setPart() set(array $data, string $part = '/') Set the content of the file
- * @method array getDataPart() getDataPart(string $part = '/') Get the YAML / JSON front matter data of the file
- * @method FrontMarkFile setDataPart() setDataPart(array $data, string $part = '/') Set the YAML / JSON front matter data of the file
+ * @package Apparat\Resource\Framework\Hydrator
  */
-class FrontMarkFile extends File
+class JsonHydrator extends TextHydrator
 {
     /**
-     * FrontMark file constuctor
+     * Translate data to a JSON file part
      *
-     * @param Reader $reader Reader instance
+     * @param string $data Part data
+     * @return JsonPart JSON file part
      */
-    public function __construct(Reader $reader = null)
+    public function hydrate($data)
     {
-        parent::__construct($reader, array(
-            [
-                'frontmatter' => [
-                    [
-                        'json' => YamlHydrator::class,
-                        'yaml' => YamlHydrator::class
-                    ],
-                    FrontMatterHydrator::class
-                ],
-                Hydrator::STANDARD => CommonMarkHydrator::class,
-            ],
-            FrontMarkHydrator::class
-        ));
+        return new JsonPart($data);
     }
 }
