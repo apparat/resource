@@ -42,46 +42,123 @@ namespace Apparat\Resource\Model\Part;
  */
 abstract class PartAggregate extends AbstractPart
 {
-	/**
-	 * Minimum occurrences
-	 *
-	 * @var int
-	 */
-	protected $_miniumOccurrences = 1;
-	/**
-	 * Maximum occurrences
-	 *
-	 * @var int
-	 */
-	protected $_maximumOccurrences = 1;
-	/**
-	 * Unbound occurrences
-	 *
-	 * @var int
-	 */
-	const UNBOUND = -1;
+    /**
+     * Subpart template
+     *
+     * @var array
+     */
+    protected $_template = array();
+    /**
+     * Minimum occurrences
+     *
+     * @var int
+     */
+    protected $_miniumOccurrences = 1;
+    /**
+     * Maximum occurrences
+     *
+     * @var int
+     */
+    protected $_maximumOccurrences = 1;
+    /**
+     * Occurrences
+     *
+     * @var array
+     */
+    protected $_occurrences = [];
 
-	/**
-	 * Validate minimum / maximum occurrence numbers
-	 *
-	 * @param int $minOccurrences Minimum occurrences
-	 * @param int $maxOccurrences Maximum occurrences
-	 * @return void
-	 * @throws InvalidArgumentException If the minimum occurrences are less than 1
-	 * @throws InvalidArgumentException If the maximum occurrences are not unbound and less than the minimum occurrences
-	 */
-	public static function validateOccurrences($minOccurrences, $maxOccurrences)
-	{
-		// Minimum occurrences
-		$minOccurrences = intval($minOccurrences);
-		if ($minOccurrences < 1) {
-			throw new InvalidArgumentException(sprintf('Invalid part aggregate minimum occurrences "%s"', $minOccurrences), InvalidArgumentException::INVALID_MINIMUM_OCCURRENCES);
-		}
+    /**
+     * Unbound occurrences
+     *
+     * @var int
+     */
+    const UNBOUND = -1;
 
-		// Maximum occurrences
-		$maxOccurrences = intval($maxOccurrences);
-		if (($maxOccurrences < $minOccurrences) && ($maxOccurrences != self::UNBOUND)) {
-			throw new InvalidArgumentException(sprintf('Invalid part aggregate maximum occurrences "%s"', $maxOccurrences), InvalidArgumentException::INVALID_MAXIMUM_OCCURRENCES);
-		}
-	}
+    /**
+     * Part constructor
+     *
+     * @param array $template Subpart template
+     * @param array|int $minOccurrences Minimum occurrences
+     * @param int $maxOccurrences Maximum occurences
+     */
+    public function __construct(array $template, $minOccurrences = 1, $maxOccurrences = 1)
+    {
+        self::validateOccurrences($minOccurrences, $maxOccurrences);
+        $this->_template = $template;
+        $this->_miniumOccurrences = intval($minOccurrences);
+        $this->_maximumOccurrences = intval($maxOccurrences);
+
+        // Initialize the occurrences
+        $this->_initializeOccurrences();
+    }
+
+    /**
+     * Return the mime type of this part
+     *
+     * @param array $subparts Subpart path identifiers
+     * @return string   MIME type
+     */
+    public function getMimeType(array $subparts)
+    {
+        return null;
+    }
+
+    /**
+     * Return the parts content
+     *
+     * @param array $subparts Subpart path identifiers
+     * @return ContentPart Self reference
+     * @throws InvalidArgumentException If there are subpart identifiers given
+     */
+    public function get(array $subparts)
+    {
+//        print_r($subparts);
+
+        return $this;
+    }
+
+    /**
+     * Validate minimum / maximum occurrence numbers
+     *
+     * @param int $minOccurrences Minimum occurrences
+     * @param int $maxOccurrences Maximum occurrences
+     * @return void
+     * @throws InvalidArgumentException If the minimum occurrences are less than 1
+     * @throws InvalidArgumentException If the maximum occurrences are not unbound and less than the minimum occurrences
+     */
+    public static function validateOccurrences($minOccurrences, $maxOccurrences)
+    {
+        // Minimum occurrences
+        $minOccurrences = intval($minOccurrences);
+        if ($minOccurrences < 1) {
+            throw new InvalidArgumentException(sprintf('Invalid part aggregate minimum occurrences "%s"',
+                $minOccurrences), InvalidArgumentException::INVALID_MINIMUM_OCCURRENCES);
+        }
+
+        // Maximum occurrences
+        $maxOccurrences = intval($maxOccurrences);
+        if (($maxOccurrences < $minOccurrences) && ($maxOccurrences != self::UNBOUND)) {
+            throw new InvalidArgumentException(sprintf('Invalid part aggregate maximum occurrences "%s"',
+                $maxOccurrences), InvalidArgumentException::INVALID_MAXIMUM_OCCURRENCES);
+        }
+    }
+
+    /**
+     * Initialize the occurrences
+     *
+     * @return void
+     */
+    protected function _initializeOccurrences()
+    {
+        for ($occurrence = 0; $occurrence < $this->_miniumOccurrences; ++$occurrence) {
+            $this->_addOccurrence();
+        }
+    }
+
+    /**
+     * Add an occurrence
+     *
+     * @return void
+     */
+    abstract protected function _addOccurrence();
 }

@@ -35,26 +35,27 @@
 
 namespace Apparat\Resource\Framework\Hydrator;
 
-use Apparat\Resource\Framework\Part\YamlPart;
-use Apparat\Resource\Model\Hydrator\MultipartHydrator;
+use Apparat\Resource\Model\Hydrator\SequenceHydrator;
 use Apparat\Resource\Model\Part\Part;
+use Apparat\Resource\Model\Part\PartAggregate;
 
 /**
  * FrontMark part hydrator (combination of YAML / JSON front matter and CommonMark part)
  *
  * @package Apparat\Resource\Framework\Hydrator
  */
-class FrontMarkHydrator extends MultipartHydrator
+class FrontMarkHydrator extends SequenceHydrator
 {
     /**
      * Translate data to a YAML file part
      *
      * @param string $data Part data
-     * @return YamlPart YAML file part
+     * @return PartAggregate Part aggregate
      */
     public function hydrate($data)
     {
-        // TODO: Implement
+        $aggregate = parent::hydrate(null);
+        return $aggregate;
     }
 
     /**

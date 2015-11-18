@@ -33,45 +33,21 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Part;
+namespace Apparat\Resource\Model\Hydrator;
+
+use Apparat\Resource\Model\Part\PartChoice;
 
 /**
- * Part choice
- *
- * @package Apparat\Resource\Model\Part
+ * Abstract choice hydrator
+ * 
+ * @package Apparat\Resource\Model\Hydrator
  */
-class PartChoice extends PartAggregate
+abstract class ChoiceHydrator extends MultipartHydrator
 {
-
     /**
-     * Serialize this file part
+     * Part aggregate class name
      *
-     * @return string   File part content
+     * @var string
      */
-    public function __toString()
-    {
-        // TODO: Implement __toString() method.
-    }
-
-    /**
-     * Set the contents of a this part
-     *
-     * @param mixed $data Contents
-     * @param array $subparts Subpart path identifiers
-     * @return Part Modified part
-     */
-    public function set($data, array $subparts)
-    {
-        // TODO: Implement set() method.
-    }
-
-    /**
-     * Add an occurrence
-     *
-     * @return void
-     */
-    protected function _addOccurrence()
-    {
-        $this->_occurrences[] = null;
-    }
+    protected $_aggregateClass = PartChoice::class;
 }

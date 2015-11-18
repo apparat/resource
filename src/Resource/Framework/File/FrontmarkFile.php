@@ -35,8 +35,12 @@
 
 namespace Apparat\Resource\Framework\File;
 
+use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
 use Apparat\Resource\Framework\Hydrator\FrontMarkHydrator;
+use Apparat\Resource\Framework\Hydrator\FrontMatterHydrator;
+use Apparat\Resource\Framework\Hydrator\YamlHydrator;
 use Apparat\Resource\Model\File\File;
+use Apparat\Resource\Model\Hydrator\Hydrator;
 use Apparat\Resource\Model\Reader;
 
 /**
@@ -57,12 +61,17 @@ class FrontMarkFile extends File
     public function __construct(Reader $reader = null)
     {
         parent::__construct($reader, array(
-            array(
-
-            ),
-            FrontMarkHydrator::class,
-            1, // Minimum occurrences
-            1, // Maximum occurrences
+            [
+                'frontmatter' => [
+                    [
+                        'json' => YamlHydrator::class,
+                        'yaml' => YamlHydrator::class
+                    ],
+                    FrontMatterHydrator::class
+                ],
+                Hydrator::STANDARD => CommonMarkHydrator::class,
+            ],
+            FrontMarkHydrator::class
         ));
     }
 }

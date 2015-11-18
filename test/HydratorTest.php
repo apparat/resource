@@ -257,25 +257,6 @@ class HydratorTest extends TestBase
     }
 
     /**
-     * Test multipart hydrator subparts
-     *
-     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
-     * @expectedExceptionCode 1447876355
-     */
-    public function testMultipartHydratorSub()
-    {
-        $multipartHydrator = HydratorFactory::build([
-            ['a' => TextHydrator::class, 'b' => CommonMarkHydrator::class],
-            MultipartHydrator::class,
-            1,
-            1
-        ]);
-        $this->assertInstanceOf(TextHydrator::class, $multipartHydrator->getSub(['a']));
-        $this->assertInstanceOf(CommonMarkHydrator::class, $multipartHydrator->getSub(['b']));
-        $multipartHydrator->getSub([]);
-    }
-
-    /**
      * Test multipart hydrator unknown subpart path
      *
      * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException

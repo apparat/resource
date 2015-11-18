@@ -33,45 +33,60 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Part;
+namespace ApparatTest;
+
+use Apparat\Resource\Framework\File\FrontMarkFile;
+use Apparat\Resource\Framework\Io\InMemory\Reader;
 
 /**
- * Part choice
+ * FrontMark file tests
  *
- * @package Apparat\Resource\Model\Part
+ * @package ApparatTest
  */
-class PartChoice extends PartAggregate
+class FrontMarkTest extends TestBase
 {
+    /**
+     * Example FrontMark data with YAML front matter
+     *
+     * @var string
+     */
+    protected $_yamlFrontMark = null;
+    /**
+     * Example FrontMark file with JSON front matter
+     *
+     * @var string
+     */
+    protected $_jsonFrontMark = null;
+    /**
+     * Example FrontMark file with YAML front matter
+     *
+     * @var string
+     */
+    const YAML_FRONTMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'yaml-frontmark.md';
+    /**
+     * Example FrontMark file with JSON front matter
+     *
+     * @var string
+     */
+    const JSON_FRONTMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'json-frontmark.md';
 
     /**
-     * Serialize this file part
-     *
-     * @return string   File part content
+     * Sets up the fixture
      */
-    public function __toString()
+    protected function setUp()
     {
-        // TODO: Implement __toString() method.
+        parent::setUp();
+        $this->_yamlFrontMark = file_get_contents(self::YAML_FRONTMARK_FILE);
+        $this->_jsonFrontMark = file_get_contents(self::JSON_FRONTMARK_FILE);
     }
 
     /**
-     * Set the contents of a this part
-     *
-     * @param mixed $data Contents
-     * @param array $subparts Subpart path identifiers
-     * @return Part Modified part
+     * Test a FrontMark file
      */
-    public function set($data, array $subparts)
-    {
-        // TODO: Implement set() method.
-    }
-
-    /**
-     * Add an occurrence
-     *
-     * @return void
-     */
-    protected function _addOccurrence()
-    {
-        $this->_occurrences[] = null;
+    public function testYamlFrontMarkFile() {
+        $frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
+        $this->assertInstanceOf(FrontMarkFile::class, $frontMarkFile);
+        $frontMarkFile->getPart();
+//        print_r($frontMarkFile->getPart());
     }
 }

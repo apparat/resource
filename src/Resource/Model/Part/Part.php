@@ -43,13 +43,6 @@ namespace Apparat\Resource\Model\Part;
 interface Part
 {
     /**
-     * Part constructor
-     *
-     * @param string $content Part content
-     */
-    public function __construct($content = '');
-
-    /**
      * Serialize this file part
      *
      * @return string   File part content

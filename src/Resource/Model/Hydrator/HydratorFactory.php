@@ -99,8 +99,8 @@ class HydratorFactory
 			// Run through all multipart subhydrators
 			foreach ($config[0] as $multipartHydrator) {
 
-				// If it's not a valid hydrator
-				if (!is_subclass_of($multipartHydrator, Hydrator::class)) {
+				// If it's neither a multipart nor a valid single part hydrator
+				if (!is_array($multipartHydrator) && !is_subclass_of($multipartHydrator, Hydrator::class)) {
 					throw new InvalidArgumentException(sprintf('Invalid multipart subhydrator class "%s"', $multipartHydrator),
 						InvalidArgumentException::INVALID_MULTIPART_SUBHYDRATOR_CLASS);
 				}

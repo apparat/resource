@@ -33,45 +33,19 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Part;
+namespace Apparat\Resource\Model\Hydrator;
 
 /**
- * Part choice
+ * Runtime exception
  *
- * @package Apparat\Resource\Model\Part
+ * @package Apparat\Resource\Model\Hydrator
  */
-class PartChoice extends PartAggregate
+class RuntimeException extends \RuntimeException
 {
-
     /**
-     * Serialize this file part
+     * Invalid part aggregate class
      *
-     * @return string   File part content
+     * @var int
      */
-    public function __toString()
-    {
-        // TODO: Implement __toString() method.
-    }
-
-    /**
-     * Set the contents of a this part
-     *
-     * @param mixed $data Contents
-     * @param array $subparts Subpart path identifiers
-     * @return Part Modified part
-     */
-    public function set($data, array $subparts)
-    {
-        // TODO: Implement set() method.
-    }
-
-    /**
-     * Add an occurrence
-     *
-     * @return void
-     */
-    protected function _addOccurrence()
-    {
-        $this->_occurrences[] = null;
-    }
+    const INVALID_PART_AGGREGATE_CLASS = 1447887703;
 }

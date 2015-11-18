@@ -33,45 +33,38 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Part;
+namespace Apparat\Resource\Framework\Hydrator;
+
+use Apparat\Resource\Model\Hydrator\ChoiceHydrator;
+use Apparat\Resource\Model\Part\Part;
 
 /**
- * Part choice
+ * FrontMark part hydrator (combination of YAML / JSON front matter and CommonMark part)
  *
- * @package Apparat\Resource\Model\Part
+ * @package Apparat\Resource\Framework\Hydrator
  */
-class PartChoice extends PartAggregate
+class FrontMatterHydrator extends ChoiceHydrator
 {
 
     /**
-     * Serialize this file part
+     * Serialize a file part
      *
-     * @return string   File part content
+     * @param Part $part File part
+     * @return string Serialized file part
      */
-    public function __toString()
+    public function dehydrate(Part $part)
     {
-        // TODO: Implement __toString() method.
+        // TODO: Implement dehydrate() method.
     }
 
     /**
-     * Set the contents of a this part
+     * Translate data to a file part
      *
-     * @param mixed $data Contents
-     * @param array $subparts Subpart path identifiers
-     * @return Part Modified part
+     * @param string $data Part data
+     * @return Part File part
      */
-    public function set($data, array $subparts)
+    public function hydrate($data)
     {
-        // TODO: Implement set() method.
-    }
-
-    /**
-     * Add an occurrence
-     *
-     * @return void
-     */
-    protected function _addOccurrence()
-    {
-        $this->_occurrences[] = null;
+        // TODO: Implement hydrate() method.
     }
 }

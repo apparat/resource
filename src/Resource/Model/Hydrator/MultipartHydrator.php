@@ -52,15 +52,33 @@ abstract class MultipartHydrator extends AbstractHydrator
      * @var array
      */
     protected $_subhydrators = array();
+    /**
+     * Minimum occurrences
+     *
+     * @var int
+     */
+    protected $_miniumOccurrences = 1;
+    /**
+     * Maximum occurrences
+     *
+     * @var int
+     */
+    protected $_maximumOccurrences = 1;
+    /**
+     * Part aggregate class name
+     *
+     * @var string
+     */
+    protected $_aggregateClass = null;
 
     /**
      * Multipart hydrator constructor
      *
      * @param array $subhydrators Subpart hydrators
-     * @param int $minOccurs Minimum occurrences
-     * @param int $maxOccurs Maximum occurences
+     * @param int $minOccurrences Minimum occurrences
+     * @param int $maxOccurrences Maximum occurences
      */
-    public function __construct(array $subhydrators, $minOccurs = 1, $maxOccurs = 1)
+    public function __construct(array $subhydrators, $minOccurrences = 1, $maxOccurrences = 1)
     {
         parent::__construct(Hydrator::STANDARD);
 
@@ -77,6 +95,30 @@ abstract class MultipartHydrator extends AbstractHydrator
 
             $this->_subhydrators[$part] = $subhydrator;
         }
+
+        // Validate the occurrence numbers
+        self::validateParameters($minOccurrences, $maxOccurrences);
+        $this->_miniumOccurrences = intval($minOccurrences);
+        $this->_maximumOccurrences = intval($maxOccurrences);
+    }
+
+    /**
+     * Initialize the aggregate part
+     *
+     * @param string $data Part data
+     * @return PartAggregate Part aggregage
+     */
+    public function hydrate($data)
+    {
+        // If the part aggregate class isn't valid
+        if (!$this->_aggregateClass || !class_exists($this->_aggregateClass) || !is_subclass_of($this->_aggregateClass,
+                PartAggregate::class)
+        ) {
+            throw new RuntimeException(sprintf('Invalid part aggregate class "%s"', $this->_aggregateClass),
+                RuntimeException::INVALID_PART_AGGREGATE_CLASS);
+        }
+
+        return new $this->_aggregateClass($this->_subhydrators, $this->_miniumOccurrences, $this->_maximumOccurrences);
     }
 
     /**
@@ -90,10 +132,11 @@ abstract class MultipartHydrator extends AbstractHydrator
     public function getSub(array $path)
     {
 
-        // If the path part is empty
+        // If the path part is empty: Return this hydrator
         if (!count($path)) {
-            throw new PartInvalidArgumentException('Empty part identifier',
-                PartInvalidArgumentException::EMPTY_PART_IDENTIFIER);
+            return $this;
+//            throw new PartInvalidArgumentException('Empty part identifier',
+//                PartInvalidArgumentException::EMPTY_PART_IDENTIFIER);
         }
 
         // Retrieve the subhydrator
