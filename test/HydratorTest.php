@@ -260,7 +260,7 @@ class HydratorTest extends TestBase
      * Test multipart hydrator subparts
      *
      * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
-     * @expectedExceptionCode 1447365624
+     * @expectedExceptionCode 1447876355
      */
     public function testMultipartHydratorSub()
     {
@@ -272,7 +272,41 @@ class HydratorTest extends TestBase
         ]);
         $this->assertInstanceOf(TextHydrator::class, $multipartHydrator->getSub(['a']));
         $this->assertInstanceOf(CommonMarkHydrator::class, $multipartHydrator->getSub(['b']));
-        $multipartHydrator->getSub(['a', 'b']);
+        $multipartHydrator->getSub([]);
+    }
+
+    /**
+     * Test multipart hydrator unknown subpart path
+     *
+     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+     * @expectedExceptionCode 1447876475
+     */
+    public function testMultipartHydratorUnknownSub()
+    {
+        $multipartHydrator = HydratorFactory::build([
+            ['a' => TextHydrator::class, 'b' => CommonMarkHydrator::class],
+            MultipartHydrator::class,
+            1,
+            1
+        ]);
+        $multipartHydrator->getSub(['c']);
+    }
+
+    /**
+     * Test multipart hydrator invalid subpart path
+     *
+     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+     * @expectedExceptionCode 1447365624
+     */
+    public function testMultipartHydratorInvalidSub()
+    {
+        $multipartHydrator = HydratorFactory::build([
+            ['a' => TextHydrator::class, 'b' => CommonMarkHydrator::class],
+            MultipartHydrator::class,
+            1,
+            1
+        ]);
+        $multipartHydrator->getSub(['a', 'b', 'c']);
     }
 
     /**
