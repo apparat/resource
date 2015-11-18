@@ -42,5 +42,46 @@ namespace Apparat\Resource\Model\Part;
  */
 abstract class PartAggregate implements Part
 {
+	/**
+	 * Minimum occurrences
+	 *
+	 * @var int
+	 */
+	protected $_miniumOccurrences = 1;
+	/**
+	 * Maximum occurrences
+	 *
+	 * @var int
+	 */
+	protected $_maximumOccurrences = 1;
+	/**
+	 * Unbound occurrences
+	 *
+	 * @var int
+	 */
+	const UNBOUND = -1;
 
+	/**
+	 * Validate minimum / maximum occurrence numbers
+	 *
+	 * @param int $minOccurrences Minimum occurrences
+	 * @param int $maxOccurrences Maximum occurrences
+	 * @return void
+	 * @throws InvalidArgumentException If the minimum occurrences are less than 1
+	 * @throws InvalidArgumentException If the maximum occurrences are not unbound and less than the minimum occurrences
+	 */
+	public static function validateOccurrences($minOccurrences, $maxOccurrences)
+	{
+		// Minimum occurrences
+		$minOccurrences = intval($minOccurrences);
+		if ($minOccurrences < 1) {
+			throw new InvalidArgumentException(sprintf('Invalid part aggregate minimum occurrences "%s"', $minOccurrences), InvalidArgumentException::INVALID_MINIMUM_OCCURRENCES);
+		}
+
+		// Maximum occurrences
+		$maxOccurrences = intval($maxOccurrences);
+		if (($maxOccurrences < $minOccurrences) && ($maxOccurrences != self::UNBOUND)) {
+			throw new InvalidArgumentException(sprintf('Invalid part aggregate maximum occurrences "%s"', $maxOccurrences), InvalidArgumentException::INVALID_MAXIMUM_OCCURRENCES);
+		}
+	}
 }

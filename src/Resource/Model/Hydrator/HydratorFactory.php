@@ -77,7 +77,7 @@ class HydratorFactory
                     InvalidArgumentException::MISSING_MULTIPART_HYDRATOR);
 
                 // Else: if the multipart hydrator is invalid
-            } elseif (!strlen(trim($config[1])) || !(trim($config[1]) instanceof MultipartHydrator)) {
+            } elseif (!strlen(trim($config[1])) || !is_subclass_of(trim($config[1]), MultipartHydrator::class)) {
                 throw new InvalidArgumentException(sprintf('Invalid multipart hydrator class "%s"', trim($config[1])),
                     InvalidArgumentException::INVALID_MULTIPART_HYDRATOR_CLASS);
 
@@ -85,10 +85,10 @@ class HydratorFactory
             } elseif ((count($config) > 2) && !call_user_func_array(array($config[1], 'validateParameters'),
                     array_slice($config, 2))
             ) {
-                throw new InvalidArgumentException('Invalid multipart hydrator paraeters',
+                throw new InvalidArgumentException('Invalid multipart hydrator parameters',
                     InvalidArgumentException::INVALID_MULTIPART_HYDRATOR_PARAMETERS);
             }
-            
+
             // Instanciate the multipart hydrator
             $multipartHydrator = trim($config[1]);
             $multipartHydratorParameters = array_slice($config, 2);

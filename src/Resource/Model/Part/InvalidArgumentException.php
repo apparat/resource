@@ -48,4 +48,16 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @var int
      */
     const SUBPARTS_NOT_ALLOWED = 1447365624;
+    /**
+     * Invalid minimum occurrences
+     *
+     * @var int
+     */
+    const INVALID_MINIMUM_OCCURRENCES = 1447021191;
+    /**
+     * Invalid maximum occurrences
+     *
+     * @var int
+     */
+    const INVALID_MAXIMUM_OCCURRENCES = 1447021211;
 }

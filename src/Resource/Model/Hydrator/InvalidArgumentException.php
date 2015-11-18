@@ -75,17 +75,11 @@ class InvalidArgumentException extends \InvalidArgumentException
      */
     const INVALID_MULTIPART_HYDRATOR_PARAMETERS = 1447109790;
     /**
-     * Invalid minimum occurrences
+     * Invalid multipart hydrator parameter count
      *
      * @var int
      */
-    const INVALID_MINIMUM_OCCURRENCES = 1447021191;
-    /**
-     * Invalid maximum occurrences
-     *
-     * @var int
-     */
-    const INVALID_MAXIMUM_OCCURRENCES = 1447021211;
+    const INVALID_MULTIPART_HYDRATOR_PARAMETER_COUNT = 1447866302;
     /**
      * Invalid part configuration
      *
