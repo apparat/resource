@@ -60,4 +60,22 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @var int
      */
     const INVALID_MAXIMUM_OCCURRENCES = 1447021211;
+    /**
+     * Invalid part identifier
+     *
+     * @var int
+     */
+    const INVALID_PART_IDENTIFIER = 1447364401;
+    /**
+     * Empty part identifier
+     *
+     * @var int
+     */
+    const EMPTY_PART_IDENTIFIER = 1447876355;
+    /**
+     * Unknown part identifier
+     *
+     * @var int
+     */
+    const UNKOWN_PART_IDENTIFIER = 1447876475;
 }

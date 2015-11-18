@@ -33,19 +33,27 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\File;
+namespace Apparat\Resource\Model\Part;
 
 /**
- * Invalid file argument exception
+ * Abstract base class for file parts
  *
- * @package Apparat\Resource\Model\File
+ * @package Apparat\Resource\Model\Part
  */
-class InvalidArgumentException extends \InvalidArgumentException
+abstract class AbstractPart implements Part
 {
     /**
-     * Invalid part identifier
+     * Validate a part identifier
      *
-     * @var int
+     * @param string $part Part identifier
+     * @throws InvalidArgumentException If the part identifier is not valid
      */
-    const INVALID_PART_IDENTIFIER = 1447364401;
+    public static function validatePartIdentifier($part)
+    {
+        $part = strval($part);
+        if (!preg_match("%^[a-z0-9\_]+$%i", $part)) {
+            throw new InvalidArgumentException(sprintf('Invalid part path identifier "%s"', $part),
+                InvalidArgumentException::INVALID_PART_IDENTIFIER);
+        }
+    }
 }

@@ -40,7 +40,7 @@ namespace Apparat\Resource\Model\Part;
  *
  * @package Apparat\Resource\Model\Part
  */
-abstract class ContentPart implements Part
+abstract class ContentPart extends AbstractPart
 {
     /**
      * Mime type

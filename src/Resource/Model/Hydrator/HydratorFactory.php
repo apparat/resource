@@ -35,6 +35,8 @@
 
 namespace Apparat\Resource\Model\Hydrator;
 
+use Apparat\Resource\Model\Part\AbstractPart;
+
 /**
  * Hydrator factory
  *
@@ -66,6 +68,11 @@ class HydratorFactory
         } elseif (!is_array($config[0]) || !count($config[0])) {
             throw new InvalidArgumentException('Invalid hydrator content model',
                 InvalidArgumentException::INVALID_HYDRATOR_CONTENT_MODEL);
+        }
+
+        // Run through all subhydrators
+        foreach (array_keys($config[0]) as $subhydratorName) {
+            AbstractPart::validatePartIdentifier($subhydratorName);
         }
 
         // If the content model has more than one part

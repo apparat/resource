@@ -38,6 +38,7 @@ namespace Apparat\Resource\Model\File;
 use Apparat\Resource\Framework\File\TextFile;
 use Apparat\Resource\Model\Hydrator\Hydrator;
 use Apparat\Resource\Model\Hydrator\HydratorFactory;
+use Apparat\Resource\Model\Part\AbstractPart;
 use Apparat\Resource\Model\Part\Part;
 use Apparat\Resource\Model\Reader;
 use Apparat\Resource\Model\Resource;
@@ -232,16 +233,12 @@ abstract class File extends Resource
      *
      * @param string $path Part path string
      * @return array Part path identifiers
-     * @throws InvalidArgumentException If an invalid path part identifier is found
      */
     protected function _partPath($path)
     {
         return (trim($path) == '/') ? [] : array_map(function ($pathIdentifier) {
             $pathIdentifier = trim($pathIdentifier);
-            if (!preg_match("%^[a-z0-9\_]+$%i", $pathIdentifier)) {
-                throw new InvalidArgumentException(sprintf('Invalid part path identifier "%s"', $pathIdentifier),
-                    InvalidArgumentException::INVALID_PART_IDENTIFIER);
-            }
+            AbstractPart::validatePartIdentifier($pathIdentifier);
             return $pathIdentifier;
         }, explode('/', ltrim($path, '/')));
     }

@@ -75,10 +75,10 @@ interface Hydrator
     public function getName();
 
     /**
-     * Get a subhydrator
+     * Get a subhydrator by name
      *
-     * @param array $subparts Subpart path
+     * @param array $path Subhydrator path
      * @return Hydrator Subhydrator
      */
-    public function getSub(array $subparts);
+    public function getSub(array $path);
 }

@@ -40,7 +40,7 @@ namespace Apparat\Resource\Model\Part;
  *
  * @package Apparat\Resource\Model\Part
  */
-abstract class PartAggregate implements Part
+abstract class PartAggregate extends AbstractPart
 {
 	/**
 	 * Minimum occurrences

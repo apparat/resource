@@ -35,6 +35,8 @@
 
 namespace Apparat\Resource\Model\Hydrator;
 
+use Apparat\Resource\Model\Part\AbstractPart;
+use Apparat\Resource\Model\Part\InvalidArgumentException as PartInvalidArgumentException;
 use Apparat\Resource\Model\Part\PartAggregate;
 
 /**
@@ -44,66 +46,90 @@ use Apparat\Resource\Model\Part\PartAggregate;
  */
 abstract class MultipartHydrator extends AbstractHydrator
 {
-	/**
-	 * Subpart aggregate occurences
-	 *
-	 * @var array
-	 */
-	protected $_occurrences = array();
+    /**
+     * Subhydrators
+     *
+     * @var array
+     */
+    protected $_subhydrators = array();
 
-	/**
-	 * Multipart hydrator constructor
-	 *
-	 * @param array $subhydrators Subpart hydrators
-	 * @param int $minOccurs Minimum occurrences
-	 * @param int $maxOccurs Maximum occurences
-	 * @throws InvalidArgumentException If a part path identifier is invalid
-	 */
-	public function __construct(array $subhydrators, $minOccurs = 1, $maxOccurs = 1)
-	{
-		parent::__construct(Hydrator::STANDARD);
+    /**
+     * Multipart hydrator constructor
+     *
+     * @param array $subhydrators Subpart hydrators
+     * @param int $minOccurs Minimum occurrences
+     * @param int $maxOccurs Maximum occurences
+     */
+    public function __construct(array $subhydrators, $minOccurs = 1, $maxOccurs = 1)
+    {
+        parent::__construct(Hydrator::STANDARD);
 
+        // Run through all subhydrators
+        foreach ($subhydrators as $part => $subhydrator) {
 
+            // Validate the hydrator name
+            AbstractPart::validatePartIdentifier($part);
 
+            // If the subhydrator needs to be instancianted from a string or array
+            if (!($subhydrator instanceof Hydrator)) {
+                $subhydrator = HydratorFactory::build(is_array($subhydrator) ? $subhydrator : [[$part => $subhydrator]]);
+            }
 
+            $this->_subhydrators[$part] = $subhydrator;
+        }
+    }
 
-		// TODO: Implement
-		// InvalidArgumentException::INVALID_PART_IDENTIFIER
-	}
+    /**
+     * Get a subhydrator by name
+     *
+     * @param array $path Subhydrator path
+     * @return Hydrator Subhydrator
+     * @throws PartInvalidArgumentException If the subhydrator path is empty
+     * @throws PartInvalidArgumentException If the subhydrator path is unknown
+     */
+    public function getSub(array $path)
+    {
 
-	/**
-	 * Get a subhydrator
-	 *
-	 * @param array $subparts Subpart path
-	 * @return Hydrator Subhydrator
-	 */
-	public function getSub(array $subparts)
-	{
-		// TODO: Implement subpart getter
-		die(__CLASS__.'->'.__METHOD__);
-//		return $this;
-	}
+        // If the path part is empty
+        if (!count($path)) {
+            throw new PartInvalidArgumentException('Empty part identifier',
+                PartInvalidArgumentException::EMPTY_PART_IDENTIFIER);
+        }
 
-	/**
-	 * Validate the parameters accepted by this hydrator
-	 *
-	 * By default, a multipart parameter accepts exactly two parameters:
-	 * - the minimum number of occurrences of the contained part aggregate
-	 * - the maximum number of occurrences of the contained part aggregate
-	 *
-	 * @param array $parameters Parameters
-	 * @return boolean Parameters are valid
-	 */
-	static function validateParameters(...$parameters) {
+        // Retrieve the subhydrator
+        $subhydratorName = array_shift($path);
+        if (!array_key_exists($subhydratorName, $this->_subhydrators)) {
+            throw new PartInvalidArgumentException('Unknown part identifier "%s"',
+                PartInvalidArgumentException::UNKOWN_PART_IDENTIFIER);
+        }
 
-		// If the number of parameters isn't exactly 2
-		if (count($parameters) != 2) {
-			throw new InvalidArgumentException(sprintf('Invalid multipart hydrator parameter count (%s)', count($parameters)), InvalidArgumentException::INVALID_MULTIPART_HYDRATOR_PARAMETER_COUNT);
-		}
+        /** @var Hydrator $subhydrator */
+        $subhydrator =& $this->_subhydrators[$subhydratorName];
+        return count($path) ? $subhydrator->getSub($path) : $subhydrator;
+    }
 
-		// Validate the occurrence numbers
-		PartAggregate::validateOccurrences($parameters[0], $parameters[1]);
+    /**
+     * Validate the parameters accepted by this hydrator
+     *
+     * By default, a multipart parameter accepts exactly two parameters:
+     * - the minimum number of occurrences of the contained part aggregate
+     * - the maximum number of occurrences of the contained part aggregate
+     *
+     * @param array $parameters Parameters
+     * @return boolean Parameters are valid
+     */
+    static function validateParameters(...$parameters)
+    {
 
-		return true;
-	}
+        // If the number of parameters isn't exactly 2
+        if (count($parameters) != 2) {
+            throw new InvalidArgumentException(sprintf('Invalid multipart hydrator parameter count (%s)',
+                count($parameters)), InvalidArgumentException::INVALID_MULTIPART_HYDRATOR_PARAMETER_COUNT);
+        }
+
+        // Validate the occurrence numbers
+        PartAggregate::validateOccurrences($parameters[0], $parameters[1]);
+
+        return true;
+    }
 }

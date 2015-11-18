@@ -36,11 +36,12 @@
 namespace ApparatTest;
 
 use Apparat\Resource\Framework\File\TextFile;
-use Apparat\Resource\Framework\Io\InMemory\ReaderWriter;
-use Apparat\Resource\Framework\Part\TextPart;
 use Apparat\Resource\Framework\Io\InMemory\Reader;
+use Apparat\Resource\Framework\Io\InMemory\ReaderWriter;
 use Apparat\Resource\Framework\Io\InMemory\Writer;
+use Apparat\Resource\Framework\Part\TextPart;
 use Apparat\Resource\Model\File\RuntimeException;
+use \Apparat\Resource\Model\Part\InvalidArgumentException;
 
 /**
  * Text file tests
@@ -163,7 +164,7 @@ class TextTest extends TestBase
     /**
      * Test an invalid path identifier
      *
-     * @expectedException \Apparat\Resource\Model\File\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      * @expectedExceptionCode 1447364401
      */
     public function testTextFileInvalidPathIdentifier()
@@ -175,7 +176,7 @@ class TextTest extends TestBase
     /**
      * Test setting the content of a text file with unallowed subparts
      *
-     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      * @expectedExceptionCode 1447365624
      */
     public function testTextFileSetSubparts()
@@ -187,7 +188,7 @@ class TextTest extends TestBase
     /**
      * Test appending to the content of a text file with unallowed subparts
      *
-     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      * @expectedExceptionCode 1447365624
      */
     public function testTextFileAppendSubparts()
@@ -199,7 +200,7 @@ class TextTest extends TestBase
     /**
      * Test prepending to the content of a text file with unallowed subparts
      *
-     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      * @expectedExceptionCode 1447365624
      */
     public function testTextFilePrependSubparts()
@@ -211,7 +212,7 @@ class TextTest extends TestBase
     /**
      * Test getting the content of a text file with unallowed subparts
      *
-     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      * @expectedExceptionCode 1447365624
      */
     public function testTextFileGetSubparts()
@@ -223,7 +224,7 @@ class TextTest extends TestBase
     /**
      * Test getting the MIME type of a text file with unallowed subparts
      *
-     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      * @expectedExceptionCode 1447365624
      */
     public function testTextFileMimeTypeSubparts()
