@@ -33,59 +33,29 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Part;
+namespace Apparat\Resource\Framework\File;
 
-use Apparat\Resource\Model\Part\ContentPart;
-use Apparat\Resource\Model\Part\InvalidArgumentException;
+use Apparat\Resource\Framework\Hydrator\JsonHydrator;
+use Apparat\Resource\Model\File\File;
+use Apparat\Resource\Model\Reader;
 
 /**
- * JSON file part
+ * JSON file
  *
- * @package Apparat\Resource\Framework\Part
+ * @package Apparat\Resource\Framework\File
+ * @method JsonFile setPart() set(array $data, string $part = '/') Set the content of the file
+ * @method array getDataPart() getDataPart(string $part = '/') Get the JSON data of the file
+ * @method JsonFile setDataPart() setDataPart(array $data, string $part = '/') Set the JSON data of the file
  */
-class JsonPart extends ContentPart
+class JsonFile extends File
 {
     /**
-     * Mime type
+     * JSON file constuctor
      *
-     * @var string
+     * @param Reader $reader Reader instance
      */
-    const MIME_TYPE = 'application/json';
-
-    /**
-     * Return the unserialized JSON source
-     *
-     * @param array $subparts Subpart path identifiers
-     * @return array Unserialized JSON data
-     * @throws InvalidArgumentException If there are subpart identifiers given
-     */
-    public function getData(array $subparts)
+    public function __construct(Reader $reader = null)
     {
-
-        // If there are subpart identifiers given
-        if (count($subparts)) {
-            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
-                InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
-        }
-
-        $data = array();
-
-        if (strlen($this->_content)) {
-            $data =  json_decode($this->_content, true);
-        }
-
-        return $data;
-    }
-
-    /**
-     * Set JSON data
-     *
-     * @param array $data New data
-     * @param array $subparts Subpart path identifiers
-     * @return JsonPart Self reference
-     */
-    public function setData(array $data, array $subparts)
-    {
-        return $this->set(json_encode($data, JSON_PRETTY_PRINT), $subparts);
+        parent::__construct($reader, JsonHydrator::class);
     }
 }
