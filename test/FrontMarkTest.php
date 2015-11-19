@@ -86,7 +86,7 @@ class FrontMarkTest extends TestBase
     public function testYamlFrontMarkFile() {
         $frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
         $this->assertInstanceOf(FrontMarkFile::class, $frontMarkFile);
-        $frontMarkFile->getPart();
-//        print_r($frontMarkFile->getPart());
+        $this->assertEquals(null, $frontMarkFile->getMimeTypePart());
+        print_r($frontMarkFile->getPart());
     }
 }

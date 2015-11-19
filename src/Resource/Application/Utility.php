@@ -1,14 +1,16 @@
 <?php
 
 /**
- * apparat-resource
+ * apparat/resource
  *
- * @category    Apparat
- * @package     Apparat_<Package>
+ * @category    Jkphl
+ * @package     Jkphl_apparat/resource
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
+
+namespace Jkphl;
 
 /***********************************************************************************
  *  The MIT License (MIT)
@@ -33,60 +35,24 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Hydrator;
-
-use Apparat\Resource\Application\Utility;
-use Apparat\Resource\Model\Hydrator\SequenceHydrator;
-use Apparat\Resource\Model\Part\Part;
-use Apparat\Resource\Model\Part\PartAggregate;
+namespace Apparat\Resource\Application;
 
 /**
- * FrontMark part hydrator (combination of YAML / JSON front matter and CommonMark part)
+ * General utilities
  *
- * @package Apparat\Resource\Framework\Hydrator
+ * @package Apparat\Resource\Application
  */
-class FrontMarkHydrator extends SequenceHydrator
+class Utility
 {
 	/**
-	 * Serialize a file part
+	 * Strip the byte order mark off the begining of a string
 	 *
-	 * @param PartAggregate $part File part
-	 * @return string Serialized file part
+	 * @param string $str           String with byte order mark
+	 * @return string               String without byte order mark
 	 */
-	public function dehydrate(Part $part)
+	public static function stripBom($str)
 	{
-		// TODO: Implement
-		return '--- DEHYDRATED FRONTMARK ---';
-	}
-
-	/**
-	 * Translate data to a YAML file part
-	 *
-	 * @param string $data Part data
-	 * @return PartAggregate Part aggregate
-	 */
-	public function hydrate($data)
-	{
-		$aggregate = parent::hydrate(null);
-
-		// Prepare and split the frontmatter data
-		$data = Utility::stripBom($data);
-
-		// Check for a YAML document end marker
-		$yamlParts = preg_split("%\R(\.\.\.)\R%", $data, 2);
-		if (count($yamlParts) > 1) {
-			$yamlFrontMatter = array_shift($yamlParts);
-			$commonMarkBody = implode('...', $yamlParts);
-
-			// Else: Check for JSON front matter
-		} else {
-			// TODO: Implement JSON front matter
-
-			$commonMarkBody = $data;
-		}
-
-		// TODO: Implement aggregate hydration
-
-		return $aggregate;
+		$bom = pack('H*', 'EFBBBF');
+		return preg_replace("/^$bom/", '', $str);
 	}
 }
