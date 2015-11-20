@@ -2,7 +2,6 @@
 	"title": "Markdown Syntax",
 	"author": "John Gruber"
 }
-...
 Markdown: Syntax
 ================
 

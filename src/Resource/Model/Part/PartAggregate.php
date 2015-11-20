@@ -66,6 +66,12 @@ abstract class PartAggregate extends AbstractPart
      * @var array
      */
     protected $_occurrences = [];
+    /**
+     * Current occurrence index
+     *
+     * @var int
+     */
+    protected $_occurrence = 0;
 
     /**
      * Unbound occurrences
@@ -89,7 +95,7 @@ abstract class PartAggregate extends AbstractPart
         $this->_maximumOccurrences = intval($maxOccurrences);
 
         // Initialize the occurrences
-        $this->_initializeOccurrences();
+        $this->_initializeOccurrences($this->_miniumOccurrences);
     }
 
     /**
@@ -118,6 +124,19 @@ abstract class PartAggregate extends AbstractPart
     }
 
     /**
+     * Assign data to a particular part
+     *
+     * @param string $part Part identifier
+     * @param string $data Part data
+     * @param null|int $occurrence Occurrence to assign the part data to
+     */
+    abstract public function assign($part, $data, $occurrence = null);
+
+    /*******************************************************************************
+     * STATIC METHODS
+     *******************************************************************************/
+
+    /**
      * Validate minimum / maximum occurrence numbers
      *
      * @param int $minOccurrences Minimum occurrences
@@ -143,14 +162,26 @@ abstract class PartAggregate extends AbstractPart
         }
     }
 
+    /*******************************************************************************
+     * PRIVATE METHODS
+     *******************************************************************************/
+
     /**
-     * Initialize the occurrences
+     * Initialize a particular number of occurrences
      *
-     * @return void
+     * @param int $occurrences Occurrences number
+     * @throws OutOfBoundsException If an invalid number of occurrences is specified
      */
-    protected function _initializeOccurrences()
+    protected function _initializeOccurrences($occurrences)
     {
-        for ($occurrence = 0; $occurrence < $this->_miniumOccurrences; ++$occurrence) {
+        // If the occurrences number is invalid
+        if (($occurrences < $this->_miniumOccurrences) || (($this->_maximumOccurrences != self::UNBOUND) && ($occurrences > $this->_maximumOccurrences))) {
+            throw new OutOfBoundsException(sprintf('Invalid occurrences number "%s"', $occurrences),
+                OutOfBoundsException::INVALID_OCCURRENCES_NUMBER);
+        }
+
+        // Initialize the particular number of occurrences
+        for ($occurrence = count($this->_occurrences); $occurrence < $occurrences; ++$occurrence) {
             $this->_addOccurrence();
         }
     }
@@ -161,4 +192,31 @@ abstract class PartAggregate extends AbstractPart
      * @return void
      */
     abstract protected function _addOccurrence();
+
+    /**
+     * Prepare a part assignment
+     *
+     * @param string $part Part identifier
+     * @param null|int $occurrence Occurrence to assign the part data to
+     * @return int Occurrence index
+     * @throws InvalidArgumentException If the part identifier is invalid
+     */
+    protected function _prepareAssignment($part, $occurrence = null) {
+
+        // If the part identifier is invalid
+        if (!strlen($part) || !array_key_exists($part, $this->_template)) {
+            throw new InvalidArgumentException(sprintf('Invalid part identifier "%s"', $part),
+                InvalidArgumentException::INVALID_PART_IDENTIFIER);
+        }
+
+        // Use the current occurrence if not specified
+        if ($occurrence === null) {
+            $occurrence = $this->_occurrence;
+        }
+
+        // Initialize the required number or occurrences
+        $this->_initializeOccurrences($occurrence + 1);
+
+        return $occurrence;
+    }
 }

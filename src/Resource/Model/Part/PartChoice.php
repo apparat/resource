@@ -35,6 +35,8 @@
 
 namespace Apparat\Resource\Model\Part;
 
+use Apparat\Resource\Model\Hydrator\Hydrator;
+
 /**
  * Part choice
  *
@@ -73,5 +75,21 @@ class PartChoice extends PartAggregate
     protected function _addOccurrence()
     {
         $this->_occurrences[] = null;
+    }
+
+    /**
+     * Assign data to a particular part
+     *
+     * @param string $part Part identifier
+     * @param string $data Part data
+     * @param null|int $occurrence Occurrence to assign the part data to
+     */
+    public function assign($part, $data, $occurrence = null)
+    {
+        $occurrence = $this->_prepareAssignment($part, $occurrence);
+
+        /** @var Hydrator $hydrator */
+        $hydrator =& $this->_template[$part];
+        $this->_occurrences[$occurrence] = [$part => $hydrator->hydrate($data)];
     }
 }

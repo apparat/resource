@@ -33,32 +33,19 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Hydrator;
-
-use Apparat\Resource\Framework\Part\YamlPart;
+namespace Apparat\Resource\Model\Part;
 
 /**
- * CommonMark part hydrator
+ * Out of bounds exception
  *
- * @package Apparat\Resource\Framework\Hydrator
+ * @package Apparat\Resource\Model\Part
  */
-class YamlHydrator extends TextHydrator
+class OutOfBoundsException extends \OutOfBoundsException
 {
     /**
-     * YAML part identifier
+     * Invalid occurrences number
      *
-     * @var string
+     * @var int
      */
-    const YAML = 'yaml';
-
-    /**
-     * Translate data to a YAML file part
-     *
-     * @param string $data Part data
-     * @return YamlPart YAML file part
-     */
-    public function hydrate($data)
-    {
-        return new YamlPart($data);
-    }
+    const INVALID_OCCURRENCES_NUMBER = 1447976806;
 }

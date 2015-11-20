@@ -36,6 +36,7 @@
 namespace Apparat\Resource\Framework\Hydrator;
 
 use Apparat\Resource\Application\Utility;
+use Apparat\Resource\Model\Hydrator\Hydrator;
 use Apparat\Resource\Model\Hydrator\SequenceHydrator;
 use Apparat\Resource\Model\Part\Part;
 use Apparat\Resource\Model\Part\PartAggregate;
@@ -47,46 +48,79 @@ use Apparat\Resource\Model\Part\PartAggregate;
  */
 class FrontMarkHydrator extends SequenceHydrator
 {
-	/**
-	 * Serialize a file part
-	 *
-	 * @param PartAggregate $part File part
-	 * @return string Serialized file part
-	 */
-	public function dehydrate(Part $part)
-	{
-		// TODO: Implement
-		return '--- DEHYDRATED FRONTMARK ---';
-	}
+    /**
+     * Serialize a file part
+     *
+     * @param PartAggregate $part File part
+     * @return string Serialized file part
+     */
+    public function dehydrate(Part $part)
+    {
+        // TODO: Implement
+        return '--- DEHYDRATED FRONTMARK ---';
+    }
 
-	/**
-	 * Translate data to a YAML file part
-	 *
-	 * @param string $data Part data
-	 * @return PartAggregate Part aggregate
-	 */
-	public function hydrate($data)
-	{
-		$aggregate = parent::hydrate(null);
+    /**
+     * Translate data to a YAML file part
+     *
+     * @param string $data Part data
+     * @return PartAggregate Part aggregate
+     */
+    public function hydrate($data)
+    {
+        $aggregate = parent::hydrate(null);
 
-		// Prepare and split the frontmatter data
-		$data = Utility::stripBom($data);
+        // Prepare and split the frontmatter data
+        $data = Utility::stripBom($data);
+        $frontMatter = '';
+        $commonMarkBody = '';
 
-		// Check for a YAML document end marker
-		$yamlParts = preg_split("%\R(\.\.\.)\R%", $data, 2);
-		if (count($yamlParts) > 1) {
-			$yamlFrontMatter = array_shift($yamlParts);
-			$commonMarkBody = implode('...', $yamlParts);
+        // Check for a YAML document end marker
+        $yamlParts = preg_split("%\R(\.\.\.)\R%", $data, 2);
+        if (count($yamlParts) > 1) {
+            $frontMatter = array_shift($yamlParts);
+            $commonMarkBody = implode('...', $yamlParts);
 
-			// Else: Check for JSON front matter
-		} else {
-			// TODO: Implement JSON front matter
+            // Else: Check for JSON front matter
+        } elseif (!strncmp('{', trim($data), 1)) {
+            list($frontMatter, $commonMarkBody) = $this->_extractJsonFrontmatter($data);
+        }
 
-			$commonMarkBody = $data;
-		}
+        // Assign the front matter and body part
+        $aggregate->assign(FrontMatterHydrator::FRONTMATTER, $frontMatter, 0);
+        $aggregate->assign(Hydrator::STANDARD, $commonMarkBody, 0);
 
-		// TODO: Implement aggregate hydration
+        return $aggregate;
+    }
 
-		return $aggregate;
-	}
+    /**
+     * Extract the JSON front matter from a string
+     *
+     * @param string $data String
+     * @return array    JSON front matter and string remainder
+     */
+    protected function _extractJsonFrontmatter($data)
+    {
+        $jsonFrontMatter = '';
+        $remainder = $data;
+
+        // Try decoding the whole string first
+        if (is_object(@json_decode(trim($data)))) {
+            $jsonFrontMatter = trim($data);
+            $remainder = '';
+
+            // Else: If the data contains potential JSON closing brackets
+        } elseif (preg_match_all("%\}[\s\R]*[^\,\}\]]%", $data, $closingBrackets, PREG_OFFSET_CAPTURE)) {
+            foreach ($closingBrackets[0] as $closingBracket) {
+                $jsonData = substr($data, 0, $closingBracket[1] + 1);
+                if (is_object(@json_decode($jsonData))) {
+                    $jsonFrontMatter = trim($jsonData);
+                    $remainder = ltrim(substr($data, $closingBracket[1] + 1));
+                    break;
+                }
+            }
+        }
+
+        return [$jsonFrontMatter, $remainder];
+    }
 }

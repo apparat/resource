@@ -45,6 +45,12 @@ use Apparat\Resource\Model\Part\Part;
  */
 class FrontMatterHydrator extends ChoiceHydrator
 {
+    /**
+     * Front matter part identifier
+     *
+     * @var string
+     */
+    const FRONTMATTER = 'frontmatter';
 
     /**
      * Serialize a file part
@@ -65,6 +71,17 @@ class FrontMatterHydrator extends ChoiceHydrator
      */
     public function hydrate($data)
     {
-        // TODO: Implement hydrate() method.
+        $aggregate = parent::hydrate(null);
+
+        // If it's a JSON front matter
+        if (!strncmp('{', trim($data), 1)) {
+            $aggregate->assign(JsonHydrator::JSON, $data, 0);
+
+            // Else: Assign as YAML front matter
+        } else {
+            $aggregate->assign(YamlHydrator::YAML, $data, 0);
+        }
+
+        return $aggregate;
     }
 }

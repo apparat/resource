@@ -81,12 +81,24 @@ class FrontMarkTest extends TestBase
     }
 
     /**
-     * Test a FrontMark file
+     * Test a YAML FrontMark file
      */
-    public function testYamlFrontMarkFile() {
+    public function testYamlFrontMarkFile()
+    {
         $frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
         $this->assertInstanceOf(FrontMarkFile::class, $frontMarkFile);
         $this->assertEquals(null, $frontMarkFile->getMimeTypePart());
-        print_r($frontMarkFile->getPart());
     }
+
+    /**
+     * Test a JSON FrontMark file
+     */
+    public function testJsonFrontMarkFile()
+    {
+        $frontMarkFile = new FrontMarkFile(new Reader($this->_jsonFrontMark));
+        $frontMarkFile->getPart();
+//        echo $frontMarkFile->getPart('/'.Hydrator::STANDARD);
+    }
+
+    // TODO: Try with JSON file only
 }

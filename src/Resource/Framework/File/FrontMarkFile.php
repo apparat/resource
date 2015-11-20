@@ -63,10 +63,10 @@ class FrontMarkFile extends File
     {
         parent::__construct($reader, array(
             [
-                'frontmatter' => [
+                FrontMatterHydrator::FRONTMATTER => [
                     [
-                        'json' => JsonHydrator::class,
-                        'yaml' => YamlHydrator::class
+                        JsonHydrator::JSON => JsonHydrator::class,
+                        YamlHydrator::YAML => YamlHydrator::class
                     ],
                     FrontMatterHydrator::class
                 ],

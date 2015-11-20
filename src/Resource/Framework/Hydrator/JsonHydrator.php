@@ -45,6 +45,13 @@ use Apparat\Resource\Framework\Part\JsonPart;
 class JsonHydrator extends TextHydrator
 {
     /**
+     * JSON part identifier
+     *
+     * @var string
+     */
+    const JSON = 'json';
+
+    /**
      * Translate data to a JSON file part
      *
      * @param string $data Part data
