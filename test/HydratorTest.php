@@ -257,6 +257,23 @@ class HydratorTest extends TestBase
     }
 
     /**
+     * Test multipart hydrator with too few part identifiers
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionCode 1448056671
+     */
+    public function testMultipartHydratorTooFewPartIdentifiers()
+    {
+        $multipartHydrator = HydratorFactory::build([
+            ['a' => TextHydrator::class, 'b' => CommonMarkHydrator::class],
+            MultipartHydrator::class,
+            1,
+            1
+        ]);
+        $multipartHydrator->getSub(['c']);
+    }
+
+    /**
      * Test multipart hydrator unknown subpart path
      *
      * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
@@ -270,7 +287,7 @@ class HydratorTest extends TestBase
             1,
             1
         ]);
-        $multipartHydrator->getSub(['c']);
+        $multipartHydrator->getSub([0, 'c']);
     }
 
     /**
@@ -287,7 +304,7 @@ class HydratorTest extends TestBase
             1,
             1
         ]);
-        $multipartHydrator->getSub(['a', 'b', 'c']);
+        $multipartHydrator->getSub([0, 'a', 0, 'b', 0, 'c']);
     }
 
     /**
