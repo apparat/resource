@@ -48,4 +48,10 @@ class OutOfBoundsException extends \OutOfBoundsException
      * @var int
      */
     const INVALID_OCCURRENCES_NUMBER = 1447976806;
+    /**
+     * Invalid occurrence index
+     *
+     * @var int
+     */
+    const OCCURRENCE_INDEX_OUT_OF_BOUNDS = 1448052094;
 }

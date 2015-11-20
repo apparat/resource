@@ -37,6 +37,7 @@ namespace Apparat\Resource\Framework\Hydrator;
 
 use Apparat\Resource\Model\Hydrator\ChoiceHydrator;
 use Apparat\Resource\Model\Part\Part;
+use Apparat\Resource\Model\Part\PartChoice;
 
 /**
  * FrontMark part hydrator (combination of YAML / JSON front matter and CommonMark part)
@@ -55,12 +56,14 @@ class FrontMatterHydrator extends ChoiceHydrator
     /**
      * Serialize a file part
      *
-     * @param Part $part File part
+     * @param PartChoice $part File part
      * @return string Serialized file part
      */
     public function dehydrate(Part $part)
     {
-        // TODO: Implement dehydrate() method.
+	    print_r($this->_subhydrators);
+//	    echo 'FM Hydrator : ';
+//        echo get_class($part);
     }
 
     /**

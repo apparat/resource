@@ -73,7 +73,7 @@ class FrontMarkHydrator extends SequenceHydrator
         // Prepare and split the frontmatter data
         $data = Utility::stripBom($data);
         $frontMatter = '';
-        $commonMarkBody = '';
+        $commonMarkBody = $data;
 
         // Check for a YAML document end marker
         $yamlParts = preg_split("%\R(\.\.\.)\R%", $data, 2);

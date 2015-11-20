@@ -81,7 +81,7 @@ Suite #292
                     'price' => 2392,
                 ),
         ),
-    'tax' => 251.41999999999999,
-    'total' => 4443.5200000000004,
+    'tax' => 251.42,
+    'total' => 4443.52,
     'comments' => 'Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338.',
 );

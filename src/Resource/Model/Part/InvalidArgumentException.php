@@ -78,4 +78,22 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @var int
      */
     const UNKOWN_PART_IDENTIFIER = 1447876475;
+    /**
+     * Too few subpart identifiers
+     *
+     * @var int
+     */
+    const TOO_FEW_SUBPART_IDENTIFIERS = 1448051332;
+    /**
+     * Invalid occurrence identifier
+     *
+     * @var int
+     */
+    const INVALID_OCCURRENCE_INDEX = 1448051596;
+    /**
+     * Part does not exist
+     *
+     * @var int
+     */
+    const PART_DOES_NOT_EXIST = 1448053518;
 }

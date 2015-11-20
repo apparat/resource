@@ -135,14 +135,20 @@ abstract class MultipartHydrator extends AbstractHydrator
         // If the path part is empty: Return this hydrator
         if (!count($path)) {
             return $this;
-//            throw new PartInvalidArgumentException('Empty part identifier',
-//                PartInvalidArgumentException::EMPTY_PART_IDENTIFIER);
         }
+
+	    // If there are less than two part identifiers
+	    if (count($path) < 2) {
+		    throw new InvalidArgumentException(sprintf('Too few subpart identifiers ("%s")',
+			    implode('/', $path)),
+			    InvalidArgumentException::TOO_FEW_SUBPART_IDENTIFIERS);
+	    }
+	    array_shift($path);
 
         // Retrieve the subhydrator
         $subhydratorName = array_shift($path);
         if (!array_key_exists($subhydratorName, $this->_subhydrators)) {
-            throw new PartInvalidArgumentException('Unknown part identifier "%s"',
+            throw new PartInvalidArgumentException(sprintf('Unknown part identifier "%s"', $subhydratorName),
                 PartInvalidArgumentException::UNKOWN_PART_IDENTIFIER);
         }
 

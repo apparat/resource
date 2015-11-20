@@ -114,13 +114,59 @@ abstract class PartAggregate extends AbstractPart
      *
      * @param array $subparts Subpart path identifiers
      * @return ContentPart Self reference
-     * @throws InvalidArgumentException If there are subpart identifiers given
+     * @throws InvalidArgumentException If there are too few subpart identifiers given
+     * @throws InvalidArgumentException If the occurrence index is invalid
+     * @throws OutOfBoundsException If the occurrence index is out of bounds
      */
     public function get(array $subparts)
     {
-//        print_r($subparts);
+        // If a subpart is requested
+        if (count($subparts)) {
 
-        return $this;
+            // Check if there are at least 2 subpart path identifiers available
+            if (count($subparts) < 2) {
+                throw new InvalidArgumentException(sprintf('Too few subpart identifiers ("%s")',
+                    implode('/', $subparts)),
+                    InvalidArgumentException::TOO_FEW_SUBPART_IDENTIFIERS);
+            }
+
+            // Validate the occurrence index
+            $occurrence = array_shift($subparts);
+            if ((strval(intval($occurrence)) != $occurrence)) {
+                throw new InvalidArgumentException(sprintf('Invalid occurrence index "%s"', $occurrence),
+                    InvalidArgumentException::INVALID_OCCURRENCE_INDEX);
+            }
+
+            // Test if the occurrence index is within bounds
+            if ((intval($occurrence) < 0) || ($occurrence >= count($this->_occurrences))) {
+                throw new OutOfBoundsException(sprintf('Occurrence index "%s" out of bounds', $occurrence),
+                    OutOfBoundsException::OCCURRENCE_INDEX_OUT_OF_BOUNDS);
+            }
+
+            // Validate the part identifier
+            $part = array_shift($subparts);
+            self::validatePartIdentifier($part);
+
+            // Test if the part identifier is known
+            if (!array_key_exists($part, $this->_occurrences[$occurrence])) {
+                throw new InvalidArgumentException(sprintf('Unknown part identifier "%s"', $part),
+                    InvalidArgumentException::UNKOWN_PART_IDENTIFIER);
+            }
+
+            // If the part is empty
+            if (!($this->_occurrences[$occurrence][$part] instanceof Part)) {
+                throw new InvalidArgumentException(sprintf('Part "%s" does not exist', $occurrence.'/'.$part),
+                    InvalidArgumentException::PART_DOES_NOT_EXIST);
+            }
+
+	        /** @var Part $subpart */
+	        $subpart = $this->_occurrences[$occurrence][$part];
+            return $subpart->get($subparts);
+
+            // Else: return this
+        } else {
+            return $this;
+        }
     }
 
     /**
@@ -201,7 +247,8 @@ abstract class PartAggregate extends AbstractPart
      * @return int Occurrence index
      * @throws InvalidArgumentException If the part identifier is invalid
      */
-    protected function _prepareAssignment($part, $occurrence = null) {
+    protected function _prepareAssignment($part, $occurrence = null)
+    {
 
         // If the part identifier is invalid
         if (!strlen($part) || !array_key_exists($part, $this->_template)) {

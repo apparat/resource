@@ -98,4 +98,10 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @var int
      */
     const INVALID_PART_CLASS = 1447022020;
+	/**
+	 * Too few subpart identifiers
+	 *
+	 * @var int
+	 */
+	const TOO_FEW_SUBPART_IDENTIFIERS = 1448056671;
 }
