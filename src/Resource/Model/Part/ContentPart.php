@@ -95,7 +95,7 @@ abstract class ContentPart extends AbstractPart
     }
 
     /**
-     * Set the contents of this part
+     * Set the contents of a part
      *
      * @param string $data Contents
      * @param array $subparts Subpart path identifier

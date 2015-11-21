@@ -50,7 +50,7 @@ interface Part
     public function __toString();
 
     /**
-     * Set the contents of a this part
+     * Set the contents of a part
      *
      * @param mixed $data Contents
      * @param array $subparts Subpart path identifiers

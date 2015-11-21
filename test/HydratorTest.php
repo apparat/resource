@@ -94,6 +94,17 @@ class MultipartHydrator extends \Apparat\Resource\Model\Hydrator\MultipartHydrat
             return false;
         }
     }
+
+    /**
+     * Dehydrate a single occurrence
+     *
+     * @param array $occurrence Occurrence
+     * @return string Dehydrated occurrence
+     */
+    protected function _dehydrateOccurrence(array $occurrence)
+    {
+        return '';
+    }
 }
 
 

@@ -160,7 +160,7 @@ abstract class MultipartHydrator extends AbstractHydrator
 				RuntimeException::INVALID_PART_AGGREGATE_CLASS);
 		}
 
-		return new $this->_aggregateClass($this->_subhydrators, $this->_miniumOccurrences, $this->_maximumOccurrences);
+		return new $this->_aggregateClass($this->_subhydrators, $this->_miniumOccurrences, $this->_maximumOccurrences, $this);
 	}
 
 	/**

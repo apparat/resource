@@ -45,28 +45,6 @@ use Apparat\Resource\Model\Hydrator\Hydrator;
 class PartChoice extends PartAggregate
 {
     /**
-     * Serialize this file part
-     *
-     * @return string   File part content
-     */
-    public function __toString()
-    {
-        // TODO: Implement __toString() method.
-    }
-
-    /**
-     * Set the contents of a this part
-     *
-     * @param mixed $data Contents
-     * @param array $subparts Subpart path identifiers
-     * @return Part Modified part
-     */
-    public function set($data, array $subparts)
-    {
-        // TODO: Implement set() method.
-    }
-
-    /**
      * Add an occurrence
      *
      * @return void
