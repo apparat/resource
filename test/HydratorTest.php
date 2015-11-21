@@ -37,76 +37,124 @@ namespace ApparatTest;
 
 use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
 use Apparat\Resource\Framework\Hydrator\TextHydrator;
+use Apparat\Resource\Framework\Part\TextPart;
 use Apparat\Resource\Model\Hydrator\Hydrator;
 use Apparat\Resource\Model\Hydrator\HydratorFactory;
 use Apparat\Resource\Model\Hydrator\InvalidArgumentException;
+use Apparat\Resource\Model\Hydrator\RuntimeException;
 use Apparat\Resource\Model\Part\Part;
 
+
 /**
- * Multipart hydrator mock
+ * Mock methods for multipart hydrators
  *
  * @package ApparatTest
  */
-class MultipartHydrator extends \Apparat\Resource\Model\Hydrator\MultipartHydrator
+trait AggregateHydratorMocks
 {
+	/**
+	 * Translate data to a file part
+	 *
+	 * @param string $data Part data
+	 * @return Part File part
+	 */
+	public function hydrate($data)
+	{
+		if (!empty($GLOBALS['mockAggregateClass'])) {
+			$this->_aggregateClass = self::class;
+		}
 
-    /**
-     * Serialize a file part
-     *
-     * @param Part $part File part
-     * @return string Serialized file part
-     */
-    public function dehydrate(Part $part)
-    {
-        // TODO: Implement dehydrate() method.
-    }
+		$aggregate = parent::hydrate(null);
+		foreach (explode('|', $data) as $part => $str) {
+			$aggregate->assign("$part", $str, 0);
+		}
+		return $aggregate;
+	}
 
-    /**
-     * Translate data to a file part
-     *
-     * @param string $data Part data
-     * @return Part File part
-     */
-    public function hydrate($data)
-    {
-        // TODO: Implement hydrate() method.
-    }
+	/**
+	 * Dehydrate a single occurrence
+	 *
+	 * @param array $occurrence Occurrence
+	 * @return string Dehydrated occurrence
+	 */
+	protected function _dehydrateOccurrence(array $occurrence)
+	{
 
-    /**
-     * Validate the parameters accepted by this hydrator
-     *
-     * By default, a multipart parameter accepts exactly two parameters:
-     * - the minimum number of occurrences of the contained part aggregate
-     * - the maximum number of occurrences of the contained part aggregate
-     *
-     * @param array $parameters Parameters
-     * @return boolean Parameters are valid
-     */
-    static function validateParameters(...$parameters)
-    {
+		// If the default validation should be used
+		if (empty($GLOBALS['mockOccurrenceDehydration'])) {
 
-        // If the default validation should be used
-        if (empty($GLOBALS['mockValidateParameters'])) {
-            return parent::validateParameters(...$parameters);
+			// If an empty occurrence shall be tested
+			if (!empty($GLOBALS['mockEmptyOccurrence'])) {
+				return parent::_dehydrateOccurrence([]);
 
-            // Else return a mock result
-        } else {
-            return false;
-        }
-    }
+				// If an invalid subhydrator name should be tested
+			} elseif (!empty($GLOBALS['mockSubhydratorName'])) {
+				$occurrenceCount = count($occurrence);
+				return parent::_dehydrateOccurrence(array_combine(range($occurrenceCount, $occurrenceCount * 2 - 1), array_values($occurrence)));
 
-    /**
-     * Dehydrate a single occurrence
-     *
-     * @param array $occurrence Occurrence
-     * @return string Dehydrated occurrence
-     */
-    protected function _dehydrateOccurrence(array $occurrence)
-    {
-        return '';
-    }
+				// If an invalid part instance should be tested
+			} elseif (!empty($GLOBALS['mockPartInstance'])) {
+				return parent::_dehydrateOccurrence(array_fill_keys(array_keys($occurrence), null));
+
+				// Else: Regular processing
+			} else {
+				return parent::_dehydrateOccurrence($occurrence);
+			}
+			// Else return a mock result
+		} else {
+			return [];
+		}
+	}
+
+	/**
+	 * Validate the parameters accepted by this hydrator
+	 *
+	 * By default, a multipart parameter accepts exactly two parameters:
+	 * - the minimum number of occurrences of the contained part aggregate
+	 * - the maximum number of occurrences of the contained part aggregate
+	 *
+	 * @param array $parameters Parameters
+	 * @return boolean Parameters are valid
+	 */
+	static function validateParameters(...$parameters)
+	{
+
+		// If the default validation should be used
+		if (empty($GLOBALS['mockValidateParameters'])) {
+			return parent::validateParameters(...$parameters);
+
+			// Else return a mock result
+		} else {
+			return false;
+		}
+	}
 }
 
+/**
+ * Sequence hydrator mock
+ *
+ * @package ApparatTest
+ */
+class SequenceHydrator extends \Apparat\Resource\Model\Hydrator\SequenceHydrator
+{
+	/**
+	 * Use multipart hydrator mock methods
+	 */
+	use AggregateHydratorMocks;
+}
+
+/**
+ * Choice hydrator mock
+ *
+ * @package ApparatTest
+ */
+class ChoiceHydrator extends \Apparat\Resource\Model\Hydrator\ChoiceHydrator
+{
+	/**
+	 * Use multipart hydrator mock methods
+	 */
+	use AggregateHydratorMocks;
+}
 
 /**
  * Hydrator tests
@@ -116,255 +164,431 @@ class MultipartHydrator extends \Apparat\Resource\Model\Hydrator\MultipartHydrat
 class HydratorTest extends TestBase
 {
 
-    /**
-     * Test an invalid hydrator configuraton
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1447019565
-     */
-    public function testInvalidHydratorConfig()
-    {
-        HydratorFactory::build([]);
-    }
+	/**
+	 * Test an invalid hydrator configuraton
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionCode 1447019565
+	 */
+	public function testInvalidHydratorConfig()
+	{
+		HydratorFactory::build([]);
+	}
 
-    /**
-     * Test an invalid hydrator content model configuraton
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1447020287
-     */
-    public function testInvalidHydratorContentModel()
-    {
-        HydratorFactory::build([[]]);
-    }
+	/**
+	 * Test an invalid hydrator content model configuraton
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionCode 1447020287
+	 */
+	public function testInvalidHydratorContentModel()
+	{
+		HydratorFactory::build([[]]);
+	}
 
-    /**
-     * Test an invalid subhydrator name
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1447364401
-     */
-    public function testInvalidSubhydratorNae()
-    {
-        HydratorFactory::build([['~' => true]]);
-    }
+	/**
+	 * Test an invalid subhydrator name
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionCode 1447364401
+	 */
+	public function testInvalidSubhydratorNae()
+	{
+		HydratorFactory::build([['~' => true]]);
+	}
 
-    /**
-     * Test a missing multipart hydrator
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1447107537
-     */
-    public function testMissingMultipartHydrator()
-    {
-        HydratorFactory::build([[1, 2]]);
-    }
+	/**
+	 * Test a missing multipart hydrator
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionCode 1447107537
+	 */
+	public function testMissingMultipartHydrator()
+	{
+		HydratorFactory::build([[1, 2]]);
+	}
 
-    /**
-     * Test an empty multipart hydrator class
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1447107792
-     */
-    public function testEmptyMultipartHydratorClass()
-    {
-        HydratorFactory::build([[1, 2], '']);
-    }
+	/**
+	 * Test an empty multipart hydrator class
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionCode 1447107792
+	 */
+	public function testEmptyMultipartHydratorClass()
+	{
+		HydratorFactory::build([[1, 2], '']);
+	}
 
-    /**
-     * Test an invalid multipart hydrator class
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1447107792
-     */
-    public function testInvalidMultipartHydratorClass()
-    {
-        HydratorFactory::build([[1, 2], \stdClass::class]);
-    }
+	/**
+	 * Test an invalid multipart hydrator class
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionCode 1447107792
+	 */
+	public function testInvalidMultipartHydratorClass()
+	{
+		HydratorFactory::build([[1, 2], \stdClass::class]);
+	}
 
-    /**
-     * Test invalid multipart hydrator parameters
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1447109790
-     */
-    public function testInvalidMultipartHydratorParameters()
-    {
-        $GLOBALS['mockValidateParameters'] = true;
-        HydratorFactory::build([[1, 2], MultipartHydrator::class, true]);
-        unset($GLOBALS['mockValidateParameters']);
-    }
+	/**
+	 * Test invalid multipart hydrator parameters
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionCode 1447109790
+	 */
+	public function testInvalidMultipartHydratorParameters()
+	{
+		$GLOBALS['mockValidateParameters'] = true;
+		HydratorFactory::build([[1, 2], SequenceHydrator::class, true]);
+		unset($GLOBALS['mockValidateParameters']);
+	}
 
-    /**
-     * Test too few multipart hydrator parameters
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1447866302
-     */
-    public function testTooFewMultipartHydratorParameters()
-    {
-        HydratorFactory::build([[1, 2], MultipartHydrator::class, 0]);
-    }
+	/**
+	 * Test too few multipart hydrator parameters
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionCode 1447866302
+	 */
+	public function testTooFewMultipartHydratorParameters()
+	{
+		HydratorFactory::build([[1, 2], SequenceHydrator::class, 0]);
+	}
 
-    /**
-     * Test invalid multipart hydrator occurrences minimum
-     *
-     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
-     * @expectedExceptionCode 1447021191
-     */
-    public function testInvalidMultipartHydratorMinimumOccurrences()
-    {
-        HydratorFactory::build([[1, 2], MultipartHydrator::class, 0, 1]);
-    }
+	/**
+	 * Test invalid multipart hydrator occurrences minimum
+	 *
+	 * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+	 * @expectedExceptionCode 1447021191
+	 */
+	public function testInvalidMultipartHydratorMinimumOccurrences()
+	{
+		HydratorFactory::build([[1, 2], SequenceHydrator::class, 0, 1]);
+	}
 
-    /**
-     * Test invalid multipart hydrator occurrences maximum
-     *
-     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
-     * @expectedExceptionCode 1447021211
-     */
-    public function testInvalidMultipartHydratorMaximumOccurrences()
-    {
-        HydratorFactory::build([[1, 2], MultipartHydrator::class, 2, 1]);
-    }
+	/**
+	 * Test invalid multipart hydrator occurrences maximum
+	 *
+	 * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+	 * @expectedExceptionCode 1447021211
+	 */
+	public function testInvalidMultipartHydratorMaximumOccurrences()
+	{
+		HydratorFactory::build([[1, 2], SequenceHydrator::class, 2, 1]);
+	}
 
-    /**
-     * Test an invalid multipart hydrator class
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1447868909
-     */
-    public function testInvalidMultipartSubhydratorClass()
-    {
-        HydratorFactory::build([[\stdClass::class, \stdClass::class], MultipartHydrator::class, 1, 1]);
-    }
+	/**
+	 * Test an invalid multipart hydrator class
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionCode 1447868909
+	 */
+	public function testInvalidMultipartSubhydratorClass()
+	{
+		HydratorFactory::build([[\stdClass::class, \stdClass::class], SequenceHydrator::class, 1, 1]);
+	}
 
-    /**
-     * Test multipart hydrator
-     */
-    public function testMultipartHydrator()
-    {
-        $multipartHydrator = HydratorFactory::build([
-            [TextHydrator::class, TextHydrator::class],
-            MultipartHydrator::class,
-            1,
-            1
-        ]);
-        $this->assertInstanceOf(MultipartHydrator::class, $multipartHydrator);
-    }
+	/**
+	 * Test multipart hydrator
+	 */
+	public function testMultipartHydrator()
+	{
+		$sequenceHydrator = HydratorFactory::build([
+			[TextHydrator::class, TextHydrator::class],
+			SequenceHydrator::class,
+			1,
+			1
+		]);
+		$this->assertInstanceOf(SequenceHydrator::class, $sequenceHydrator);
+	}
 
-    /**
-     * Test multipart hydrator name
-     */
-    public function testMultipartHydratorName()
-    {
-        $multipartHydrator = HydratorFactory::build([
-            [TextHydrator::class, TextHydrator::class],
-            MultipartHydrator::class,
-            1,
-            1
-        ]);
-        $this->assertEquals(Hydrator::STANDARD, $multipartHydrator->getName());
-    }
+	/**
+	 * Test multipart hydrator name
+	 */
+	public function testMultipartHydratorName()
+	{
+		$sequenceHydrator = HydratorFactory::build([
+			[TextHydrator::class, TextHydrator::class],
+			SequenceHydrator::class,
+			1,
+			1
+		]);
+		$this->assertEquals(Hydrator::STANDARD, $sequenceHydrator->getName());
+	}
 
-    /**
-     * Test multipart hydrator with too few part identifiers
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1448056671
-     */
-    public function testMultipartHydratorTooFewPartIdentifiers()
-    {
-        $multipartHydrator = HydratorFactory::build([
-            ['a' => TextHydrator::class, 'b' => CommonMarkHydrator::class],
-            MultipartHydrator::class,
-            1,
-            1
-        ]);
-        $multipartHydrator->getSub(['c']);
-    }
+	/**
+	 * Test multipart hydrator with too few part identifiers
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionCode 1448056671
+	 */
+	public function testMultipartHydratorTooFewPartIdentifiers()
+	{
+		$sequenceHydrator = HydratorFactory::build([
+			['a' => TextHydrator::class, 'b' => CommonMarkHydrator::class],
+			SequenceHydrator::class,
+			1,
+			1
+		]);
+		$sequenceHydrator->getSub(['c']);
+	}
 
-    /**
-     * Test multipart hydrator unknown subpart path
-     *
-     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
-     * @expectedExceptionCode 1447876475
-     */
-    public function testMultipartHydratorUnknownSub()
-    {
-        $multipartHydrator = HydratorFactory::build([
-            ['a' => TextHydrator::class, 'b' => CommonMarkHydrator::class],
-            MultipartHydrator::class,
-            1,
-            1
-        ]);
-        $multipartHydrator->getSub([0, 'c']);
-    }
+	/**
+	 * Test multipart hydrator unknown subpart path
+	 *
+	 * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+	 * @expectedExceptionCode 1447876475
+	 */
+	public function testMultipartHydratorUnknownSub()
+	{
+		$sequenceHydrator = HydratorFactory::build([
+			['a' => TextHydrator::class, 'b' => CommonMarkHydrator::class],
+			SequenceHydrator::class,
+			1,
+			1
+		]);
+		$sequenceHydrator->getSub([0, 'c']);
+	}
 
-    /**
-     * Test multipart hydrator invalid subpart path
-     *
-     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
-     * @expectedExceptionCode 1447365624
-     */
-    public function testMultipartHydratorInvalidSub()
-    {
-        $multipartHydrator = HydratorFactory::build([
-            ['a' => TextHydrator::class, 'b' => CommonMarkHydrator::class],
-            MultipartHydrator::class,
-            1,
-            1
-        ]);
-        $multipartHydrator->getSub([0, 'a', 0, 'b', 0, 'c']);
-    }
+	/**
+	 * Test multipart hydrator invalid subpart path
+	 *
+	 * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+	 * @expectedExceptionCode 1447365624
+	 */
+	public function testMultipartHydratorInvalidSub()
+	{
+		$sequenceHydrator = HydratorFactory::build([
+			['a' => TextHydrator::class, 'b' => CommonMarkHydrator::class],
+			SequenceHydrator::class,
+			1,
+			1
+		]);
+		$sequenceHydrator->getSub([0, 'a', 0, 'b', 0, 'c']);
+	}
 
-    /**
-     * Test an invalid singlepart hydrator class
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1447110065
-     */
-    public function testInvalidSinglepartHydratorClass()
-    {
-        HydratorFactory::build([[Hydrator::STANDARD => \stdClass::class]]);
-    }
+	/**
+	 * Test multipart hydrator dehydration with an invalid part
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionCode 1448107001
+	 */
+	public function testMultipartHydratorDehydrationOfInvalidPart()
+	{
+		$sequenceHydrator = HydratorFactory::build([
+			[TextHydrator::class, TextHydrator::class],
+			SequenceHydrator::class,
+			1,
+			1
+		]);
+		$sequenceHydrator->dehydrate(new TextPart());
+	}
 
-    /**
-     * Test the text hydrator (short form)
-     */
-    public function testTextHydratorShort()
-    {
-        $textHydrator = HydratorFactory::build([TextHydrator::class]);
-        $this->assertInstanceOf(TextHydrator::class, $textHydrator);
-    }
+	/**
+	 * Test multipart hydrator dehydration with an invalid part
+	 *
+	 * @expectedException RuntimeException
+	 * @expectedExceptionCode 1448112964
+	 */
+	public function testMultipartHydratorDehydrationWithInvalidOccurrenceDehydration()
+	{
+		$sequenceHydrator = HydratorFactory::build([
+			[TextHydrator::class, TextHydrator::class],
+			SequenceHydrator::class,
+			1,
+			1
+		]);
+		$sequence = $sequenceHydrator->hydrate('one|two');
+		$GLOBALS['mockOccurrenceDehydration'] = true;
+		$sequenceHydrator->dehydrate($sequence);
+		unset($GLOBALS['mockOccurrenceDehydration']);
+	}
 
-    /**
-     * Test the text hydrator (verbose form)
-     */
-    public function testTextHydratorVerbose()
-    {
-        $textHydrator = HydratorFactory::build([[Hydrator::STANDARD => TextHydrator::class]]);
-        $this->assertInstanceOf(TextHydrator::class, $textHydrator);
-    }
+	/**
+	 * Test sequence hydration with invalid aggregate class
+	 *
+	 * @expectedException RuntimeException
+	 * @expectedExceptionCode 1447887703
+	 */
+	public function testMultipartHydratorInvalidAggregateClass()
+	{
+		$sequenceHydrator = HydratorFactory::build([
+			[TextHydrator::class, TextHydrator::class],
+			SequenceHydrator::class,
+			1,
+			1
+		]);
+		$GLOBALS['mockAggregateClass'] = true;
+		$sequenceHydrator->hydrate('one|two');
+		unset($GLOBALS['mockAggregateClass']);
+	}
 
-    /**
-     * Test the text hydrator name
-     */
-    public function testTextHydratorName()
-    {
-        $textHydrator = HydratorFactory::build([[Hydrator::STANDARD => TextHydrator::class]]);
-        $this->assertEquals(Hydrator::STANDARD, $textHydrator->getName());
-    }
+	/**
+	 * Test sequence dehydration with empty occurrence
+	 *
+	 * @expectedException \Apparat\Resource\Model\Hydrator\SkippedOccurrenceDehydrationException
+	 * @expectedExceptionCode 1448108316
+	 */
+	public function testMultipartHydratorSequenceEmptyOccurrence()
+	{
+		$sequenceHydrator = HydratorFactory::build([
+			[TextHydrator::class, TextHydrator::class],
+			SequenceHydrator::class,
+			1,
+			1
+		]);
+		$sequence = $sequenceHydrator->hydrate('one|two');
+		$GLOBALS['mockEmptyOccurrence'] = true;
+		$sequenceHydrator->dehydrate($sequence);
+		unset($GLOBALS['mockEmptyOccurrence']);
+	}
 
-    /**
-     * Test subhydrators on a single part hydrator
-     *
-     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
-     * @expectedExceptionCode 1447365624
-     */
-    public function testTextHydratorSub()
-    {
-        $textHydrator = HydratorFactory::build([[Hydrator::STANDARD => TextHydrator::class]]);
-        $textHydrator->getSub(['a', 'b', 'c']);
-    }
+	/**
+	 * Test sequence dehydration with unknown subhydrator name
+	 *
+	 * @expectedException \Apparat\Resource\Model\Hydrator\SkippedOccurrenceDehydrationException
+	 * @expectedExceptionCode 1448108444
+	 */
+	public function testMultipartHydratorSequenceInvalidSubhydratorName()
+	{
+		$sequenceHydrator = HydratorFactory::build([
+			[TextHydrator::class, TextHydrator::class],
+			SequenceHydrator::class,
+			1,
+			1
+		]);
+		$sequence = $sequenceHydrator->hydrate('one|two');
+		$GLOBALS['mockSubhydratorName'] = true;
+		$sequenceHydrator->dehydrate($sequence);
+		unset($GLOBALS['mockSubhydratorName']);
+	}
+
+	/**
+	 * Test sequence dehydration with invalid part instance
+	 *
+	 * @expectedException \Apparat\Resource\Model\Hydrator\SkippedOccurrenceDehydrationException
+	 * @expectedExceptionCode 1448108849
+	 */
+	public function testMultipartHydratorSequenceInvalidPartInstance()
+	{
+		$sequenceHydrator = HydratorFactory::build([
+			[TextHydrator::class, TextHydrator::class],
+			SequenceHydrator::class,
+			1,
+			1
+		]);
+		$sequence = $sequenceHydrator->hydrate('one|two');
+		$GLOBALS['mockPartInstance'] = true;
+		$sequenceHydrator->dehydrate($sequence);
+		unset($GLOBALS['mockPartInstance']);
+	}
+
+	/**
+	 * Test choice dehydration with empty occurrence
+	 *
+	 * @expectedException \Apparat\Resource\Model\Hydrator\SkippedOccurrenceDehydrationException
+	 * @expectedExceptionCode 1448108316
+	 */
+	public function testMultipartHydratorChoiceEmptyOccurrence()
+	{
+		$choiceHydrator = HydratorFactory::build([
+				[TextHydrator::class, TextHydrator::class],
+				ChoiceHydrator::class,
+				1,
+				1
+		]);
+		$choice = $choiceHydrator->hydrate('one');
+		$GLOBALS['mockEmptyOccurrence'] = true;
+		$choiceHydrator->dehydrate($choice);
+		unset($GLOBALS['mockEmptyOccurrence']);
+	}
+
+	/**
+	 * Test choice dehydration with unknown subhydrator name
+	 *
+	 * @expectedException \Apparat\Resource\Model\Hydrator\SkippedOccurrenceDehydrationException
+	 * @expectedExceptionCode 1448108444
+	 */
+	public function testMultipartHydratorChoiceInvalidSubhydratorName()
+	{
+		$choiceHydrator = HydratorFactory::build([
+				[TextHydrator::class, TextHydrator::class],
+				SequenceHydrator::class,
+				1,
+				1
+		]);
+		$sequence = $choiceHydrator->hydrate('one|two');
+		$GLOBALS['mockSubhydratorName'] = true;
+		$choiceHydrator->dehydrate($sequence);
+		unset($GLOBALS['mockSubhydratorName']);
+	}
+
+	/**
+	 * Test choice dehydration with invalid part instance
+	 *
+	 * @expectedException \Apparat\Resource\Model\Hydrator\SkippedOccurrenceDehydrationException
+	 * @expectedExceptionCode 1448108849
+	 */
+	public function testMultipartHydratorChoiceInvalidPartInstance()
+	{
+		$choiceHydrator = HydratorFactory::build([
+				[TextHydrator::class, TextHydrator::class],
+				SequenceHydrator::class,
+				1,
+				1
+		]);
+		$sequence = $choiceHydrator->hydrate('one|two');
+		$GLOBALS['mockPartInstance'] = true;
+		$choiceHydrator->dehydrate($sequence);
+		unset($GLOBALS['mockPartInstance']);
+	}
+
+	/**
+	 * Test an invalid singlepart hydrator class
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionCode 1447110065
+	 */
+	public function testInvalidSinglepartHydratorClass()
+	{
+		HydratorFactory::build([[Hydrator::STANDARD => \stdClass::class]]);
+	}
+
+	/**
+	 * Test the text hydrator (short form)
+	 */
+	public function testTextHydratorShort()
+	{
+		$textHydrator = HydratorFactory::build([TextHydrator::class]);
+		$this->assertInstanceOf(TextHydrator::class, $textHydrator);
+	}
+
+	/**
+	 * Test the text hydrator (verbose form)
+	 */
+	public function testTextHydratorVerbose()
+	{
+		$textHydrator = HydratorFactory::build([[Hydrator::STANDARD => TextHydrator::class]]);
+		$this->assertInstanceOf(TextHydrator::class, $textHydrator);
+	}
+
+	/**
+	 * Test the text hydrator name
+	 */
+	public function testTextHydratorName()
+	{
+		$textHydrator = HydratorFactory::build([[Hydrator::STANDARD => TextHydrator::class]]);
+		$this->assertEquals(Hydrator::STANDARD, $textHydrator->getName());
+	}
+
+	/**
+	 * Test subhydrators on a single part hydrator
+	 *
+	 * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+	 * @expectedExceptionCode 1447365624
+	 */
+	public function testTextHydratorSub()
+	{
+		$textHydrator = HydratorFactory::build([[Hydrator::STANDARD => TextHydrator::class]]);
+		$textHydrator->getSub(['a', 'b', 'c']);
+	}
 }

@@ -56,7 +56,7 @@ abstract class SequenceHydrator extends MultipartHydrator
      * Dehydrate a single occurrence
      *
      * @param array $occurrence Occurrence
-     * @return mixed Dehydrated occurrence
+     * @return string Dehydrated occurrence
      * @throws RuntimeException If the occurrence is invalid
      * @throws RuntimeException If a part name doesn't match a known subhydrator
      * @throws RuntimeException If a part is invalid
