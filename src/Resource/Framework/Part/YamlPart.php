@@ -54,6 +54,12 @@ class YamlPart extends ContentPart
      * @var string
      */
     const MIME_TYPE = 'text/x-yaml';
+    /**
+     * Document end marker
+     *
+     * @var string
+     */
+    const DOCUMENT_END = '...';
 
     /**
      * Return the unserialized YAML source

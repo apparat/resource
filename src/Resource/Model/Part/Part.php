@@ -59,10 +59,10 @@ interface Part
     public function set($data, array $subparts);
 
     /**
-     * Return the parts content
+     * Return a nested subpart (or the part itself)
      *
      * @param array $subparts Subpart path identifiers
-     * @return Part Self reference
+     * @return Part Nested subpart (or the part itself)
      */
     public function get(array $subparts);
 

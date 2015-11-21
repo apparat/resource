@@ -35,6 +35,7 @@
 
 namespace Apparat\Resource\Model\Hydrator;
 
+use Apparat\Resource\Model\Part\Part;
 use Apparat\Resource\Model\Part\PartChoice;
 
 /**
@@ -50,4 +51,36 @@ abstract class ChoiceHydrator extends MultipartHydrator
      * @var string
      */
     protected $_aggregateClass = PartChoice::class;
+
+    /**
+     * Dehydrate a single occurrence
+     *
+     * @param array $occurrence Occurrence
+     * @return mixed Dehydrated occurrence
+     * @throws RuntimeException If the occurrence is invalid
+     * @throws RuntimeException If a part name doesn't match a known subhydrator
+     * @throws RuntimeException If a part is invalid
+     */
+    protected function _dehydrateOccurrence(array $occurrence)
+    {
+        // If the occurrence is invalid
+        if (!count($occurrence)) {
+            throw new $this->_occurrenceDehydrationException('Empty occurrence', constant($this->_occurrenceDehydrationException.'::EMPTY_OCCURRENCE'));
+        }
+
+        // If the part name doesn't match a known subhydrator
+        reset($occurrence);
+        $subhydrator = key($occurrence);
+        if (!strlen($subhydrator) || !array_key_exists($subhydrator, $this->_subhydrators)) {
+            throw new $this->_occurrenceDehydrationException(sprintf('No matching subhydrator "%s"', $subhydrator), constant($this->_occurrenceDehydrationException.'::NO_MATCHING_SUBHYDRATOR'));
+        }
+
+        // If the part value is not a valid part instance
+        $part = current($occurrence);
+        if (!$part || !($part instanceof Part)) {
+            throw new $this->_occurrenceDehydrationException(sprintf('Invalid part instance "%s"', gettype($part).(is_object($part) ? '<'.get_class($part).'>' : '')), constant($this->_occurrenceDehydrationException.'::INVALID_PART_INSTANCE'));
+        }
+
+        return $this->_dehydratePart($subhydrator, $part);
+    }
 }

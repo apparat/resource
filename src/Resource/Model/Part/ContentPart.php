@@ -114,10 +114,13 @@ abstract class ContentPart extends AbstractPart
     }
 
     /**
-     * Return the parts content
+     * Return the part itself
+     *
+     * Content parts don't have subparts, so this method will always return the part itself (as long as
+     * no error is raised)
      *
      * @param array $subparts Subpart path identifiers
-     * @return ContentPart Self reference
+     * @return Part Self reference
      * @throws InvalidArgumentException If there are subpart identifiers given
      */
     public function get(array $subparts)

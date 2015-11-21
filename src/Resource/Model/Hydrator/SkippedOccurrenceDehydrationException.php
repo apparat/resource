@@ -1,14 +1,16 @@
 <?php
 
 /**
- * apparat-resource
+ * apparat/resource
  *
- * @category    Apparat
- * @package     Apparat_<Package>
+ * @category    Jkphl
+ * @package     Jkphl_apparat/resource
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
+
+namespace Jkphl;
 
 /***********************************************************************************
  *  The MIT License (MIT)
@@ -36,40 +38,11 @@
 namespace Apparat\Resource\Model\Hydrator;
 
 /**
- * Runtime exception
+ * Skipped occurrence dehydration exception
  *
  * @package Apparat\Resource\Model\Hydrator
  */
-class RuntimeException extends \RuntimeException
+class SkippedOccurrenceDehydrationException extends RuntimeException
 {
-    /**
-     * Invalid part aggregate class
-     *
-     * @var int
-     */
-    const INVALID_PART_AGGREGATE_CLASS = 1447887703;
-    /**
-     * Empty occurrence
-     *
-     * @var int
-     */
-    const EMPTY_OCCURRENCE = 1448108316;
-    /**
-     * No matching subhydrator
-     *
-     * @var int
-     */
-    const NO_MATCHING_SUBHYDRATOR = 1448108444;
-    /**
-     * Invalid part instance
-     *
-     * @var int
-     */
-    const INVALID_PART_INSTANCE = 1448108849;
-    /**
-     * Occurrence dehydration must return a string
-     *
-     * @var int
-     */
-    const OCCURRENCE_DEHYDRATION_MUST_RETURN_A_STRING = 1448112964;
+
 }

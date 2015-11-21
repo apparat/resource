@@ -72,25 +72,25 @@ class FrontMarkTest extends TestBase
 	 *
 	 * @var string
 	 */
-	const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.yaml';
+	const YAML_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'invoice.yaml';
 	/**
 	 * Example CommonMark file
 	 *
 	 * @var string
 	 */
-	const COMMONMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'commonmark.md';
+	const COMMONMARK_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'commonmark.md';
 	/**
 	 * Example FrontMark file with YAML front matter
 	 *
 	 * @var string
 	 */
-	const YAML_FRONTMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'yaml-frontmark.md';
+	const YAML_FRONTMARK_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'yaml-frontmark.md';
 	/**
 	 * Example FrontMark file with JSON front matter
 	 *
 	 * @var string
 	 */
-	const JSON_FRONTMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'json-frontmark.md';
+	const JSON_FRONTMARK_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'json-frontmark.md';
 
 	/**
 	 * Sets up the fixture
@@ -181,7 +181,8 @@ class FrontMarkTest extends TestBase
 	{
 //		$expectedData = Yaml::dump(Yaml::parse(file_get_contents(self::YAML_FILE)));
 		$frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
-		$frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER);
+		echo $frontMarkFile->getPart();
+//		echo $frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER);
 //        $this->assertEquals($expectedData, $frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER));
 	}
 }

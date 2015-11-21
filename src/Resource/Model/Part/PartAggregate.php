@@ -40,7 +40,7 @@ namespace Apparat\Resource\Model\Part;
  *
  * @package Apparat\Resource\Model\Part
  */
-abstract class PartAggregate extends AbstractPart
+abstract class PartAggregate extends AbstractPart implements \Countable, \Iterator
 {
     /**
      * Subpart template
@@ -71,7 +71,13 @@ abstract class PartAggregate extends AbstractPart
      *
      * @var int
      */
-    protected $_occurrence = 0;
+    protected $_occurrenceCurrent = 0;
+    /**
+     * Current occurrence iterator
+     *
+     * @var int
+     */
+    protected $_occurrenceIterator = 0;
 
     /**
      * Unbound occurrences
@@ -110,10 +116,10 @@ abstract class PartAggregate extends AbstractPart
     }
 
     /**
-     * Return the parts content
+     * Return a nested subpart (or the part itself)
      *
      * @param array $subparts Subpart path identifiers
-     * @return ContentPart Self reference
+     * @return Part Nested subpart (or the part itself)
      * @throws InvalidArgumentException If there are too few subpart identifiers given
      * @throws InvalidArgumentException If the occurrence index is invalid
      * @throws OutOfBoundsException If the occurrence index is out of bounds
@@ -177,6 +183,66 @@ abstract class PartAggregate extends AbstractPart
      * @param null|int $occurrence Occurrence to assign the part data to
      */
     abstract public function assign($part, $data, $occurrence = null);
+
+    /**
+     * Return the number of occurrences
+     *
+     * @return int Number of occurrences
+     */
+    public function count()
+    {
+        return count($this->_occurrences);
+    }
+
+    /**
+     * Return the current occurrence
+     *
+     * @return array Current occurrence
+     */
+    public function current()
+    {
+        return $this->_occurrences[$this->_occurrenceIterator];
+    }
+
+    /**
+     * Increment the internal occurrence iterator
+     *
+     * @return void
+     */
+    public function next()
+    {
+        ++$this->_occurrenceIterator;
+    }
+
+    /**
+     * Return the internal occurrence iterator
+     *
+     * @return int Internal occurrence iterator
+     */
+    public function key()
+    {
+        return $this->_occurrenceIterator;
+    }
+
+    /**
+     * Test if the current occurrence is valid
+     *
+     * @return boolean The current occurrence is valid
+     */
+    public function valid()
+    {
+        return isset($this->_occurrences[$this->_occurrenceIterator]);
+    }
+
+    /**
+     * Reset the internal occurrence iterator
+     *
+     * @return void
+     */
+    public function rewind()
+    {
+        $this->_occurrenceIterator = 0;
+    }
 
     /*******************************************************************************
      * STATIC METHODS
@@ -258,7 +324,7 @@ abstract class PartAggregate extends AbstractPart
 
         // Use the current occurrence if not specified
         if ($occurrence === null) {
-            $occurrence = $this->_occurrence;
+            $occurrence = $this->_occurrenceCurrent;
         }
 
         // Initialize the required number or occurrences

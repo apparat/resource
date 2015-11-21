@@ -44,7 +44,6 @@ use Apparat\Resource\Model\Hydrator\Hydrator;
  */
 class PartChoice extends PartAggregate
 {
-
     /**
      * Serialize this file part
      *
