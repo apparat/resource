@@ -60,7 +60,7 @@ class HydratorFactory
             throw new InvalidArgumentException('Invalid hydrator configuration',
                 InvalidArgumentException::INVALID_HYDRATOR_CONFIGURATION);
 
-            // Else if it's the short instanciation notation
+            // Else if it's the short instantiation notation
         } elseif (is_string($config[0]) && is_subclass_of($config[0], SinglepartHydrator::class)) {
             $config[0] = array(Hydrator::STANDARD => $config[0]);
 
@@ -106,7 +106,7 @@ class HydratorFactory
 				}
 			}
 
-            // Instanciate the multipart hydrator
+            // Instantiate the multipart hydrator
             $multipartHydrator = trim($config[1]);
             $multipartHydratorParameters = array_slice($config, 2);
             array_unshift($multipartHydratorParameters, $config[0]);
@@ -124,7 +124,7 @@ class HydratorFactory
                     InvalidArgumentException::INVALID_SINGLEPART_HYDRATOR_CLASS);
             }
 
-            // Instanciate the simple hydrator
+            // Instantiate the simple hydrator
             return new $singlepartHydrator($singlepartName);
         }
     }

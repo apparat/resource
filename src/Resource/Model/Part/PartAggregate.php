@@ -55,7 +55,7 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 	 *
 	 * @var int
 	 */
-	protected $_miniumOccurrences = 1;
+	protected $_minimumOccurrences = 1;
 	/**
 	 * Maximum occurrences
 	 *
@@ -106,12 +106,12 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 	{
 		self::validateOccurrences($minOccurrences, $maxOccurrences);
 		$this->_template = $template;
-		$this->_miniumOccurrences = intval($minOccurrences);
+		$this->_minimumOccurrences = intval($minOccurrences);
 		$this->_maximumOccurrences = intval($maxOccurrences);
 		$this->_hydrator = $hydrator;
 
 		// Initialize the occurrences
-		$this->_initializeOccurrences($this->_miniumOccurrences);
+		$this->_initializeOccurrences($this->_minimumOccurrences);
 	}
 
 	/**
@@ -176,7 +176,7 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 			// Test if the part identifier is known
 			if (!array_key_exists($part, $this->_occurrences[$occurrence])) {
 				throw new InvalidArgumentException(sprintf('Unknown part identifier "%s"', $part),
-					InvalidArgumentException::UNKOWN_PART_IDENTIFIER);
+					InvalidArgumentException::UNKNOWN_PART_IDENTIFIER);
 			}
 
 			// If the part is empty
@@ -326,7 +326,7 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 	protected function _initializeOccurrences($occurrences)
 	{
 		// If the occurrences number is invalid
-		if (($occurrences < $this->_miniumOccurrences) || (($this->_maximumOccurrences != self::UNBOUND) && ($occurrences > $this->_maximumOccurrences))) {
+		if (($occurrences < $this->_minimumOccurrences) || (($this->_maximumOccurrences != self::UNBOUND) && ($occurrences > $this->_maximumOccurrences))) {
 			throw new OutOfBoundsException(sprintf('Invalid occurrences number "%s"', $occurrences),
 				OutOfBoundsException::INVALID_OCCURRENCES_NUMBER);
 		}

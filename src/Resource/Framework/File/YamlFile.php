@@ -50,7 +50,7 @@ use Apparat\Resource\Model\Reader;
 class YamlFile extends File
 {
     /**
-     * YAML file constuctor
+     * YAML file constructor
      *
      * @param Reader $reader Reader instance
      */

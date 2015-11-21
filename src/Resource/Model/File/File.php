@@ -191,7 +191,7 @@ abstract class File extends Resource
      */
     protected function __construct(Reader $reader = null, $hydrator)
     {
-        // If the hydrator needs to be instancianted from a string or array
+        // If the hydrator needs to be instantiated from a string or array
         if (!($hydrator instanceof Hydrator)) {
             $hydrator = HydratorFactory::build((array)$hydrator);
         }

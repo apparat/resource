@@ -45,7 +45,7 @@ namespace Apparat\Resource\Application;
 class Utility
 {
 	/**
-	 * Strip the byte order mark off the begining of a string
+	 * Strip the byte order mark off the beginning of a string
 	 *
 	 * @param string $str           String with byte order mark
 	 * @return string               String without byte order mark

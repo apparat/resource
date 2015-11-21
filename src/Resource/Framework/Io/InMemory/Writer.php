@@ -43,7 +43,7 @@ namespace Apparat\Resource\Framework\Io\InMemory;
 class Writer extends AbstractInMemoryReaderWriter implements \Apparat\Resource\Model\Writer
 {
     /**
-     * Provide the wwriter properties and methods
+     * Provide the writer properties and methods
      */
     use WriterTrait;
 }

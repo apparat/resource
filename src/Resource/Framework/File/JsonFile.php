@@ -50,7 +50,7 @@ use Apparat\Resource\Model\Reader;
 class JsonFile extends File
 {
     /**
-     * JSON file constuctor
+     * JSON file constructor
      *
      * @param Reader $reader Reader instance
      */

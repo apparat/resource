@@ -58,7 +58,7 @@ use Apparat\Resource\Model\Reader;
 class FrontMarkFile extends File
 {
     /**
-     * FrontMark file constuctor
+     * FrontMark file constructor
      *
      * @param Reader $reader Reader instance
      */

@@ -42,6 +42,7 @@ namespace Apparat\Resource\Framework\Io\File;
  */
 class AbstractFileReaderWriter
 {
+
     /**
      * File path
      *

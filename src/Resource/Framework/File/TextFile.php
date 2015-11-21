@@ -53,7 +53,7 @@ use Apparat\Resource\Model\Reader;
 class TextFile extends File
 {
     /**
-     * Text file constuctor
+     * Text file constructor
      *
      * @param Reader $reader Reader instance
      */

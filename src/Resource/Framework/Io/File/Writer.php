@@ -47,7 +47,7 @@ class Writer extends AbstractFileReaderWriter implements \Apparat\Resource\Model
      */
     use WriterTrait;
     /**
-     * Create the file if it doesn't exist
+     * Create the file if it does not exist
      *
      * @var int
      */

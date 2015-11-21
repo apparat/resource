@@ -52,7 +52,7 @@ use Apparat\Resource\Model\Reader;
 class CommonMarkFile extends File
 {
     /**
-     * Text file constuctor
+     * Text file constructor
      *
      * @param Reader $reader Reader instance
      */

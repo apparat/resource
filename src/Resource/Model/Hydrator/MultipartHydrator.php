@@ -39,7 +39,6 @@ use Apparat\Resource\Model\Part\AbstractPart;
 use Apparat\Resource\Model\Part\InvalidArgumentException as PartInvalidArgumentException;
 use Apparat\Resource\Model\Part\Part;
 use Apparat\Resource\Model\Part\PartAggregate;
-use Apparat\Resource\Model\Part\PartChoice;
 
 /**
  * Multipart hydrator
@@ -59,7 +58,7 @@ abstract class MultipartHydrator extends AbstractHydrator
 	 *
 	 * @var int
 	 */
-	protected $_miniumOccurrences = 1;
+	protected $_minimumOccurrences = 1;
 	/**
 	 * Maximum occurrences
 	 *
@@ -84,7 +83,7 @@ abstract class MultipartHydrator extends AbstractHydrator
 	 *
 	 * @param array $subhydrators Subpart hydrators
 	 * @param int $minOccurrences Minimum occurrences
-	 * @param int $maxOccurrences Maximum occurences
+	 * @param int $maxOccurrences Maximum occurrences
 	 */
 	public function __construct(array $subhydrators, $minOccurrences = 1, $maxOccurrences = 1)
 	{
@@ -96,7 +95,7 @@ abstract class MultipartHydrator extends AbstractHydrator
 			// Validate the hydrator name
 			AbstractPart::validatePartIdentifier($part);
 
-			// If the subhydrator needs to be instancianted from a string or array
+			// If the subhydrator needs to be instantiated from a string or array
 			if (!($subhydrator instanceof Hydrator)) {
 				$subhydrator = HydratorFactory::build(is_array($subhydrator) ? $subhydrator : [[$part => $subhydrator]]);
 			}
@@ -106,14 +105,14 @@ abstract class MultipartHydrator extends AbstractHydrator
 
 		// Validate the occurrence numbers
 		self::validateParameters($minOccurrences, $maxOccurrences);
-		$this->_miniumOccurrences = intval($minOccurrences);
+		$this->_minimumOccurrences = intval($minOccurrences);
 		$this->_maximumOccurrences = intval($maxOccurrences);
 	}
 
 	/**
 	 * Serialize a file part
 	 *
-	 * @param PartChoice $part File part
+	 * @param Part $part File part
 	 * @return string Serialized file part
 	 * @throws InvalidArgumentException If the part class cannot be dehydrated by this hydrator
 	 */
@@ -148,7 +147,7 @@ abstract class MultipartHydrator extends AbstractHydrator
 	 * Initialize the aggregate part
 	 *
 	 * @param string $data Part data
-	 * @return PartAggregate Part aggregage
+	 * @return PartAggregate Part aggregate
 	 */
 	public function hydrate($data)
 	{
@@ -160,7 +159,8 @@ abstract class MultipartHydrator extends AbstractHydrator
 				RuntimeException::INVALID_PART_AGGREGATE_CLASS);
 		}
 
-		return new $this->_aggregateClass($this->_subhydrators, $this->_miniumOccurrences, $this->_maximumOccurrences, $this);
+		return new $this->_aggregateClass($this->_subhydrators, $this->_minimumOccurrences, $this->_maximumOccurrences,
+			$this);
 	}
 
 	/**
@@ -191,7 +191,7 @@ abstract class MultipartHydrator extends AbstractHydrator
 		$subhydratorName = array_shift($path);
 		if (!array_key_exists($subhydratorName, $this->_subhydrators)) {
 			throw new PartInvalidArgumentException(sprintf('Unknown part identifier "%s"', $subhydratorName),
-				PartInvalidArgumentException::UNKOWN_PART_IDENTIFIER);
+				PartInvalidArgumentException::UNKNOWN_PART_IDENTIFIER);
 		}
 
 		/** @var Hydrator $subhydrator */

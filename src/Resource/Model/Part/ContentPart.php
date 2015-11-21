@@ -100,6 +100,7 @@ abstract class ContentPart extends AbstractPart
      * @param string $data Contents
      * @param array $subparts Subpart path identifier
      * @throws InvalidArgumentException If there are subpart identifiers given
+     * @return ContentPart New content part
      */
     public function set($data, array $subparts)
     {

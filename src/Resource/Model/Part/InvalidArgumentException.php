@@ -77,7 +77,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      *
      * @var int
      */
-    const UNKOWN_PART_IDENTIFIER = 1447876475;
+    const UNKNOWN_PART_IDENTIFIER = 1447876475;
     /**
      * Too few subpart identifiers
      *

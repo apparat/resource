@@ -51,7 +51,7 @@ class TextHydrator extends SinglepartHydrator
     /**
      * Serialize a file part
      *
-     * @param TextPart $part File part
+     * @param Part $part File part
      * @return string Serialized file part
      */
     public function dehydrate(Part $part)

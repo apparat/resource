@@ -57,6 +57,7 @@ class TextPart extends ContentPart
      *
      * @param string $data Contents
      * @param array $subparts Subpart path identifier
+     * @return TextPart New text part
      */
     public function append($data, array $subparts)
     {
@@ -68,6 +69,7 @@ class TextPart extends ContentPart
      *
      * @param string $data Contents
      * @param array $subparts Subpart path identifier
+     * @return TextPart New text part
      */
     public function prepend($data, array $subparts)
     {
