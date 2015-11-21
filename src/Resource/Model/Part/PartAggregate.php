@@ -139,12 +139,15 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 	 * Return a nested subpart (or the part itself)
 	 *
 	 * @param array $subparts Subpart path identifiers
+	 * @param int $occurrence Effective occurrence index
+	 * @param string $part Effective part identifier
+	 * @return Part Nested subpart (or the part itself)
 	 * @return Part Nested subpart (or the part itself)
 	 * @throws InvalidArgumentException If there are too few subpart identifiers given
 	 * @throws InvalidArgumentException If the occurrence index is invalid
 	 * @throws OutOfBoundsException If the occurrence index is out of bounds
 	 */
-	public function get(array $subparts)
+	public function get(array $subparts, &$occurrence = 0, &$part = '')
 	{
 		// If a subpart is requested
 		if (count($subparts)) {
@@ -163,7 +166,7 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 					InvalidArgumentException::INVALID_OCCURRENCE_INDEX);
 			}
 
-			// Test if the occurrence index is within bounds
+			// If the occurrence index is out of bounds
 			if ((intval($occurrence) < 0) || ($occurrence >= count($this->_occurrences))) {
 				throw new OutOfBoundsException(sprintf('Occurrence index "%s" out of bounds', $occurrence),
 					OutOfBoundsException::OCCURRENCE_INDEX_OUT_OF_BOUNDS);
@@ -181,7 +184,7 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 
 			// If the part is empty
 			if (!($this->_occurrences[$occurrence][$part] instanceof Part)) {
-				throw new InvalidArgumentException(sprintf('Part "%s" does not exist', $occurrence . '/' . $part),
+				throw new InvalidArgumentException(sprintf('Part "%s" does not exist', $occurrence.'/'.$part),
 					InvalidArgumentException::PART_DOES_NOT_EXIST);
 			}
 
@@ -206,10 +209,16 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 	{
 		// If there are subparts: Delegate
 		if (count($subparts)) {
-			return $this->get($subparts)->set($data, []);
+//			echo get_class($this).PHP_EOL;
+			$occurrence = 0;
+			$part = '';
+			$subpart = $this->get($subparts, $occurrence, $part)->set($data, []);
+			$this->_occurrences[$occurrence][$part] = $subpart;
+			return $this;
 
 			// Else: Rehydrate
 		} else {
+//			echo get_class($this).' (hydrate '.get_class($this->_hydrator).')'.PHP_EOL;
 			return $this->_hydrator->hydrate($data);
 		}
 	}

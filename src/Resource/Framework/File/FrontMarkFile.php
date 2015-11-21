@@ -48,7 +48,7 @@ use Apparat\Resource\Model\Reader;
  * FrontMark file (CommonMark file with YAML or JSON front matter)
  *
  * @package Apparat\Resource\Framework\File
- * @method FrontMarkFile setPart() set(array $data, string $part = '/') Set the content of the file
+ * @method FrontMarkFile setPart() setPart(array $data, string $part = '/') Set the content of the file
  * @method FrontMarkFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
  * @method FrontMarkFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
  * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the file

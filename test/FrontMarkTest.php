@@ -36,11 +36,90 @@
 namespace ApparatTest;
 
 use Apparat\Resource\Framework\File\FrontMarkFile;
+use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
+use Apparat\Resource\Framework\Hydrator\FrontMarkHydrator;
 use Apparat\Resource\Framework\Hydrator\FrontMatterHydrator;
+use Apparat\Resource\Framework\Hydrator\JsonHydrator;
+use Apparat\Resource\Framework\Hydrator\YamlHydrator;
 use Apparat\Resource\Framework\Io\InMemory\Reader;
+use Apparat\Resource\Model\File\File;
+use Apparat\Resource\Model\Hydrator\Hydrator;
 use Apparat\Resource\Model\Part\InvalidArgumentException;
 use Apparat\Resource\Model\Part\OutOfBoundsException;
+use Apparat\Resource\Model\Part\PartSequence;
 use Symfony\Component\Yaml\Yaml;
+
+
+/**
+ * Mocked part sequence
+ *
+ * @package ApparatTest
+ */
+class PartSequenceMock extends PartSequence
+{
+	/**
+	 * Invalidate the CommonMark part
+	 */
+	public function invalidateCommonMarkPart()
+	{
+		$this->_occurrences[0][Hydrator::STANDARD] = null;
+	}
+}
+
+/**
+ * Mocked FrontMark hydrator
+ *
+ * @package ApparatTest
+ */
+class FrontMarkHydratorMock extends FrontMarkHydrator
+{
+	/**
+	 * Part aggregate class name
+	 *
+	 * @var string
+	 */
+	protected $_aggregateClass = PartSequenceMock::class;
+}
+
+/**
+ * Mocked FrontMark file
+ *
+ * @package ApparatTest
+ */
+class FrontMarkFileMock extends File
+{
+	/**
+	 * FrontMark file constructor
+	 *
+	 * @param Reader $reader Reader instance
+	 */
+	public function __construct(Reader $reader = null)
+	{
+		parent::__construct($reader, array(
+			[
+				FrontMatterHydrator::FRONTMATTER => [
+					[
+						JsonHydrator::JSON => JsonHydrator::class,
+						YamlHydrator::YAML => YamlHydrator::class
+					],
+					FrontMatterHydrator::class
+				],
+				Hydrator::STANDARD => CommonMarkHydrator::class,
+			],
+			FrontMarkHydratorMock::class
+		));
+	}
+
+	/**
+	 * Invalidate the CommonMark part
+	 */
+	public function invalidateCommonMarkPart()
+	{
+		/** @var PartSequenceMock $sequence */
+		$sequence = $this->_part();
+		$sequence->invalidateCommonMarkPart();
+	}
+}
 
 /**
  * FrontMark file tests
@@ -72,25 +151,37 @@ class FrontMarkTest extends TestBase
 	 *
 	 * @var string
 	 */
-	const YAML_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'invoice.yaml';
+	const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.yaml';
 	/**
 	 * Example CommonMark file
 	 *
 	 * @var string
 	 */
-	const COMMONMARK_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'commonmark.md';
+	const COMMONMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'commonmark.md';
 	/**
 	 * Example FrontMark file with YAML front matter
 	 *
 	 * @var string
 	 */
-	const YAML_FRONTMARK_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'yaml-frontmark.md';
+	const YAML_FRONTMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'yaml-frontmark.md';
 	/**
 	 * Example FrontMark file with JSON front matter
 	 *
 	 * @var string
 	 */
-	const JSON_FRONTMARK_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'json-frontmark.md';
+	const JSON_FRONTMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'json-frontmark.md';
+	/**
+	 * Example front matter YAML file
+	 *
+	 * @var string
+	 */
+	const YAML_FRONTMATTER_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'frontmatter.yaml';
+	/**
+	 * Example front matter JSON file
+	 *
+	 * @var string
+	 */
+	const JSON_FRONTMATTER_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'frontmatter.json';
 
 	/**
 	 * Sets up the fixture
@@ -114,75 +205,110 @@ class FrontMarkTest extends TestBase
 	}
 
 	/**
-	 * Test part with too few part identifiers
+	 * Test YAML part with too few part identifiers
 	 *
 	 * @expectedException InvalidArgumentException
 	 * @expectedExceptionCode 1448051332
 	 */
-	public function testTooFewPartIdentifiers()
+	public function testYamlTooFewPartIdentifiers()
 	{
 		$frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
 		$frontMarkFile->getPart('/0');
 	}
 
 	/**
-	 * Test part with invalid occurrence index
+	 * Test YAML part with invalid occurrence index
 	 *
 	 * @expectedException InvalidArgumentException
 	 * @expectedExceptionCode 1448051596
 	 */
-	public function testInvalidOccurrenceIndex()
+	public function testYamlInvalidOccurrenceIndex()
 	{
 		$frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
 		$frontMarkFile->getPart('/abc/123');
 	}
 
 	/**
-	 * Test part with occurrence index out of bounds
+	 * Test YAML part with occurrence index out of bounds
 	 *
 	 * @expectedException OutOfBoundsException
 	 * @expectedExceptionCode 1448052094
 	 */
-	public function testOccurrenceIndexOutOfBounds()
+	public function testYamlOccurrenceIndexOutOfBounds()
 	{
 		$frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
 		$frontMarkFile->getPart('/123/abc');
 	}
 
 	/**
-	 * Test part with occurrence index out of bounds
+	 * Test YAML part with occurrence index out of bounds
 	 *
 	 * @expectedException InvalidArgumentException
 	 * @expectedExceptionCode 1447364401
 	 */
-	public function testInvalidSubpartIdentifier()
+	public function testYamlInvalidSubpartIdentifier()
 	{
 		$frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
 		$frontMarkFile->getPart('/123/~');
 	}
 
 	/**
-	 * Test part with unknown index out of bounds
+	 * Test YAML part with unknown identifier
 	 *
 	 * @expectedException InvalidArgumentException
 	 * @expectedExceptionCode 1447876475
 	 */
-	public function testUnknownSubpartIdentifier()
+	public function testYamlUnknownSubpartIdentifier()
 	{
 		$frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
 		$frontMarkFile->getPart('/0/abc');
 	}
 
 	/**
-	 * Test part with unknown index out of bounds
+	 * Test YAML with empty / invalid part
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionCode 1448053518
+	 */
+	public function testYamlInvalidPartInstance()
+	{
+		$frontMarkFile = new FrontMarkFileMock(new Reader($this->_yamlFrontMark));
+		$frontMarkFile->invalidateCommonMarkPart();
+		$frontMarkFile->getPart('/0/'.Hydrator::STANDARD);
+	}
+
+	/**
+	 * Test YAML getting the front matter part
+	 */
+	public function testYamlGetFrontmatterPart()
+	{
+		$expectedData = Yaml::parse(file_get_contents(self::YAML_FRONTMATTER_FILE));
+		$frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
+		$actualData = Yaml::parse($frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER));
+		$this->assertArrayEquals($expectedData, $actualData);
+	}
+
+	/**
+	 * Test YAML setting the front matter part
 	 *
 	 */
-	public function testFrontmatterPart()
+	public function testYamlSetFrontmatterPart()
 	{
-//		$expectedData = Yaml::dump(Yaml::parse(file_get_contents(self::YAML_FILE)));
+		$yaml = file_get_contents(self::YAML_FILE);
+		$expectedData = Yaml::parse($yaml);
 		$frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
-		echo $frontMarkFile->getPart();
-//		echo $frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER);
-//        $this->assertEquals($expectedData, $frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER));
+		$frontMarkFile->setPart($yaml, '/0/'.FrontMatterHydrator::FRONTMATTER);
+		$actualData = Yaml::parse($frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER));
+		$this->assertArrayEquals($expectedData, $actualData);
+	}
+
+	/**
+	 * Test JSON FrontMark file
+	 *
+	 */
+	public function testJsonFrontMarkFile()
+	{
+		$frontMarkFile = new FrontMarkFile(new Reader($this->_jsonFrontMark));
+		$this->assertStringEqualsFile(self::JSON_FRONTMATTER_FILE, $frontMarkFile->getPart('/0/frontmatter'));
 	}
 }
