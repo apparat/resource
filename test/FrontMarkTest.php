@@ -298,7 +298,7 @@ class FrontMarkTest extends TestBase
 		$expectedData = Yaml::parse($yaml);
 		$frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
 		$frontMarkFile->setPart($yaml, '/0/'.FrontMatterHydrator::FRONTMATTER);
-		$actualData = Yaml::parse($frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER));
+		$actualData = Yaml::parse($frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.YamlHydrator::YAML));
 		$this->assertArrayEquals($expectedData, $actualData);
 	}
 
@@ -309,6 +309,18 @@ class FrontMarkTest extends TestBase
 	public function testJsonFrontMarkFile()
 	{
 		$frontMarkFile = new FrontMarkFile(new Reader($this->_jsonFrontMark));
-		$this->assertStringEqualsFile(self::JSON_FRONTMATTER_FILE, $frontMarkFile->getPart('/0/frontmatter'));
+		$this->assertStringEqualsFile(self::JSON_FRONTMATTER_FILE,
+			$frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.JsonHydrator::JSON));
+	}
+
+	/**
+	 * Test JSON file
+	 *
+	 */
+	public function testJsonFile()
+	{
+		$frontMarkFile = new FrontMarkFile(new Reader(file_get_contents(self::JSON_FRONTMATTER_FILE)));
+		$this->assertStringEqualsFile(self::JSON_FRONTMATTER_FILE,
+			$frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.JsonHydrator::JSON));
 	}
 }
