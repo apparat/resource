@@ -6,27 +6,28 @@ Apparat resource abstraction layer
 
 # Purpose of this module
 
-* Provide an abstract interface for basic file operations
-	* Creating
-	* Reading
-	* Writing / Updating
-	* Deleting
-	* Copying
+* Provide an abstract low-level interface for basic file operations
+	* [x] Creating
+	* [x] Reading
+	* [x] Writing / Updating
+	* [ ] Deleting
+	* [x] Copying (= Reading + Writing with a different name)
 * Provide an easy-to-use interface for multipart files (e.g. files with YAML front matter)
 	* Support for arbitrary content models
-		* Parsing
-		* Serialisation
+		* [x] Parsing
+		* [x] Serialisation
 	* File part operations
-		* Creating
-		* Reading
-		* Writing / Updating
-		* Deleting
-		* Copying
+		* [x] Creating
+		* [x] Reading
+		* [x] Writing / Updating
+		* [ ] Deleting
+		* [ ] Copying
 * Reading from / writing to different sources
-	* File system
-	* Standard input / output
-	* FTP?
-	* Remote storage?
+	* [x] In-Memory
+	* [x] File system
+	* [ ] Standard input / output
+	* [ ] FTP?
+	* [ ] Remote storage?
 * Implementing several file types and structures (see below)
 	* Possibly special behaviour based on file type
 
@@ -36,20 +37,19 @@ Apparat resource abstraction layer
 * [x] Text
 * [x] Markdown (CommonMark)
 * [x] YAML
-* [ ] JSON
+* [x] JSON
 * [x] YFM-Markdown (Markdown with YAML front matter)
-* [ ] JFM-Markdown (Markdown with JSON front matter)
-
+* [x] JFM-Markdown (Markdown with JSON front matter)
 * [ ] MIME Messages
 
 Each file consists of one or more **file parts**. The content model of a file is described in terms of
 
-* **body parts** (containing true file content like text or image data) and / or
-* **container parts** (each consisting of one or more subparts).
+* **content parts** (containing true file content like text or image data) and / or
+* **part aggregates** (each consisting of one or more subparts).
 
-A container part may either be a
+A part aggregage may either be a
 
-* **subpart sequence** (a predefined sequence of subparts of particular types) or a
-* **subpart choice** (one of several allowed subpart types)
+* **part sequence** (a predefined sequence of subparts of particular types) or a
+* **part choice** (one of several allowed subpart types)
 
 and may be repeated more than once.
