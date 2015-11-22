@@ -136,31 +136,22 @@ class CommonMarkTest extends TestBase
     }
 
     /**
-     * Test getting the HTML content of a CommonMark file
+     * Test getting the HTML content part of a CommonMark file
      */
-    public function testCommonMarkFileHtml()
+    public function testCommonMarkFileHtmlPart()
     {
         $expectedHtml = $this->_normalizeHtml(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'commonmark.html'));
         $commonMarkFile = new CommonMarkFile(new Reader($this->_commonMark));
         $this->assertEquals($expectedHtml, $this->_normalizeHtml($commonMarkFile->getHtmlPart()));
     }
 
-    /*******************************************************************************
-     * PRIVATE METHODS
-     *******************************************************************************/
-
     /**
-     * Normalize HTML contents
-     *
-     * @param string $html Original HTML
-     * @return string Normalized HTML
+     * Test getting the HTML content of a CommonMark file
      */
-    protected function _normalizeHtml($html)
+    public function testCommonMarkFileHtml()
     {
-        $htmlDom = new \DOMDocument();
-        $htmlDom->preserveWhiteSpace = false;
-        $htmlDom->formatOutput = false;
-        $htmlDom->loadXML("<html><head><title>apparat</title></head><body>$html</body></html>");
-        return $htmlDom->saveXML();
+        $expectedHtml = $this->_normalizeHtml(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'commonmark.html'));
+        $commonMarkFile = new CommonMarkFile(new Reader($this->_commonMark));
+        $this->assertEquals($expectedHtml, $this->_normalizeHtml($commonMarkFile->getHtml()));
     }
 }

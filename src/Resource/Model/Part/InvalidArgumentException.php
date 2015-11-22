@@ -96,4 +96,10 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @var int
      */
     const PART_DOES_NOT_EXIST = 1448053518;
+    /**
+     * Unknown part method
+     *
+     * @var int
+     */
+    const UNKNOWN_PART_METHOD = 1448225222;
 }

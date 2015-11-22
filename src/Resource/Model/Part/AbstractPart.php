@@ -35,6 +35,8 @@
 
 namespace Apparat\Resource\Model\Part;
 
+use Apparat\Resource\Model\Hydrator\Hydrator;
+
 /**
  * Abstract base class for file parts
  *
@@ -42,18 +44,66 @@ namespace Apparat\Resource\Model\Part;
  */
 abstract class AbstractPart implements Part
 {
-    /**
-     * Validate a part identifier
-     *
-     * @param string $part Part identifier
-     * @throws InvalidArgumentException If the part identifier is not valid
-     */
-    public static function validatePartIdentifier($part)
-    {
-        $part = strval($part);
-        if (!preg_match("%^[a-z0-9\_]+$%i", $part)) {
-            throw new InvalidArgumentException(sprintf('Invalid part path identifier "%s"', $part),
-                InvalidArgumentException::INVALID_PART_IDENTIFIER);
-        }
-    }
+	/**
+	 * Associated hydrator
+	 *
+	 * @var Hydrator
+	 */
+	protected $_hydrator = null;
+
+	/**
+	 * Abstract part constructor
+	 *
+	 * @param Hydrator $hydrator Associated hydrator
+	 */
+	public function __construct(Hydrator $hydrator)
+	{
+		$this->_hydrator = $hydrator;
+	}
+
+	/**
+	 * Return the associated hydrator
+	 *
+	 * @return Hydrator Associated hydrator
+	 */
+	public function getHydrator()
+	{
+		return $this->_hydrator;
+	}
+
+	/**
+	 * Delegate a method call to a subpart
+	 *
+	 * @param string $method Method nae
+	 * @param array $subparts Subpart identifiers
+	 * @param array $arguments Method arguments
+	 * @return mixed Method result
+	 * @throws InvalidArgumentException If the method is unknown
+	 */
+	public function delegate($method, array $subparts, array $arguments)
+	{
+		// If the method is unknown
+		if (!is_callable(array($this, $method))) {
+			throw new InvalidArgumentException(sprintf('Unknown part method "%s"', $method),
+				InvalidArgumentException::UNKNOWN_PART_METHOD);
+		}
+
+		// Call the method
+		return call_user_func_array(array($this, $method), $arguments);
+	}
+
+	/**
+	 * Validate a part identifier
+	 *
+	 * @param string $part Part identifier
+	 * @throws InvalidArgumentException If the part identifier is not valid
+	 */
+	public static function validatePartIdentifier($part)
+	{
+		$part = strval($part);
+		if (!preg_match("%^[a-z0-9\_\*]+$%i", $part)) {
+			throw new InvalidArgumentException(sprintf('Invalid part path identifier "%s"', $part),
+				InvalidArgumentException::INVALID_PART_IDENTIFIER);
+		}
+	}
 }

@@ -46,6 +46,7 @@ use Apparat\Resource\Model\File\File;
 use Apparat\Resource\Model\Hydrator\Hydrator;
 use Apparat\Resource\Model\Part\InvalidArgumentException;
 use Apparat\Resource\Model\Part\OutOfBoundsException;
+use Apparat\Resource\Model\Part\PartChoice;
 use Apparat\Resource\Model\Part\PartSequence;
 use Symfony\Component\Yaml\Yaml;
 
@@ -325,16 +326,58 @@ class FrontMarkTest extends TestBase
 	}
 
 	/**
-	 * Test JSON file
+	 * Test JSON FrontMark frontmatter wildcard
 	 *
 	 */
-	public function testJsonFileData()
+	public function testJsonFrontMarkFrontmatterWildcard()
 	{
-		// TODO: Route methods like FrontMarkFile->getDataPart() through aggregates
-		// TODO: Test convenience methods like FrontMarkFile->getData()
-//		$frontMarkFile = new FrontMarkFile(new Reader($this->_jsonFrontMark));
-//		$this->assertStringEqualsFile(self::JSON_FRONTMATTER_FILE,
-//			$frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.JsonHydrator::JSON));
-//		print_r($frontMarkFile->getDataPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.JsonHydrator::JSON));
+		// TODO
+		$frontMarkFile = new FrontMarkFile(new Reader($this->_jsonFrontMark));
+		$this->assertStringEqualsFile(self::JSON_FRONTMATTER_FILE,
+			$frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.PartChoice::WILDCARD));
+	}
+
+	/**
+	 * Test YAML set / get CommonMark
+	 */
+	public function testYamlSetGetCommonMark()
+	{
+		$randomSet = md5(rand());
+		$frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
+		$frontMarkFile->set($randomSet);
+		$this->assertEquals($randomSet, $frontMarkFile->getPart('/0/'.Hydrator::STANDARD));
+		$this->assertEquals($randomSet, $frontMarkFile->get());
+	}
+
+	/**
+	 * Test YAML append CommonMark
+	 */
+	public function testYamlAppendCommonMark()
+	{
+		$randomAppend = md5(rand());
+		$frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
+		$frontMarkFile->append($randomAppend);
+		$this->assertEquals($this->_commonMark.$randomAppend, $frontMarkFile->get());
+	}
+
+	/**
+	 * Test YAML prepend CommonMark
+	 */
+	public function testYamlPrependCommonMark()
+	{
+		$randomPrepend = md5(rand());
+		$frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
+		$frontMarkFile->prepend($randomPrepend);
+		$this->assertEquals($randomPrepend.$this->_commonMark, $frontMarkFile->get());
+	}
+
+	/**
+	 * Test YAML get CommonMark HTL
+	 */
+	public function testYamlGetCommonMarkHtml()
+	{
+		$expectedHtml = $this->_normalizeHtml(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'commonmark.html'));
+		$frontMarkFile = new FrontMarkFile(new Reader($this->_yamlFrontMark));
+		$this->assertEquals($expectedHtml, $this->_normalizeHtml($frontMarkFile->getHtml()));
 	}
 }

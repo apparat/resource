@@ -33,7 +33,6 @@ Apparat resource abstraction layer
 
 # File types planned to be supported
 
-* [x] Generic
 * [x] Text
 * [x] Markdown (CommonMark)
 * [x] YAML

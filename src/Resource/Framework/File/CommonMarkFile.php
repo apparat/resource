@@ -49,6 +49,7 @@ use Apparat\Resource\Model\Reader;
  * @method CommonMarkFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
  * @method CommonMarkFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
  * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the file
+ * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
  */
 class CommonMarkFile extends SinglePartFile
 {

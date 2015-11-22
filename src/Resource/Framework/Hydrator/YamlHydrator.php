@@ -59,6 +59,6 @@ class YamlHydrator extends TextHydrator
      */
     public function hydrate($data)
     {
-        return new YamlPart($data);
+        return new YamlPart($data, $this);
     }
 }

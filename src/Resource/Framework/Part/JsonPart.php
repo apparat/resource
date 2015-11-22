@@ -36,7 +36,6 @@
 namespace Apparat\Resource\Framework\Part;
 
 use Apparat\Resource\Model\Part\ContentPart;
-use Apparat\Resource\Model\Part\InvalidArgumentException;
 
 /**
  * JSON file part
@@ -45,47 +44,37 @@ use Apparat\Resource\Model\Part\InvalidArgumentException;
  */
 class JsonPart extends ContentPart
 {
-    /**
-     * Mime type
-     *
-     * @var string
-     */
-    const MIME_TYPE = 'application/json';
+	/**
+	 * Mime type
+	 *
+	 * @var string
+	 */
+	const MIME_TYPE = 'application/json';
 
-    /**
-     * Return the unserialized JSON source
-     *
-     * @param array $subparts Subpart path identifiers
-     * @return array Unserialized JSON data
-     * @throws InvalidArgumentException If there are subpart identifiers given
-     */
-    public function getData(array $subparts)
-    {
+	/**
+	 * Return the unserialized JSON source
+	 *
+	 * @return array Unserialized JSON data
+	 */
+	public function getData()
+	{
+		$data = array();
 
-        // If there are subpart identifiers given
-        if (count($subparts)) {
-            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
-                InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
-        }
+		if (strlen($this->_content)) {
+			$data = json_decode($this->_content, true);
+		}
 
-        $data = array();
+		return $data;
+	}
 
-        if (strlen($this->_content)) {
-            $data =  json_decode($this->_content, true);
-        }
-
-        return $data;
-    }
-
-    /**
-     * Set JSON data
-     *
-     * @param array $data New data
-     * @param array $subparts Subpart path identifiers
-     * @return JsonPart Self reference
-     */
-    public function setData(array $data, array $subparts)
-    {
-        return $this->set(json_encode($data, JSON_PRETTY_PRINT), $subparts);
-    }
+	/**
+	 * Set JSON data
+	 *
+	 * @param array $data New data
+	 * @return JsonPart Self reference
+	 */
+	public function setData(array $data)
+	{
+		return $this->set(json_encode($data, JSON_PRETTY_PRINT));
+	}
 }

@@ -56,23 +56,21 @@ class TextPart extends ContentPart
      * Append content to this part
      *
      * @param string $data Contents
-     * @param array $subparts Subpart path identifier
      * @return TextPart Modified text part
      */
-    public function append($data, array $subparts)
+    public function append($data)
     {
-        return $this->set($this->_content.$data, $subparts);
+        return $this->set($this->_content.$data);
     }
 
     /**
      * Prepend content to this part
      *
      * @param string $data Contents
-     * @param array $subparts Subpart path identifier
      * @return TextPart Modified text part
      */
-    public function prepend($data, array $subparts)
+    public function prepend($data)
     {
-        return $this->set($data.$this->_content, $subparts);
+        return $this->set($data.$this->_content);
     }
 }

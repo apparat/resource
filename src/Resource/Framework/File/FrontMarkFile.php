@@ -55,6 +55,7 @@ use Apparat\Resource\Model\Reader;
  * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the file
  * @method array getDataPart() getDataPart(string $part = '/') Get the YAML / JSON front matter data of the file
  * @method FrontMarkFile setDataPart() setDataPart(array $data, string $part = '/') Set the YAML / JSON front matter data of the file
+ * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
  */
 class FrontMarkFile extends File
 {
@@ -153,4 +154,6 @@ class FrontMarkFile extends File
 	{
 //		return $this->setDataPart($data, '/');
 	}
+
+
 }

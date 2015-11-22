@@ -122,18 +122,7 @@ abstract class File extends Resource
 	{
 		$partPath = $this->_partPath($part);
 		$part = $this->_part()->get($partPath);
-		return $this->_hydrator->getSub($partPath)->dehydrate($part);
-	}
-
-	/**
-	 * Return the MIME type of a particular part
-	 *
-	 * @param string $part Part path
-	 * @return string MIME type
-	 */
-	public function getMimeTypePart($part = '/')
-	{
-		return $this->_part()->getMimeType($this->_partPath($part));
+		return $part->getHydrator()->dehydrate($part);
 	}
 
 	/**
@@ -147,28 +136,22 @@ abstract class File extends Resource
 	 */
 	public function __call($name, array $arguments)
 	{
+
+		// If a (sub)part method is called
 		if (preg_match("%^(.+)Part$%", $name, $partMethod)) {
-			if (@is_callable(array($this->_part(), $partMethod[1]))) {
-
-				// If it's a getter
-				if (!strncmp('get', $partMethod[1], 3)) {
-					return call_user_func(array($this->_part(), $partMethod[1]),
-						$this->_partPath((count($arguments) > 0) ? $arguments[0] : '/'));
-
-					// Else
-				} else {
-					$this->_part = call_user_func_array(array($this->_part(), $partMethod[1]), array(
-						(count($arguments) > 0) ? $arguments[0] : null,
-						$this->_partPath((count($arguments) > 1) ? $arguments[1] : '/')
-					));
-
-					return $this;
-				}
-
+			$partMethod = $partMethod[1];
+			$isGetterMethod = (!strncmp('get', $partMethod, 3));
+			$delegateArguments = $isGetterMethod ? array() : array_slice($arguments, 0, 1);
+			$subpartPathArgumentIndex = $isGetterMethod ? 0 : 1;
+			$subparts = $this->_partPath((count($arguments) > $subpartPathArgumentIndex) ? $arguments[$subpartPathArgumentIndex] : '/');
+			$delegateResult = $this->_part()->delegate($partMethod, $subparts, $delegateArguments);
+			if ($isGetterMethod) {
+				return $delegateResult;
 			} else {
-				throw new RuntimeException(sprintf('Invalid file part method "%s"', $partMethod[1]),
-					RuntimeException::INVALID_FILE_PART_METHOD);
+				$this->_part = $delegateResult;
+				return $this;
 			}
+
 		} else {
 			throw new RuntimeException(sprintf('Invalid file method "%s"', $name),
 				RuntimeException::INVALID_FILE_METHOD);

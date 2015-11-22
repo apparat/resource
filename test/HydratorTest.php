@@ -43,7 +43,7 @@ use Apparat\Resource\Model\Hydrator\HydratorFactory;
 use Apparat\Resource\Model\Hydrator\InvalidArgumentException;
 use Apparat\Resource\Model\Hydrator\RuntimeException;
 use Apparat\Resource\Model\Part\OutOfBoundsException;
-use Apparat\Resource\Model\Part\Part;
+use Apparat\Resource\Model\Part\PartAggregate;
 
 
 /**
@@ -57,7 +57,7 @@ trait AggregateHydratorMocks
 	 * Translate data to a file part
 	 *
 	 * @param string $data Part data
-	 * @return Part File part
+	 * @return PartAggregate File part
 	 */
 	public function hydrate($data)
 	{
@@ -65,11 +65,12 @@ trait AggregateHydratorMocks
 			$this->_aggregateClass = self::class;
 		}
 
+		/** @var PartAggregate $aggregate */
 		$aggregate = parent::hydrate(null);
 		foreach (explode('|', $data) as $part => $str) {
 			if (!empty($GLOBALS['mockOccurrenceNumber'])) {
 				$aggregate->assign(0, $str, $part);
-			} elseif(!empty($GLOBALS['mockAssignmentPartIdentifier'])) {
+			} elseif (!empty($GLOBALS['mockAssignmentPartIdentifier'])) {
 				$aggregate->assign("_$part", $str, 0);
 			} else {
 				$aggregate->assign("$part", $str);
@@ -96,7 +97,7 @@ trait AggregateHydratorMocks
 
 				// If an invalid subhydrator name should be tested
 			} elseif (!empty($GLOBALS['mockSubhydratorName'])) {
-				return parent::_dehydrateOccurrence(array_combine(array_map(function($name) {
+				return parent::_dehydrateOccurrence(array_combine(array_map(function ($name) {
 					return '_'.$name.'_';
 				}, array_keys($occurrence)),
 					array_values($occurrence)));
@@ -409,7 +410,7 @@ class HydratorTest extends TestBase
 			1,
 			1
 		]);
-		$sequenceHydrator->dehydrate(new TextPart());
+		$sequenceHydrator->dehydrate(new TextPart('', new TextHydrator('name')));
 	}
 
 	/**
@@ -585,6 +586,25 @@ class HydratorTest extends TestBase
 		$GLOBALS['mockAssignmentPartIdentifier'] = true;
 		$sequenceHydrator->hydrate('one|two');
 		unset($GLOBALS['mockAssignmentPartIdentifier']);
+	}
+
+	/**
+	 * Test sequence unknown delegate method
+	 *
+	 * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+	 * @expectedExceptionCode 1448225222
+	 */
+	public function testMultipartHydratorSequenceUnknownMethod()
+	{
+		/** @var SequenceHydrator $sequenceHydrator */
+		$sequenceHydrator = HydratorFactory::build([
+			[TextHydrator::class, TextHydrator::class],
+			SequenceHydrator::class,
+			1,
+			1
+		]);
+		$sequence = $sequenceHydrator->hydrate('one|two');
+		$sequence->delegate('unknownMethod', [], []);
 	}
 
 	/**

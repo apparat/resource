@@ -48,8 +48,8 @@ use Apparat\Resource\Model\Reader;
  * @method TextFile setPart() setPart(string $data, string $part = '/') Set the content of the file
  * @method TextFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
  * @method TextFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
- * @method void undefinedMethod() undefinedMethod() Undefined method for testing purposes
- * @method void undefinedMethodPart() undefinedMethodPart() Undefined method for testing purposes
+ * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
+ * @method string undefinedMethod() undefinedMethod() Undefined method dummy
  */
 class TextFile extends SinglePartFile
 {

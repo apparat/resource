@@ -44,29 +44,61 @@ use Apparat\Resource\Model\Hydrator\Hydrator;
  */
 class PartChoice extends PartAggregate
 {
-    /**
-     * Add an occurrence
-     *
-     * @return void
-     */
-    protected function _addOccurrence()
-    {
-        $this->_occurrences[] = null;
-    }
+	/**
+	 * Part name wildcard
+	 *
+	 * @var string
+	 */
+	const WILDCARD = '*';
 
-    /**
-     * Assign data to a particular part
-     *
-     * @param string $part Part identifier
-     * @param string $data Part data
-     * @param null|int $occurrence Occurrence to assign the part data to
-     */
-    public function assign($part, $data, $occurrence = null)
-    {
-        $occurrence = $this->_prepareAssignment($part, $occurrence);
+	/**
+	 * Add an occurrence
+	 *
+	 * @return void
+	 */
+	protected function _addOccurrence()
+	{
+		$this->_occurrences[] = null;
+	}
 
-        /** @var Hydrator $hydrator */
-        $hydrator =& $this->_template[$part];
-        $this->_occurrences[$occurrence] = [$part => $hydrator->hydrate($data)];
-    }
+	/**
+	 * Assign data to a particular part
+	 *
+	 * @param string $part Part identifier
+	 * @param string $data Part data
+	 * @param null|int $occurrence Occurrence to assign the part data to
+	 */
+	public function assign($part, $data, $occurrence = null)
+	{
+		$occurrence = $this->_prepareAssignment($part, $occurrence);
+
+		/** @var Hydrator $hydrator */
+		$hydrator =& $this->_template[$part];
+		$this->_occurrences[$occurrence] = [$part => $hydrator->hydrate($data)];
+	}
+
+	/**
+	 * Test if a particular part identifier is known for a particular occurrence
+	 *
+	 * @param int $occurrence Occurrence index
+	 * @param string $part Part identifier
+	 * @return bool Is known part identifier
+	 */
+	protected function _isKnownPartIdentifier($occurrence, $part)
+	{
+		return parent::_isKnownPartIdentifier($occurrence,
+			$part) || (($part == self::WILDCARD) && count($this->_occurrences[$occurrence]));
+	}
+
+	/**
+	 * Return a particular part of a particular occurrence
+	 *
+	 * @param int $occurrence Occurrence index
+	 * @param string $part Part identifier
+	 * @return Part Part instance
+	 */
+	protected function _getOccurrencePart($occurrence, $part)
+	{
+		return ($part == self::WILDCARD) ? current($this->_occurrences[$occurrence]) : $this->_occurrences[$occurrence][$part];
+	}
 }

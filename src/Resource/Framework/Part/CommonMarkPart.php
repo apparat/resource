@@ -35,7 +35,6 @@
 
 namespace Apparat\Resource\Framework\Part;
 
-use Apparat\Resource\Model\Part\InvalidArgumentException;
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
 use League\CommonMark\HtmlRenderer;
@@ -47,72 +46,63 @@ use League\CommonMark\HtmlRenderer;
  */
 class CommonMarkPart extends TextPart
 {
-    /**
-     * Mime type
-     *
-     * @var string
-     */
-    const MIME_TYPE = 'text/x-markdown';
+	/**
+	 * Mime type
+	 *
+	 * @var string
+	 */
+	const MIME_TYPE = 'text/x-markdown';
 
-    /**
-     * Convert the CommonMark source to HTML
-     *
-     * @param array $subparts Subpart path identifiers
-     * @return string CommonMark HTML
-     * @throws InvalidArgumentException If there are subpart identifiers given
-     */
-    public function getHtml(array $subparts)
-    {
+	/**
+	 * Convert the CommonMark source to HTML
+	 *
+	 * @return string CommonMark HTML
+	 */
+	public function getHtml()
+	{
+		$html = '';
 
-        // If there are subpart identifiers given
-        if (count($subparts)) {
-            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
-                InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
-        }
+		if (strlen($this->_content)) {
+			$environment = $this->_environment();
+			$parser = new DocParser($environment);
+			$renderer = new HtmlRenderer($environment);
+			$html = $renderer->renderBlock($parser->parse($this->_content));
+		}
 
-        $html = '';
+		return $html;
+	}
 
-        if (strlen($this->_content)) {
-            $environment = $this->_environment();
-            $parser = new DocParser($environment);
-            $renderer = new HtmlRenderer($environment);
-            $html = $renderer->renderBlock($parser->parse($this->_content));
-        }
+	/*******************************************************************************
+	 * PRIVATE METHODS
+	 *******************************************************************************/
 
-        return $html;
-    }
+	/**
+	 * Create and return a CommonMark environment
+	 *
+	 * @return Environment CommonMark environment
+	 */
+	protected function _environment()
+	{
 
-    /*******************************************************************************
-     * PRIVATE METHODS
-     *******************************************************************************/
+		// Obtain a pre-configured Environment with all the CommonMark parsers/renderers ready-to-go
+		$environment = Environment::createCommonMarkEnvironment();
 
-    /**
-     * Create and return a CommonMark environment
-     *
-     * @return Environment CommonMark environment
-     */
-    protected function _environment()
-    {
+		// Custom environment initialization
+		$this->_initializeEnvironment($environment);
 
-        // Obtain a pre-configured Environment with all the CommonMark parsers/renderers ready-to-go
-        $environment = Environment::createCommonMarkEnvironment();
+		return $environment;
+	}
 
-        // Custom environment initialization
-        $this->_initializeEnvironment($environment);
-
-        return $environment;
-    }
-
-    /**
-     * Custom environment initialization
-     *
-     * Overwrite this method in subclasses to register your own parsers/renderers.
-     *
-     * @param Environment $environment
-     */
-    protected function _initializeEnvironment(Environment $environment)
-    {
-        // Optional: Add your own parsers/renderers here, if desired
-        // For example:  $environment->addInlineParser(new TwitterHandleParser());
-    }
+	/**
+	 * Custom environment initialization
+	 *
+	 * Overwrite this method in subclasses to register your own parsers/renderers.
+	 *
+	 * @param Environment $environment
+	 */
+	protected function _initializeEnvironment(Environment $environment)
+	{
+		// Optional: Add your own parsers/renderers here, if desired
+		// For example:  $environment->addInlineParser(new TwitterHandleParser());
+	}
 }

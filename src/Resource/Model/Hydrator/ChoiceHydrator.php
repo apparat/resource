@@ -40,7 +40,7 @@ use Apparat\Resource\Model\Part\PartChoice;
 
 /**
  * Abstract choice hydrator
- * 
+ *
  * @package Apparat\Resource\Model\Hydrator
  */
 abstract class ChoiceHydrator extends MultipartHydrator

@@ -115,15 +115,14 @@ class TextTest extends TestBase
     }
 
     /**
-     * Test invalid file part method
-     *
-     * @expectedException RuntimeException
-     * @expectedExceptionCode 1447366704
+     * Test setting the content part of a text file
      */
-    public function testTextFilePartInvalidMethod()
+    public function testTextFileSetPart()
     {
+        $randomSet = md5(rand());
         $textFile = new TextFile();
-        $textFile->undefinedMethodPart();
+        $textFile->setPart($randomSet);
+        $this->assertEquals($randomSet, $textFile->getPart());
     }
 
     /**
@@ -133,9 +132,18 @@ class TextTest extends TestBase
     {
         $randomSet = md5(rand());
         $textFile = new TextFile();
-        $textFile->setPart($randomSet);
+        $textFile->set($randomSet);
         $this->assertEquals($randomSet, $textFile->getPart());
     }
+
+	/**
+	 * Test getting the content of a text file
+	 */
+	public function testTextFileGet()
+	{
+		$textFile = new TextFile(new Reader($this->_text));
+		$this->assertEquals($this->_text, $textFile->get());
+	}
 
     /**
      * Test appending content to a text file
@@ -174,18 +182,6 @@ class TextTest extends TestBase
     }
 
     /**
-     * Test setting the content of a text file with unallowed subparts
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1447365624
-     */
-    public function testTextFileSetSubparts()
-    {
-        $textFile = new TextFile();
-        $textFile->setPart(md5(rand()), 'a/b/c');
-    }
-
-    /**
      * Test appending to the content of a text file with unallowed subparts
      *
      * @expectedException InvalidArgumentException
@@ -207,18 +203,6 @@ class TextTest extends TestBase
     {
         $textFile = new TextFile();
         $textFile->prependPart(md5(rand()), 'a/b/c');
-    }
-
-    /**
-     * Test getting the content of a text file with unallowed subparts
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionCode 1447365624
-     */
-    public function testTextFileGetSubparts()
-    {
-        $textFile = new TextFile();
-        $textFile->getPart('a/b/c');
     }
 
     /**

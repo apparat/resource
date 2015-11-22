@@ -122,4 +122,19 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase {
 
         return $array;
     }
+
+	/**
+	 * Normalize HTML contents
+	 *
+	 * @param string $html Original HTML
+	 * @return string Normalized HTML
+	 */
+	protected function _normalizeHtml($html)
+	{
+		$htmlDom = new \DOMDocument();
+		$htmlDom->preserveWhiteSpace = false;
+		$htmlDom->formatOutput = false;
+		$htmlDom->loadXML("<html><head><title>apparat</title></head><body>$html</body></html>");
+		return $htmlDom->saveXML();
+	}
 }

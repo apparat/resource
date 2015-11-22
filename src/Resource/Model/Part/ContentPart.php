@@ -35,6 +35,8 @@
 
 namespace Apparat\Resource\Model\Part;
 
+use Apparat\Resource\Model\Hydrator\SinglepartHydrator;
+
 /**
  * Content part
  *
@@ -42,96 +44,94 @@ namespace Apparat\Resource\Model\Part;
  */
 abstract class ContentPart extends AbstractPart
 {
-    /**
-     * Mime type
-     *
-     * @var string
-     */
-    const MIME_TYPE = 'application/octet-stream';
+	/**
+	 * Mime type
+	 *
+	 * @var string
+	 */
+	const MIME_TYPE = 'application/octet-stream';
 
-    /**
-     * Text content
-     *
-     * @var string
-     */
-    protected $_content = '';
+	/**
+	 * Text content
+	 *
+	 * @var string
+	 */
+	protected $_content = '';
 
-    /**
-     * Part constructor
-     *
-     * @param string $content Part content
-     */
-    public function __construct($content = '')
-    {
-        $this->_content = $content;
-    }
+	/**
+	 * Part constructor
+	 *
+	 * @param string $content Part content
+	 * @param SinglepartHydrator $hydrator Associated hydrator
+	 */
+	public function __construct($content = '', SinglepartHydrator $hydrator)
+	{
+		parent::__construct($hydrator);
+		$this->_content = $content;
+	}
 
-    /**
-     * Serialize this file part
-     *
-     * @return string   File part content
-     */
-    public function __toString()
-    {
-        return strval($this->_content);
-    }
+	/**
+	 * Serialize this file part
+	 *
+	 * @return string   File part content
+	 */
+	public function __toString()
+	{
+		return strval($this->_content);
+	}
 
-    /**
-     * Return the mime type of this part
-     *
-     * @param array $subparts Subpart path identifiers
-     * @return string   MIME type
-     * @throws InvalidArgumentException If there are subpart identifiers given
-     */
-    public function getMimeType(array $subparts)
-    {
-        // If there are subpart identifiers given
-        if (count($subparts)) {
-            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
-                InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
-        }
+	/**
+	 * Return the mime type of this part
+	 *
+	 * @return string   MIME type
+	 */
+	public function getMimeType()
+	{
+		return static::MIME_TYPE;
+	}
 
-        return static::MIME_TYPE;
-    }
+	/**
+	 * Set the contents of a part
+	 *
+	 * @param string $data Contents
+	 * @return ContentPart New content part
+	 */
+	public function set($data, array $subparts = [])
+	{
+		$class = get_class($this);
+		return new $class($data, $this->_hydrator);
+	}
 
-    /**
-     * Set the contents of a part
-     *
-     * @param string $data Contents
-     * @param array $subparts Subpart path identifier
-     * @throws InvalidArgumentException If there are subpart identifiers given
-     * @return ContentPart New content part
-     */
-    public function set($data, array $subparts)
-    {
-        // If there are subpart identifiers given
-        if (count($subparts)) {
-            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
-                InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
-        }
+	/**
+	 * Return the part itself
+	 *
+	 * Content parts don't have subparts, so this method will always return the part itself
+	 *
+	 * @param array $subparts Subpart identifiers
+	 * @return Part Self reference
+	 */
+	public function get(array $subparts = [])
+	{
+		return $this;
+	}
 
-        $class = get_class($this);
-        return new $class($data);
-    }
+	/**
+	 * Delegate a method call to a subpart
+	 *
+	 * @param string $method Method nae
+	 * @param array $subparts Subpart identifiers
+	 * @param array $arguments Method arguments
+	 * @return mixed Method result
+	 * @throws InvalidArgumentException If there are subpart identifiers
+	 */
+	public function delegate($method, array $subparts, array $arguments)
+	{
+		// If there are subpart identifiers given
+		if (count($subparts)) {
+			throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
+				InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
+		}
 
-    /**
-     * Return the part itself
-     *
-     * Content parts don't have subparts, so this method will always return the part itself (as long as
-     * no error is raised)
-     *
-     * @param array $subparts Subpart path identifiers
-     * @return Part Self reference
-     * @throws InvalidArgumentException If there are subpart identifiers given
-     */
-    public function get(array $subparts)
-    {
-        // If there are subpart identifiers given
-        if (count($subparts)) {
-            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
-                InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
-        }
-
-        return $this;
-    }
+		return parent::delegate($method, $subparts, $arguments);
+	}
 }

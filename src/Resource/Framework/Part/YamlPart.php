@@ -36,7 +36,6 @@
 namespace Apparat\Resource\Framework\Part;
 
 use Apparat\Resource\Model\Part\ContentPart;
-use Apparat\Resource\Model\Part\InvalidArgumentException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -48,53 +47,43 @@ use Symfony\Component\Yaml\Yaml;
  */
 class YamlPart extends ContentPart
 {
-    /**
-     * Mime type
-     *
-     * @var string
-     */
-    const MIME_TYPE = 'text/x-yaml';
-    /**
-     * Document end marker
-     *
-     * @var string
-     */
-    const DOCUMENT_END = '...';
+	/**
+	 * Mime type
+	 *
+	 * @var string
+	 */
+	const MIME_TYPE = 'text/x-yaml';
+	/**
+	 * Document end marker
+	 *
+	 * @var string
+	 */
+	const DOCUMENT_END = '...';
 
-    /**
-     * Return the unserialized YAML source
-     *
-     * @param array $subparts Subpart path identifiers
-     * @return array Unserialized YAML data
-     * @throws InvalidArgumentException If there are subpart identifiers given
-     */
-    public function getData(array $subparts)
-    {
+	/**
+	 * Return the unserialized YAML source
+	 *
+	 * @return array Unserialized YAML data
+	 */
+	public function getData()
+	{
+		$data = array();
 
-        // If there are subpart identifiers given
-        if (count($subparts)) {
-            throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
-                InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
-        }
+		if (strlen($this->_content)) {
+			$data = Yaml::parse($this->_content);
+		}
 
-        $data = array();
+		return $data;
+	}
 
-        if (strlen($this->_content)) {
-            $data =  Yaml::parse($this->_content);
-        }
-
-        return $data;
-    }
-
-    /**
-     * Set YAML data
-     *
-     * @param array $data New data
-     * @param array $subparts Subpart path identifiers
-     * @return YamlPart Self reference
-     */
-    public function setData(array $data, array $subparts)
-    {
-        return $this->set(Yaml::dump($data), $subparts);
-    }
+	/**
+	 * Set YAML data
+	 *
+	 * @param array $data New data
+	 * @return YamlPart Self reference
+	 */
+	public function setData(array $data)
+	{
+		return $this->set(Yaml::dump($data));
+	}
 }
