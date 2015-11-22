@@ -37,27 +37,42 @@ namespace Apparat\Resource\Framework\File;
 
 
 use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
-use Apparat\Resource\Model\File\File;
+use Apparat\Resource\Model\File\SinglePartFile;
 use Apparat\Resource\Model\Reader;
 
 /**
  * CommonMark file
  *
  * @package Apparat\Resource\Framework\File
- * @method CommonMarkFile setPart() set(string $data, string $part = '/') Set the content of the file
+ * @method CommonMarkFile set() set(string $data) Set the content of the file
+ * @method CommonMarkFile setPart() setPart(string $data, string $part = '/') Set the content of the file
  * @method CommonMarkFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
  * @method CommonMarkFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
  * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the file
  */
-class CommonMarkFile extends File
+class CommonMarkFile extends SinglePartFile
 {
-    /**
-     * Text file constructor
-     *
-     * @param Reader $reader Reader instance
-     */
-    public function __construct(Reader $reader = null)
-    {
-        parent::__construct($reader, CommonMarkHydrator::class);
-    }
+	/**
+	 * Use text file convenience methods and properties
+	 */
+	use TextFileMethods;
+
+	/**
+	 * Text file constructor
+	 *
+	 * @param Reader $reader Reader instance
+	 */
+	public function __construct(Reader $reader = null)
+	{
+		parent::__construct($reader, CommonMarkHydrator::class);
+	}
+
+	/**
+	 * Convert the sole CommonMark source to HTML
+	 *
+	 * @return string CommonMark HTML
+	 */
+	public function getHtml() {
+		return $this->getHtmlPart('/');
+	}
 }

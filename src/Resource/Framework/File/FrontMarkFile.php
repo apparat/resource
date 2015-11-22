@@ -42,6 +42,7 @@ use Apparat\Resource\Framework\Hydrator\JsonHydrator;
 use Apparat\Resource\Framework\Hydrator\YamlHydrator;
 use Apparat\Resource\Model\File\File;
 use Apparat\Resource\Model\Hydrator\Hydrator;
+use Apparat\Resource\Model\Part\ContentPart;
 use Apparat\Resource\Model\Reader;
 
 /**
@@ -57,25 +58,99 @@ use Apparat\Resource\Model\Reader;
  */
 class FrontMarkFile extends File
 {
-    /**
-     * FrontMark file constructor
-     *
-     * @param Reader $reader Reader instance
-     */
-    public function __construct(Reader $reader = null)
-    {
-        parent::__construct($reader, array(
-            [
-                FrontMatterHydrator::FRONTMATTER => [
-                    [
-                        JsonHydrator::JSON => JsonHydrator::class,
-                        YamlHydrator::YAML => YamlHydrator::class
-                    ],
-                    FrontMatterHydrator::class
-                ],
-                Hydrator::STANDARD => CommonMarkHydrator::class,
-            ],
-            FrontMarkHydrator::class
-        ));
-    }
+	/**
+	 * FrontMark file constructor
+	 *
+	 * @param Reader $reader Reader instance
+	 */
+	public function __construct(Reader $reader = null)
+	{
+		parent::__construct($reader, array(
+			[
+				FrontMatterHydrator::FRONTMATTER => [
+					[
+						JsonHydrator::JSON => JsonHydrator::class,
+						YamlHydrator::YAML => YamlHydrator::class
+					],
+					FrontMatterHydrator::class
+				],
+				Hydrator::STANDARD => CommonMarkHydrator::class,
+			],
+			FrontMarkHydrator::class
+		));
+	}
+
+	/**
+	 * Set the content of the sole part
+	 *
+	 * @param string $data Content
+	 * @return FrontMarkFile Self reference
+	 */
+	public function set($data)
+	{
+		return $this->setPart($data, '/0/'.Hydrator::STANDARD);
+	}
+
+	/**
+	 * Return the sole part's content
+	 *
+	 * @return string Part content
+	 */
+	public function get()
+	{
+		return $this->getPart('/0/'.Hydrator::STANDARD);
+	}
+
+	/**
+	 * Append content to the sole part
+	 *
+	 * @param string $data Contents
+	 * @return FrontMarkFile New part
+	 */
+	public function append($data)
+	{
+		return $this->appendPart($data, '/0/'.Hydrator::STANDARD);
+	}
+
+	/**
+	 * Prepend content to the sole part
+	 *
+	 * @param string $data Contents
+	 * @return FrontMarkFile New text part
+	 */
+	public function prepend($data)
+	{
+		return $this->prependPart($data, '/0/'.Hydrator::STANDARD);
+	}
+
+	/**
+	 * Convert the sole CommonMark source to HTML
+	 *
+	 * @return string CommonMark HTML
+	 */
+	public function getHtml() {
+		return $this->getHtmlPart('/0/'.Hydrator::STANDARD);
+	}
+
+	/**
+	 * Return the unserialized sole data content
+	 *
+	 * @return array Unserialized data content
+	 */
+	public function getData()
+	{
+
+//		return $this->getDataPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/);
+	}
+
+	/**
+	 * Set the sole data content
+	 *
+	 * @param array $data New data
+	 * @return ContentPart Self reference
+	 */
+	public function setData(array $data)
+	{
+//		return $this->setDataPart($data, '/');
+	}
 }

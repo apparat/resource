@@ -36,26 +36,33 @@
 namespace Apparat\Resource\Framework\File;
 
 use Apparat\Resource\Framework\Hydrator\JsonHydrator;
-use Apparat\Resource\Model\File\File;
+use Apparat\Resource\Model\File\SinglePartFile;
 use Apparat\Resource\Model\Reader;
 
 /**
  * JSON file
  *
  * @package Apparat\Resource\Framework\File
- * @method JsonFile setPart() set(array $data, string $part = '/') Set the content of the file
+ * @method JsonFile set() set(array $data) Set the content of the file
+ * @method JsonFile setPart() setPart(array $data, string $part = '/') Set the content of the file
  * @method array getDataPart() getDataPart(string $part = '/') Get the JSON data of the file
+ * @method JsonFile setData() setData(array $data) Set the JSON data of the file
  * @method JsonFile setDataPart() setDataPart(array $data, string $part = '/') Set the JSON data of the file
  */
-class JsonFile extends File
+class JsonFile extends SinglePartFile
 {
-    /**
-     * JSON file constructor
-     *
-     * @param Reader $reader Reader instance
-     */
-    public function __construct(Reader $reader = null)
-    {
-        parent::__construct($reader, JsonHydrator::class);
-    }
+	/**
+	 * Use data file convenience methods and properties
+	 */
+	use DataFileMethods;
+
+	/**
+	 * JSON file constructor
+	 *
+	 * @param Reader $reader Reader instance
+	 */
+	public function __construct(Reader $reader = null)
+	{
+		parent::__construct($reader, JsonHydrator::class);
+	}
 }

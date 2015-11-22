@@ -33,46 +33,38 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Part;
+namespace Apparat\Resource\Framework\File;
 
-
+use Apparat\Resource\Model\File\SinglePartFile;
 use Apparat\Resource\Model\Part\ContentPart;
 
 /**
- * Text file part
+ * Data file convenience methods
  *
- * @package Apparat\Resource\Framework\Part
+ * @package Apparat\Resource\Framework\File
+ * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the file
+ * @method SinglePartFile setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the file
  */
-class TextPart extends ContentPart
+trait DataFileMethods
 {
-    /**
-     * Mime type
-     *
-     * @var string
-     */
-    const MIME_TYPE = 'plain/text';
+	/**
+	 * Return the unserialized sole data content
+	 *
+	 * @return array Unserialized data content
+	 */
+	public function getData()
+	{
+		return $this->getDataPart('/');
+	}
 
-    /**
-     * Append content to this part
-     *
-     * @param string $data Contents
-     * @param array $subparts Subpart path identifier
-     * @return TextPart Modified text part
-     */
-    public function append($data, array $subparts)
-    {
-        return $this->set($this->_content.$data, $subparts);
-    }
-
-    /**
-     * Prepend content to this part
-     *
-     * @param string $data Contents
-     * @param array $subparts Subpart path identifier
-     * @return TextPart Modified text part
-     */
-    public function prepend($data, array $subparts)
-    {
-        return $this->set($data.$this->_content, $subparts);
-    }
+	/**
+	 * Set the sole data content
+	 *
+	 * @param array $data New data
+	 * @return ContentPart Self reference
+	 */
+	public function setData(array $data)
+	{
+		return $this->setDataPart($data, '/');
+	}
 }

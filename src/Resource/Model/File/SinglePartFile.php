@@ -33,46 +33,34 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Part;
+namespace Apparat\Resource\Model\File;
 
-
-use Apparat\Resource\Model\Part\ContentPart;
 
 /**
- * Text file part
+ * Single part file
  *
- * @package Apparat\Resource\Framework\Part
+ * @package Apparat\Resource\Model\File
  */
-class TextPart extends ContentPart
+class SinglePartFile extends File
 {
-    /**
-     * Mime type
-     *
-     * @var string
-     */
-    const MIME_TYPE = 'plain/text';
+	/**
+	 * Set the content of the sole part
+	 *
+	 * @param string $data Content
+	 * @return SinglePartFile Self reference
+	 */
+	public function set($data)
+	{
+		return $this->setPart($data, '/');
+	}
 
-    /**
-     * Append content to this part
-     *
-     * @param string $data Contents
-     * @param array $subparts Subpart path identifier
-     * @return TextPart Modified text part
-     */
-    public function append($data, array $subparts)
-    {
-        return $this->set($this->_content.$data, $subparts);
-    }
-
-    /**
-     * Prepend content to this part
-     *
-     * @param string $data Contents
-     * @param array $subparts Subpart path identifier
-     * @return TextPart Modified text part
-     */
-    public function prepend($data, array $subparts)
-    {
-        return $this->set($data.$this->_content, $subparts);
-    }
+	/**
+	 * Return the sole part's content
+	 *
+	 * @return string Part content
+	 */
+	public function get()
+	{
+		return $this->getPart('/');
+	}
 }

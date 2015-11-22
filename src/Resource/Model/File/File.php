@@ -35,7 +35,6 @@
 
 namespace Apparat\Resource\Model\File;
 
-use Apparat\Resource\Framework\File\TextFile;
 use Apparat\Resource\Model\Hydrator\Hydrator;
 use Apparat\Resource\Model\Hydrator\HydratorFactory;
 use Apparat\Resource\Model\Part\AbstractPart;
@@ -48,198 +47,196 @@ use Apparat\Resource\Model\Writer;
  * File
  *
  * @package Apparat\Resource\Model\File
- * @method TextFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
- * @method TextFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
  */
 abstract class File extends Resource
 {
-    /**
-     * Part or part aggregate
-     *
-     * @var Part
-     */
-    protected $_part = null;
+	/**
+	 * Part or part aggregate
+	 *
+	 * @var Part
+	 */
+	protected $_part = null;
 
-    /**
-     * Reader instance
-     *
-     * @var Reader
-     */
-    protected $_reader = null;
-    /**
-     * File hydrator
-     *
-     * @var Hydrator
-     */
-    private $_hydrator = null;
+	/**
+	 * Reader instance
+	 *
+	 * @var Reader
+	 */
+	protected $_reader = null;
+	/**
+	 * File hydrator
+	 *
+	 * @var Hydrator
+	 */
+	private $_hydrator = null;
 
-    /*******************************************************************************
-     * PUBLIC METHODS
-     *******************************************************************************/
+	/*******************************************************************************
+	 * PUBLIC METHODS
+	 *******************************************************************************/
 
-    /**
-     * Set a reader instance for this file
-     *
-     * @param Reader $reader Reader instance
-     * @return File Self reference
-     */
-    public function load(Reader $reader)
-    {
-        $this->_reset();
-        $this->_reader = $reader;
-        return $this;
-    }
+	/**
+	 * Set a reader instance for this file
+	 *
+	 * @param Reader $reader Reader instance
+	 * @return File Self reference
+	 */
+	public function load(Reader $reader)
+	{
+		$this->_reset();
+		$this->_reader = $reader;
+		return $this;
+	}
 
-    /**
-     * Dump this files contents into a writer
-     *
-     * @param Writer $writer Writer instance
-     * @return File Self reference
-     */
-    public function dump(Writer $writer)
-    {
-        $writer->write($this->getPart('/'));
-        return $this;
-    }
+	/**
+	 * Dump this files contents into a writer
+	 *
+	 * @param Writer $writer Writer instance
+	 * @return File Self reference
+	 */
+	public function dump(Writer $writer)
+	{
+		$writer->write($this->getPart('/'));
+		return $this;
+	}
 
-    /**
-     * Set the content of a particular part
-     *
-     * @param mixed $data Content
-     * @param string $part Part path
-     * @return File Self reference
-     */
-    public function setPart($data, $part = '/')
-    {
-        $this->_part = $this->_part()->set($data, $this->_partPath($part));
-        return $this;
-    }
+	/**
+	 * Set the content of a particular part
+	 *
+	 * @param mixed $data Content
+	 * @param string $part Part path
+	 * @return File Self reference
+	 */
+	public function setPart($data, $part = '/')
+	{
+		$this->_part = $this->_part()->set($data, $this->_partPath($part));
+		return $this;
+	}
 
-    /**
-     * Return the parts content
-     *
-     * @param string $part Part path
-     * @return string Part content
-     */
-    public function getPart($part = '/')
-    {
-        $partPath = $this->_partPath($part);
-        $part = $this->_part()->get($partPath);
-        return $this->_hydrator->getSub($partPath)->dehydrate($part);
-    }
+	/**
+	 * Return the part's content
+	 *
+	 * @param string $part Part path
+	 * @return string Part content
+	 */
+	public function getPart($part = '/')
+	{
+		$partPath = $this->_partPath($part);
+		$part = $this->_part()->get($partPath);
+		return $this->_hydrator->getSub($partPath)->dehydrate($part);
+	}
 
-    /**
-     * Return the MIME type of a particular part
-     *
-     * @param string $part Part path
-     * @return string MIME type
-     */
-    public function getMimeTypePart($part = '/')
-    {
-        return $this->_part()->getMimeType($this->_partPath($part));
-    }
+	/**
+	 * Return the MIME type of a particular part
+	 *
+	 * @param string $part Part path
+	 * @return string MIME type
+	 */
+	public function getMimeTypePart($part = '/')
+	{
+		return $this->_part()->getMimeType($this->_partPath($part));
+	}
 
-    /**
-     * Magic caller for part methods
-     *
-     * @param string $name Part method name
-     * @param array $arguments Part method arguments
-     * @return File Self reference
-     * @throw RuntimeException  If an invalid file method is called
-     * @throw RuntimeException  If an invalid file part method is called
-     */
-    public function __call($name, array $arguments)
-    {
-        if (preg_match("%^(.+)Part$%", $name, $partMethod)) {
-            if (@is_callable(array($this->_part(), $partMethod[1]))) {
+	/**
+	 * Magic caller for part methods
+	 *
+	 * @param string $name Part method name
+	 * @param array $arguments Part method arguments
+	 * @return File Self reference
+	 * @throw RuntimeException  If an invalid file method is called
+	 * @throw RuntimeException  If an invalid file part method is called
+	 */
+	public function __call($name, array $arguments)
+	{
+		if (preg_match("%^(.+)Part$%", $name, $partMethod)) {
+			if (@is_callable(array($this->_part(), $partMethod[1]))) {
 
-                // If it's a getter
-                if (!strncmp('get', $partMethod[1], 3)) {
-                    return call_user_func(array($this->_part(), $partMethod[1]),
-                        $this->_partPath((count($arguments) > 0) ? $arguments[0] : '/'));
+				// If it's a getter
+				if (!strncmp('get', $partMethod[1], 3)) {
+					return call_user_func(array($this->_part(), $partMethod[1]),
+						$this->_partPath((count($arguments) > 0) ? $arguments[0] : '/'));
 
-                    // Else
-                } else {
-                    $this->_part = call_user_func_array(array($this->_part(), $partMethod[1]), array(
-                        (count($arguments) > 0) ? $arguments[0] : null,
-                        $this->_partPath((count($arguments) > 1) ? $arguments[1] : '/')
-                    ));
+					// Else
+				} else {
+					$this->_part = call_user_func_array(array($this->_part(), $partMethod[1]), array(
+						(count($arguments) > 0) ? $arguments[0] : null,
+						$this->_partPath((count($arguments) > 1) ? $arguments[1] : '/')
+					));
 
-                    return $this;
-                }
+					return $this;
+				}
 
-            } else {
-                throw new RuntimeException(sprintf('Invalid file part method "%s"', $partMethod[1]),
-                    RuntimeException::INVALID_FILE_PART_METHOD);
-            }
-        } else {
-            throw new RuntimeException(sprintf('Invalid file method "%s"', $name),
-                RuntimeException::INVALID_FILE_METHOD);
-        }
-    }
+			} else {
+				throw new RuntimeException(sprintf('Invalid file part method "%s"', $partMethod[1]),
+					RuntimeException::INVALID_FILE_PART_METHOD);
+			}
+		} else {
+			throw new RuntimeException(sprintf('Invalid file method "%s"', $name),
+				RuntimeException::INVALID_FILE_METHOD);
+		}
+	}
 
-    /*******************************************************************************
-     * PRIVATE METHODS
-     *******************************************************************************/
+	/*******************************************************************************
+	 * PRIVATE METHODS
+	 *******************************************************************************/
 
 
-    /**
-     * Private constructor
-     *
-     * @param Reader $reader Reader instance
-     * @param Hydrator|array|string $hydrator File hydrator
-     */
-    protected function __construct(Reader $reader = null, $hydrator)
-    {
-        // If the hydrator needs to be instantiated from a string or array
-        if (!($hydrator instanceof Hydrator)) {
-            $hydrator = HydratorFactory::build((array)$hydrator);
-        }
+	/**
+	 * Private constructor
+	 *
+	 * @param Reader $reader Reader instance
+	 * @param Hydrator|array|string $hydrator File hydrator
+	 */
+	protected function __construct(Reader $reader = null, $hydrator)
+	{
+		// If the hydrator needs to be instantiated from a string or array
+		if (!($hydrator instanceof Hydrator)) {
+			$hydrator = HydratorFactory::build((array)$hydrator);
+		}
 
-        // Register the hydrator
-        $this->_hydrator = $hydrator;
+		// Register the hydrator
+		$this->_hydrator = $hydrator;
 
-        // Register the reader if available
-        if ($reader instanceof Reader) {
-            $this->load($reader);
-        }
-    }
+		// Register the reader if available
+		if ($reader instanceof Reader) {
+			$this->load($reader);
+		}
+	}
 
-    /**
-     * Reset the file
-     *
-     * @return void
-     */
-    protected function _reset()
-    {
-        $this->_part = null;
-    }
+	/**
+	 * Reset the file
+	 *
+	 * @return void
+	 */
+	protected function _reset()
+	{
+		$this->_part = null;
+	}
 
-    /**
-     * Lazy-hydrate and return the main file part
-     *
-     * @return Part Main file part
-     */
-    protected function _part()
-    {
-        if (!($this->_part instanceof Part)) {
-            $this->_part = $this->_hydrator->hydrate(($this->_reader instanceof Reader) ? $this->_reader->read() : '');
-        }
-        return $this->_part;
-    }
+	/**
+	 * Lazy-hydrate and return the main file part
+	 *
+	 * @return Part Main file part
+	 */
+	protected function _part()
+	{
+		if (!($this->_part instanceof Part)) {
+			$this->_part = $this->_hydrator->hydrate(($this->_reader instanceof Reader) ? $this->_reader->read() : '');
+		}
+		return $this->_part;
+	}
 
-    /**
-     * Split a part path string into path identifiers
-     *
-     * @param string $path Part path string
-     * @return array Part path identifiers
-     */
-    protected function _partPath($path)
-    {
-        return (trim($path) == '/') ? [] : array_map(function ($pathIdentifier) {
-            $pathIdentifier = trim($pathIdentifier);
-            AbstractPart::validatePartIdentifier($pathIdentifier);
-            return $pathIdentifier;
-        }, explode('/', ltrim($path, '/')));
-    }
+	/**
+	 * Split a part path string into path identifiers
+	 *
+	 * @param string $path Part path string
+	 * @return array Part path identifiers
+	 */
+	protected function _partPath($path)
+	{
+		return (trim($path) == '/') ? [] : array_map(function ($pathIdentifier) {
+			$pathIdentifier = trim($pathIdentifier);
+			AbstractPart::validatePartIdentifier($pathIdentifier);
+			return $pathIdentifier;
+		}, explode('/', ltrim($path, '/')));
+	}
 }

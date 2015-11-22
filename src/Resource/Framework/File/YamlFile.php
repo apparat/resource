@@ -36,26 +36,33 @@
 namespace Apparat\Resource\Framework\File;
 
 use Apparat\Resource\Framework\Hydrator\YamlHydrator;
-use Apparat\Resource\Model\File\File;
+use Apparat\Resource\Model\File\SinglePartFile;
 use Apparat\Resource\Model\Reader;
 
 /**
  * YAML file
  *
  * @package Apparat\Resource\Framework\File
- * @method YamlFile setPart() set(array $data, string $part = '/') Set the content of the file
+ * @method YamlFile set() set(array $data) Set the content of the file
+ * @method YamlFile setPart() setPart(array $data, string $part = '/') Set the content of the file
  * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the file
+ * @method YamlFile setData() setData(array $data) Set the YAML data of the file
  * @method YamlFile setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the file
  */
-class YamlFile extends File
+class YamlFile extends SinglePartFile
 {
-    /**
-     * YAML file constructor
-     *
-     * @param Reader $reader Reader instance
-     */
-    public function __construct(Reader $reader = null)
-    {
-        parent::__construct($reader, YamlHydrator::class);
-    }
+	/**
+	 * Use data file convenience methods and properties
+	 */
+	use DataFileMethods;
+
+	/**
+	 * YAML file constructor
+	 *
+	 * @param Reader $reader Reader instance
+	 */
+	public function __construct(Reader $reader = null)
+	{
+		parent::__construct($reader, YamlHydrator::class);
+	}
 }

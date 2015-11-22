@@ -323,4 +323,18 @@ class FrontMarkTest extends TestBase
 		$this->assertStringEqualsFile(self::JSON_FRONTMATTER_FILE,
 			$frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.JsonHydrator::JSON));
 	}
+
+	/**
+	 * Test JSON file
+	 *
+	 */
+	public function testJsonFileData()
+	{
+		// TODO: Route methods like FrontMarkFile->getDataPart() through aggregates
+		// TODO: Test convenience methods like FrontMarkFile->getData()
+//		$frontMarkFile = new FrontMarkFile(new Reader($this->_jsonFrontMark));
+//		$this->assertStringEqualsFile(self::JSON_FRONTMATTER_FILE,
+//			$frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.JsonHydrator::JSON));
+//		print_r($frontMarkFile->getDataPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.JsonHydrator::JSON));
+	}
 }

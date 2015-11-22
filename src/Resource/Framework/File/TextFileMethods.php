@@ -33,46 +33,38 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Part;
+namespace Apparat\Resource\Framework\File;
 
-
-use Apparat\Resource\Model\Part\ContentPart;
+use Apparat\Resource\Model\Part\Part;
 
 /**
- * Text file part
+ * Text file convenience methods
  *
- * @package Apparat\Resource\Framework\Part
+ * @package Apparat\Resource\Framework\File
+ * @method TextFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
+ * @method TextFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
  */
-class TextPart extends ContentPart
+trait TextFileMethods
 {
-    /**
-     * Mime type
-     *
-     * @var string
-     */
-    const MIME_TYPE = 'plain/text';
+	/**
+	 * Append content to the sole part
+	 *
+	 * @param string $data Contents
+	 * @return Part New part
+	 */
+	public function append($data)
+	{
+		return $this->appendPart($data, '/');
+	}
 
-    /**
-     * Append content to this part
-     *
-     * @param string $data Contents
-     * @param array $subparts Subpart path identifier
-     * @return TextPart Modified text part
-     */
-    public function append($data, array $subparts)
-    {
-        return $this->set($this->_content.$data, $subparts);
-    }
-
-    /**
-     * Prepend content to this part
-     *
-     * @param string $data Contents
-     * @param array $subparts Subpart path identifier
-     * @return TextPart Modified text part
-     */
-    public function prepend($data, array $subparts)
-    {
-        return $this->set($data.$this->_content, $subparts);
-    }
+	/**
+	 * Prepend content to the sole part
+	 *
+	 * @param string $data Contents
+	 * @return Part New text part
+	 */
+	public function prepend($data)
+	{
+		return $this->prependPart($data, '/');
+	}
 }

@@ -37,28 +37,34 @@ namespace Apparat\Resource\Framework\File;
 
 
 use Apparat\Resource\Framework\Hydrator\TextHydrator;
-use Apparat\Resource\Model\File\File;
+use Apparat\Resource\Model\File\SinglePartFile;
 use Apparat\Resource\Model\Reader;
 
 /**
  * Text file
  *
  * @package Apparat\Resource\Framework\File
- * @method TextFile setPart() set(string $data, string $part = '/') Set the content of the file
+ * @method TextFile set() set(string $data) Set the content of the file
+ * @method TextFile setPart() setPart(string $data, string $part = '/') Set the content of the file
  * @method TextFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
  * @method TextFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
  * @method void undefinedMethod() undefinedMethod() Undefined method for testing purposes
  * @method void undefinedMethodPart() undefinedMethodPart() Undefined method for testing purposes
  */
-class TextFile extends File
+class TextFile extends SinglePartFile
 {
-    /**
-     * Text file constructor
-     *
-     * @param Reader $reader Reader instance
-     */
-    public function __construct(Reader $reader = null)
-    {
-        parent::__construct($reader, TextHydrator::class);
-    }
+	/**
+	 * Use text file convenience methods and properties
+	 */
+	use TextFileMethods;
+
+	/**
+	 * Text file constructor
+	 *
+	 * @param Reader $reader Reader instance
+	 */
+	public function __construct(Reader $reader = null)
+	{
+		parent::__construct($reader, TextHydrator::class);
+	}
 }

@@ -55,7 +55,7 @@ class CommonMarkPart extends TextPart
     const MIME_TYPE = 'text/x-markdown';
 
     /**
-     * Convert the Markdown source to HTML
+     * Convert the CommonMark source to HTML
      *
      * @param array $subparts Subpart path identifiers
      * @return string CommonMark HTML
