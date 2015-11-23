@@ -36,7 +36,6 @@
 namespace Apparat\Resource\Model\Hydrator;
 
 use Apparat\Resource\Model\Part\AbstractPart;
-use Apparat\Resource\Model\Part\InvalidArgumentException as PartInvalidArgumentException;
 use Apparat\Resource\Model\Part\Part;
 use Apparat\Resource\Model\Part\PartAggregate;
 
@@ -161,42 +160,6 @@ abstract class MultipartHydrator extends AbstractHydrator
 
 		return new $this->_aggregateClass($this->_subhydrators, $this->_minimumOccurrences, $this->_maximumOccurrences,
 			$this);
-	}
-
-	/**
-	 * Get a subhydrator by name
-	 *
-	 * @param array $path Subhydrator path
-	 * @return Hydrator Subhydrator
-	 * @throws PartInvalidArgumentException If the subhydrator path is empty
-	 * @throws PartInvalidArgumentException If the subhydrator path is unknown
-	 */
-	public function getSub(array $path)
-	{
-
-		// If the path part is empty: Return this hydrator
-		if (!count($path)) {
-			return $this;
-		}
-
-		// If there are less than two part identifiers
-		if (count($path) < 2) {
-			throw new InvalidArgumentException(sprintf('Too few subpart identifiers ("%s")',
-				implode('/', $path)),
-				InvalidArgumentException::TOO_FEW_SUBPART_IDENTIFIERS);
-		}
-		array_shift($path);
-
-		// Retrieve the subhydrator
-		$subhydratorName = array_shift($path);
-		if (!array_key_exists($subhydratorName, $this->_subhydrators)) {
-			throw new PartInvalidArgumentException(sprintf('Unknown part identifier "%s"', $subhydratorName),
-				PartInvalidArgumentException::UNKNOWN_PART_IDENTIFIER);
-		}
-
-		/** @var Hydrator $subhydrator */
-		$subhydrator =& $this->_subhydrators[$subhydratorName];
-		return count($path) ? $subhydrator->getSub($path) : $subhydrator;
 	}
 
 	/*******************************************************************************

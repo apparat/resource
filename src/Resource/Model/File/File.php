@@ -145,6 +145,7 @@ abstract class File extends Resource
 			$subpartPathArgumentIndex = $isGetterMethod ? 0 : 1;
 			$subparts = $this->_partPath((count($arguments) > $subpartPathArgumentIndex) ? $arguments[$subpartPathArgumentIndex] : '/');
 			$delegateResult = $this->_part()->delegate($partMethod, $subparts, $delegateArguments);
+//			echo get_class($this->_part()).' --- '.get_class($delegateResult).PHP_EOL;
 			if ($isGetterMethod) {
 				return $delegateResult;
 			} else {

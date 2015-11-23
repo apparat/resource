@@ -146,9 +146,9 @@ class TextTest extends TestBase
 	}
 
     /**
-     * Test appending content to a text file
+     * Test setting and appending content to a text file part
      */
-    public function testTextFileAppend()
+    public function testTextFileAppendPart()
     {
         $randomSet = md5(rand());
         $randomAppend = md5(rand());
@@ -158,9 +158,21 @@ class TextTest extends TestBase
     }
 
     /**
-     * Test prepending content to a text file
+     * Test appending content to a text file
      */
-    public function testTextFilePrepend()
+    public function testTextFileAppend()
+    {
+        $randomSet = md5(rand());
+        $randomAppend = md5(rand());
+        $textFile = new TextFile();
+        $textFile->set($randomSet)->append($randomAppend);
+        $this->assertEquals($randomSet.$randomAppend, $textFile->get());
+    }
+
+    /**
+     * Test prepending content to a text file part
+     */
+    public function testTextFilePrependPart()
     {
         $randomSet = md5(rand());
         $randomPrepend = md5(rand());
@@ -168,6 +180,19 @@ class TextTest extends TestBase
         $textFile->setPart($randomSet)->prependPart($randomPrepend);
         $this->assertEquals($randomPrepend.$randomSet, $textFile->getPart());
     }
+
+
+	/**
+	 * Test appending content to a text file
+	 */
+	public function testTextFilePrepend()
+	{
+		$randomSet = md5(rand());
+		$randomPrepend = md5(rand());
+		$textFile = new TextFile();
+		$textFile->set($randomSet)->prepend($randomPrepend);
+		$this->assertEquals($randomPrepend.$randomSet, $textFile->get());
+	}
 
     /**
      * Test an invalid path identifier

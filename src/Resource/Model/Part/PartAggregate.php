@@ -188,8 +188,26 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 	{
 		// If there are subpart identifiers: Delegate method call
 		if (count($subparts)) {
-			$subpart = $this->_getImmediateSubpart($subparts);
-			return $subpart->delegate($method, $subparts, $arguments);
+			$occurrence = 0;
+			$part = '';
+			$subpart = $this->_getImmediateSubpart($subparts, $occurrence, $part);
+			$result = $subpart->delegate($method, $subparts, $arguments);
+
+			// If it's a setter method
+			if (!strncmp('set', $method, 3)) {
+
+//				echo $method.': '.get_class($this).'['.$occurrence.'/'.$part.']'.' = '.get_class($result).PHP_EOL;
+
+				// Exchange the modified part
+				$this->_occurrences[$occurrence][$part] = $result;
+
+				// Return a self reference
+				return $this;
+
+				// Else: Return the method result
+			} else {
+				return $result;
+			}
 		}
 
 		return parent::delegate($method, $subparts, $arguments);
@@ -311,7 +329,8 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 	 * @throws InvalidArgumentException If the subpart identifier is unknown
 	 * @throws InvalidArgumentException If the subpart does not exist
 	 */
-	protected function _getImmediateSubpart(array &$subparts, &$occurrence = 0, &$part = '') {
+	protected function _getImmediateSubpart(array &$subparts, &$occurrence = 0, &$part = '')
+	{
 
 		// Check if there are at least 2 subpart path identifiers available
 		if (count($subparts) < 2) {
@@ -415,7 +434,8 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 	 * @param string $part Part identifier
 	 * @return bool Is known part identifier
 	 */
-	protected function _isKnownPartIdentifier($occurrence, $part) {
+	protected function _isKnownPartIdentifier($occurrence, $part)
+	{
 		return array_key_exists($part, $this->_occurrences[$occurrence]);
 	}
 
@@ -426,7 +446,8 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 	 * @param string $part Part identifier
 	 * @return Part Part instance
 	 */
-	protected function _getOccurrencePart($occurrence, $part) {
+	protected function _getOccurrencePart(&$occurrence, &$part)
+	{
 		return $this->_occurrences[$occurrence][$part];
 	}
 }

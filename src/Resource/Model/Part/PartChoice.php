@@ -97,8 +97,14 @@ class PartChoice extends PartAggregate
 	 * @param string $part Part identifier
 	 * @return Part Part instance
 	 */
-	protected function _getOccurrencePart($occurrence, $part)
+	protected function _getOccurrencePart(&$occurrence, &$part)
 	{
-		return ($part == self::WILDCARD) ? current($this->_occurrences[$occurrence]) : $this->_occurrences[$occurrence][$part];
+		reset($this->_occurrences[$occurrence]);
+
+		if ($part == self::WILDCARD) {
+			$part = key($this->_occurrences[$occurrence]);
+		}
+
+		return parent::_getOccurrencePart($occurrence, $part);
 	}
 }

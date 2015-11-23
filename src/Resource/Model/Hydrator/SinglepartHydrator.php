@@ -35,8 +35,6 @@
 
 namespace Apparat\Resource\Model\Hydrator;
 
-use Apparat\Resource\Model\Part\InvalidArgumentException as PartInvalidArgumentException;
-
 /**
  * Abstract hydrator
  *
@@ -44,21 +42,5 @@ use Apparat\Resource\Model\Part\InvalidArgumentException as PartInvalidArgumentE
  */
 abstract class SinglepartHydrator extends AbstractHydrator
 {
-    /**
-     * Get a subhydrator by name
-     *
-     * @param array $path Subhydrator path
-     * @return Hydrator Subhydrator
-     * @throws PartInvalidArgumentException If there are subpart identifiers given
-     */
-    public function getSub(array $path)
-    {
-        // If there are subpart identifiers given
-        if (count($path)) {
-            throw new PartInvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $path)),
-                PartInvalidArgumentException::SUBPARTS_NOT_ALLOWED);
-        }
 
-        return $this;
-    }
 }

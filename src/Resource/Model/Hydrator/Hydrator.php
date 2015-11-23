@@ -44,41 +44,33 @@ use Apparat\Resource\Model\Part\Part;
  */
 interface Hydrator
 {
-    /**
-     * Default hydrator name
-     *
-     * @var string
-     */
-    const STANDARD = 'standard';
+	/**
+	 * Default hydrator name
+	 *
+	 * @var string
+	 */
+	const STANDARD = 'standard';
 
-    /**
-     * Serialize a file part
-     *
-     * @param Part $part File part
-     * @return string Serialized file part
-     */
-    public function dehydrate(Part $part);
+	/**
+	 * Serialize a file part
+	 *
+	 * @param Part $part File part
+	 * @return string Serialized file part
+	 */
+	public function dehydrate(Part $part);
 
-    /**
-     * Translate data to a file part
-     *
-     * @param string $data Part data
-     * @return Part File part
-     */
-    public function hydrate($data);
+	/**
+	 * Translate data to a file part
+	 *
+	 * @param string $data Part data
+	 * @return Part File part
+	 */
+	public function hydrate($data);
 
-    /**
-     * Return the part name
-     *
-     * @return string Part name
-     */
-    public function getName();
-
-    /**
-     * Get a subhydrator by name
-     *
-     * @param array $path Subhydrator path
-     * @return Hydrator Subhydrator
-     */
-    public function getSub(array $path);
+	/**
+	 * Return the part name
+	 *
+	 * @return string Part name
+	 */
+	public function getName();
 }

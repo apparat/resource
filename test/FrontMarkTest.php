@@ -154,6 +154,12 @@ class FrontMarkTest extends TestBase
 	 */
 	const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.yaml';
 	/**
+	 * Example JSON file
+	 *
+	 * @var string
+	 */
+	const JSON_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.json';
+	/**
 	 * Example CommonMark file
 	 *
 	 * @var string
@@ -331,10 +337,33 @@ class FrontMarkTest extends TestBase
 	 */
 	public function testJsonFrontMarkFrontmatterWildcard()
 	{
-		// TODO
 		$frontMarkFile = new FrontMarkFile(new Reader($this->_jsonFrontMark));
 		$this->assertStringEqualsFile(self::JSON_FRONTMATTER_FILE,
 			$frontMarkFile->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.PartChoice::WILDCARD));
+	}
+
+	/**
+	 * Test JSON FrontMark get frontmatter data
+	 *
+	 */
+	public function testJsonFrontMarkFrontmatterGetData()
+	{
+		$frontMarkFile = new FrontMarkFile(new Reader($this->_jsonFrontMark));
+		$this->assertArrayEquals(json_decode(file_get_contents(self::JSON_FRONTMATTER_FILE), true),
+			$frontMarkFile->getData());
+	}
+
+	/**
+	 * Test JSON FrontMark set frontmatter data
+	 *
+	 */
+	public function testJsonFrontMarkFrontmatterSetData()
+	{
+		$expectedJson = json_decode(file_get_contents(self::JSON_FILE), true);
+		$frontMarkFile = new FrontMarkFile(new Reader($this->_jsonFrontMark));
+		$frontMarkFile->setData($expectedJson);
+		$this->assertArrayEquals($expectedJson,
+			$frontMarkFile->getDataPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.PartChoice::WILDCARD));
 	}
 
 	/**

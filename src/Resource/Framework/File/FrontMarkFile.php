@@ -43,6 +43,7 @@ use Apparat\Resource\Framework\Hydrator\YamlHydrator;
 use Apparat\Resource\Model\File\File;
 use Apparat\Resource\Model\Hydrator\Hydrator;
 use Apparat\Resource\Model\Part\ContentPart;
+use Apparat\Resource\Model\Part\PartChoice;
 use Apparat\Resource\Model\Reader;
 
 /**
@@ -140,8 +141,7 @@ class FrontMarkFile extends File
 	 */
 	public function getData()
 	{
-
-//		return $this->getDataPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/);
+		return $this->getDataPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.PartChoice::WILDCARD);
 	}
 
 	/**
@@ -152,7 +152,7 @@ class FrontMarkFile extends File
 	 */
 	public function setData(array $data)
 	{
-//		return $this->setDataPart($data, '/');
+		return $this->setDataPart($data, '/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.PartChoice::WILDCARD);
 	}
 
 

@@ -35,7 +35,6 @@
 
 namespace ApparatTest;
 
-use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
 use Apparat\Resource\Framework\Hydrator\TextHydrator;
 use Apparat\Resource\Framework\Part\TextPart;
 use Apparat\Resource\Model\Hydrator\Hydrator;
@@ -325,74 +324,6 @@ class HydratorTest extends TestBase
 			1
 		]);
 		$this->assertEquals(Hydrator::STANDARD, $sequenceHydrator->getName());
-	}
-
-	/**
-	 * Test multipart hydrator self reference
-	 */
-	public function testMultipartHydratorSelf()
-	{
-		/** @var SequenceHydrator $sequenceHydrator */
-		$sequenceHydrator = HydratorFactory::build([
-			['a' => TextHydrator::class, 'b' => CommonMarkHydrator::class],
-			SequenceHydrator::class,
-			1,
-			1
-		]);
-		$this->assertEquals($sequenceHydrator, $sequenceHydrator->getSub([]));
-	}
-
-	/**
-	 * Test multipart hydrator with too few part identifiers
-	 *
-	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionCode 1448056671
-	 */
-	public function testMultipartHydratorTooFewPartIdentifiers()
-	{
-		/** @var SequenceHydrator $sequenceHydrator */
-		$sequenceHydrator = HydratorFactory::build([
-			['a' => TextHydrator::class, 'b' => CommonMarkHydrator::class],
-			SequenceHydrator::class,
-			1,
-			1
-		]);
-		$sequenceHydrator->getSub(['c']);
-	}
-
-	/**
-	 * Test multipart hydrator unknown subpart path
-	 *
-	 * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
-	 * @expectedExceptionCode 1447876475
-	 */
-	public function testMultipartHydratorUnknownSub()
-	{
-		$sequenceHydrator = HydratorFactory::build([
-			['a' => TextHydrator::class, 'b' => CommonMarkHydrator::class],
-			SequenceHydrator::class,
-			1,
-			1
-		]);
-		$sequenceHydrator->getSub([0, 'c']);
-	}
-
-	/**
-	 * Test multipart hydrator invalid subpart path
-	 *
-	 * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
-	 * @expectedExceptionCode 1447365624
-	 */
-	public function testMultipartHydratorInvalidSub()
-	{
-		/** @var SequenceHydrator $sequenceHydrator */
-		$sequenceHydrator = HydratorFactory::build([
-			['a' => TextHydrator::class, 'b' => CommonMarkHydrator::class],
-			SequenceHydrator::class,
-			1,
-			1
-		]);
-		$sequenceHydrator->getSub([0, 'a', 0, 'b', 0, 'c']);
 	}
 
 	/**
@@ -706,17 +637,5 @@ class HydratorTest extends TestBase
 	{
 		$textHydrator = HydratorFactory::build([[Hydrator::STANDARD => TextHydrator::class]]);
 		$this->assertEquals(Hydrator::STANDARD, $textHydrator->getName());
-	}
-
-	/**
-	 * Test subhydrators on a single part hydrator
-	 *
-	 * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
-	 * @expectedExceptionCode 1447365624
-	 */
-	public function testTextHydratorSub()
-	{
-		$textHydrator = HydratorFactory::build([[Hydrator::STANDARD => TextHydrator::class]]);
-		$textHydrator->getSub(['a', 'b', 'c']);
 	}
 }

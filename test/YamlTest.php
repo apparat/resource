@@ -110,6 +110,29 @@ class YamlTest extends TestBase
         $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
         $yamlFile = new YamlFile(new Reader($this->_yaml));
         $this->assertArrayEquals($expectedData, $yamlFile->getDataPart());
+        $this->assertArrayEquals($expectedData, $yamlFile->getData());
+    }
+
+    /**
+     * Test getting the data part of a Yaml file
+     */
+    public function testYamlFileSetDataPart()
+    {
+        // Prepare modified expected data
+        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
+        $expectedData['date'] = time();
+        $expectedData['bill-to']['given'] = 'John';
+        $expectedData['bill-to']['family'] = 'Doe';
+        $expectedData['product'][] = [
+            'sku' => 'ABC123',
+            'quantity' => 1,
+            'description' => 'Dummy',
+            'price' => 123
+        ];
+        unset($expectedData['comments']);
+        $yamlFile = new YamlFile(new Reader($this->_yaml));
+        $yamlFile->setDataPart($expectedData);
+        $this->assertArrayEquals($expectedData, $yamlFile->getDataPart());
     }
 
     /**
@@ -130,7 +153,7 @@ class YamlTest extends TestBase
         ];
         unset($expectedData['comments']);
         $yamlFile = new YamlFile(new Reader($this->_yaml));
-        $yamlFile->setDataPart($expectedData);
-        $this->assertArrayEquals($expectedData, $yamlFile->getDataPart());
+        $yamlFile->setData($expectedData);
+        $this->assertArrayEquals($expectedData, $yamlFile->getData());
     }
 }
