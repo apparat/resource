@@ -52,10 +52,10 @@ class YamlHydrator extends TextHydrator
     const YAML = 'yaml';
 
     /**
-     * Translate data to a YAML file part
+     * Translate data to a YAML resource part
      *
      * @param string $data Part data
-     * @return YamlPart YAML file part
+     * @return YamlPart YAML resource part
      */
     public function hydrate($data)
     {

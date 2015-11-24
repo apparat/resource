@@ -33,36 +33,36 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\File;
+namespace Apparat\Resource\Framework\Resource;
 
-use Apparat\Resource\Framework\Hydrator\JsonHydrator;
-use Apparat\Resource\Model\File\SinglePartFile;
+use Apparat\Resource\Framework\Hydrator\YamlHydrator;
+use Apparat\Resource\Model\SinglePartResource;
 use Apparat\Resource\Model\Reader;
 
 /**
- * JSON file
+ * YAML resource
  *
- * @package Apparat\Resource\Framework\File
- * @method JsonFile set() set(array $data) Set the content of the file
- * @method JsonFile setPart() setPart(array $data, string $part = '/') Set the content of the file
- * @method array getDataPart() getDataPart(string $part = '/') Get the JSON data of the file
- * @method JsonFile setData() setData(array $data) Set the JSON data of the file
- * @method JsonFile setDataPart() setDataPart(array $data, string $part = '/') Set the JSON data of the file
+ * @package Apparat\Resource\Framework\Resource
+ * @method YamlResource set() set(array $data) Set the content of the resource
+ * @method YamlResource setPart() setPart(array $data, string $part = '/') Set the content of the resource
+ * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the resource
+ * @method YamlResource setData() setData(array $data) Set the YAML data of the resource
+ * @method YamlResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the resource
  */
-class JsonFile extends SinglePartFile
+class YamlResource extends SinglePartResource
 {
 	/**
-	 * Use data file convenience methods and properties
+	 * Use data resource convenience methods and properties
 	 */
-	use DataFileMethods;
+	use DataResourceMethods;
 
 	/**
-	 * JSON file constructor
+	 * YAML resource constructor
 	 *
 	 * @param Reader $reader Reader instance
 	 */
 	public function __construct(Reader $reader = null)
 	{
-		parent::__construct($reader, JsonHydrator::class);
+		parent::__construct($reader, YamlHydrator::class);
 	}
 }

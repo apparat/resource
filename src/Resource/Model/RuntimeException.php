@@ -33,12 +33,12 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\File;
+namespace Apparat\Resource\Model;
 
 /**
  * File runtime exception
  *
- * @package Apparat\Resource\Model\File
+ * @package Apparat\Resource\Model
  */
 class RuntimeException extends \RuntimeException
 {

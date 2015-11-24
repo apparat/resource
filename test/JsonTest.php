@@ -35,7 +35,7 @@
 
 namespace ApparatTest;
 
-use Apparat\Resource\Framework\File\JsonFile;
+use Apparat\Resource\Framework\Resource\JsonResource;
 use Apparat\Resource\Framework\Io\InMemory\Reader;
 use Apparat\Resource\Framework\Part\JsonPart;
 
@@ -74,20 +74,20 @@ class JsonTest extends TestBase
 	/**
 	 * Test the JSON file constructor
 	 */
-	public function testJsonFile()
+	public function testJsonResource()
 	{
-		$jsonFile = new JsonFile();
-		$this->assertInstanceOf(JsonFile::class, $jsonFile);
-		$this->assertEquals(JsonPart::MIME_TYPE, $jsonFile->getMimeTypePart());
+		$jsonResource = new JsonResource();
+		$this->assertInstanceOf(JsonResource::class, $jsonResource);
+		$this->assertEquals(JsonPart::MIME_TYPE, $jsonResource->getMimeTypePart());
 	}
 
 	/**
 	 * Test the JSON file constructor with reader
 	 */
-	public function testJsonFileReader()
+	public function testJsonResourceReader()
 	{
-		$jsonFile = new JsonFile(new Reader($this->_json));
-		$this->assertEquals($this->_json, $jsonFile->getPart());
+		$jsonResource = new JsonResource(new Reader($this->_json));
+		$this->assertEquals($this->_json, $jsonResource->getPart());
 	}
 
     /**
@@ -96,26 +96,26 @@ class JsonTest extends TestBase
      * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
      * @expectedExceptionCode 1447365624
      */
-    public function testJsonFileHtmlSubparts()
+    public function testJsonResourceHtmlSubparts()
     {
-        $jsonFile = new JsonFile(new Reader($this->_json));
-        $jsonFile->getDataPart('a/b/c');
+        $jsonResource = new JsonResource(new Reader($this->_json));
+        $jsonResource->getDataPart('a/b/c');
     }
 
     /**
      * Test getting the data of a Json file
      */
-    public function testJsonFileGetData()
+    public function testJsonResourceGetData()
     {
         $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
-        $jsonFile = new JsonFile(new Reader($this->_json));
-        $this->assertArrayEquals($expectedData, $jsonFile->getDataPart());
+        $jsonResource = new JsonResource(new Reader($this->_json));
+        $this->assertArrayEquals($expectedData, $jsonResource->getDataPart());
     }
 
 	/**
 	 * Test getting the data of a Json file
 	 */
-	public function testJsonFileSetData()
+	public function testJsonResourceSetData()
 	{
 		// Prepare modified expected data
 		$expectedData = include __DIR__ . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'invoice.php';
@@ -129,8 +129,8 @@ class JsonTest extends TestBase
 				'price' => 123
 		];
 		unset($expectedData['comments']);
-		$jsonFile = new JsonFile(new Reader($this->_json));
-		$jsonFile->setDataPart($expectedData);
-		$this->assertArrayEquals($expectedData, $jsonFile->getDataPart());
+		$jsonResource = new JsonResource(new Reader($this->_json));
+		$jsonResource->setDataPart($expectedData);
+		$this->assertArrayEquals($expectedData, $jsonResource->getDataPart());
 	}
 }

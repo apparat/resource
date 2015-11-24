@@ -39,7 +39,7 @@ use Apparat\Resource\Model\Part\ContentPart;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * YAML file part
+ * YAML resource part
  *
  * @package Apparat\Resource\Framework\Part
  * @see http://yaml.org/spec/1.2/spec.pdf

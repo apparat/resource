@@ -56,7 +56,7 @@ trait AggregateHydratorMocks
 	 * Translate data to a file part
 	 *
 	 * @param string $data Part data
-	 * @return PartAggregate File part
+	 * @return PartAggregate Resource part
 	 */
 	public function hydrate($data)
 	{

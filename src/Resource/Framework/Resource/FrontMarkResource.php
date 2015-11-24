@@ -33,35 +33,35 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\File;
+namespace Apparat\Resource\Framework\Resource;
 
 use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
 use Apparat\Resource\Framework\Hydrator\FrontMarkHydrator;
 use Apparat\Resource\Framework\Hydrator\FrontMatterHydrator;
 use Apparat\Resource\Framework\Hydrator\JsonHydrator;
 use Apparat\Resource\Framework\Hydrator\YamlHydrator;
-use Apparat\Resource\Model\File\File;
 use Apparat\Resource\Model\Hydrator\Hydrator;
 use Apparat\Resource\Model\Part\ContentPart;
 use Apparat\Resource\Model\Part\PartChoice;
 use Apparat\Resource\Model\Reader;
+use Apparat\Resource\Model\Resource;
 
 /**
- * FrontMark file (CommonMark file with YAML or JSON front matter)
+ * FrontMark resource (CommonMark resource with YAML or JSON front matter)
  *
- * @package Apparat\Resource\Framework\File
- * @method FrontMarkFile setPart() setPart(array $data, string $part = '/') Set the content of the file
- * @method FrontMarkFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
- * @method FrontMarkFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
- * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the file
- * @method array getDataPart() getDataPart(string $part = '/') Get the YAML / JSON front matter data of the file
- * @method FrontMarkFile setDataPart() setDataPart(array $data, string $part = '/') Set the YAML / JSON front matter data of the file
+ * @package Apparat\Resource\Framework\Resource
+ * @method FrontMarkResource setPart() setPart(array $data, string $part = '/') Set the content of the resource
+ * @method FrontMarkResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
+ * @method FrontMarkResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
+ * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the resource
+ * @method array getDataPart() getDataPart(string $part = '/') Get the YAML / JSON front matter data of the resource
+ * @method FrontMarkResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML / JSON front matter data of the resource
  * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
  */
-class FrontMarkFile extends File
+class FrontMarkResource extends Resource
 {
 	/**
-	 * FrontMark file constructor
+	 * FrontMark resource constructor
 	 *
 	 * @param Reader $reader Reader instance
 	 */
@@ -86,7 +86,7 @@ class FrontMarkFile extends File
 	 * Set the content of the sole part
 	 *
 	 * @param string $data Content
-	 * @return FrontMarkFile Self reference
+	 * @return FrontMarkResource Self reference
 	 */
 	public function set($data)
 	{
@@ -107,7 +107,7 @@ class FrontMarkFile extends File
 	 * Append content to the sole part
 	 *
 	 * @param string $data Contents
-	 * @return FrontMarkFile New part
+	 * @return FrontMarkResource New part
 	 */
 	public function append($data)
 	{
@@ -118,7 +118,7 @@ class FrontMarkFile extends File
 	 * Prepend content to the sole part
 	 *
 	 * @param string $data Contents
-	 * @return FrontMarkFile New text part
+	 * @return FrontMarkResource New text part
 	 */
 	public function prepend($data)
 	{
@@ -130,7 +130,8 @@ class FrontMarkFile extends File
 	 *
 	 * @return string CommonMark HTML
 	 */
-	public function getHtml() {
+	public function getHtml()
+	{
 		return $this->getHtmlPart('/0/'.Hydrator::STANDARD);
 	}
 

@@ -39,7 +39,7 @@ namespace Apparat\Resource\Framework\Part;
 use Apparat\Resource\Model\Part\ContentPart;
 
 /**
- * Text file part
+ * Text resource part
  *
  * @package Apparat\Resource\Framework\Part
  */

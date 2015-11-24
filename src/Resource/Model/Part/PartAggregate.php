@@ -196,8 +196,6 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 			// If it's a setter method
 			if (!strncmp('set', $method, 3)) {
 
-//				echo $method.': '.get_class($this).'['.$occurrence.'/'.$part.']'.' = '.get_class($result).PHP_EOL;
-
 				// Exchange the modified part
 				$this->_occurrences[$occurrence][$part] = $result;
 

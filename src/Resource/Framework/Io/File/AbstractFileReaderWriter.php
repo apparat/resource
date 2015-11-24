@@ -36,7 +36,7 @@
 namespace Apparat\Resource\Framework\Io\File;
 
 /**
- * Abstract base class for file readers and writers
+ * Abstract base class for resource readers and writers
  *
  * @package Apparat\Resource\Framework\Io\File
  */

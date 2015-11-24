@@ -45,7 +45,7 @@ trait ReaderTrait
     /**
      * Constructor
      *
-     * @param string $data File data
+     * @param string $data Resource data
      */
     public function __construct($data)
     {
@@ -53,9 +53,9 @@ trait ReaderTrait
     }
 
     /**
-     * Read the file content
+     * Read the resource content
      *
-     * @return string File content
+     * @return string Resource content
      */
     public function read()
     {

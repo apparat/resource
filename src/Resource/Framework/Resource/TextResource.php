@@ -33,34 +33,38 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\File;
+namespace Apparat\Resource\Framework\Resource;
 
+
+use Apparat\Resource\Framework\Hydrator\TextHydrator;
+use Apparat\Resource\Model\SinglePartResource;
+use Apparat\Resource\Model\Reader;
 
 /**
- * Single part file
+ * Text resource
  *
- * @package Apparat\Resource\Model\File
+ * @package Apparat\Resource\Framework\Resource
+ * @method TextResource set() set(string $data) Set the content of the resource
+ * @method TextResource setPart() setPart(string $data, string $part = '/') Set the content of the resource
+ * @method TextResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
+ * @method TextResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
+ * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
+ * @method string undefinedMethod() undefinedMethod() Undefined method dummy
  */
-class SinglePartFile extends File
+class TextResource extends SinglePartResource
 {
 	/**
-	 * Set the content of the sole part
-	 *
-	 * @param string $data Content
-	 * @return SinglePartFile Self reference
+	 * Use text resource convenience methods and properties
 	 */
-	public function set($data)
-	{
-		return $this->setPart($data, '/');
-	}
+	use TextResourceMethods;
 
 	/**
-	 * Return the sole part's content
+	 * Text resource constructor
 	 *
-	 * @return string Part content
+	 * @param Reader $reader Reader instance
 	 */
-	public function get()
+	public function __construct(Reader $reader = null)
 	{
-		return $this->getPart('/');
+		parent::__construct($reader, TextHydrator::class);
 	}
 }

@@ -48,7 +48,7 @@ use Apparat\Resource\Model\Part\PartAggregate;
 class FrontMarkHydrator extends SequenceHydrator
 {
 	/**
-	 * Translate data to a YAML file part
+	 * Translate data to a YAML resource part
 	 *
 	 * @param string $data Part data
 	 * @return PartAggregate Part aggregate

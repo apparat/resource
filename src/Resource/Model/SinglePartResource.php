@@ -33,47 +33,34 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\File;
+namespace Apparat\Resource\Model;
 
-
-use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
-use Apparat\Resource\Model\File\SinglePartFile;
-use Apparat\Resource\Model\Reader;
 
 /**
- * CommonMark file
+ * Single part file
  *
- * @package Apparat\Resource\Framework\File
- * @method CommonMarkFile set() set(string $data) Set the content of the file
- * @method CommonMarkFile setPart() setPart(string $data, string $part = '/') Set the content of the file
- * @method CommonMarkFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
- * @method CommonMarkFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
- * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the file
- * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
+ * @package Apparat\Resource\Model
  */
-class CommonMarkFile extends SinglePartFile
+class SinglePartResource extends Resource
 {
 	/**
-	 * Use text file convenience methods and properties
-	 */
-	use TextFileMethods;
-
-	/**
-	 * Text file constructor
+	 * Set the content of the sole part
 	 *
-	 * @param Reader $reader Reader instance
+	 * @param string $data Content
+	 * @return SinglePartResource Self reference
 	 */
-	public function __construct(Reader $reader = null)
+	public function set($data)
 	{
-		parent::__construct($reader, CommonMarkHydrator::class);
+		return $this->setPart($data, '/');
 	}
 
 	/**
-	 * Convert the sole CommonMark source to HTML
+	 * Return the sole part's content
 	 *
-	 * @return string CommonMark HTML
+	 * @return string Part content
 	 */
-	public function getHtml() {
-		return $this->getHtmlPart('/');
+	public function get()
+	{
+		return $this->getPart('/');
 	}
 }

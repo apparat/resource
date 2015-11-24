@@ -33,38 +33,36 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\File;
+namespace Apparat\Resource\Framework\Resource;
 
-use Apparat\Resource\Model\Part\Part;
+use Apparat\Resource\Framework\Hydrator\JsonHydrator;
+use Apparat\Resource\Model\Reader;
+use Apparat\Resource\Model\SinglePartResource;
 
 /**
- * Text file convenience methods
+ * JSON resource
  *
- * @package Apparat\Resource\Framework\File
- * @method TextFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
- * @method TextFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
+ * @package Apparat\Resource\Framework\Resource
+ * @method JsonResource set() set(array $data) Set the content of the resource
+ * @method JsonResource setPart() setPart(array $data, string $part = '/') Set the content of the resource
+ * @method array getDataPart() getDataPart(string $part = '/') Get the JSON data of the resource
+ * @method JsonResource setData() setData(array $data) Set the JSON data of the resource
+ * @method JsonResource setDataPart() setDataPart(array $data, string $part = '/') Set the JSON data of the resource
  */
-trait TextFileMethods
+class JsonResource extends SinglePartResource
 {
 	/**
-	 * Append content to the sole part
-	 *
-	 * @param string $data Contents
-	 * @return Part New part
+	 * Use data resource convenience methods and properties
 	 */
-	public function append($data)
-	{
-		return $this->appendPart($data, '/');
-	}
+	use DataResourceMethods;
 
 	/**
-	 * Prepend content to the sole part
+	 * JSON resource constructor
 	 *
-	 * @param string $data Contents
-	 * @return Part New text part
+	 * @param Reader $reader Reader instance
 	 */
-	public function prepend($data)
+	public function __construct(Reader $reader = null)
 	{
-		return $this->prependPart($data, '/');
+		parent::__construct($reader, JsonHydrator::class);
 	}
 }

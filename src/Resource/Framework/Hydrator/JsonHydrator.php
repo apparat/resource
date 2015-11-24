@@ -52,10 +52,10 @@ class JsonHydrator extends TextHydrator
     const JSON = 'json';
 
     /**
-     * Translate data to a JSON file part
+     * Translate data to a JSON resource part
      *
      * @param string $data Part data
-     * @return JsonPart JSON file part
+     * @return JsonPart JSON resource part
      */
     public function hydrate($data)
     {

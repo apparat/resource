@@ -40,7 +40,7 @@ use League\CommonMark\Environment;
 use League\CommonMark\HtmlRenderer;
 
 /**
- * CommonMark file part
+ * CommonMark resource part
  *
  * @package Apparat\Resource\Framework\Part
  */

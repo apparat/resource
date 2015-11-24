@@ -45,10 +45,10 @@ use Apparat\Resource\Framework\Part\CommonMarkPart;
 class CommonMarkHydrator extends TextHydrator
 {
     /**
-     * Translate data to a CommonMark file part
+     * Translate data to a CommonMark resource part
      *
      * @param string $data Part data
-     * @return CommonMarkPart CommonMark file part
+     * @return CommonMarkPart CommonMark resource part
      */
     public function hydrate($data)
     {

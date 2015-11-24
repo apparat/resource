@@ -33,38 +33,47 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\File;
+namespace Apparat\Resource\Framework\Resource;
 
 
-use Apparat\Resource\Framework\Hydrator\TextHydrator;
-use Apparat\Resource\Model\File\SinglePartFile;
+use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
+use Apparat\Resource\Model\SinglePartResource;
 use Apparat\Resource\Model\Reader;
 
 /**
- * Text file
+ * CommonMark resource
  *
- * @package Apparat\Resource\Framework\File
- * @method TextFile set() set(string $data) Set the content of the file
- * @method TextFile setPart() setPart(string $data, string $part = '/') Set the content of the file
- * @method TextFile appendPart() appendPart(string $data, string $part = '/') Append content to the file
- * @method TextFile prependPart() prependPart(string $data, string $part = '/') Prepend content to the file
+ * @package Apparat\Resource\Framework\Resource
+ * @method CommonMarkResource set() set(string $data) Set the content of the resource
+ * @method CommonMarkResource setPart() setPart(string $data, string $part = '/') Set the content of the resource
+ * @method CommonMarkResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
+ * @method CommonMarkResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
+ * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the resource
  * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
- * @method string undefinedMethod() undefinedMethod() Undefined method dummy
  */
-class TextFile extends SinglePartFile
+class CommonMarkResource extends SinglePartResource
 {
 	/**
-	 * Use text file convenience methods and properties
+	 * Use text resource convenience methods and properties
 	 */
-	use TextFileMethods;
+	use TextResourceMethods;
 
 	/**
-	 * Text file constructor
+	 * CommonMark resource constructor
 	 *
 	 * @param Reader $reader Reader instance
 	 */
 	public function __construct(Reader $reader = null)
 	{
-		parent::__construct($reader, TextHydrator::class);
+		parent::__construct($reader, CommonMarkHydrator::class);
+	}
+
+	/**
+	 * Convert the sole CommonMark source to HTML
+	 *
+	 * @return string CommonMark HTML
+	 */
+	public function getHtml() {
+		return $this->getHtmlPart('/');
 	}
 }

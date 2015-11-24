@@ -33,19 +33,19 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\File;
+namespace Apparat\Resource\Framework\Resource;
 
-use Apparat\Resource\Model\File\SinglePartFile;
+use Apparat\Resource\Model\SinglePartResource;
 use Apparat\Resource\Model\Part\ContentPart;
 
 /**
- * Data file convenience methods
+ * Data resource convenience methods
  *
- * @package Apparat\Resource\Framework\File
- * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the file
- * @method SinglePartFile setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the file
+ * @package Apparat\Resource\Framework\Resource
+ * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the resource
+ * @method SinglePartResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the resource
  */
-trait DataFileMethods
+trait DataResourceMethods
 {
 	/**
 	 * Return the unserialized sole data content

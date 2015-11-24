@@ -49,10 +49,10 @@ class TextHydrator extends SinglepartHydrator
 {
 
     /**
-     * Serialize a file part
+     * Serialize a resource part
      *
-     * @param Part $part File part
-     * @return string Serialized file part
+     * @param Part $part Resource part
+     * @return string Serialized resource part
      */
     public function dehydrate(Part $part)
     {
@@ -60,10 +60,10 @@ class TextHydrator extends SinglepartHydrator
     }
 
     /**
-     * Translate data to a text file part
+     * Translate data to a text resource part
      *
      * @param string $data Part data
-     * @return TextPart Text file part
+     * @return TextPart Text resource part
      */
     public function hydrate($data)
     {

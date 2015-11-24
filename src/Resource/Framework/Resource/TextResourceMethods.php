@@ -33,36 +33,38 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\File;
+namespace Apparat\Resource\Framework\Resource;
 
-use Apparat\Resource\Framework\Hydrator\YamlHydrator;
-use Apparat\Resource\Model\File\SinglePartFile;
-use Apparat\Resource\Model\Reader;
+use Apparat\Resource\Model\Part\Part;
 
 /**
- * YAML file
+ * Text resource convenience methods
  *
- * @package Apparat\Resource\Framework\File
- * @method YamlFile set() set(array $data) Set the content of the file
- * @method YamlFile setPart() setPart(array $data, string $part = '/') Set the content of the file
- * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the file
- * @method YamlFile setData() setData(array $data) Set the YAML data of the file
- * @method YamlFile setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the file
+ * @package Apparat\Resource\Framework\Resource
+ * @method TextResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
+ * @method TextResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
  */
-class YamlFile extends SinglePartFile
+trait TextResourceMethods
 {
 	/**
-	 * Use data file convenience methods and properties
+	 * Append content to the sole part
+	 *
+	 * @param string $data Contents
+	 * @return Part New part
 	 */
-	use DataFileMethods;
+	public function append($data)
+	{
+		return $this->appendPart($data, '/');
+	}
 
 	/**
-	 * YAML file constructor
+	 * Prepend content to the sole part
 	 *
-	 * @param Reader $reader Reader instance
+	 * @param string $data Contents
+	 * @return Part New text part
 	 */
-	public function __construct(Reader $reader = null)
+	public function prepend($data)
 	{
-		parent::__construct($reader, YamlHydrator::class);
+		return $this->prependPart($data, '/');
 	}
 }

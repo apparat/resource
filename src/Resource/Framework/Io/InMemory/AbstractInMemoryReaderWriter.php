@@ -44,7 +44,7 @@ namespace Apparat\Resource\Framework\Io\InMemory;
 class AbstractInMemoryReaderWriter
 {
     /**
-     * File data
+     * Resource data
      *
      * @var string
      */

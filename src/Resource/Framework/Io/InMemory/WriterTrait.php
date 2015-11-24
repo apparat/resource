@@ -39,7 +39,7 @@ namespace Apparat\Resource\Framework\Io\InMemory;
  * In-memory writer trait
  *
  * @package Apparat\Resource\Framework\Writer
- * @property string $_data File data
+ * @property string $_data Resource data
  */
 trait WriterTrait
 {

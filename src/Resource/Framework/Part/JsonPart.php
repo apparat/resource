@@ -38,7 +38,7 @@ namespace Apparat\Resource\Framework\Part;
 use Apparat\Resource\Model\Part\ContentPart;
 
 /**
- * JSON file part
+ * JSON resource part
  *
  * @package Apparat\Resource\Framework\Part
  */

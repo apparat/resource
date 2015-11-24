@@ -54,10 +54,10 @@ class FrontMatterHydrator extends ChoiceHydrator
 	const FRONTMATTER = 'frontmatter';
 
 	/**
-	 * Translate data to a file part
+	 * Translate data to a resource part
 	 *
 	 * @param string $data Part data
-	 * @return Part File part
+	 * @return Part Resource part
 	 */
 	public function hydrate($data)
 	{

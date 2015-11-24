@@ -35,7 +35,7 @@
 
 namespace ApparatTest;
 
-use Apparat\Resource\Framework\File\CommonMarkFile;
+use Apparat\Resource\Framework\Resource\CommonMarkResource;
 use Apparat\Resource\Framework\Io\InMemory\Reader;
 use Apparat\Resource\Framework\Part\CommonMarkPart;
 
@@ -72,55 +72,55 @@ class CommonMarkTest extends TestBase
     /**
      * Test the CommonMark file constructor
      */
-    public function testCommonMarkFile()
+    public function testCommonMarkResource()
     {
-        $commonMarkFile = new CommonMarkFile();
-        $this->assertInstanceOf(CommonMarkFile::class, $commonMarkFile);
-        $this->assertEquals(CommonMarkPart::MIME_TYPE, $commonMarkFile->getMimeTypePart());
+        $commonMarkResource = new CommonMarkResource();
+        $this->assertInstanceOf(CommonMarkResource::class, $commonMarkResource);
+        $this->assertEquals(CommonMarkPart::MIME_TYPE, $commonMarkResource->getMimeTypePart());
     }
 
     /**
      * Test the CommonMark file constructor with reader
      */
-    public function testCommonMarkFileReader()
+    public function testCommonMarkResourceReader()
     {
-        $commonMarkFile = new CommonMarkFile(new Reader($this->_commonMark));
-        $this->assertEquals($this->_commonMark, $commonMarkFile->getPart());
+        $commonMarkResource = new CommonMarkResource(new Reader($this->_commonMark));
+        $this->assertEquals($this->_commonMark, $commonMarkResource->getPart());
     }
 
     /**
      * Test setting the content of a CommonMark file
      */
-    public function testCommonMarkFileSet()
+    public function testCommonMarkResourceSet()
     {
         $randomSet = md5(rand());
-        $commonMarkFile = new CommonMarkFile();
-        $commonMarkFile->setPart($randomSet);
-        $this->assertEquals($randomSet, $commonMarkFile->getPart());
+        $commonMarkResource = new CommonMarkResource();
+        $commonMarkResource->setPart($randomSet);
+        $this->assertEquals($randomSet, $commonMarkResource->getPart());
     }
 
     /**
      * Test appending content to a CommonMark file
      */
-    public function testCommonMarkFileAppend()
+    public function testCommonMarkResourceAppend()
     {
         $randomSet = md5(rand());
         $randomAppend = md5(rand());
-        $commonMarkFile = new CommonMarkFile();
-        $commonMarkFile->setPart($randomSet)->appendPart($randomAppend);
-        $this->assertEquals($randomSet.$randomAppend, $commonMarkFile->getPart());
+        $commonMarkResource = new CommonMarkResource();
+        $commonMarkResource->setPart($randomSet)->appendPart($randomAppend);
+        $this->assertEquals($randomSet.$randomAppend, $commonMarkResource->getPart());
     }
 
     /**
      * Test prepending content to a CommonMark file
      */
-    public function testCommonMarkFilePrepend()
+    public function testCommonMarkResourcePrepend()
     {
         $randomSet = md5(rand());
         $randomPrepend = md5(rand());
-        $commonMarkFile = new CommonMarkFile();
-        $commonMarkFile->setPart($randomSet)->prependPart($randomPrepend);
-        $this->assertEquals($randomPrepend.$randomSet, $commonMarkFile->getPart());
+        $commonMarkResource = new CommonMarkResource();
+        $commonMarkResource->setPart($randomSet)->prependPart($randomPrepend);
+        $this->assertEquals($randomPrepend.$randomSet, $commonMarkResource->getPart());
     }
 
     /**
@@ -129,29 +129,29 @@ class CommonMarkTest extends TestBase
      * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
      * @expectedExceptionCode 1447365624
      */
-    public function testCommonMarkFileHtmlSubparts()
+    public function testCommonMarkResourceHtmlSubparts()
     {
-        $commonMarkFile = new CommonMarkFile(new Reader($this->_commonMark));
-        $commonMarkFile->getHtmlPart('a/b/c');
+        $commonMarkResource = new CommonMarkResource(new Reader($this->_commonMark));
+        $commonMarkResource->getHtmlPart('a/b/c');
     }
 
     /**
      * Test getting the HTML content part of a CommonMark file
      */
-    public function testCommonMarkFileHtmlPart()
+    public function testCommonMarkResourceHtmlPart()
     {
         $expectedHtml = $this->_normalizeHtml(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'commonmark.html'));
-        $commonMarkFile = new CommonMarkFile(new Reader($this->_commonMark));
-        $this->assertEquals($expectedHtml, $this->_normalizeHtml($commonMarkFile->getHtmlPart()));
+        $commonMarkResource = new CommonMarkResource(new Reader($this->_commonMark));
+        $this->assertEquals($expectedHtml, $this->_normalizeHtml($commonMarkResource->getHtmlPart()));
     }
 
     /**
      * Test getting the HTML content of a CommonMark file
      */
-    public function testCommonMarkFileHtml()
+    public function testCommonMarkResourceHtml()
     {
         $expectedHtml = $this->_normalizeHtml(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'commonmark.html'));
-        $commonMarkFile = new CommonMarkFile(new Reader($this->_commonMark));
-        $this->assertEquals($expectedHtml, $this->_normalizeHtml($commonMarkFile->getHtml()));
+        $commonMarkResource = new CommonMarkResource(new Reader($this->_commonMark));
+        $this->assertEquals($expectedHtml, $this->_normalizeHtml($commonMarkResource->getHtml()));
     }
 }

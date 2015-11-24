@@ -35,7 +35,7 @@
 
 namespace ApparatTest;
 
-use Apparat\Resource\Framework\File\YamlFile;
+use Apparat\Resource\Framework\Resource\YamlResource;
 use Apparat\Resource\Framework\Io\InMemory\Reader;
 use Apparat\Resource\Framework\Part\YamlPart;
 
@@ -74,20 +74,20 @@ class YamlTest extends TestBase
     /**
      * Test the YAML file constructor
      */
-    public function testYamlFile()
+    public function testYamlResource()
     {
-        $yamlFile = new YamlFile();
-        $this->assertInstanceOf(YamlFile::class, $yamlFile);
-        $this->assertEquals(YamlPart::MIME_TYPE, $yamlFile->getMimeTypePart());
+        $yamlResource = new YamlResource();
+        $this->assertInstanceOf(YamlResource::class, $yamlResource);
+        $this->assertEquals(YamlPart::MIME_TYPE, $yamlResource->getMimeTypePart());
     }
 
     /**
      * Test the YAML file constructor with reader
      */
-    public function testYamlFileReader()
+    public function testYamlResourceReader()
     {
-        $yamlFile = new YamlFile(new Reader($this->_yaml));
-        $this->assertEquals($this->_yaml, $yamlFile->getPart());
+        $yamlResource = new YamlResource(new Reader($this->_yaml));
+        $this->assertEquals($this->_yaml, $yamlResource->getPart());
     }
 
     /**
@@ -96,27 +96,27 @@ class YamlTest extends TestBase
      * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
      * @expectedExceptionCode 1447365624
      */
-    public function testYamlFileHtmlSubparts()
+    public function testYamlResourceHtmlSubparts()
     {
-        $yamlFile = new YamlFile(new Reader($this->_yaml));
-        $yamlFile->getDataPart('a/b/c');
+        $yamlResource = new YamlResource(new Reader($this->_yaml));
+        $yamlResource->getDataPart('a/b/c');
     }
 
     /**
      * Test getting the data of a Yaml file
      */
-    public function testYamlFileGetData()
+    public function testYamlResourceGetData()
     {
         $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
-        $yamlFile = new YamlFile(new Reader($this->_yaml));
-        $this->assertArrayEquals($expectedData, $yamlFile->getDataPart());
-        $this->assertArrayEquals($expectedData, $yamlFile->getData());
+        $yamlResource = new YamlResource(new Reader($this->_yaml));
+        $this->assertArrayEquals($expectedData, $yamlResource->getDataPart());
+        $this->assertArrayEquals($expectedData, $yamlResource->getData());
     }
 
     /**
      * Test getting the data part of a Yaml file
      */
-    public function testYamlFileSetDataPart()
+    public function testYamlResourceSetDataPart()
     {
         // Prepare modified expected data
         $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
@@ -130,15 +130,15 @@ class YamlTest extends TestBase
             'price' => 123
         ];
         unset($expectedData['comments']);
-        $yamlFile = new YamlFile(new Reader($this->_yaml));
-        $yamlFile->setDataPart($expectedData);
-        $this->assertArrayEquals($expectedData, $yamlFile->getDataPart());
+        $yamlResource = new YamlResource(new Reader($this->_yaml));
+        $yamlResource->setDataPart($expectedData);
+        $this->assertArrayEquals($expectedData, $yamlResource->getDataPart());
     }
 
     /**
      * Test getting the data of a Yaml file
      */
-    public function testYamlFileSetData()
+    public function testYamlResourceSetData()
     {
         // Prepare modified expected data
         $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
@@ -152,8 +152,8 @@ class YamlTest extends TestBase
             'price' => 123
         ];
         unset($expectedData['comments']);
-        $yamlFile = new YamlFile(new Reader($this->_yaml));
-        $yamlFile->setData($expectedData);
-        $this->assertArrayEquals($expectedData, $yamlFile->getData());
+        $yamlResource = new YamlResource(new Reader($this->_yaml));
+        $yamlResource->setData($expectedData);
+        $this->assertArrayEquals($expectedData, $yamlResource->getData());
     }
 }
