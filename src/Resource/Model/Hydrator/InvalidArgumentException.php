@@ -87,24 +87,6 @@ class InvalidArgumentException extends \InvalidArgumentException
      */
     const INVALID_MULTIPART_HYDRATOR_PARAMETER_COUNT = 1447866302;
     /**
-     * Invalid part configuration
-     *
-     * @var int
-     */
-    const INVALID_PART_CONFIGURATION = 1447021916;
-    /**
-     * Invalid part class
-     *
-     * @var int
-     */
-    const INVALID_PART_CLASS = 1447022020;
-	/**
-	 * Too few subpart identifiers
-	 *
-	 * @var int
-	 */
-	const TOO_FEW_SUBPART_IDENTIFIERS = 1448056671;
-    /**
      * Invalid part class for dehydration
      *
      * @var int

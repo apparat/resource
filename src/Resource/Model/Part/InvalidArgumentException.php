@@ -67,12 +67,6 @@ class InvalidArgumentException extends \InvalidArgumentException
      */
     const INVALID_PART_IDENTIFIER = 1447364401;
     /**
-     * Empty part identifier
-     *
-     * @var int
-     */
-    const EMPTY_PART_IDENTIFIER = 1447876355;
-    /**
      * Unknown part identifier
      *
      * @var int

@@ -48,10 +48,4 @@ class RuntimeException extends \RuntimeException
      * @var int
      */
     const INVALID_FILE_METHOD = 1447450449;
-    /**
-     * Invalid file part method
-     *
-     * @var int
-     */
-    const INVALID_FILE_PART_METHOD = 1447366704;
 }
