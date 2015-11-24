@@ -158,7 +158,6 @@ abstract class Resource
 	 * PRIVATE METHODS
 	 *******************************************************************************/
 
-
 	/**
 	 * Private constructor
 	 *
