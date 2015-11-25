@@ -52,9 +52,9 @@ use Apparat\Resource\Model\Reader;
 class YamlResource extends SinglePartResource
 {
 	/**
-	 * Use data resource convenience methods and properties
+	 * Use resource factory and data resource convenience methods and properties
 	 */
-	use DataResourceMethods;
+	use FactoryMethods, DataResourceMethods;
 
 	/**
 	 * YAML resource constructor

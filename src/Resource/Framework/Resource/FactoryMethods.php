@@ -1,14 +1,16 @@
 <?php
 
 /**
- * apparat-resource
+ * apparat/resource
  *
- * @category    Apparat
- * @package     Apparat_<Package>
+ * @category    Jkphl
+ * @package     Jkphl_apparat/resource
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
+
+namespace Jkphl;
 
 /***********************************************************************************
  *  The MIT License (MIT)
@@ -33,14 +35,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework;
+namespace Apparat\Resource\Framework\Resource;
 
 /**
- * Resource factory
- *
- * @package Apparat\Resource\Framework
+ * Resource factory methods
+ * 
+ * @package Apparat\Resource\Framework\Resource
  */
-class Factory
+trait FactoryMethods
 {
 
 }

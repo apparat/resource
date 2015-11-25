@@ -54,9 +54,9 @@ use Apparat\Resource\Model\Reader;
 class CommonMarkResource extends SinglePartResource
 {
 	/**
-	 * Use text resource convenience methods and properties
+	 * Use resource factory and text resource convenience methods and properties
 	 */
-	use TextResourceMethods;
+	use FactoryMethods, TextResourceMethods;
 
 	/**
 	 * CommonMark resource constructor

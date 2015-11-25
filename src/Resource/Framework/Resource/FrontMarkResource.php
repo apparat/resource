@@ -61,6 +61,11 @@ use Apparat\Resource\Model\Resource;
 class FrontMarkResource extends Resource
 {
 	/**
+	 * Use resource factory methods and properties
+	 */
+	use FactoryMethods;
+
+	/**
 	 * FrontMark resource constructor
 	 *
 	 * @param Reader $reader Reader instance

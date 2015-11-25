@@ -52,9 +52,9 @@ use Apparat\Resource\Model\SinglePartResource;
 class JsonResource extends SinglePartResource
 {
 	/**
-	 * Use data resource convenience methods and properties
+	 * Use resource factory and data resource convenience methods and properties
 	 */
-	use DataResourceMethods;
+	use FactoryMethods, DataResourceMethods;
 
 	/**
 	 * JSON resource constructor
