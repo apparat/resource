@@ -39,6 +39,7 @@ namespace Apparat\Resource\Framework\Resource;
 use Apparat\Resource\Framework\Hydrator\TextHydrator;
 use Apparat\Resource\Model\SinglePartResource;
 use Apparat\Resource\Model\Reader;
+use Apparat\Resource\Model\Writer;
 
 /**
  * Text resource
@@ -50,6 +51,8 @@ use Apparat\Resource\Model\Reader;
  * @method TextResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
  * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
  * @method string undefinedMethod() undefinedMethod() Undefined method dummy
+ * @method TextResource from($src) static from($src, ...$parameters) Instantiate from source
+ * @method Writer to() to($target, ...$parameters) Write to target
  */
 class TextResource extends SinglePartResource
 {

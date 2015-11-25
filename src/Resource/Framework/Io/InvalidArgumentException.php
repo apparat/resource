@@ -33,39 +33,25 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Resource;
-
-use Apparat\Resource\Framework\Hydrator\JsonHydrator;
-use Apparat\Resource\Model\Reader;
-use Apparat\Resource\Model\SinglePartResource;
-use Apparat\Resource\Model\Writer;
+namespace Apparat\Resource\Framework\Io;
 
 /**
- * JSON resource
+ * Invalid I/O argument exception
  *
- * @package Apparat\Resource\Framework\Resource
- * @method JsonResource set() set(array $data) Set the content of the resource
- * @method JsonResource setPart() setPart(array $data, string $part = '/') Set the content of the resource
- * @method array getDataPart() getDataPart(string $part = '/') Get the JSON data of the resource
- * @method JsonResource setData() setData(array $data) Set the JSON data of the resource
- * @method JsonResource setDataPart() setDataPart(array $data, string $part = '/') Set the JSON data of the resource
- * @method JsonResource from($src) static from($src, ...$parameters) Instantiate from source
- * @method Writer to() to($target, ...$parameters) Write to target
+ * @package Apparat\Resource\Framework\Io
  */
-class JsonResource extends SinglePartResource
+class InvalidArgumentException extends \InvalidArgumentException
 {
 	/**
-	 * Use resource factory and data resource convenience methods and properties
-	 */
-	use FactoryMethods, DataResourceMethods;
-
-	/**
-	 * JSON resource constructor
+	 * Invalid reader stream wrapper
 	 *
-	 * @param Reader $reader Reader instance
+	 * @var int
 	 */
-	public function __construct(Reader $reader = null)
-	{
-		parent::__construct($reader, JsonHydrator::class);
-	}
+	const INVALID_READER_STREAM_WRAPPER = 1448493550;
+	/**
+	 * Invalid writer stream wrapper
+	 *
+	 * @var int
+	 */
+	const INVALID_WRITER_STREAM_WRAPPER = 1448493564;
 }

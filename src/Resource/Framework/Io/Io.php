@@ -33,39 +33,39 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Resource;
+namespace Apparat\Resource\Framework\Io;
 
-use Apparat\Resource\Framework\Hydrator\JsonHydrator;
-use Apparat\Resource\Model\Reader;
-use Apparat\Resource\Model\SinglePartResource;
-use Apparat\Resource\Model\Writer;
+use Apparat\Resource\Framework\Io\File\AbstractFileReaderWriter;
+use Apparat\Resource\Framework\Io\File\Reader as FileReader;
+use Apparat\Resource\Framework\Io\InMemory\AbstractInMemoryReaderWriter;
+use Apparat\Resource\Framework\Io\InMemory\Reader as InMemoryReader;
+use Apparat\Resource\Framework\Io\File\Writer as FileWriter;
+use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
 
 /**
- * JSON resource
+ * Reader / writer utilities
  *
- * @package Apparat\Resource\Framework\Resource
- * @method JsonResource set() set(array $data) Set the content of the resource
- * @method JsonResource setPart() setPart(array $data, string $part = '/') Set the content of the resource
- * @method array getDataPart() getDataPart(string $part = '/') Get the JSON data of the resource
- * @method JsonResource setData() setData(array $data) Set the JSON data of the resource
- * @method JsonResource setDataPart() setDataPart(array $data, string $part = '/') Set the JSON data of the resource
- * @method JsonResource from($src) static from($src, ...$parameters) Instantiate from source
- * @method Writer to() to($target, ...$parameters) Write to target
+ * @package Apparat\Resource\Framework\Io
  */
-class JsonResource extends SinglePartResource
+class Io
 {
 	/**
-	 * Use resource factory and data resource convenience methods and properties
+	 * Reader classes for stream wrappers
+	 *
+	 * @var array
 	 */
-	use FactoryMethods, DataResourceMethods;
+	public static $readers = array(
+		AbstractFileReaderWriter::WRAPPER => FileReader::class,
+		AbstractInMemoryReaderWriter::WRAPPER => InMemoryReader::class,
+	);
 
 	/**
-	 * JSON resource constructor
+	 * Writer classes for stream wrappers
 	 *
-	 * @param Reader $reader Reader instance
+	 * @var array
 	 */
-	public function __construct(Reader $reader = null)
-	{
-		parent::__construct($reader, JsonHydrator::class);
-	}
+	public static $writer = array(
+		AbstractFileReaderWriter::WRAPPER => FileWriter::class,
+		AbstractInMemoryReaderWriter::WRAPPER => InMemoryWriter::class,
+	);
 }

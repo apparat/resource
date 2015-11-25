@@ -38,6 +38,7 @@ namespace Apparat\Resource\Framework\Resource;
 use Apparat\Resource\Framework\Hydrator\YamlHydrator;
 use Apparat\Resource\Model\SinglePartResource;
 use Apparat\Resource\Model\Reader;
+use Apparat\Resource\Model\Writer;
 
 /**
  * YAML resource
@@ -48,6 +49,8 @@ use Apparat\Resource\Model\Reader;
  * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the resource
  * @method YamlResource setData() setData(array $data) Set the YAML data of the resource
  * @method YamlResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the resource
+ * @method YamlResource from($src) static from($src, ...$parameters) Instantiate from source
+ * @method Writer to() to($target, ...$parameters) Write to target
  */
 class YamlResource extends SinglePartResource
 {

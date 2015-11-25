@@ -42,6 +42,12 @@ namespace Apparat\Resource\Framework\Io\File;
  */
 class AbstractFileReaderWriter
 {
+	/**
+	 * Resource type stream wrapper
+	 *
+	 * @var string
+	 */
+	const WRAPPER = 'file://';
 
     /**
      * File path

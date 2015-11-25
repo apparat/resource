@@ -45,6 +45,7 @@ use Apparat\Resource\Model\Part\ContentPart;
 use Apparat\Resource\Model\Part\PartChoice;
 use Apparat\Resource\Model\Reader;
 use Apparat\Resource\Model\Resource;
+use Apparat\Resource\Model\Writer;
 
 /**
  * FrontMark resource (CommonMark resource with YAML or JSON front matter)
@@ -57,6 +58,8 @@ use Apparat\Resource\Model\Resource;
  * @method array getDataPart() getDataPart(string $part = '/') Get the YAML / JSON front matter data of the resource
  * @method FrontMarkResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML / JSON front matter data of the resource
  * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
+ * @method FrontMarkResource from($src) static from($src, ...$parameters) Instantiate from source
+ * @method Writer to() to($target, ...$parameters) Write to target
  */
 class FrontMarkResource extends Resource
 {

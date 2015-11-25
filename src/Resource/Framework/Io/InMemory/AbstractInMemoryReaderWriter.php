@@ -43,6 +43,13 @@ namespace Apparat\Resource\Framework\Io\InMemory;
  */
 class AbstractInMemoryReaderWriter
 {
+	/**
+	 * Resource type stream wrapper
+	 *
+	 * @var string
+	 */
+	const WRAPPER = '';
+
     /**
      * Resource data
      *

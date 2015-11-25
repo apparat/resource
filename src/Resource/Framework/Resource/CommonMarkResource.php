@@ -39,6 +39,7 @@ namespace Apparat\Resource\Framework\Resource;
 use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
 use Apparat\Resource\Model\SinglePartResource;
 use Apparat\Resource\Model\Reader;
+use Apparat\Resource\Model\Writer;
 
 /**
  * CommonMark resource
@@ -50,6 +51,8 @@ use Apparat\Resource\Model\Reader;
  * @method CommonMarkResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
  * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the resource
  * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
+ * @method CommonMarkResource from($src) static from($src, ...$parameters) Instantiate from source
+ * @method Writer to() to($target, ...$parameters) Write to target
  */
 class CommonMarkResource extends SinglePartResource
 {
