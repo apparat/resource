@@ -287,5 +287,16 @@ namespace ApparatTest {
 			Io::delete('file://'.self::TXT_FILE);
 			unset($GLOBALS['mockUnlink']);
 		}
+
+		/**
+		 * Test invalid reader stream wrapper while deleting a file
+		 *
+		 * @expectedException InvalidArgumentException
+		 * @expectedExceptionCode 1448493550
+		 */
+		public function testDeleteInvalidReaderStreamWrapper()
+		{
+			Io::delete('foo://bar');
+		}
 	}
 }
