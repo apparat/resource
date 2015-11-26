@@ -33,45 +33,31 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Io\File;
+namespace Apparat\Resource\Framework\Io;
+
+use Apparat\Resource\Model\Reader;
 
 /**
- * Abstract base class for resource readers and writers
+ * I/O handler base
  *
- * @package Apparat\Resource\Framework\Io\File
+ * @package Apparat\Resource\Framework\Io
  */
-class AbstractFileReaderWriter
+abstract class IoHandler
 {
 	/**
-	 * Resource type stream wrapper
+	 * Resource reader instance
 	 *
-	 * @var string
+	 * @var Reader
 	 */
-	const WRAPPER = 'file://';
-
-    /**
-     * File path
-     *
-     * @var string
-     */
-    protected $_file;
-
-    /**
-     * Constructor
-     *
-     * @param string $file File path
-     */
-    public function __construct($file)
-    {
-        $this->_file = $file;
-    }
+	protected $_reader = null;
 
 	/**
-	 * Return the file path
-	 *
-	 * @return string File Path
+	 * I/O handler constructor
+	 * .
+	 * @param Reader $reader Resource reader instance
 	 */
-	public function getFile() {
-		return $this->_file;
+	public function __construct(Reader $reader)
+	{
+		$this->_reader = $reader;
 	}
 }

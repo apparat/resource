@@ -33,45 +33,19 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Io\File;
+namespace Apparat\Resource\Framework\Io;
 
 /**
- * Abstract base class for resource readers and writers
+ * I/O runtime exception
  *
- * @package Apparat\Resource\Framework\Io\File
+ * @package Apparat\Resource\Framework\Io
  */
-class AbstractFileReaderWriter
+class RuntimeException extends \RuntimeException
 {
 	/**
-	 * Resource type stream wrapper
+	 * Could not copy file to file
 	 *
-	 * @var string
+	 * @var int
 	 */
-	const WRAPPER = 'file://';
-
-    /**
-     * File path
-     *
-     * @var string
-     */
-    protected $_file;
-
-    /**
-     * Constructor
-     *
-     * @param string $file File path
-     */
-    public function __construct($file)
-    {
-        $this->_file = $file;
-    }
-
-	/**
-	 * Return the file path
-	 *
-	 * @return string File Path
-	 */
-	public function getFile() {
-		return $this->_file;
-	}
+	const COULD_NOT_COPY_FILE_TO_FILE = 1448569381;
 }

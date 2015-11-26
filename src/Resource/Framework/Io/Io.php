@@ -117,11 +117,29 @@ class Io
 				$target)
 			) {
 				$target = substr($target, $wrapperLength);
-				$writer = new $writerClass($target, $parameters);
+				$writer = new $writerClass($target, ...$parameters);
 				break;
 			}
 		}
 
 		return $writer;
+	}
+
+	/**
+	 * Copy a resource
+	 *
+	 * @param string $src Stream-wrapped source
+	 * @param array ...$parameters Reader parameters
+	 * @return Copy Copy handler
+	 */
+	public static function copy($src, ...$parameters)
+	{
+		$reader = self::reader($src, $parameters);
+		if ($reader instanceof Reader) {
+			return new Copy($reader);
+		}
+
+		throw new InvalidArgumentException('Invalid reader stream wrapper',
+			InvalidArgumentException::INVALID_READER_STREAM_WRAPPER);
 	}
 }

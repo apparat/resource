@@ -1,16 +1,14 @@
 <?php
 
 /**
- * apparat/resource
+ * apparat-resource
  *
- * @category    Jkphl
- * @package     Jkphl_apparat/resource
+ * @category    Apparat
+ * @package     Apparat_<Package>
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
-
-namespace Jkphl;
 
 /***********************************************************************************
  *  The MIT License (MIT)
@@ -35,56 +33,42 @@ namespace Jkphl;
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Resource;
+namespace Apparat\Resource\Framework\Io;
 
+use Apparat\Resource\Framework\Io\File\Reader as FileReader;
+use Apparat\Resource\Framework\Io\File\Writer as FileWriter;
 use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
-use Apparat\Resource\Framework\Io\InvalidArgumentException;
-use Apparat\Resource\Framework\Io\Io;
-use Apparat\Resource\Model\Reader;
-use Apparat\Resource\Model\Resource as AbstractResource;
 use Apparat\Resource\Model\Writer;
-use Apparat\Resource\Model\Writer as AbstractWriter;
 
 /**
- * Resource factory methods
+ * Resource copy operation
  *
- * @package Apparat\Resource\Framework\Resource
+ * @package Apparat\Resource\Framework\Io
  */
-trait FactoryMethods
+class Copy extends IoHandler
 {
 	/*******************************************************************************
 	 * PUBLIC METHODS
 	 *******************************************************************************/
 
 	/**
-	 * String serialization
+	 * Copy the source resource to a target Resource
 	 *
-	 * @return string String value (file content)
-	 */
-	public function __toString()
-	{
-		$writer = new InMemoryWriter();
-
-		/** @var AbstractResource $this */
-		$this->dump($writer);
-
-		return $writer->getData();
-	}
-
-	/**
-	 * Dump this file to a stream-wrapped target
-	 *
-	 * @param string $target Stream-wrapped target
+	 * @param string $target Stream wrapped target
 	 * @param array $parameters Writer parameters
-	 * @return AbstractWriter Writer instance
-	 * @throws InvalidArgumentException If an invalid reader stream wrapper is given
+	 * @return Writer Writer instance
 	 */
 	public function to($target, ...$parameters)
 	{
 		$writer = Io::writer($target, $parameters);
-		if ($writer instanceof Writer) {
-			$this->dump($writer);
-			return $writer;
+
+		// If it's a file writer
+		if ($writer instanceof FileWriter) {
+			return $this->_copyToFile($writer);
+
+			// Else if it's an in-memory writer
+		} elseif ($writer instanceof InMemoryWriter) {
+			return $this->_copyToInMemory($writer);
 		}
 
 		throw new InvalidArgumentException('Invalid writer stream wrapper',
@@ -92,25 +76,43 @@ trait FactoryMethods
 	}
 
 	/*******************************************************************************
-	 * STATIC METHODS
+	 * PRIVATE METHODS
 	 *******************************************************************************/
 
 	/**
-	 * Create an instance from a stream-wrapped source
+	 * Copy the resource to a file
 	 *
-	 * @param string $src Stream-wrapped source
-	 * @param array $parameters Reader parameters
-	 * @return AbstractResource Resource instance
-	 * @throws InvalidArgumentException If an invalid reader stream wrapper is given
+	 * @param FileWriter $writer Target file writer
+	 * @return FileWriter File writer instance
 	 */
-	public static function from($src, ...$parameters)
+	protected function _copyToFile(FileWriter $writer)
 	{
-		$reader = Io::reader($src, $parameters);
-		if ($reader instanceof Reader) {
-			return new static($reader);
+		// If a file resource is read
+		if ($this->_reader instanceof FileReader) {
+
+			// If a copy error occurs
+			if (!@copy($this->_reader->getFile(), $writer->getFile())) {
+				throw new RuntimeException(sprintf('Could not copy "%s" to "%s"', $this->_reader->getFile(),
+					$writer->getFile()), RuntimeException::COULD_NOT_COPY_FILE_TO_FILE);
+			}
+
+			// Else: In-memory resource
+		} else {
+			$writer->write($this->_reader->read());
 		}
 
-		throw new InvalidArgumentException('Invalid reader stream wrapper',
-			InvalidArgumentException::INVALID_READER_STREAM_WRAPPER);
+		return $writer;
+	}
+
+	/**
+	 * Copy the resource to a in-memory buffer
+	 *
+	 * @param InMemoryWriter $writer Target in-memory writer
+	 * @return InMemoryWriter In-memory writer instance
+	 */
+	protected function _copyToInMemory(InMemoryWriter $writer)
+	{
+		$writer->write($this->_reader->read());
+		return $writer;
 	}
 }
