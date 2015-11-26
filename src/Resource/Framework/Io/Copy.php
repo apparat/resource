@@ -57,6 +57,7 @@ class Copy extends IoHandler
 	 * @param string $target Stream wrapped target
 	 * @param array $parameters Writer parameters
 	 * @return Writer Writer instance
+	 * @throws InvalidArgumentException If the writer stream wrapper is invalid
 	 */
 	public function to($target, ...$parameters)
 	{
@@ -85,6 +86,7 @@ class Copy extends IoHandler
 	 *
 	 * @param FileWriter $writer Target file writer
 	 * @return FileWriter File writer instance
+	 * @throws RuntimeException If the resource cannot be copied
 	 */
 	protected function _copyToFile(FileWriter $writer)
 	{

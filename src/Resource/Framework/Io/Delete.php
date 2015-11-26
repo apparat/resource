@@ -35,29 +35,37 @@
 
 namespace Apparat\Resource\Framework\Io;
 
+use Apparat\Resource\Framework\Io\File\Reader as FileReader;
+
 /**
- * I/O runtime exception
+ * Resource move operation
  *
  * @package Apparat\Resource\Framework\Io
  */
-class RuntimeException extends \RuntimeException
+class Delete extends IoHandler
 {
+	/*******************************************************************************
+	 * MAGIC METHODS
+	 *******************************************************************************/
+
 	/**
-	 * Could not copy file to file
+	 * Delete the resource
 	 *
-	 * @var int
+	 * @return boolean Success
+	 * @throws RuntimeException If the resource cannot be deleted
 	 */
-	const COULD_NOT_COPY_FILE_TO_FILE = 1448569381;
-	/**
-	 * Could not copy file to file
-	 *
-	 * @var int
-	 */
-	const COULD_NOT_MOVE_FILE_TO_FILE = 1448571473;
-	/**
-	 * Could not delete file
-	 *
-	 * @var int
-	 */
-	const COULD_NOT_DELETE_FILE = 1448574428;
+	public function __invoke()
+	{
+		// If a file resource is read
+		if ($this->_reader instanceof FileReader) {
+
+			// If a copy error occurs
+			if (!@unlink($this->_reader->getFile())) {
+				throw new RuntimeException(sprintf('Could not delete "%s"', $this->_reader->getFile()),
+					RuntimeException::COULD_NOT_DELETE_FILE);
+			}
+		}
+
+		return true;
+	}
 }

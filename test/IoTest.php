@@ -62,6 +62,19 @@ namespace Apparat\Resource\Framework\Io {
 		$arguments = func_get_args();
 		return empty($GLOBALS['mockMove']) ? \rename(...$arguments) : false;
 	}
+
+	/**
+	 * Mocked version of the native unlink() function
+	 *
+	 * @param string $filename File name
+	 * @param resource $context Context resource
+	 * @return bool
+	 */
+	function unlink($filename, $context = null)
+	{
+		$arguments = func_get_args();
+		return empty($GLOBALS['mockUnlink']) ? \unlink(...$arguments) : false;
+	}
 }
 
 namespace ApparatTest {
@@ -249,6 +262,30 @@ namespace ApparatTest {
 			$writer = Io::move('file://'.$srcFile)->to('');
 			$this->assertInstanceOf(Writer::class, $writer);
 			$this->assertStringEqualsFile(self::TXT_FILE, $writer->getData());
+		}
+
+		/**
+		 * Test deleting a file
+		 */
+		public function testDeleteFile()
+		{
+			$srcFile = $this->_createTemporaryFile(true);
+			copy(self::TXT_FILE, $srcFile);
+			$this->assertEquals(true, Io::delete('file://'.$srcFile));
+			$this->assertFileNotExists($srcFile);
+		}
+
+		/**
+		 * Test error while deleting a file
+		 *
+		 * @expectedException RuntimeException
+		 * @expectedExceptionCode 1448574428
+		 */
+		public function testDeleteFileError()
+		{
+			$GLOBALS['mockUnlink'] = true;
+			Io::delete('file://'.self::TXT_FILE);
+			unset($GLOBALS['mockUnlink']);
 		}
 	}
 }

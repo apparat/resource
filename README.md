@@ -10,8 +10,9 @@ Apparat resource abstraction layer
 	* [x] Creating
 	* [x] Reading
 	* [x] Writing / Updating
-	* [ ] Deleting
+	* [x] Deleting
 	* [x] Copying (= Reading + Writing with a different name)
+	* [x] Moving / Renaming
 * Provide an easy-to-use interface for multipart files (e.g. files with YAML front matter)
 	* Support for arbitrary content models
 		* [x] Parsing
@@ -20,14 +21,14 @@ Apparat resource abstraction layer
 		* [x] Creating
 		* [x] Reading
 		* [x] Writing / Updating
-		* [ ] Deleting
-		* [ ] Copying
+		* [ ] Deleting (?)
+		* [ ] Copying (?)
 * Reading from / writing to different sources
 	* [x] In-Memory
 	* [x] File system
-	* [ ] Standard input / output
-	* [ ] FTP?
-	* [ ] Remote storage?
+	* [ ] Standard input / output (?)
+	* [ ] FTP (?)
+	* [ ] Remote storage (?)
 * Implementing several file types and structures (see below)
 	* Possibly special behaviour based on file type
 
@@ -39,7 +40,7 @@ Apparat resource abstraction layer
 * [x] JSON
 * [x] YFM-Markdown (Markdown with YAML front matter)
 * [x] JFM-Markdown (Markdown with JSON front matter)
-* [ ] MIME Messages
+* [ ] MIME Messages (?)
 
 Each file consists of one or more **file parts**. The content model of a file is described in terms of
 
