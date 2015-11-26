@@ -48,4 +48,10 @@ class RuntimeException extends \RuntimeException
 	 * @var int
 	 */
 	const COULD_NOT_COPY_FILE_TO_FILE = 1448569381;
+	/**
+	 * Could not copy file to file
+	 *
+	 * @var int
+	 */
+	const COULD_NOT_MOVE_FILE_TO_FILE = 1448571473;
 }

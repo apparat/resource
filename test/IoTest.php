@@ -48,6 +48,20 @@ namespace Apparat\Resource\Framework\Io {
 		$arguments = func_get_args();
 		return empty($GLOBALS['mockCopy']) ? \copy(...$arguments) : false;
 	}
+
+	/**
+	 * Mocked version of the native rename() function
+	 *
+	 * @param string $source Source file
+	 * @param string $dest Destination file
+	 * @param resource $context Context resource
+	 * @return bool
+	 */
+	function rename($source, $dest, $context = null)
+	{
+		$arguments = func_get_args();
+		return empty($GLOBALS['mockMove']) ? \rename(...$arguments) : false;
+	}
 }
 
 namespace ApparatTest {
@@ -72,25 +86,25 @@ namespace ApparatTest {
 		const TXT_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'cc0.txt';
 
 		/**
-		 * Test invalid reader stream wrapper
-		 *
-		 * @expectedException InvalidArgumentException
-		 * @expectedExceptionCode 1448493564
-		 */
-		public function testCopyInvalidReaderStreamWrapper()
-		{
-			Io::copy('file://'.self::TXT_FILE)->to('foo://bar');
-		}
-
-		/**
-		 * Test invalid writer stream wrapper
+		 * Test invalid reader stream wrapper while copying
 		 *
 		 * @expectedException InvalidArgumentException
 		 * @expectedExceptionCode 1448493550
 		 */
-		public function testCopyInvalidWriterStreamWrapper()
+		public function testCopyInvalidReaderStreamWrapper()
 		{
 			Io::copy('foo://bar');
+		}
+
+		/**
+		 * Test invalid writer stream wrapper while copying
+		 *
+		 * @expectedException InvalidArgumentException
+		 * @expectedExceptionCode 1448493564
+		 */
+		public function testCopyInvalidWriterStreamWrapper()
+		{
+			Io::copy('file://'.self::TXT_FILE)->to('foo://bar');
 		}
 
 		/**
@@ -148,6 +162,91 @@ namespace ApparatTest {
 		{
 			/** @var Writer $writer */
 			$writer = Io::copy('file://'.self::TXT_FILE)->to('');
+			$this->assertInstanceOf(Writer::class, $writer);
+			$this->assertStringEqualsFile(self::TXT_FILE, $writer->getData());
+		}
+
+		/**
+		 * Test invalid reader stream wrapper while moving
+		 *
+		 * @expectedException InvalidArgumentException
+		 * @expectedExceptionCode 1448493550
+		 */
+		public function testMoveInvalidReaderStreamWrapper()
+		{
+			Io::move('foo://bar');
+		}
+
+		/**
+		 * Test invalid writer stream wrapper while moving
+		 *
+		 * @expectedException InvalidArgumentException
+		 * @expectedExceptionCode 1448493564
+		 */
+		public function testMoveInvalidWriterStreamWrapper()
+		{
+			Io::move('file://'.self::TXT_FILE)->to('foo://bar');
+		}
+
+		/**
+		 * Test moving a string to a file
+		 */
+		public function testMoveStringToFile()
+		{
+			$tempFile = $this->_createTemporaryFile(true);
+			$randomString = md5(rand());
+			Io::move($randomString)->to('file://'.$tempFile);
+			$this->assertStringEqualsFile($tempFile, $randomString);
+		}
+
+		/**
+		 * Test moving a file to a file
+		 */
+		public function testMoveFileToFile()
+		{
+			$srcFile = $this->_createTemporaryFile(true);
+			copy(self::TXT_FILE, $srcFile);
+			$tempFile = $this->_createTemporaryFile(true);
+			Io::move('file://'.$srcFile)->to('file://'.$tempFile);
+			$this->assertFileEquals(self::TXT_FILE, $tempFile);
+		}
+
+		/**
+		 * Test error while moving a file to a file
+		 *
+		 * @expectedException RuntimeException
+		 * @expectedExceptionCode 1448571473
+		 */
+		public function testMoveFileToFileError()
+		{
+			$GLOBALS['mockMove'] = true;
+			$tempFile = $this->_createTemporaryFile(true);
+			Io::move('file://'.self::TXT_FILE)->to('file://'.$tempFile);
+			$this->assertFileEquals($tempFile, self::TXT_FILE);
+			unset($GLOBALS['mockMove']);
+		}
+
+		/**
+		 * Test moving a string to a string
+		 */
+		public function testMoveStringToString()
+		{
+			$randomString = md5(rand());
+			/** @var Writer $writer */
+			$writer = Io::move($randomString)->to('');
+			$this->assertInstanceOf(Writer::class, $writer);
+			$this->assertEquals($randomString, $writer->getData());
+		}
+
+		/**
+		 * Test moving a file to a string
+		 */
+		public function testMoveFileToString()
+		{
+			$srcFile = $this->_createTemporaryFile(true);
+			copy(self::TXT_FILE, $srcFile);
+			/** @var Writer $writer */
+			$writer = Io::move('file://'.$srcFile)->to('');
 			$this->assertInstanceOf(Writer::class, $writer);
 			$this->assertStringEqualsFile(self::TXT_FILE, $writer->getData());
 		}

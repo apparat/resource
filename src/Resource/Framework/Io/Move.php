@@ -41,18 +41,18 @@ use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
 use Apparat\Resource\Model\Writer;
 
 /**
- * Resource copy operation
+ * Resource move operation
  *
  * @package Apparat\Resource\Framework\Io
  */
-class Copy extends IoHandler
+class Move extends IoHandler
 {
 	/*******************************************************************************
 	 * PUBLIC METHODS
 	 *******************************************************************************/
 
 	/**
-	 * Copy the source resource to a target resource
+	 * Move / rename the source resource to a target resource
 	 *
 	 * @param string $target Stream wrapped target
 	 * @param array $parameters Writer parameters
@@ -64,12 +64,12 @@ class Copy extends IoHandler
 
 		// If it's a file writer
 		if ($writer instanceof FileWriter) {
-			return $this->_copyToFile($writer);
+			return $this->_moveToFile($writer);
 		}
 
 		// If it's an in-memory writer
 		if ($writer instanceof InMemoryWriter) {
-			return $this->_copyToInMemory($writer);
+			return $this->_moveToInMemory($writer);
 		}
 
 		throw new InvalidArgumentException('Invalid writer stream wrapper',
@@ -81,20 +81,20 @@ class Copy extends IoHandler
 	 *******************************************************************************/
 
 	/**
-	 * Copy the resource to a file
+	 * Move / rename the resource to a file
 	 *
 	 * @param FileWriter $writer Target file writer
 	 * @return FileWriter File writer instance
 	 */
-	protected function _copyToFile(FileWriter $writer)
+	protected function _moveToFile(FileWriter $writer)
 	{
 		// If a file resource is read
 		if ($this->_reader instanceof FileReader) {
 
 			// If a copy error occurs
-			if (!@copy($this->_reader->getFile(), $writer->getFile())) {
-				throw new RuntimeException(sprintf('Could not copy "%s" to "%s"', $this->_reader->getFile(),
-					$writer->getFile()), RuntimeException::COULD_NOT_COPY_FILE_TO_FILE);
+			if (!@rename($this->_reader->getFile(), $writer->getFile())) {
+				throw new RuntimeException(sprintf('Could not move / rename "%s" to "%s"', $this->_reader->getFile(),
+					$writer->getFile()), RuntimeException::COULD_NOT_MOVE_FILE_TO_FILE);
 			}
 
 			// Else: In-memory resource
@@ -106,12 +106,12 @@ class Copy extends IoHandler
 	}
 
 	/**
-	 * Copy the resource to a in-memory buffer
+	 * Move / rename the resource to a in-memory buffer
 	 *
 	 * @param InMemoryWriter $writer Target in-memory writer
 	 * @return InMemoryWriter In-memory writer instance
 	 */
-	protected function _copyToInMemory(InMemoryWriter $writer)
+	protected function _moveToInMemory(InMemoryWriter $writer)
 	{
 		$writer->write($this->_reader->read());
 		return $writer;

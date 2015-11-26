@@ -142,4 +142,22 @@ class Io
 		throw new InvalidArgumentException('Invalid reader stream wrapper',
 			InvalidArgumentException::INVALID_READER_STREAM_WRAPPER);
 	}
+
+	/**
+	 * Move / rename a resource
+	 *
+	 * @param string $src Stream-wrapped source
+	 * @param array ...$parameters Reader parameters
+	 * @return Move move handler
+	 */
+	public static function move($src, ...$parameters)
+	{
+		$reader = self::reader($src, $parameters);
+		if ($reader instanceof Reader) {
+			return new Move($reader);
+		}
+
+		throw new InvalidArgumentException('Invalid reader stream wrapper',
+			InvalidArgumentException::INVALID_READER_STREAM_WRAPPER);
+	}
 }
