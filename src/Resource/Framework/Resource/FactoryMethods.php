@@ -40,8 +40,10 @@ namespace Apparat\Resource\Framework\Resource;
 use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
 use Apparat\Resource\Framework\Io\InvalidArgumentException;
 use Apparat\Resource\Framework\Io\Io;
+use Apparat\Resource\Model\Reader;
 use Apparat\Resource\Model\Resource as AbstractResource;
 use Apparat\Resource\Model\Writer as AbstractWriter;
+use Apparat\Resource\Model\Writer;
 
 /**
  * Resource factory methods
@@ -79,20 +81,10 @@ trait FactoryMethods
 	 */
 	public function to($target, ...$parameters)
 	{
-
-		// Run through all registered readers
-		foreach (Io::$writer as $wrapper => $writerClass) {
-			$wrapperLength = strlen($wrapper);
-
-			// If this wrapper is used: Instantiate the reader and resource
-			if ($wrapperLength ? !strncmp($wrapper, $target, $wrapperLength) : !preg_match("%^[a-z0-9\.]+\:\/\/%", $target)) {
-				$writer = new $writerClass(substr($target, $wrapperLength), $parameters);
-
-				/** @var AbstractResource $this */
-				$this->dump($writer);
-
-				return $writer;
-			}
+		$writer = Io::writer($target, $parameters);
+		if ($writer instanceof Writer) {
+			$this->dump($writer);
+			return $writer;
 		}
 
 		throw new InvalidArgumentException('Invalid writer stream wrapper',
@@ -113,14 +105,9 @@ trait FactoryMethods
 	 */
 	public static function from($src, ...$parameters)
 	{
-		// Run through all registered readers
-		foreach (Io::$readers as $wrapper => $readerClass) {
-			$wrapperLength = strlen($wrapper);
-
-			// If this wrapper is used: Instantiate the reader and resource
-			if ($wrapperLength ? !strncmp($wrapper, $src, $wrapperLength) : !preg_match("%^[a-z0-9\.]+\:\/\/%", $src)) {
-				return new static(new $readerClass(substr($src, $wrapperLength)), ...$parameters);
-			}
+		$reader = Io::reader($src, $parameters);
+		if ($reader instanceof Reader) {
+			return new static($reader);
 		}
 
 		throw new InvalidArgumentException('Invalid reader stream wrapper',

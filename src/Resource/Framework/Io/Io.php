@@ -37,10 +37,12 @@ namespace Apparat\Resource\Framework\Io;
 
 use Apparat\Resource\Framework\Io\File\AbstractFileReaderWriter;
 use Apparat\Resource\Framework\Io\File\Reader as FileReader;
+use Apparat\Resource\Framework\Io\File\Writer as FileWriter;
 use Apparat\Resource\Framework\Io\InMemory\AbstractInMemoryReaderWriter;
 use Apparat\Resource\Framework\Io\InMemory\Reader as InMemoryReader;
-use Apparat\Resource\Framework\Io\File\Writer as FileWriter;
 use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
+use Apparat\Resource\Model\Reader;
+use Apparat\Resource\Model\Writer;
 
 /**
  * Reader / writer utilities
@@ -54,7 +56,7 @@ class Io
 	 *
 	 * @var array
 	 */
-	public static $readers = array(
+	public static $reader = array(
 		AbstractFileReaderWriter::WRAPPER => FileReader::class,
 		AbstractInMemoryReaderWriter::WRAPPER => InMemoryReader::class,
 	);
@@ -68,4 +70,58 @@ class Io
 		AbstractFileReaderWriter::WRAPPER => FileWriter::class,
 		AbstractInMemoryReaderWriter::WRAPPER => InMemoryWriter::class,
 	);
+
+	/**
+	 * Find and instantiate a reader for a particular source
+	 *
+	 * @param string $src Source
+	 * @param array $parameters Parameters
+	 * @return null|Reader  Reader instance
+	 */
+	public static function reader(&$src, array $parameters = array())
+	{
+		$reader = null;
+
+		// Run through all registered readers
+		foreach (self::$reader as $wrapper => $readerClass) {
+			$wrapperLength = strlen($wrapper);
+
+			// If this wrapper is used: Instantiate the reader and resource
+			if ($wrapperLength ? !strncmp($wrapper, $src, $wrapperLength) : !preg_match("%^[a-z0-9\.]+\:\/\/%", $src)) {
+				$src = substr($src, $wrapperLength);
+				$reader = new $readerClass($src, ...$parameters);
+				break;
+			}
+		}
+
+		return $reader;
+	}
+
+	/**
+	 * Find and instantiate a writer for a particular target
+	 *
+	 * @param string $target Target
+	 * @param array $parameters Parameters
+	 * @return null|Writer  Writer instance
+	 */
+	public static function writer(&$target, array $parameters = array())
+	{
+		$writer = null;
+
+		// Run through all registered writer
+		foreach (self::$writer as $wrapper => $writerClass) {
+			$wrapperLength = strlen($wrapper);
+
+			// If this wrapper is used: Instantiate the reader and resource
+			if ($wrapperLength ? !strncmp($wrapper, $target, $wrapperLength) : !preg_match("%^[a-z0-9\.]+\:\/\/%",
+				$target)
+			) {
+				$target = substr($target, $wrapperLength);
+				$writer = new $writerClass($target, $parameters);
+				break;
+			}
+		}
+
+		return $writer;
+	}
 }
