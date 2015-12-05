@@ -1,12 +1,15 @@
 {
   "name": "apparat/resource",
   "description": "Apparat resource abstraction layer",
+  "homepage": "https://apparat.tools",
   "minimum-stability": "RC",
   "license": "MIT",
   "authors": [
     {
       "name": "Joschi Kuphal",
-      "email": "joschi@kuphal.net"
+      "email": "joschi@kuphal.net",
+      "homepage": "https://jkphl.is",
+      "role": "Developer"
     }
   ],
   "require": {
