@@ -1,4 +1,4 @@
 /.idea
-/old
 /vendor/*
 /composer.lock
+.env
