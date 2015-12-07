@@ -35,7 +35,7 @@
 
 namespace Apparat\Resource\Framework\Io;
 
-use Apparat\Resource\Domain\Model\Reader;
+use Apparat\Resource\Domain\Contract\ReaderInterface;
 
 /**
  * I/O handler base
@@ -47,16 +47,16 @@ abstract class IoHandler
 	/**
 	 * Resource reader instance
 	 *
-	 * @var Reader
+	 * @var ReaderInterface
 	 */
 	protected $_reader = null;
 
 	/**
 	 * I/O handler constructor
 	 * .
-	 * @param Reader $reader Resource reader instance
+	 * @param ReaderInterface $reader Resource reader instance
 	 */
-	public function __construct(Reader $reader)
+	public function __construct(ReaderInterface $reader)
 	{
 		$this->_reader = $reader;
 	}

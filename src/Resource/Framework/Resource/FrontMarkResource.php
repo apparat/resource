@@ -35,17 +35,17 @@
 
 namespace Apparat\Resource\Framework\Resource;
 
+use Apparat\Resource\Domain\Contract\ReaderInterface;
+use Apparat\Resource\Domain\Contract\WriterInterface;
+use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
+use Apparat\Resource\Domain\Model\Part\ContentPart;
+use Apparat\Resource\Domain\Model\Part\PartChoice;
+use Apparat\Resource\Domain\Model\Resource\AbstractResource;
 use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
 use Apparat\Resource\Framework\Hydrator\FrontMarkHydrator;
 use Apparat\Resource\Framework\Hydrator\FrontMatterHydrator;
 use Apparat\Resource\Framework\Hydrator\JsonHydrator;
 use Apparat\Resource\Framework\Hydrator\YamlHydrator;
-use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
-use Apparat\Resource\Domain\Model\Part\ContentPart;
-use Apparat\Resource\Domain\Model\Part\PartChoice;
-use Apparat\Resource\Domain\Model\Reader;
-use Apparat\Resource\Domain\Model\Resource;
-use Apparat\Resource\Domain\Model\Writer;
 
 /**
  * FrontMark resource (CommonMark resource with YAML or JSON front matter)
@@ -59,9 +59,9 @@ use Apparat\Resource\Domain\Model\Writer;
  * @method FrontMarkResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML / JSON front matter data of the resource
  * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
  * @method FrontMarkResource from($src) static from($src, ...$parameters) Instantiate from source
- * @method Writer to() to($target, ...$parameters) Write to target
+ * @method WriterInterface to() to($target, ...$parameters) Write to target
  */
-class FrontMarkResource extends Resource
+class FrontMarkResource extends AbstractResource
 {
 	/**
 	 * Use resource factory methods and properties
@@ -71,9 +71,9 @@ class FrontMarkResource extends Resource
 	/**
 	 * FrontMark resource constructor
 	 *
-	 * @param Reader $reader Reader instance
+	 * @param ReaderInterface $reader Reader instance
 	 */
-	public function __construct(Reader $reader = null)
+	public function __construct(ReaderInterface $reader = null)
 	{
 		parent::__construct($reader, array(
 			[

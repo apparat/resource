@@ -37,13 +37,12 @@ namespace Jkphl;
 
 namespace Apparat\Resource\Framework\Resource;
 
+use Apparat\Resource\Domain\Contract\ReaderInterface;
+use Apparat\Resource\Domain\Contract\WriterInterface;
+use Apparat\Resource\Domain\Model\Resource\AbstractResource;
 use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
 use Apparat\Resource\Framework\Io\InvalidArgumentException;
 use Apparat\Resource\Framework\Io\Io;
-use Apparat\Resource\Domain\Model\Reader;
-use Apparat\Resource\Domain\Model\Resource as AbstractResource;
-use Apparat\Resource\Domain\Model\Writer;
-use Apparat\Resource\Domain\Model\Writer as AbstractWriter;
 
 /**
  * Resource factory methods
@@ -76,13 +75,13 @@ trait FactoryMethods
 	 *
 	 * @param string $target Stream-wrapped target
 	 * @param array $parameters Writer parameters
-	 * @return AbstractWriter Writer instance
+	 * @return WriterInterface Writer instance
 	 * @throws InvalidArgumentException If an invalid reader stream wrapper is given
 	 */
 	public function to($target, ...$parameters)
 	{
 		$writer = Io::writer($target, $parameters);
-		if ($writer instanceof Writer) {
+		if ($writer instanceof WriterInterface) {
 			$this->dump($writer);
 			return $writer;
 		}
@@ -106,7 +105,7 @@ trait FactoryMethods
 	public static function from($src, ...$parameters)
 	{
 		$reader = Io::reader($src, $parameters);
-		if ($reader instanceof Reader) {
+		if ($reader instanceof ReaderInterface) {
 			return new static($reader);
 		}
 

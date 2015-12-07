@@ -35,12 +35,14 @@
 
 namespace Apparat\Resource\Framework\Io\InMemory;
 
+use Apparat\Resource\Domain\Contract\WriterInterface;
+
 /**
  * In-memory writer
  *
  * @package Apparat\Resource\Framework\Writer
  */
-class Writer extends AbstractInMemoryReaderWriter implements \Apparat\Resource\Domain\Model\Writer
+class Writer extends AbstractInMemoryReaderWriter implements WriterInterface
 {
     /**
      * Provide the writer properties and methods

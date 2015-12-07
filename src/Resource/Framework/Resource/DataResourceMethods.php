@@ -35,7 +35,7 @@
 
 namespace Apparat\Resource\Framework\Resource;
 
-use Apparat\Resource\Domain\Model\SinglePartResource;
+use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
 use Apparat\Resource\Domain\Model\Part\ContentPart;
 
 /**
@@ -43,7 +43,7 @@ use Apparat\Resource\Domain\Model\Part\ContentPart;
  *
  * @package Apparat\Resource\Framework\Resource
  * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the resource
- * @method SinglePartResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the resource
+ * @method AbstractSinglePartResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the resource
  */
 trait DataResourceMethods
 {

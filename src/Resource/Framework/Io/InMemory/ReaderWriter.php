@@ -36,15 +36,15 @@
 namespace Apparat\Resource\Framework\Io\InMemory;
 
 
-use Apparat\Resource\Domain\Model\Reader as ReaderModel;
-use Apparat\Resource\Domain\Model\Writer as WriterModel;
+use Apparat\Resource\Domain\Contract\ReaderInterface;
+use Apparat\Resource\Domain\Contract\WriterInterface;
 
 /**
  * Combined in-memory reader / writer
  *
  * @package Apparat\Resource\Framework\Io\InMemory
  */
-class ReaderWriter implements ReaderModel, WriterModel
+class ReaderWriter implements ReaderInterface, WriterInterface
 {
     /**
      * Provide the reader and writer trait properties and methods

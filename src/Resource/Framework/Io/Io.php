@@ -35,14 +35,14 @@
 
 namespace Apparat\Resource\Framework\Io;
 
+use Apparat\Resource\Domain\Contract\ReaderInterface;
+use Apparat\Resource\Domain\Contract\WriterInterface;
 use Apparat\Resource\Framework\Io\File\AbstractFileReaderWriter;
 use Apparat\Resource\Framework\Io\File\Reader as FileReader;
 use Apparat\Resource\Framework\Io\File\Writer as FileWriter;
 use Apparat\Resource\Framework\Io\InMemory\AbstractInMemoryReaderWriter;
 use Apparat\Resource\Framework\Io\InMemory\Reader as InMemoryReader;
 use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
-use Apparat\Resource\Domain\Model\Reader;
-use Apparat\Resource\Domain\Model\Writer;
 
 /**
  * Reader / writer utilities
@@ -76,7 +76,7 @@ class Io
 	 *
 	 * @param string $src Source
 	 * @param array $parameters Parameters
-	 * @return null|Reader  Reader instance
+	 * @return null|ReaderInterface  Reader instance
 	 */
 	public static function reader(&$src, array $parameters = array())
 	{
@@ -102,7 +102,7 @@ class Io
 	 *
 	 * @param string $target Target
 	 * @param array $parameters Parameters
-	 * @return null|Writer  Writer instance
+	 * @return null|WriterInterface  Writer instance
 	 */
 	public static function writer(&$target, array $parameters = array())
 	{
@@ -135,7 +135,7 @@ class Io
 	public static function copy($src, ...$parameters)
 	{
 		$reader = self::reader($src, $parameters);
-		if ($reader instanceof Reader) {
+		if ($reader instanceof ReaderInterface) {
 			return new Copy($reader);
 		}
 
@@ -153,7 +153,7 @@ class Io
 	public static function move($src, ...$parameters)
 	{
 		$reader = self::reader($src, $parameters);
-		if ($reader instanceof Reader) {
+		if ($reader instanceof ReaderInterface) {
 			return new Move($reader);
 		}
 
@@ -171,7 +171,7 @@ class Io
 	public static function delete($src, ...$parameters)
 	{
 		$reader = self::reader($src, $parameters);
-		if ($reader instanceof Reader) {
+		if ($reader instanceof ReaderInterface) {
 			$deleter = new Delete($reader);
 			return $deleter();
 		}

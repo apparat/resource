@@ -36,10 +36,10 @@
 namespace Apparat\Resource\Framework\Resource;
 
 
+use Apparat\Resource\Domain\Contract\ReaderInterface;
+use Apparat\Resource\Domain\Contract\WriterInterface;
+use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
 use Apparat\Resource\Framework\Hydrator\TextHydrator;
-use Apparat\Resource\Domain\Model\SinglePartResource;
-use Apparat\Resource\Domain\Model\Reader;
-use Apparat\Resource\Domain\Model\Writer;
 
 /**
  * Text resource
@@ -52,9 +52,9 @@ use Apparat\Resource\Domain\Model\Writer;
  * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
  * @method string undefinedMethod() undefinedMethod() Undefined method dummy
  * @method TextResource from($src) static from($src, ...$parameters) Instantiate from source
- * @method Writer to() to($target, ...$parameters) Write to target
+ * @method WriterInterface to() to($target, ...$parameters) Write to target
  */
-class TextResource extends SinglePartResource
+class TextResource extends AbstractSinglePartResource
 {
 	/**
 	 * Use resource factory and text resource convenience methods and properties
@@ -64,9 +64,9 @@ class TextResource extends SinglePartResource
 	/**
 	 * Text resource constructor
 	 *
-	 * @param Reader $reader Reader instance
+	 * @param ReaderInterface $reader Reader instance
 	 */
-	public function __construct(Reader $reader = null)
+	public function __construct(ReaderInterface $reader = null)
 	{
 		parent::__construct($reader, TextHydrator::class);
 	}

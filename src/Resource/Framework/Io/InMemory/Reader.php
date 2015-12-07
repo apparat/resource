@@ -35,12 +35,14 @@
 
 namespace Apparat\Resource\Framework\Io\InMemory;
 
+use Apparat\Resource\Domain\Contract\ReaderInterface;
+
 /**
  * In-memory reader
  *
  * @package Apparat\Resource\Framework\Reader
  */
-class Reader extends AbstractInMemoryReaderWriter implements \Apparat\Resource\Domain\Model\Reader
+class Reader extends AbstractInMemoryReaderWriter implements ReaderInterface
 {
     /**
      * Provide the reader properties and methods

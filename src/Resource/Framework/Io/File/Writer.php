@@ -35,12 +35,14 @@
 
 namespace Apparat\Resource\Framework\Io\File;
 
+use Apparat\Resource\Domain\Contract\WriterInterface;
+
 /**
  * File writer
  *
  * @package Apparat\Resource\Framework\Io\File
  */
-class Writer extends AbstractFileReaderWriter implements \Apparat\Resource\Domain\Model\Writer
+class Writer extends AbstractFileReaderWriter implements WriterInterface
 {
     /**
      * Provide the writer properties and methods

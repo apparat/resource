@@ -36,14 +36,14 @@
 namespace Apparat\Resource\Framework\Io\File;
 
 
-use Apparat\Resource\Domain\Model\Reader as ReaderModel;
+use Apparat\Resource\Domain\Contract\ReaderInterface;
 
 /**
  * Combined file reader / writer
  *
  * @package Apparat\Resource\Framework\Io\File
  */
-class ReaderWriter extends Writer implements ReaderModel
+class ReaderWriter extends Writer implements ReaderInterface
 {
     /**
      * Provide the reader properties and methods

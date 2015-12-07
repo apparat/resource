@@ -35,10 +35,10 @@
 
 namespace Apparat\Resource\Framework\Io;
 
+use Apparat\Resource\Domain\Contract\WriterInterface;
 use Apparat\Resource\Framework\Io\File\Reader as FileReader;
 use Apparat\Resource\Framework\Io\File\Writer as FileWriter;
 use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
-use Apparat\Resource\Domain\Model\Writer;
 
 /**
  * Resource copy operation
@@ -56,7 +56,7 @@ class Copy extends IoHandler
 	 *
 	 * @param string $target Stream wrapped target
 	 * @param array $parameters Writer parameters
-	 * @return Writer Writer instance
+	 * @return WriterInterface Writer instance
 	 * @throws InvalidArgumentException If the writer stream wrapper is invalid
 	 */
 	public function to($target, ...$parameters)

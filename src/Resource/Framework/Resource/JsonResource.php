@@ -35,10 +35,10 @@
 
 namespace Apparat\Resource\Framework\Resource;
 
+use Apparat\Resource\Domain\Contract\ReaderInterface;
+use Apparat\Resource\Domain\Contract\WriterInterface;
+use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
 use Apparat\Resource\Framework\Hydrator\JsonHydrator;
-use Apparat\Resource\Domain\Model\Reader;
-use Apparat\Resource\Domain\Model\SinglePartResource;
-use Apparat\Resource\Domain\Model\Writer;
 
 /**
  * JSON resource
@@ -50,9 +50,9 @@ use Apparat\Resource\Domain\Model\Writer;
  * @method JsonResource setData() setData(array $data) Set the JSON data of the resource
  * @method JsonResource setDataPart() setDataPart(array $data, string $part = '/') Set the JSON data of the resource
  * @method JsonResource from($src) static from($src, ...$parameters) Instantiate from source
- * @method Writer to() to($target, ...$parameters) Write to target
+ * @method WriterInterface to() to($target, ...$parameters) Write to target
  */
-class JsonResource extends SinglePartResource
+class JsonResource extends AbstractSinglePartResource
 {
 	/**
 	 * Use resource factory and data resource convenience methods and properties
@@ -62,9 +62,9 @@ class JsonResource extends SinglePartResource
 	/**
 	 * JSON resource constructor
 	 *
-	 * @param Reader $reader Reader instance
+	 * @param ReaderInterface $reader Reader instance
 	 */
-	public function __construct(Reader $reader = null)
+	public function __construct(ReaderInterface $reader = null)
 	{
 		parent::__construct($reader, JsonHydrator::class);
 	}

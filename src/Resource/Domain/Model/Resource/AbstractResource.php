@@ -33,8 +33,10 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Domain\Model;
+namespace Apparat\Resource\Domain\Model\Resource;
 
+use Apparat\Resource\Domain\Contract\ReaderInterface;
+use Apparat\Resource\Domain\Contract\WriterInterface;
 use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
 use Apparat\Resource\Domain\Model\Hydrator\HydratorFactory;
 use Apparat\Resource\Domain\Model\Part\AbstractPart;
@@ -45,7 +47,7 @@ use Apparat\Resource\Domain\Model\Part\Part;
  *
  * @package Apparat\Resource\Domain\Model
  */
-abstract class Resource
+abstract class AbstractResource
 {
 	/**
 	 * Part or part aggregate
@@ -57,7 +59,7 @@ abstract class Resource
 	/**
 	 * Reader instance
 	 *
-	 * @var Reader
+	 * @var ReaderInterface
 	 */
 	protected $_reader = null;
 	/**
@@ -74,10 +76,10 @@ abstract class Resource
 	/**
 	 * Set a reader instance for this file
 	 *
-	 * @param Reader $reader Reader instance
+	 * @param ReaderInterface $reader Reader instance
 	 * @return Resource Self reference
 	 */
-	public function load(Reader $reader)
+	public function load(ReaderInterface $reader)
 	{
 		$this->_reset();
 		$this->_reader = $reader;
@@ -87,10 +89,10 @@ abstract class Resource
 	/**
 	 * Dump this files contents into a writer
 	 *
-	 * @param Writer $writer Writer instance
+	 * @param WriterInterface $writer Writer instance
 	 * @return Resource Self reference
 	 */
-	public function dump(Writer $writer)
+	public function dump(WriterInterface $writer)
 	{
 		$writer->write($this->getPart('/'));
 		return $this;
@@ -161,10 +163,10 @@ abstract class Resource
 	/**
 	 * Private constructor
 	 *
-	 * @param Reader $reader Reader instance
+	 * @param ReaderInterface $reader Reader instance
 	 * @param Hydrator|array|string $hydrator File hydrator
 	 */
-	protected function __construct(Reader $reader = null, $hydrator)
+	protected function __construct(ReaderInterface $reader = null, $hydrator)
 	{
 		// If the hydrator needs to be instantiated from a string or array
 		if (!($hydrator instanceof Hydrator)) {
@@ -175,7 +177,7 @@ abstract class Resource
 		$this->_hydrator = $hydrator;
 
 		// Register the reader if available
-		if ($reader instanceof Reader) {
+		if ($reader instanceof ReaderInterface) {
 			$this->load($reader);
 		}
 	}
@@ -198,7 +200,7 @@ abstract class Resource
 	protected function _part()
 	{
 		if (!($this->_part instanceof Part)) {
-			$this->_part = $this->_hydrator->hydrate(($this->_reader instanceof Reader) ? $this->_reader->read() : '');
+			$this->_part = $this->_hydrator->hydrate(($this->_reader instanceof ReaderInterface) ? $this->_reader->read() : '');
 		}
 		return $this->_part;
 	}

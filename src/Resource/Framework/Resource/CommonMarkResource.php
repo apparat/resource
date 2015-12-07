@@ -36,10 +36,10 @@
 namespace Apparat\Resource\Framework\Resource;
 
 
+use Apparat\Resource\Domain\Contract\ReaderInterface;
+use Apparat\Resource\Domain\Contract\WriterInterface;
+use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
 use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
-use Apparat\Resource\Domain\Model\SinglePartResource;
-use Apparat\Resource\Domain\Model\Reader;
-use Apparat\Resource\Domain\Model\Writer;
 
 /**
  * CommonMark resource
@@ -52,9 +52,9 @@ use Apparat\Resource\Domain\Model\Writer;
  * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the resource
  * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
  * @method CommonMarkResource from($src) static from($src, ...$parameters) Instantiate from source
- * @method Writer to() to($target, ...$parameters) Write to target
+ * @method WriterInterface to() to($target, ...$parameters) Write to target
  */
-class CommonMarkResource extends SinglePartResource
+class CommonMarkResource extends AbstractSinglePartResource
 {
 	/**
 	 * Use resource factory and text resource convenience methods and properties
@@ -64,9 +64,9 @@ class CommonMarkResource extends SinglePartResource
 	/**
 	 * CommonMark resource constructor
 	 *
-	 * @param Reader $reader Reader instance
+	 * @param ReaderInterface $reader Reader instance
 	 */
-	public function __construct(Reader $reader = null)
+	public function __construct(ReaderInterface $reader = null)
 	{
 		parent::__construct($reader, CommonMarkHydrator::class);
 	}
@@ -76,7 +76,8 @@ class CommonMarkResource extends SinglePartResource
 	 *
 	 * @return string CommonMark HTML
 	 */
-	public function getHtml() {
+	public function getHtml()
+	{
 		return $this->getHtmlPart('/');
 	}
 }

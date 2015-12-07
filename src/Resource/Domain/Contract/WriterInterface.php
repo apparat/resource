@@ -33,19 +33,20 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Domain\Model;
+namespace Apparat\Resource\Domain\Contract;
 
 /**
- * Reader interface
+ * Writer interface
  *
- * @package Apparat\Resource\Domain\Model
+ * @package Apparat\Resource\Domain\Contract
  */
-interface Reader
+interface WriterInterface
 {
     /**
-     * Read the file content
+     * Write data
      *
-     * @return string File content
+     * @param string $data Data to write
+     * @return int Bytes written
      */
-    public function read();
+    public function write($data);
 }

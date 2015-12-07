@@ -35,6 +35,12 @@
 
 namespace ApparatTest;
 
+use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
+use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;
+use Apparat\Resource\Domain\Model\Part\OutOfBoundsException;
+use Apparat\Resource\Domain\Model\Part\PartChoice;
+use Apparat\Resource\Domain\Model\Part\PartSequence;
+use Apparat\Resource\Domain\Model\Resource\AbstractResource;
 use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
 use Apparat\Resource\Framework\Hydrator\FrontMarkHydrator;
 use Apparat\Resource\Framework\Hydrator\FrontMatterHydrator;
@@ -42,12 +48,6 @@ use Apparat\Resource\Framework\Hydrator\JsonHydrator;
 use Apparat\Resource\Framework\Hydrator\YamlHydrator;
 use Apparat\Resource\Framework\Io\InMemory\Reader;
 use Apparat\Resource\Framework\Resource\FrontMarkResource;
-use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
-use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;
-use Apparat\Resource\Domain\Model\Part\OutOfBoundsException;
-use Apparat\Resource\Domain\Model\Part\PartChoice;
-use Apparat\Resource\Domain\Model\Part\PartSequence;
-use Apparat\Resource\Domain\Model\Resource;
 use Symfony\Component\Yaml\Yaml;
 
 
@@ -87,7 +87,7 @@ class FrontMarkHydratorMock extends FrontMarkHydrator
  *
  * @package ApparatTest
  */
-class FrontMarkResourceMock extends Resource
+class FrontMarkResourceMock extends AbstractResource
 {
 	/**
 	 * FrontMark file constructor

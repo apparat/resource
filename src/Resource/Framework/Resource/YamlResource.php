@@ -35,10 +35,10 @@
 
 namespace Apparat\Resource\Framework\Resource;
 
+use Apparat\Resource\Domain\Contract\ReaderInterface;
+use Apparat\Resource\Domain\Contract\WriterInterface;
+use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
 use Apparat\Resource\Framework\Hydrator\YamlHydrator;
-use Apparat\Resource\Domain\Model\SinglePartResource;
-use Apparat\Resource\Domain\Model\Reader;
-use Apparat\Resource\Domain\Model\Writer;
 
 /**
  * YAML resource
@@ -50,9 +50,9 @@ use Apparat\Resource\Domain\Model\Writer;
  * @method YamlResource setData() setData(array $data) Set the YAML data of the resource
  * @method YamlResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the resource
  * @method YamlResource from($src) static from($src, ...$parameters) Instantiate from source
- * @method Writer to() to($target, ...$parameters) Write to target
+ * @method WriterInterface to() to($target, ...$parameters) Write to target
  */
-class YamlResource extends SinglePartResource
+class YamlResource extends AbstractSinglePartResource
 {
 	/**
 	 * Use resource factory and data resource convenience methods and properties
@@ -62,9 +62,9 @@ class YamlResource extends SinglePartResource
 	/**
 	 * YAML resource constructor
 	 *
-	 * @param Reader $reader Reader instance
+	 * @param ReaderInterface $reader Reader instance
 	 */
-	public function __construct(Reader $reader = null)
+	public function __construct(ReaderInterface $reader = null)
 	{
 		parent::__construct($reader, YamlHydrator::class);
 	}

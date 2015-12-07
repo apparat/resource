@@ -33,34 +33,19 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Domain\Model;
-
+namespace Apparat\Resource\Domain\Contract;
 
 /**
- * Single part file
+ * Reader interface
  *
- * @package Apparat\Resource\Domain\Model
+ * @package Apparat\Resource\Domain\Contract
  */
-class SinglePartResource extends Resource
+interface ReaderInterface
 {
-	/**
-	 * Set the content of the sole part
-	 *
-	 * @param string $data Content
-	 * @return SinglePartResource Self reference
-	 */
-	public function set($data)
-	{
-		return $this->setPart($data, '/');
-	}
-
-	/**
-	 * Return the sole part's content
-	 *
-	 * @return string Part content
-	 */
-	public function get()
-	{
-		return $this->getPart('/');
-	}
+    /**
+     * Read the file content
+     *
+     * @return string File content
+     */
+    public function read();
 }
