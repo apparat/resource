@@ -1,14 +1,16 @@
 <?php
 
 /**
- * apparat-resource
+ * apparat/resource
  *
- * @category    Apparat
- * @package     Apparat_<Package>
+ * @category    Jkphl
+ * @package     Jkphl_apparat/resource
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
+
+namespace Jkphl;
 
 /***********************************************************************************
  *  The MIT License (MIT)
@@ -33,19 +35,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model;
+namespace Apparat\Resource\Domain\Model\Hydrator;
 
 /**
- * File runtime exception
+ * Invalid occurrence dehydration exception
  *
- * @package Apparat\Resource\Model
+ * @package Apparat\Resource\Domain\Model\Hydrator
  */
-class RuntimeException extends \RuntimeException
+class InvalidOccurrenceDehydrationException extends RuntimeException
 {
-    /**
-     * Invalid file method
-     *
-     * @var int
-     */
-    const INVALID_FILE_METHOD = 1447450449;
+
 }

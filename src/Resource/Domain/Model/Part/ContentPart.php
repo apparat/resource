@@ -33,14 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Part;
+namespace Apparat\Resource\Domain\Model\Part;
 
-use Apparat\Resource\Model\Hydrator\SinglepartHydrator;
+use Apparat\Resource\Domain\Model\Hydrator\SinglepartHydrator;
 
 /**
  * Content part
  *
- * @package Apparat\Resource\Model\Part
+ * @package Apparat\Resource\Domain\Model\Part
  */
 abstract class ContentPart extends AbstractPart
 {

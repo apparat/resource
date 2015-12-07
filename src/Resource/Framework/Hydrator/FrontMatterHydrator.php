@@ -36,8 +36,8 @@
 namespace Apparat\Resource\Framework\Hydrator;
 
 use Apparat\Resource\Framework\Part\YamlPart;
-use Apparat\Resource\Model\Hydrator\ChoiceHydrator;
-use Apparat\Resource\Model\Part\Part;
+use Apparat\Resource\Domain\Model\Hydrator\ChoiceHydrator;
+use Apparat\Resource\Domain\Model\Part\Part;
 
 /**
  * FrontMark part hydrator (combination of YAML / JSON front matter and CommonMark part)

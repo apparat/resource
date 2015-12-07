@@ -33,17 +33,17 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model;
+namespace Apparat\Resource\Domain\Model;
 
-use Apparat\Resource\Model\Hydrator\Hydrator;
-use Apparat\Resource\Model\Hydrator\HydratorFactory;
-use Apparat\Resource\Model\Part\AbstractPart;
-use Apparat\Resource\Model\Part\Part;
+use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
+use Apparat\Resource\Domain\Model\Hydrator\HydratorFactory;
+use Apparat\Resource\Domain\Model\Part\AbstractPart;
+use Apparat\Resource\Domain\Model\Part\Part;
 
 /**
  * File
  *
- * @package Apparat\Resource\Model
+ * @package Apparat\Resource\Domain\Model
  */
 abstract class Resource
 {

@@ -40,7 +40,7 @@ namespace Apparat\Resource\Framework\Io\InMemory;
  *
  * @package Apparat\Resource\Framework\Writer
  */
-class Writer extends AbstractInMemoryReaderWriter implements \Apparat\Resource\Model\Writer
+class Writer extends AbstractInMemoryReaderWriter implements \Apparat\Resource\Domain\Model\Writer
 {
     /**
      * Provide the writer properties and methods

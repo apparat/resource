@@ -33,20 +33,39 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model;
+namespace Apparat\Resource\Domain\Model\Hydrator;
 
 /**
- * Writer interface
+ * Abstract hydrator
  *
- * @package Apparat\Resource\Model
+ * @package Apparat\Resource\Domain\Model\Hydrator
  */
-interface Writer
+abstract class AbstractHydrator implements Hydrator
 {
     /**
-     * Write data
+     * Part name
      *
-     * @param string $data Data to write
-     * @return int Bytes written
+     * @var string
      */
-    public function write($data);
+    protected $_name = '';
+
+    /**
+     * Hydrator constructor
+     *
+     * @param string $name Part name
+     */
+    public function __construct($name)
+    {
+        $this->_name = trim($name);
+    }
+
+    /**
+     * Return the part name
+     *
+     * @return string Part name
+     */
+    public function getName()
+    {
+        return $this->_name;
+    }
 }

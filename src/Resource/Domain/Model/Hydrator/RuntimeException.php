@@ -33,12 +33,12 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
+namespace Apparat\Resource\Domain\Model\Hydrator;
 
 /**
  * Runtime exception
  *
- * @package Apparat\Resource\Model\Hydrator
+ * @package Apparat\Resource\Domain\Model\Hydrator
  */
 class RuntimeException extends \RuntimeException
 {

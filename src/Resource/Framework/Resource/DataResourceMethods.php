@@ -35,8 +35,8 @@
 
 namespace Apparat\Resource\Framework\Resource;
 
-use Apparat\Resource\Model\SinglePartResource;
-use Apparat\Resource\Model\Part\ContentPart;
+use Apparat\Resource\Domain\Model\SinglePartResource;
+use Apparat\Resource\Domain\Model\Part\ContentPart;
 
 /**
  * Data resource convenience methods

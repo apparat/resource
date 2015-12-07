@@ -42,12 +42,12 @@ use Apparat\Resource\Framework\Hydrator\JsonHydrator;
 use Apparat\Resource\Framework\Hydrator\YamlHydrator;
 use Apparat\Resource\Framework\Io\InMemory\Reader;
 use Apparat\Resource\Framework\Resource\FrontMarkResource;
-use Apparat\Resource\Model\Hydrator\Hydrator;
-use Apparat\Resource\Model\Part\InvalidArgumentException;
-use Apparat\Resource\Model\Part\OutOfBoundsException;
-use Apparat\Resource\Model\Part\PartChoice;
-use Apparat\Resource\Model\Part\PartSequence;
-use Apparat\Resource\Model\Resource;
+use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
+use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;
+use Apparat\Resource\Domain\Model\Part\OutOfBoundsException;
+use Apparat\Resource\Domain\Model\Part\PartChoice;
+use Apparat\Resource\Domain\Model\Part\PartSequence;
+use Apparat\Resource\Domain\Model\Resource;
 use Symfony\Component\Yaml\Yaml;
 
 

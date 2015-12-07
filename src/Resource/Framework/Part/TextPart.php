@@ -36,7 +36,7 @@
 namespace Apparat\Resource\Framework\Part;
 
 
-use Apparat\Resource\Model\Part\ContentPart;
+use Apparat\Resource\Domain\Model\Part\ContentPart;
 
 /**
  * Text resource part

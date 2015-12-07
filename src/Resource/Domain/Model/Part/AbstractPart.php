@@ -33,78 +33,77 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Part;
+namespace Apparat\Resource\Domain\Model\Part;
 
-use Apparat\Resource\Model\Hydrator\Hydrator;
+use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
 
 /**
- * Part choice
+ * Abstract base class for file parts
  *
- * @package Apparat\Resource\Model\Part
+ * @package Apparat\Resource\Domain\Model\Part
  */
-class PartChoice extends PartAggregate
+abstract class AbstractPart implements Part
 {
 	/**
-	 * Part name wildcard
+	 * Associated hydrator
 	 *
-	 * @var string
+	 * @var Hydrator
 	 */
-	const WILDCARD = '*';
+	protected $_hydrator = null;
 
 	/**
-	 * Add an occurrence
+	 * Abstract part constructor
 	 *
-	 * @return void
+	 * @param Hydrator $hydrator Associated hydrator
 	 */
-	protected function _addOccurrence()
+	public function __construct(Hydrator $hydrator)
 	{
-		$this->_occurrences[] = null;
+		$this->_hydrator = $hydrator;
 	}
 
 	/**
-	 * Assign data to a particular part
+	 * Return the associated hydrator
 	 *
-	 * @param string $part Part identifier
-	 * @param string $data Part data
-	 * @param null|int $occurrence Occurrence to assign the part data to
+	 * @return Hydrator Associated hydrator
 	 */
-	public function assign($part, $data, $occurrence = null)
+	public function getHydrator()
 	{
-		$occurrence = $this->_prepareAssignment($part, $occurrence);
-
-		/** @var Hydrator $hydrator */
-		$hydrator =& $this->_template[$part];
-		$this->_occurrences[$occurrence] = [$part => $hydrator->hydrate($data)];
+		return $this->_hydrator;
 	}
 
 	/**
-	 * Test if a particular part identifier is known for a particular occurrence
+	 * Delegate a method call to a subpart
 	 *
-	 * @param int $occurrence Occurrence index
-	 * @param string $part Part identifier
-	 * @return bool Is known part identifier
+	 * @param string $method Method nae
+	 * @param array $subparts Subpart identifiers
+	 * @param array $arguments Method arguments
+	 * @return mixed Method result
+	 * @throws InvalidArgumentException If the method is unknown
 	 */
-	protected function _isKnownPartIdentifier($occurrence, $part)
+	public function delegate($method, array $subparts, array $arguments)
 	{
-		return parent::_isKnownPartIdentifier($occurrence,
-			$part) || (($part == self::WILDCARD) && count($this->_occurrences[$occurrence]));
-	}
-
-	/**
-	 * Return a particular part of a particular occurrence
-	 *
-	 * @param int $occurrence Occurrence index
-	 * @param string $part Part identifier
-	 * @return Part Part instance
-	 */
-	protected function _getOccurrencePart(&$occurrence, &$part)
-	{
-		reset($this->_occurrences[$occurrence]);
-
-		if ($part == self::WILDCARD) {
-			$part = key($this->_occurrences[$occurrence]);
+		// If the method is unknown
+		if (!is_callable(array($this, $method))) {
+			throw new InvalidArgumentException(sprintf('Unknown part method "%s"', $method),
+				InvalidArgumentException::UNKNOWN_PART_METHOD);
 		}
 
-		return parent::_getOccurrencePart($occurrence, $part);
+		// Call the method
+		return call_user_func_array(array($this, $method), $arguments);
+	}
+
+	/**
+	 * Validate a part identifier
+	 *
+	 * @param string $part Part identifier
+	 * @throws InvalidArgumentException If the part identifier is not valid
+	 */
+	public static function validatePartIdentifier($part)
+	{
+		$part = strval($part);
+		if (!preg_match("%^[a-z0-9\_\*]+$%i", $part)) {
+			throw new InvalidArgumentException(sprintf('Invalid part path identifier "%s"', $part),
+				InvalidArgumentException::INVALID_PART_IDENTIFIER);
+		}
 	}
 }

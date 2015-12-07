@@ -33,77 +33,34 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Part;
+namespace Apparat\Resource\Domain\Model;
 
-use Apparat\Resource\Model\Hydrator\Hydrator;
 
 /**
- * Abstract base class for file parts
+ * Single part file
  *
- * @package Apparat\Resource\Model\Part
+ * @package Apparat\Resource\Domain\Model
  */
-abstract class AbstractPart implements Part
+class SinglePartResource extends Resource
 {
 	/**
-	 * Associated hydrator
+	 * Set the content of the sole part
 	 *
-	 * @var Hydrator
+	 * @param string $data Content
+	 * @return SinglePartResource Self reference
 	 */
-	protected $_hydrator = null;
-
-	/**
-	 * Abstract part constructor
-	 *
-	 * @param Hydrator $hydrator Associated hydrator
-	 */
-	public function __construct(Hydrator $hydrator)
+	public function set($data)
 	{
-		$this->_hydrator = $hydrator;
+		return $this->setPart($data, '/');
 	}
 
 	/**
-	 * Return the associated hydrator
+	 * Return the sole part's content
 	 *
-	 * @return Hydrator Associated hydrator
+	 * @return string Part content
 	 */
-	public function getHydrator()
+	public function get()
 	{
-		return $this->_hydrator;
-	}
-
-	/**
-	 * Delegate a method call to a subpart
-	 *
-	 * @param string $method Method nae
-	 * @param array $subparts Subpart identifiers
-	 * @param array $arguments Method arguments
-	 * @return mixed Method result
-	 * @throws InvalidArgumentException If the method is unknown
-	 */
-	public function delegate($method, array $subparts, array $arguments)
-	{
-		// If the method is unknown
-		if (!is_callable(array($this, $method))) {
-			throw new InvalidArgumentException(sprintf('Unknown part method "%s"', $method),
-				InvalidArgumentException::UNKNOWN_PART_METHOD);
-		}
-
-		// Call the method
-		return call_user_func_array(array($this, $method), $arguments);
-	}
-
-	/**
-	 * Validate a part identifier
-	 *
-	 * @param string $part Part identifier
-	 * @throws InvalidArgumentException If the part identifier is not valid
-	 */
-	public static function validatePartIdentifier($part)
-	{
-		$part = strval($part);
-		if (!preg_match("%^[a-z0-9\_\*]+$%i", $part)) {
-			throw new InvalidArgumentException(sprintf('Invalid part path identifier "%s"', $part),
-				InvalidArgumentException::INVALID_PART_IDENTIFIER);
-		}
+		return $this->getPart('/');
 	}
 }

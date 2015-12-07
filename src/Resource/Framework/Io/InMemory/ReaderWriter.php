@@ -36,8 +36,8 @@
 namespace Apparat\Resource\Framework\Io\InMemory;
 
 
-use Apparat\Resource\Model\Reader as ReaderModel;
-use Apparat\Resource\Model\Writer as WriterModel;
+use Apparat\Resource\Domain\Model\Reader as ReaderModel;
+use Apparat\Resource\Domain\Model\Writer as WriterModel;
 
 /**
  * Combined in-memory reader / writer

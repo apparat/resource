@@ -33,19 +33,19 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model;
+namespace Apparat\Resource\Domain\Model;
 
 /**
- * Reader interface
+ * File runtime exception
  *
- * @package Apparat\Resource\Model
+ * @package Apparat\Resource\Domain\Model
  */
-interface Reader
+class RuntimeException extends \RuntimeException
 {
     /**
-     * Read the file content
+     * Invalid file method
      *
-     * @return string File content
+     * @var int
      */
-    public function read();
+    const INVALID_FILE_METHOD = 1447450449;
 }

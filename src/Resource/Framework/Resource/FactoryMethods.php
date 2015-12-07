@@ -40,10 +40,10 @@ namespace Apparat\Resource\Framework\Resource;
 use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
 use Apparat\Resource\Framework\Io\InvalidArgumentException;
 use Apparat\Resource\Framework\Io\Io;
-use Apparat\Resource\Model\Reader;
-use Apparat\Resource\Model\Resource as AbstractResource;
-use Apparat\Resource\Model\Writer;
-use Apparat\Resource\Model\Writer as AbstractWriter;
+use Apparat\Resource\Domain\Model\Reader;
+use Apparat\Resource\Domain\Model\Resource as AbstractResource;
+use Apparat\Resource\Domain\Model\Writer;
+use Apparat\Resource\Domain\Model\Writer as AbstractWriter;
 
 /**
  * Resource factory methods

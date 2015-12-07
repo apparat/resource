@@ -33,14 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
+namespace Apparat\Resource\Domain\Model\Hydrator;
 
-use Apparat\Resource\Model\Part\AbstractPart;
+use Apparat\Resource\Domain\Model\Part\AbstractPart;
 
 /**
  * Hydrator factory
  *
- * @package Apparat\Resource\Model\Hydrator
+ * @package Apparat\Resource\Domain\Model\Hydrator
  */
 class HydratorFactory
 {

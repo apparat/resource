@@ -33,34 +33,63 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model;
+namespace Apparat\Resource\Domain\Model\Hydrator;
 
 
-/**
- * Single part file
- *
- * @package Apparat\Resource\Model
- */
-class SinglePartResource extends Resource
+class InvalidArgumentException extends \InvalidArgumentException
 {
-	/**
-	 * Set the content of the sole part
-	 *
-	 * @param string $data Content
-	 * @return SinglePartResource Self reference
-	 */
-	public function set($data)
-	{
-		return $this->setPart($data, '/');
-	}
-
-	/**
-	 * Return the sole part's content
-	 *
-	 * @return string Part content
-	 */
-	public function get()
-	{
-		return $this->getPart('/');
-	}
+    /**
+     * Invalid hydrator configuration
+     *
+     * @var int
+     */
+    const INVALID_HYDRATOR_CONFIGURATION = 1447019565;
+    /**
+     * Invalid hydrator content model
+     *
+     * @var int
+     */
+    const INVALID_HYDRATOR_CONTENT_MODEL = 1447020287;
+    /**
+     * Missing multipart hydrator
+     *
+     * @var int
+     */
+    const MISSING_MULTIPART_HYDRATOR = 1447107537;
+    /**
+     * Invalid single part hydrator class
+     *
+     * @var int
+     */
+    const INVALID_SINGLEPART_HYDRATOR_CLASS = 1447110065;
+    /**
+     * Invalid multipart hydrator class
+     *
+     * @var int
+     */
+    const INVALID_MULTIPART_HYDRATOR_CLASS = 1447107792;
+    /**
+     * Invalid multipart subhydrator class
+     *
+     * @var int
+     */
+    const INVALID_MULTIPART_SUBHYDRATOR_CLASS = 1447868909;
+    /**
+     * Invalid multipart hydrator parameters
+     *
+     * @var int
+     */
+    const INVALID_MULTIPART_HYDRATOR_PARAMETERS = 1447109790;
+    /**
+     * Invalid multipart hydrator parameter count
+     *
+     * @var int
+     */
+    const INVALID_MULTIPART_HYDRATOR_PARAMETER_COUNT = 1447866302;
+    /**
+     * Invalid part class for dehydration
+     *
+     * @var int
+     */
+    const INVALID_DEHYDRATION_PART_CLASS = 1448107001;
 }

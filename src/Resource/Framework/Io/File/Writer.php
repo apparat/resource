@@ -40,7 +40,7 @@ namespace Apparat\Resource\Framework\Io\File;
  *
  * @package Apparat\Resource\Framework\Io\File
  */
-class Writer extends AbstractFileReaderWriter implements \Apparat\Resource\Model\Writer
+class Writer extends AbstractFileReaderWriter implements \Apparat\Resource\Domain\Model\Writer
 {
     /**
      * Provide the writer properties and methods

@@ -37,12 +37,12 @@ namespace ApparatTest;
 
 use Apparat\Resource\Framework\Hydrator\TextHydrator;
 use Apparat\Resource\Framework\Part\TextPart;
-use Apparat\Resource\Model\Hydrator\Hydrator;
-use Apparat\Resource\Model\Hydrator\HydratorFactory;
-use Apparat\Resource\Model\Hydrator\InvalidArgumentException;
-use Apparat\Resource\Model\Hydrator\RuntimeException;
-use Apparat\Resource\Model\Part\OutOfBoundsException;
-use Apparat\Resource\Model\Part\PartAggregate;
+use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
+use Apparat\Resource\Domain\Model\Hydrator\HydratorFactory;
+use Apparat\Resource\Domain\Model\Hydrator\InvalidArgumentException;
+use Apparat\Resource\Domain\Model\Hydrator\RuntimeException;
+use Apparat\Resource\Domain\Model\Part\OutOfBoundsException;
+use Apparat\Resource\Domain\Model\Part\PartAggregate;
 
 
 /**
@@ -144,7 +144,7 @@ trait AggregateHydratorMocks
  *
  * @package ApparatTest
  */
-class SequenceHydrator extends \Apparat\Resource\Model\Hydrator\SequenceHydrator
+class SequenceHydrator extends \Apparat\Resource\Domain\Model\Hydrator\SequenceHydrator
 {
 	/**
 	 * Use multipart hydrator mock methods
@@ -157,7 +157,7 @@ class SequenceHydrator extends \Apparat\Resource\Model\Hydrator\SequenceHydrator
  *
  * @package ApparatTest
  */
-class ChoiceHydrator extends \Apparat\Resource\Model\Hydrator\ChoiceHydrator
+class ChoiceHydrator extends \Apparat\Resource\Domain\Model\Hydrator\ChoiceHydrator
 {
 	/**
 	 * Use multipart hydrator mock methods
@@ -266,7 +266,7 @@ class HydratorTest extends TestBase
 	/**
 	 * Test invalid multipart hydrator occurrences minimum
 	 *
-	 * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+	 * @expectedException \Apparat\Resource\Domain\Model\Part\InvalidArgumentException
 	 * @expectedExceptionCode 1447021191
 	 */
 	public function testInvalidMultipartHydratorMinimumOccurrences()
@@ -277,7 +277,7 @@ class HydratorTest extends TestBase
 	/**
 	 * Test invalid multipart hydrator occurrences maximum
 	 *
-	 * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+	 * @expectedException \Apparat\Resource\Domain\Model\Part\InvalidArgumentException
 	 * @expectedExceptionCode 1447021211
 	 */
 	public function testInvalidMultipartHydratorMaximumOccurrences()
@@ -388,7 +388,7 @@ class HydratorTest extends TestBase
 	/**
 	 * Test sequence dehydration with empty occurrence
 	 *
-	 * @expectedException \Apparat\Resource\Model\Hydrator\SkippedOccurrenceDehydrationException
+	 * @expectedException \Apparat\Resource\Domain\Model\Hydrator\SkippedOccurrenceDehydrationException
 	 * @expectedExceptionCode 1448108316
 	 */
 	public function testMultipartHydratorSequenceEmptyOccurrence()
@@ -409,7 +409,7 @@ class HydratorTest extends TestBase
 	/**
 	 * Test sequence dehydration with unknown subhydrator name
 	 *
-	 * @expectedException \Apparat\Resource\Model\Hydrator\SkippedOccurrenceDehydrationException
+	 * @expectedException \Apparat\Resource\Domain\Model\Hydrator\SkippedOccurrenceDehydrationException
 	 * @expectedExceptionCode 1448108444
 	 */
 	public function testMultipartHydratorSequenceInvalidSubhydratorName()
@@ -430,7 +430,7 @@ class HydratorTest extends TestBase
 	/**
 	 * Test sequence dehydration with invalid part instance
 	 *
-	 * @expectedException \Apparat\Resource\Model\Hydrator\SkippedOccurrenceDehydrationException
+	 * @expectedException \Apparat\Resource\Domain\Model\Hydrator\SkippedOccurrenceDehydrationException
 	 * @expectedExceptionCode 1448108849
 	 */
 	public function testMultipartHydratorSequenceInvalidPartInstance()
@@ -522,7 +522,7 @@ class HydratorTest extends TestBase
 	/**
 	 * Test sequence unknown delegate method
 	 *
-	 * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+	 * @expectedException \Apparat\Resource\Domain\Model\Part\InvalidArgumentException
 	 * @expectedExceptionCode 1448225222
 	 */
 	public function testMultipartHydratorSequenceUnknownMethod()
@@ -541,7 +541,7 @@ class HydratorTest extends TestBase
 	/**
 	 * Test choice dehydration with empty occurrence
 	 *
-	 * @expectedException \Apparat\Resource\Model\Hydrator\SkippedOccurrenceDehydrationException
+	 * @expectedException \Apparat\Resource\Domain\Model\Hydrator\SkippedOccurrenceDehydrationException
 	 * @expectedExceptionCode 1448108316
 	 */
 	public function testMultipartHydratorChoiceEmptyOccurrence()
@@ -562,7 +562,7 @@ class HydratorTest extends TestBase
 	/**
 	 * Test choice dehydration with unknown subhydrator name
 	 *
-	 * @expectedException \Apparat\Resource\Model\Hydrator\SkippedOccurrenceDehydrationException
+	 * @expectedException \Apparat\Resource\Domain\Model\Hydrator\SkippedOccurrenceDehydrationException
 	 * @expectedExceptionCode 1448108444
 	 */
 	public function testMultipartHydratorChoiceInvalidSubhydratorName()
@@ -583,7 +583,7 @@ class HydratorTest extends TestBase
 	/**
 	 * Test choice dehydration with invalid part instance
 	 *
-	 * @expectedException \Apparat\Resource\Model\Hydrator\SkippedOccurrenceDehydrationException
+	 * @expectedException \Apparat\Resource\Domain\Model\Hydrator\SkippedOccurrenceDehydrationException
 	 * @expectedExceptionCode 1448108849
 	 */
 	public function testMultipartHydratorChoiceInvalidPartInstance()

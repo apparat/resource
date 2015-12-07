@@ -37,9 +37,9 @@ namespace Apparat\Resource\Framework\Resource;
 
 
 use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
-use Apparat\Resource\Model\SinglePartResource;
-use Apparat\Resource\Model\Reader;
-use Apparat\Resource\Model\Writer;
+use Apparat\Resource\Domain\Model\SinglePartResource;
+use Apparat\Resource\Domain\Model\Reader;
+use Apparat\Resource\Domain\Model\Writer;
 
 /**
  * CommonMark resource

@@ -35,7 +35,7 @@
 
 namespace Apparat\Resource\Framework\Io;
 
-use Apparat\Resource\Model\Reader;
+use Apparat\Resource\Domain\Model\Reader;
 
 /**
  * I/O handler base

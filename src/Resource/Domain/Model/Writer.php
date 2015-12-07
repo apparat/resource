@@ -1,16 +1,14 @@
 <?php
 
 /**
- * apparat/resource
+ * apparat-resource
  *
- * @category    Jkphl
- * @package     Jkphl_apparat/resource
+ * @category    Apparat
+ * @package     Apparat_<Package>
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
-
-namespace Jkphl;
 
 /***********************************************************************************
  *  The MIT License (MIT)
@@ -35,14 +33,20 @@ namespace Jkphl;
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
+namespace Apparat\Resource\Domain\Model;
 
 /**
- * Invalid occurrence dehydration exception
+ * Writer interface
  *
- * @package Apparat\Resource\Model\Hydrator
+ * @package Apparat\Resource\Domain\Model
  */
-class InvalidOccurrenceDehydrationException extends RuntimeException
+interface Writer
 {
-
+    /**
+     * Write data
+     *
+     * @param string $data Data to write
+     * @return int Bytes written
+     */
+    public function write($data);
 }

@@ -36,7 +36,7 @@
 namespace Apparat\Resource\Framework\Io\File;
 
 
-use Apparat\Resource\Model\Reader as ReaderModel;
+use Apparat\Resource\Domain\Model\Reader as ReaderModel;
 
 /**
  * Combined file reader / writer

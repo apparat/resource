@@ -33,30 +33,30 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
+namespace Apparat\Resource\Domain\Model\Hydrator;
 
-use Apparat\Resource\Model\Part\Part;
-use Apparat\Resource\Model\Part\PartChoice;
+use Apparat\Resource\Domain\Model\Part\Part;
+use Apparat\Resource\Domain\Model\Part\PartSequence;
 
 /**
- * Abstract choice hydrator
+ * Abstract sequence hydrator
  *
- * @package Apparat\Resource\Model\Hydrator
+ * @package Apparat\Resource\Domain\Model\Hydrator
  */
-abstract class ChoiceHydrator extends MultipartHydrator
+abstract class SequenceHydrator extends MultipartHydrator
 {
     /**
      * Part aggregate class name
      *
      * @var string
      */
-    protected $_aggregateClass = PartChoice::class;
+    protected $_aggregateClass = PartSequence::class;
 
     /**
      * Dehydrate a single occurrence
      *
      * @param array $occurrence Occurrence
-     * @return mixed Dehydrated occurrence
+     * @return string Dehydrated occurrence
      * @throws RuntimeException If the occurrence is invalid
      * @throws RuntimeException If a part name doesn't match a known subhydrator
      * @throws RuntimeException If a part is invalid
@@ -68,19 +68,34 @@ abstract class ChoiceHydrator extends MultipartHydrator
             throw new $this->_occurrenceDehydrationException('Empty occurrence', constant($this->_occurrenceDehydrationException.'::EMPTY_OCCURRENCE'));
         }
 
-        // If the part name doesn't match a known subhydrator
-        reset($occurrence);
-        $subhydrator = key($occurrence);
-        if (!strlen($subhydrator) || !array_key_exists($subhydrator, $this->_subhydrators)) {
-            throw new $this->_occurrenceDehydrationException(sprintf('No matching subhydrator "%s"', $subhydrator), constant($this->_occurrenceDehydrationException.'::NO_MATCHING_SUBHYDRATOR'));
+        $sequence = [];
+
+        // Run through the sequence
+        foreach ($occurrence as $subhydrator => $part) {
+
+            // If the part name doesn't match a known subhydrator
+            if (!strlen($subhydrator) || !array_key_exists($subhydrator, $this->_subhydrators)) {
+                throw new $this->_occurrenceDehydrationException(sprintf('No matching subhydrator "%s"', $subhydrator), constant($this->_occurrenceDehydrationException.'::NO_MATCHING_SUBHYDRATOR'));
+            }
+
+            // If the part value is not a valid part instance
+            if (!$part || !($part instanceof Part)) {
+                throw new $this->_occurrenceDehydrationException(sprintf('Invalid part instance "%s"', gettype($part).(is_object($part) ? '<'.get_class($part).'>' : '')), constant($this->_occurrenceDehydrationException.'::INVALID_PART_INSTANCE'));
+            }
+
+            $sequence[$subhydrator] = $this->_dehydratePart($subhydrator, $part);
         }
 
-        // If the part value is not a valid part instance
-        $part = current($occurrence);
-        if (!$part || !($part instanceof Part)) {
-            throw new $this->_occurrenceDehydrationException(sprintf('Invalid part instance "%s"', gettype($part).(is_object($part) ? '<'.get_class($part).'>' : '')), constant($this->_occurrenceDehydrationException.'::INVALID_PART_INSTANCE'));
-        }
+        return $this->_combineOccurrenceSequence($sequence);
+    }
 
-        return $this->_dehydratePart($subhydrator, $part);
+    /**
+     * Combine a part occurrence sequence for dehydration
+     *
+     * @param array $sequence Part occurrence sequence
+     * @return string Combined sequence
+     */
+    protected function _combineOccurrenceSequence(array $sequence) {
+        return implode('', array_map('strval', $sequence));
     }
 }

@@ -33,14 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Part;
+namespace Apparat\Resource\Domain\Model\Part;
 
-use Apparat\Resource\Model\Hydrator\MultipartHydrator;
+use Apparat\Resource\Domain\Model\Hydrator\MultipartHydrator;
 
 /**
  * Abstract part aggregate
  *
- * @package Apparat\Resource\Model\Part
+ * @package Apparat\Resource\Domain\Model\Part
  */
 abstract class PartAggregate extends AbstractPart implements \Countable, \Iterator
 {

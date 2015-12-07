@@ -33,39 +33,25 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
+namespace Apparat\Resource\Domain\Model\Part;
 
 /**
- * Abstract hydrator
+ * Out of bounds exception
  *
- * @package Apparat\Resource\Model\Hydrator
+ * @package Apparat\Resource\Domain\Model\Part
  */
-abstract class AbstractHydrator implements Hydrator
+class OutOfBoundsException extends \OutOfBoundsException
 {
     /**
-     * Part name
+     * Invalid occurrences number
      *
-     * @var string
+     * @var int
      */
-    protected $_name = '';
-
+    const INVALID_OCCURRENCES_NUMBER = 1447976806;
     /**
-     * Hydrator constructor
+     * Invalid occurrence index
      *
-     * @param string $name Part name
+     * @var int
      */
-    public function __construct($name)
-    {
-        $this->_name = trim($name);
-    }
-
-    /**
-     * Return the part name
-     *
-     * @return string Part name
-     */
-    public function getName()
-    {
-        return $this->_name;
-    }
+    const OCCURRENCE_INDEX_OUT_OF_BOUNDS = 1448052094;
 }

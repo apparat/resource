@@ -35,7 +35,7 @@
 
 namespace Apparat\Resource\Framework\Resource;
 
-use Apparat\Resource\Model\Part\Part;
+use Apparat\Resource\Domain\Model\Part\Part;
 
 /**
  * Text resource convenience methods

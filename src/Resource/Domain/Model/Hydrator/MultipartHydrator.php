@@ -33,16 +33,16 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
+namespace Apparat\Resource\Domain\Model\Hydrator;
 
-use Apparat\Resource\Model\Part\AbstractPart;
-use Apparat\Resource\Model\Part\Part;
-use Apparat\Resource\Model\Part\PartAggregate;
+use Apparat\Resource\Domain\Model\Part\AbstractPart;
+use Apparat\Resource\Domain\Model\Part\Part;
+use Apparat\Resource\Domain\Model\Part\PartAggregate;
 
 /**
  * Multipart hydrator
  *
- * @package Apparat\Resource\Model\Hydrator
+ * @package Apparat\Resource\Domain\Model\Hydrator
  */
 abstract class MultipartHydrator extends AbstractHydrator
 {

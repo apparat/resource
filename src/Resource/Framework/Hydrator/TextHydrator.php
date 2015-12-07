@@ -37,8 +37,8 @@ namespace Apparat\Resource\Framework\Hydrator;
 
 
 use Apparat\Resource\Framework\Part\TextPart;
-use Apparat\Resource\Model\Hydrator\SinglepartHydrator;
-use Apparat\Resource\Model\Part\Part;
+use Apparat\Resource\Domain\Model\Hydrator\SinglepartHydrator;
+use Apparat\Resource\Domain\Model\Part\Part;
 
 /**
  * Text part hydrator

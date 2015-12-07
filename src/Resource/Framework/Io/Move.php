@@ -38,7 +38,7 @@ namespace Apparat\Resource\Framework\Io;
 use Apparat\Resource\Framework\Io\File\Reader as FileReader;
 use Apparat\Resource\Framework\Io\File\Writer as FileWriter;
 use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
-use Apparat\Resource\Model\Writer;
+use Apparat\Resource\Domain\Model\Writer;
 
 /**
  * Resource move operation

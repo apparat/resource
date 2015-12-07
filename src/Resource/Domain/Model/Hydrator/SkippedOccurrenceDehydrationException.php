@@ -1,14 +1,16 @@
 <?php
 
 /**
- * apparat-resource
+ * apparat/resource
  *
- * @category    Apparat
- * @package     Apparat_<Package>
+ * @category    Jkphl
+ * @package     Jkphl_apparat/resource
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
+
+namespace Jkphl;
 
 /***********************************************************************************
  *  The MIT License (MIT)
@@ -33,44 +35,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
-
-use Apparat\Resource\Model\Part\Part;
+namespace Apparat\Resource\Domain\Model\Hydrator;
 
 /**
- * File hydrator interface
+ * Skipped occurrence dehydration exception
  *
- * @package Apparat\Resource\Model\Hydrator
+ * @package Apparat\Resource\Domain\Model\Hydrator
  */
-interface Hydrator
+class SkippedOccurrenceDehydrationException extends RuntimeException
 {
-	/**
-	 * Default hydrator name
-	 *
-	 * @var string
-	 */
-	const STANDARD = 'standard';
 
-	/**
-	 * Serialize a file part
-	 *
-	 * @param Part $part File part
-	 * @return string Serialized file part
-	 */
-	public function dehydrate(Part $part);
-
-	/**
-	 * Translate data to a file part
-	 *
-	 * @param string $data Part data
-	 * @return Part File part
-	 */
-	public function hydrate($data);
-
-	/**
-	 * Return the part name
-	 *
-	 * @return string Part name
-	 */
-	public function getName();
 }

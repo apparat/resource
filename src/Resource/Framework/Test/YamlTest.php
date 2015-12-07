@@ -93,7 +93,7 @@ class YamlTest extends TestBase
     /**
      * Test getting the data of a YAML file with unallowed subparts
      *
-     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+     * @expectedException \Apparat\Resource\Domain\Model\Part\InvalidArgumentException
      * @expectedExceptionCode 1447365624
      */
     public function testYamlResourceHtmlSubparts()

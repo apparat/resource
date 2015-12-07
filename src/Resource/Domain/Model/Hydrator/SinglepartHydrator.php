@@ -33,25 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Part;
+namespace Apparat\Resource\Domain\Model\Hydrator;
 
 /**
- * Out of bounds exception
+ * Abstract hydrator
  *
- * @package Apparat\Resource\Model\Part
+ * @package Apparat\Resource\Domain\Model\Hydrator
  */
-class OutOfBoundsException extends \OutOfBoundsException
+abstract class SinglepartHydrator extends AbstractHydrator
 {
-    /**
-     * Invalid occurrences number
-     *
-     * @var int
-     */
-    const INVALID_OCCURRENCES_NUMBER = 1447976806;
-    /**
-     * Invalid occurrence index
-     *
-     * @var int
-     */
-    const OCCURRENCE_INDEX_OUT_OF_BOUNDS = 1448052094;
+
 }

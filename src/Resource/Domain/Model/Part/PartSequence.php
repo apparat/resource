@@ -33,63 +33,40 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Hydrator;
+namespace Apparat\Resource\Domain\Model\Part;
 
+use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
 
-class InvalidArgumentException extends \InvalidArgumentException
+/**
+ * Part sequence
+ *
+ * @package Apparat\Resource\Domain\Model\Part
+ */
+class PartSequence extends PartAggregate
 {
     /**
-     * Invalid hydrator configuration
+     * Add an occurrence
      *
-     * @var int
+     * @return void
      */
-    const INVALID_HYDRATOR_CONFIGURATION = 1447019565;
+    protected function _addOccurrence()
+    {
+        $this->_occurrences[] = array_fill_keys(array_keys($this->_template), null);
+    }
+
     /**
-     * Invalid hydrator content model
+     * Assign data to a particular part
      *
-     * @var int
+     * @param string $part Part identifier
+     * @param string $data Part data
+     * @param null|int $occurrence Occurrence to assign the part data to
      */
-    const INVALID_HYDRATOR_CONTENT_MODEL = 1447020287;
-    /**
-     * Missing multipart hydrator
-     *
-     * @var int
-     */
-    const MISSING_MULTIPART_HYDRATOR = 1447107537;
-    /**
-     * Invalid single part hydrator class
-     *
-     * @var int
-     */
-    const INVALID_SINGLEPART_HYDRATOR_CLASS = 1447110065;
-    /**
-     * Invalid multipart hydrator class
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_HYDRATOR_CLASS = 1447107792;
-    /**
-     * Invalid multipart subhydrator class
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_SUBHYDRATOR_CLASS = 1447868909;
-    /**
-     * Invalid multipart hydrator parameters
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_HYDRATOR_PARAMETERS = 1447109790;
-    /**
-     * Invalid multipart hydrator parameter count
-     *
-     * @var int
-     */
-    const INVALID_MULTIPART_HYDRATOR_PARAMETER_COUNT = 1447866302;
-    /**
-     * Invalid part class for dehydration
-     *
-     * @var int
-     */
-    const INVALID_DEHYDRATION_PART_CLASS = 1448107001;
+    public function assign($part, $data, $occurrence = null)
+    {
+        $occurrence = $this->_prepareAssignment($part, $occurrence);
+
+        /** @var Hydrator $hydrator */
+        $hydrator =& $this->_template[$part];
+        $this->_occurrences[$occurrence][$part] = $hydrator->hydrate($data);
+    }
 }

@@ -37,9 +37,9 @@ namespace Apparat\Resource\Framework\Resource;
 
 
 use Apparat\Resource\Framework\Hydrator\TextHydrator;
-use Apparat\Resource\Model\SinglePartResource;
-use Apparat\Resource\Model\Reader;
-use Apparat\Resource\Model\Writer;
+use Apparat\Resource\Domain\Model\SinglePartResource;
+use Apparat\Resource\Domain\Model\Reader;
+use Apparat\Resource\Domain\Model\Writer;
 
 /**
  * Text resource

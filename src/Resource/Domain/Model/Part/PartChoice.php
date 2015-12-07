@@ -33,62 +33,78 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Part;
+namespace Apparat\Resource\Domain\Model\Part;
 
-use Apparat\Resource\Model\Hydrator\Hydrator;
+use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
 
 /**
- * File part interface
+ * Part choice
  *
- * @package Apparat\Resource\Model\Part
+ * @package Apparat\Resource\Domain\Model\Part
  */
-interface Part
+class PartChoice extends PartAggregate
 {
 	/**
-	 * Serialize this file part
+	 * Part name wildcard
 	 *
-	 * @return string   File part content
+	 * @var string
 	 */
-	public function __toString();
+	const WILDCARD = '*';
 
 	/**
-	 * Set the contents of a part
+	 * Add an occurrence
 	 *
-	 * @param mixed $data Contents
-	 * @param array $subparts Subpart identifiers
-	 * @return Part Modified part
+	 * @return void
 	 */
-	public function set($data, array $subparts = []);
+	protected function _addOccurrence()
+	{
+		$this->_occurrences[] = null;
+	}
 
 	/**
-	 * Return a nested subpart (or the part itself)
+	 * Assign data to a particular part
 	 *
-	 * @param array $subparts Subpart identifiers
-	 * @return Part Nested subpart (or the part itself)
+	 * @param string $part Part identifier
+	 * @param string $data Part data
+	 * @param null|int $occurrence Occurrence to assign the part data to
 	 */
-	public function get(array $subparts = []);
+	public function assign($part, $data, $occurrence = null)
+	{
+		$occurrence = $this->_prepareAssignment($part, $occurrence);
+
+		/** @var Hydrator $hydrator */
+		$hydrator =& $this->_template[$part];
+		$this->_occurrences[$occurrence] = [$part => $hydrator->hydrate($data)];
+	}
 
 	/**
-	 * Get the MIME type of this part
+	 * Test if a particular part identifier is known for a particular occurrence
 	 *
-	 * @return string   MIME type
+	 * @param int $occurrence Occurrence index
+	 * @param string $part Part identifier
+	 * @return bool Is known part identifier
 	 */
-	public function getMimeType();
+	protected function _isKnownPartIdentifier($occurrence, $part)
+	{
+		return parent::_isKnownPartIdentifier($occurrence,
+			$part) || (($part == self::WILDCARD) && count($this->_occurrences[$occurrence]));
+	}
 
 	/**
-	 * Return the associated hydrator
+	 * Return a particular part of a particular occurrence
 	 *
-	 * @return Hydrator Associated hydrator
+	 * @param int $occurrence Occurrence index
+	 * @param string $part Part identifier
+	 * @return Part Part instance
 	 */
-	public function getHydrator();
+	protected function _getOccurrencePart(&$occurrence, &$part)
+	{
+		reset($this->_occurrences[$occurrence]);
 
-	/**
-	 * Delegate a method call to a subpart
-	 *
-	 * @param string $method Method nae
-	 * @param array $subparts Subpart identifiers
-	 * @param array $arguments Method arguments
-	 * @return mixed Method result
-	 */
-	public function delegate($method, array $subparts, array $arguments);
+		if ($part == self::WILDCARD) {
+			$part = key($this->_occurrences[$occurrence]);
+		}
+
+		return parent::_getOccurrencePart($occurrence, $part);
+	}
 }

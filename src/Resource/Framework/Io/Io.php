@@ -41,8 +41,8 @@ use Apparat\Resource\Framework\Io\File\Writer as FileWriter;
 use Apparat\Resource\Framework\Io\InMemory\AbstractInMemoryReaderWriter;
 use Apparat\Resource\Framework\Io\InMemory\Reader as InMemoryReader;
 use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
-use Apparat\Resource\Model\Reader;
-use Apparat\Resource\Model\Writer;
+use Apparat\Resource\Domain\Model\Reader;
+use Apparat\Resource\Domain\Model\Writer;
 
 /**
  * Reader / writer utilities

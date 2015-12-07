@@ -126,7 +126,7 @@ class CommonMarkTest extends TestBase
     /**
      * Test getting the HTML content of a CommonMark file with unallowed subparts
      *
-     * @expectedException \Apparat\Resource\Model\Part\InvalidArgumentException
+     * @expectedException \Apparat\Resource\Domain\Model\Part\InvalidArgumentException
      * @expectedExceptionCode 1447365624
      */
     public function testCommonMarkResourceHtmlSubparts()

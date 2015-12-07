@@ -33,40 +33,67 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Model\Part;
-
-use Apparat\Resource\Model\Hydrator\Hydrator;
+namespace Apparat\Resource\Domain\Model\Part;
 
 /**
- * Part sequence
+ * Invalid file part argument exception
  *
- * @package Apparat\Resource\Model\Part
+ * @package Apparat\Resource\Domain\Model\Part
  */
-class PartSequence extends PartAggregate
+class InvalidArgumentException extends \InvalidArgumentException
 {
     /**
-     * Add an occurrence
+     * Subparts are not allowed
      *
-     * @return void
+     * @var int
      */
-    protected function _addOccurrence()
-    {
-        $this->_occurrences[] = array_fill_keys(array_keys($this->_template), null);
-    }
-
+    const SUBPARTS_NOT_ALLOWED = 1447365624;
     /**
-     * Assign data to a particular part
+     * Invalid minimum occurrences
      *
-     * @param string $part Part identifier
-     * @param string $data Part data
-     * @param null|int $occurrence Occurrence to assign the part data to
+     * @var int
      */
-    public function assign($part, $data, $occurrence = null)
-    {
-        $occurrence = $this->_prepareAssignment($part, $occurrence);
-
-        /** @var Hydrator $hydrator */
-        $hydrator =& $this->_template[$part];
-        $this->_occurrences[$occurrence][$part] = $hydrator->hydrate($data);
-    }
+    const INVALID_MINIMUM_OCCURRENCES = 1447021191;
+    /**
+     * Invalid maximum occurrences
+     *
+     * @var int
+     */
+    const INVALID_MAXIMUM_OCCURRENCES = 1447021211;
+    /**
+     * Invalid part identifier
+     *
+     * @var int
+     */
+    const INVALID_PART_IDENTIFIER = 1447364401;
+    /**
+     * Unknown part identifier
+     *
+     * @var int
+     */
+    const UNKNOWN_PART_IDENTIFIER = 1447876475;
+    /**
+     * Too few subpart identifiers
+     *
+     * @var int
+     */
+    const TOO_FEW_SUBPART_IDENTIFIERS = 1448051332;
+    /**
+     * Invalid occurrence identifier
+     *
+     * @var int
+     */
+    const INVALID_OCCURRENCE_INDEX = 1448051596;
+    /**
+     * Part does not exist
+     *
+     * @var int
+     */
+    const PART_DOES_NOT_EXIST = 1448053518;
+    /**
+     * Unknown part method
+     *
+     * @var int
+     */
+    const UNKNOWN_PART_METHOD = 1448225222;
 }

@@ -40,8 +40,8 @@ use Apparat\Resource\Framework\Io\InMemory\ReaderWriter;
 use Apparat\Resource\Framework\Io\InMemory\Writer;
 use Apparat\Resource\Framework\Part\TextPart;
 use Apparat\Resource\Framework\Resource\TextResource;
-use Apparat\Resource\Model\Part\InvalidArgumentException;
-use Apparat\Resource\Model\RuntimeException;
+use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;
+use Apparat\Resource\Domain\Model\RuntimeException;
 
 /**
  * Text file tests
