@@ -42,8 +42,8 @@ use Apparat\Resource\Domain\Model\Hydrator\RuntimeException;
 use Apparat\Resource\Domain\Model\Part\AbstractPartAggregate;
 use Apparat\Resource\Domain\Model\Part\OutOfBoundsException;
 use Apparat\Resource\Domain\Model\Part\PartAggregateInterface;
-use Apparat\Resource\Framework\Hydrator\TextHydrator;
-use Apparat\Resource\Framework\Part\TextPart;
+use Apparat\Resource\Framework\Model\Hydrator\TextHydrator;
+use Apparat\Resource\Framework\Model\Part\TextPart;
 
 
 /**

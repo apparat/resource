@@ -33,48 +33,40 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Part;
+namespace Apparat\Resource\Framework\Model\Hydrator;
 
-use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
+
+use Apparat\Resource\Domain\Model\Hydrator\AbstractSinglepartHydrator;
+use Apparat\Resource\Domain\Model\Part\PartInterface;
+use Apparat\Resource\Framework\Model\Part\TextPart;
 
 /**
- * JSON resource part
+ * Text part hydrator
  *
- * @package Apparat\Resource\Framework\Part
+ * @package Apparat\Resource\Framework\Model\Hydrator
  */
-class JsonPart extends AbstractContentPart
+class TextHydrator extends AbstractSinglepartHydrator
 {
-	/**
-	 * Mime type
-	 *
-	 * @var string
-	 */
-	const MIME_TYPE = 'application/json';
 
 	/**
-	 * Return the unserialized JSON source
+	 * Serialize a resource part
 	 *
-	 * @return array Unserialized JSON data
+	 * @param PartInterface $part Resource part
+	 * @return string Serialized resource part
 	 */
-	public function getData()
+	public function dehydrate(PartInterface $part)
 	{
-		$data = array();
-
-		if (strlen($this->_content)) {
-			$data = json_decode($this->_content, true);
-		}
-
-		return $data;
+		return strval($part);
 	}
 
 	/**
-	 * Set JSON data
+	 * Translate data to a text resource part
 	 *
-	 * @param array $data New data
-	 * @return JsonPart Self reference
+	 * @param string $data Part data
+	 * @return TextPart Text resource part
 	 */
-	public function setData(array $data)
+	public function hydrate($data)
 	{
-		return $this->set(json_encode($data, JSON_PRETTY_PRINT));
+		return new TextPart($data, $this);
 	}
 }

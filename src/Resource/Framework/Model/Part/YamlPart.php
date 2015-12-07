@@ -33,25 +33,57 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Hydrator;
+namespace Apparat\Resource\Framework\Model\Part;
 
-use Apparat\Resource\Framework\Part\CommonMarkPart;
+use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
+use Symfony\Component\Yaml\Yaml;
 
 /**
- * CommonMark part hydrator
+ * YAML resource part
  *
- * @package Apparat\Resource\Framework\Hydrator
+ * @package Apparat\Resource\Framework\Model\Part
+ * @see http://yaml.org/spec/1.2/spec.pdf
+ * @see http://yaml.org/spec/1.2/spec.html
  */
-class CommonMarkHydrator extends TextHydrator
+class YamlPart extends AbstractContentPart
 {
-    /**
-     * Translate data to a CommonMark resource part
-     *
-     * @param string $data Part data
-     * @return CommonMarkPart CommonMark resource part
-     */
-    public function hydrate($data)
-    {
-        return new CommonMarkPart($data, $this);
-    }
+	/**
+	 * Mime type
+	 *
+	 * @var string
+	 */
+	const MIME_TYPE = 'text/x-yaml';
+	/**
+	 * Document end marker
+	 *
+	 * @var string
+	 */
+	const DOCUMENT_END = '...';
+
+	/**
+	 * Return the unserialized YAML source
+	 *
+	 * @return array Unserialized YAML data
+	 */
+	public function getData()
+	{
+		$data = array();
+
+		if (strlen($this->_content)) {
+			$data = Yaml::parse($this->_content);
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Set YAML data
+	 *
+	 * @param array $data New data
+	 * @return YamlPart Self reference
+	 */
+	public function setData(array $data)
+	{
+		return $this->set(Yaml::dump($data));
+	}
 }

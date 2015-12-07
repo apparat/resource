@@ -33,57 +33,31 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Part;
+namespace Apparat\Resource\Framework\Service;
 
-use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
-use Symfony\Component\Yaml\Yaml;
+use Apparat\Resource\Domain\Contract\ReaderInterface;
 
 /**
- * YAML resource part
+ * I/O handler base
  *
- * @package Apparat\Resource\Framework\Part
- * @see http://yaml.org/spec/1.2/spec.pdf
- * @see http://yaml.org/spec/1.2/spec.html
+ * @package Apparat\Resource\Framework\Io
  */
-class YamlPart extends AbstractContentPart
+abstract class AbstractService
 {
 	/**
-	 * Mime type
+	 * Resource reader instance
 	 *
-	 * @var string
+	 * @var ReaderInterface
 	 */
-	const MIME_TYPE = 'text/x-yaml';
-	/**
-	 * Document end marker
-	 *
-	 * @var string
-	 */
-	const DOCUMENT_END = '...';
+	protected $_reader = null;
 
 	/**
-	 * Return the unserialized YAML source
-	 *
-	 * @return array Unserialized YAML data
+	 * I/O handler constructor
+	 * .
+	 * @param ReaderInterface $reader Resource reader instance
 	 */
-	public function getData()
+	public function __construct(ReaderInterface $reader)
 	{
-		$data = array();
-
-		if (strlen($this->_content)) {
-			$data = Yaml::parse($this->_content);
-		}
-
-		return $data;
-	}
-
-	/**
-	 * Set YAML data
-	 *
-	 * @param array $data New data
-	 * @return YamlPart Self reference
-	 */
-	public function setData(array $data)
-	{
-		return $this->set(Yaml::dump($data));
+		$this->_reader = $reader;
 	}
 }

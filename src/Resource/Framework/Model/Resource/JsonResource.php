@@ -33,51 +33,39 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Resource;
-
+namespace Apparat\Resource\Framework\Model\Resource;
 
 use Apparat\Resource\Domain\Contract\ReaderInterface;
 use Apparat\Resource\Domain\Contract\WriterInterface;
 use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
-use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
+use Apparat\Resource\Framework\Model\Hydrator\JsonHydrator;
 
 /**
- * CommonMark resource
+ * JSON resource
  *
- * @package Apparat\Resource\Framework\Resource
- * @method CommonMarkResource set() set(string $data) Set the content of the resource
- * @method CommonMarkResource setPart() setPart(string $data, string $part = '/') Set the content of the resource
- * @method CommonMarkResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
- * @method CommonMarkResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
- * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the resource
- * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
- * @method CommonMarkResource from($src) static from($src, ...$parameters) Instantiate from source
+ * @package Apparat\Resource\Framework\Model\Resource
+ * @method JsonResource set() set(array $data) Set the content of the resource
+ * @method JsonResource setPart() setPart(array $data, string $part = '/') Set the content of the resource
+ * @method array getDataPart() getDataPart(string $part = '/') Get the JSON data of the resource
+ * @method JsonResource setData() setData(array $data) Set the JSON data of the resource
+ * @method JsonResource setDataPart() setDataPart(array $data, string $part = '/') Set the JSON data of the resource
+ * @method JsonResource from($src) static from($src, ...$parameters) Instantiate from source
  * @method WriterInterface to() to($target, ...$parameters) Write to target
  */
-class CommonMarkResource extends AbstractSinglePartResource
+class JsonResource extends AbstractSinglePartResource
 {
 	/**
-	 * Use resource factory and text resource convenience methods and properties
+	 * Use resource factory and data resource convenience methods and properties
 	 */
-	use FactoryMethods, TextResourceMethods;
+	use FactoryMethods, DataResourceMethods;
 
 	/**
-	 * CommonMark resource constructor
+	 * JSON resource constructor
 	 *
 	 * @param ReaderInterface $reader Reader instance
 	 */
 	public function __construct(ReaderInterface $reader = null)
 	{
-		parent::__construct($reader, CommonMarkHydrator::class);
-	}
-
-	/**
-	 * Convert the sole CommonMark source to HTML
-	 *
-	 * @return string CommonMark HTML
-	 */
-	public function getHtml()
-	{
-		return $this->getHtmlPart('/');
+		parent::__construct($reader, JsonHydrator::class);
 	}
 }

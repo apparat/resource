@@ -33,25 +33,25 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Io;
+namespace Apparat\Resource\Framework\Model\Hydrator;
+
+use Apparat\Resource\Framework\Model\Part\CommonMarkPart;
 
 /**
- * Invalid I/O argument exception
+ * CommonMark part hydrator
  *
- * @package Apparat\Resource\Framework\Io
+ * @package Apparat\Resource\Framework\Model\Hydrator
  */
-class InvalidArgumentException extends \InvalidArgumentException
+class CommonMarkHydrator extends TextHydrator
 {
-	/**
-	 * Invalid reader stream wrapper
-	 *
-	 * @var int
-	 */
-	const INVALID_READER_STREAM_WRAPPER = 1448493550;
-	/**
-	 * Invalid writer stream wrapper
-	 *
-	 * @var int
-	 */
-	const INVALID_WRITER_STREAM_WRAPPER = 1448493564;
+    /**
+     * Translate data to a CommonMark resource part
+     *
+     * @param string $data Part data
+     * @return CommonMarkPart CommonMark resource part
+     */
+    public function hydrate($data)
+    {
+        return new CommonMarkPart($data, $this);
+    }
 }

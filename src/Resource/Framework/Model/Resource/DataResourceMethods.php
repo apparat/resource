@@ -33,38 +33,38 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Resource;
+namespace Apparat\Resource\Framework\Model\Resource;
 
-use Apparat\Resource\Domain\Model\Part\PartInterface;
+use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
+use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
 
 /**
- * Text resource convenience methods
+ * Data resource convenience methods
  *
- * @package Apparat\Resource\Framework\Resource
- * @method TextResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
- * @method TextResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
+ * @package Apparat\Resource\Framework\Model\Resource
+ * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the resource
+ * @method AbstractSinglePartResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the resource
  */
-trait TextResourceMethods
+trait DataResourceMethods
 {
 	/**
-	 * Append content to the sole part
+	 * Return the unserialized sole data content
 	 *
-	 * @param string $data Contents
-	 * @return PartInterface New part
+	 * @return array Unserialized data content
 	 */
-	public function append($data)
+	public function getData()
 	{
-		return $this->appendPart($data, '/');
+		return $this->getDataPart('/');
 	}
 
 	/**
-	 * Prepend content to the sole part
+	 * Set the sole data content
 	 *
-	 * @param string $data Contents
-	 * @return PartInterface New text part
+	 * @param array $data New data
+	 * @return AbstractContentPart Self reference
 	 */
-	public function prepend($data)
+	public function setData(array $data)
 	{
-		return $this->prependPart($data, '/');
+		return $this->setDataPart($data, '/');
 	}
 }

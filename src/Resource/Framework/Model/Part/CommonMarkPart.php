@@ -33,39 +33,76 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Io;
+namespace Apparat\Resource\Framework\Model\Part;
 
-use Apparat\Resource\Framework\Io\File\Reader as FileReader;
+use League\CommonMark\DocParser;
+use League\CommonMark\Environment;
+use League\CommonMark\HtmlRenderer;
 
 /**
- * Resource move operation
+ * CommonMark resource part
  *
- * @package Apparat\Resource\Framework\Io
+ * @package Apparat\Resource\Framework\Model\Part
  */
-class Delete extends IoHandler
+class CommonMarkPart extends TextPart
 {
+	/**
+	 * Mime type
+	 *
+	 * @var string
+	 */
+	const MIME_TYPE = 'text/x-markdown';
+
+	/**
+	 * Convert the CommonMark source to HTML
+	 *
+	 * @return string CommonMark HTML
+	 */
+	public function getHtml()
+	{
+		$html = '';
+
+		if (strlen($this->_content)) {
+			$environment = $this->_environment();
+			$parser = new DocParser($environment);
+			$renderer = new HtmlRenderer($environment);
+			$html = $renderer->renderBlock($parser->parse($this->_content));
+		}
+
+		return $html;
+	}
+
 	/*******************************************************************************
-	 * MAGIC METHODS
+	 * PRIVATE METHODS
 	 *******************************************************************************/
 
 	/**
-	 * Delete the resource
+	 * Create and return a CommonMark environment
 	 *
-	 * @return boolean Success
-	 * @throws RuntimeException If the resource cannot be deleted
+	 * @return Environment CommonMark environment
 	 */
-	public function __invoke()
+	protected function _environment()
 	{
-		// If a file resource is read
-		if ($this->_reader instanceof FileReader) {
 
-			// If a copy error occurs
-			if (!@unlink($this->_reader->getFile())) {
-				throw new RuntimeException(sprintf('Could not delete "%s"', $this->_reader->getFile()),
-					RuntimeException::COULD_NOT_DELETE_FILE);
-			}
-		}
+		// Obtain a pre-configured Environment with all the CommonMark parsers/renderers ready-to-go
+		$environment = Environment::createCommonMarkEnvironment();
 
-		return true;
+		// Custom environment initialization
+		$this->_initializeEnvironment($environment);
+
+		return $environment;
+	}
+
+	/**
+	 * Custom environment initialization
+	 *
+	 * Overwrite this method in subclasses to register your own parsers/renderers.
+	 *
+	 * @param Environment $environment
+	 */
+	protected function _initializeEnvironment(Environment $environment)
+	{
+		// Optional: Add your own parsers/renderers here, if desired
+		// For example:  $environment->addInlineParser(new TwitterHandleParser());
 	}
 }

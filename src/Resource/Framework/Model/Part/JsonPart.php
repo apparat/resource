@@ -33,31 +33,48 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Io;
+namespace Apparat\Resource\Framework\Model\Part;
+
+use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
 
 /**
- * I/O runtime exception
+ * JSON resource part
  *
- * @package Apparat\Resource\Framework\Io
+ * @package Apparat\Resource\Framework\Model\Part
  */
-class RuntimeException extends \RuntimeException
+class JsonPart extends AbstractContentPart
 {
 	/**
-	 * Could not copy file to file
+	 * Mime type
 	 *
-	 * @var int
+	 * @var string
 	 */
-	const COULD_NOT_COPY_FILE_TO_FILE = 1448569381;
+	const MIME_TYPE = 'application/json';
+
 	/**
-	 * Could not copy file to file
+	 * Return the unserialized JSON source
 	 *
-	 * @var int
+	 * @return array Unserialized JSON data
 	 */
-	const COULD_NOT_MOVE_FILE_TO_FILE = 1448571473;
+	public function getData()
+	{
+		$data = array();
+
+		if (strlen($this->_content)) {
+			$data = json_decode($this->_content, true);
+		}
+
+		return $data;
+	}
+
 	/**
-	 * Could not delete file
+	 * Set JSON data
 	 *
-	 * @var int
+	 * @param array $data New data
+	 * @return JsonPart Self reference
 	 */
-	const COULD_NOT_DELETE_FILE = 1448574428;
+	public function setData(array $data)
+	{
+		return $this->set(json_encode($data, JSON_PRETTY_PRINT));
+	}
 }

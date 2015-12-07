@@ -33,17 +33,17 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Resource;
+namespace Apparat\Resource\Framework\Model\Resource;
 
 use Apparat\Resource\Domain\Contract\ReaderInterface;
 use Apparat\Resource\Domain\Contract\WriterInterface;
 use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
-use Apparat\Resource\Framework\Hydrator\YamlHydrator;
+use Apparat\Resource\Framework\Model\Hydrator\YamlHydrator;
 
 /**
  * YAML resource
  *
- * @package Apparat\Resource\Framework\Resource
+ * @package Apparat\Resource\Framework\Model\Resource
  * @method YamlResource set() set(array $data) Set the content of the resource
  * @method YamlResource setPart() setPart(array $data, string $part = '/') Set the content of the resource
  * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the resource

@@ -33,38 +33,44 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Resource;
+namespace Apparat\Resource\Framework\Model\Part;
 
-use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
+
 use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
 
 /**
- * Data resource convenience methods
+ * Text resource part
  *
- * @package Apparat\Resource\Framework\Resource
- * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the resource
- * @method AbstractSinglePartResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the resource
+ * @package Apparat\Resource\Framework\Model\Part
  */
-trait DataResourceMethods
+class TextPart extends AbstractContentPart
 {
-	/**
-	 * Return the unserialized sole data content
-	 *
-	 * @return array Unserialized data content
-	 */
-	public function getData()
-	{
-		return $this->getDataPart('/');
-	}
+    /**
+     * Mime type
+     *
+     * @var string
+     */
+    const MIME_TYPE = 'plain/text';
 
-	/**
-	 * Set the sole data content
-	 *
-	 * @param array $data New data
-	 * @return AbstractContentPart Self reference
-	 */
-	public function setData(array $data)
-	{
-		return $this->setDataPart($data, '/');
-	}
+    /**
+     * Append content to this part
+     *
+     * @param string $data Contents
+     * @return TextPart Modified text part
+     */
+    public function append($data)
+    {
+        return $this->set($this->_content.$data);
+    }
+
+    /**
+     * Prepend content to this part
+     *
+     * @param string $data Contents
+     * @return TextPart Modified text part
+     */
+    public function prepend($data)
+    {
+        return $this->set($data.$this->_content);
+    }
 }

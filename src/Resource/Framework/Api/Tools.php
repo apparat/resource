@@ -33,7 +33,7 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Io;
+namespace Apparat\Resource\Framework\Api;
 
 use Apparat\Resource\Domain\Contract\ReaderInterface;
 use Apparat\Resource\Domain\Contract\WriterInterface;
@@ -43,13 +43,16 @@ use Apparat\Resource\Framework\Io\File\Writer as FileWriter;
 use Apparat\Resource\Framework\Io\InMemory\AbstractInMemoryReaderWriter;
 use Apparat\Resource\Framework\Io\InMemory\Reader as InMemoryReader;
 use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
+use Apparat\Resource\Framework\Service\Copy;
+use Apparat\Resource\Framework\Service\Delete;
+use Apparat\Resource\Framework\Service\Move;
 
 /**
  * Reader / writer utilities
  *
- * @package Apparat\Resource\Framework\Io
+ * @package Apparat\Resource\Framework\Service
  */
-class Io
+class Tools
 {
 	/**
 	 * Reader classes for stream wrappers

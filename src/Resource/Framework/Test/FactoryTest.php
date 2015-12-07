@@ -37,8 +37,8 @@ namespace ApparatTest;
 
 use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
 use Apparat\Resource\Framework\Io\File\Writer as FileWriter;
-use Apparat\Resource\Framework\Io\InvalidArgumentException;
-use Apparat\Resource\Framework\Resource\TextResource;
+use Apparat\Resource\Framework\Api\InvalidArgumentException;
+use Apparat\Resource\Framework\Model\Resource\TextResource;
 
 /**
  * Resource factory tests

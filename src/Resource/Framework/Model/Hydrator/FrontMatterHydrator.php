@@ -33,44 +33,66 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Part;
+namespace Apparat\Resource\Framework\Model\Hydrator;
 
-
-use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
+use Apparat\Resource\Domain\Model\Hydrator\AbstractChoiceHydrator;
+use Apparat\Resource\Domain\Model\Part\PartInterface;
+use Apparat\Resource\Framework\Model\Part\YamlPart;
 
 /**
- * Text resource part
+ * FrontMark part hydrator (combination of YAML / JSON front matter and CommonMark part)
  *
- * @package Apparat\Resource\Framework\Part
+ * @package Apparat\Resource\Framework\Model\Hydrator
  */
-class TextPart extends AbstractContentPart
+class FrontMatterHydrator extends AbstractChoiceHydrator
 {
-    /**
-     * Mime type
-     *
-     * @var string
-     */
-    const MIME_TYPE = 'plain/text';
+	/**
+	 * Front matter part identifier
+	 *
+	 * @var string
+	 */
+	const FRONTMATTER = 'frontmatter';
 
-    /**
-     * Append content to this part
-     *
-     * @param string $data Contents
-     * @return TextPart Modified text part
-     */
-    public function append($data)
-    {
-        return $this->set($this->_content.$data);
-    }
+	/**
+	 * Translate data to a resource part
+	 *
+	 * @param string $data Part data
+	 * @return PartInterface Resource part
+	 */
+	public function hydrate($data)
+	{
+		$aggregate = parent::hydrate(null);
 
-    /**
-     * Prepend content to this part
-     *
-     * @param string $data Contents
-     * @return TextPart Modified text part
-     */
-    public function prepend($data)
-    {
-        return $this->set($data.$this->_content);
-    }
+		// If it's a JSON front matter
+		if (!strncmp('{', trim($data), 1)) {
+			$aggregate->assign(JsonHydrator::JSON, $data, 0);
+
+			// Else: Assign as YAML front matter
+		} else {
+			$aggregate->assign(YamlHydrator::YAML, $data, 0);
+		}
+
+		return $aggregate;
+	}
+
+	/**
+	 * Dehydrate a single part with a particular subhydrator
+	 *
+	 * @param string $subhydrator Subhydrator name
+	 * @param PartInterface $part Part instance
+	 * @return string Dehydrated part
+	 */
+	protected function _dehydratePart($subhydrator, PartInterface $part)
+	{
+		$content = trim(parent::_dehydratePart($subhydrator, $part));
+
+		// If it's a YAML part: Terminate if necessary
+		if (strlen($content) && ($part instanceof YamlPart) && !preg_match('%\R'.preg_quote(YamlPart::DOCUMENT_END).'$%',
+				$content)
+		) {
+			$content .= PHP_EOL.YamlPart::DOCUMENT_END;
+		}
+
+		return $content.PHP_EOL;
+	}
 }

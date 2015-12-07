@@ -33,66 +33,51 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Hydrator;
+namespace Apparat\Resource\Framework\Model\Resource;
 
-use Apparat\Resource\Domain\Model\Hydrator\AbstractChoiceHydrator;
-use Apparat\Resource\Domain\Model\Part\PartInterface;
-use Apparat\Resource\Framework\Part\YamlPart;
+
+use Apparat\Resource\Domain\Contract\ReaderInterface;
+use Apparat\Resource\Domain\Contract\WriterInterface;
+use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
+use Apparat\Resource\Framework\Model\Hydrator\CommonMarkHydrator;
 
 /**
- * FrontMark part hydrator (combination of YAML / JSON front matter and CommonMark part)
+ * CommonMark resource
  *
- * @package Apparat\Resource\Framework\Hydrator
+ * @package Apparat\Resource\Framework\Model\Resource
+ * @method CommonMarkResource set() set(string $data) Set the content of the resource
+ * @method CommonMarkResource setPart() setPart(string $data, string $part = '/') Set the content of the resource
+ * @method CommonMarkResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
+ * @method CommonMarkResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
+ * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the resource
+ * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
+ * @method CommonMarkResource from($src) static from($src, ...$parameters) Instantiate from source
+ * @method WriterInterface to() to($target, ...$parameters) Write to target
  */
-class FrontMatterHydrator extends AbstractChoiceHydrator
+class CommonMarkResource extends AbstractSinglePartResource
 {
 	/**
-	 * Front matter part identifier
-	 *
-	 * @var string
+	 * Use resource factory and text resource convenience methods and properties
 	 */
-	const FRONTMATTER = 'frontmatter';
+	use FactoryMethods, TextResourceMethods;
 
 	/**
-	 * Translate data to a resource part
+	 * CommonMark resource constructor
 	 *
-	 * @param string $data Part data
-	 * @return PartInterface Resource part
+	 * @param ReaderInterface $reader Reader instance
 	 */
-	public function hydrate($data)
+	public function __construct(ReaderInterface $reader = null)
 	{
-		$aggregate = parent::hydrate(null);
-
-		// If it's a JSON front matter
-		if (!strncmp('{', trim($data), 1)) {
-			$aggregate->assign(JsonHydrator::JSON, $data, 0);
-
-			// Else: Assign as YAML front matter
-		} else {
-			$aggregate->assign(YamlHydrator::YAML, $data, 0);
-		}
-
-		return $aggregate;
+		parent::__construct($reader, CommonMarkHydrator::class);
 	}
 
 	/**
-	 * Dehydrate a single part with a particular subhydrator
+	 * Convert the sole CommonMark source to HTML
 	 *
-	 * @param string $subhydrator Subhydrator name
-	 * @param PartInterface $part Part instance
-	 * @return string Dehydrated part
+	 * @return string CommonMark HTML
 	 */
-	protected function _dehydratePart($subhydrator, PartInterface $part)
+	public function getHtml()
 	{
-		$content = trim(parent::_dehydratePart($subhydrator, $part));
-
-		// If it's a YAML part: Terminate if necessary
-		if (strlen($content) && ($part instanceof YamlPart) && !preg_match('%\R'.preg_quote(YamlPart::DOCUMENT_END).'$%',
-				$content)
-		) {
-			$content .= PHP_EOL.YamlPart::DOCUMENT_END;
-		}
-
-		return $content.PHP_EOL;
+		return $this->getHtmlPart('/');
 	}
 }

@@ -33,31 +33,39 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Io;
+namespace Apparat\Resource\Framework\Service;
 
-use Apparat\Resource\Domain\Contract\ReaderInterface;
+use Apparat\Resource\Framework\Io\File\Reader as FileReader;
 
 /**
- * I/O handler base
+ * Resource move operation
  *
  * @package Apparat\Resource\Framework\Io
  */
-abstract class IoHandler
+class Delete extends AbstractService
 {
-	/**
-	 * Resource reader instance
-	 *
-	 * @var ReaderInterface
-	 */
-	protected $_reader = null;
+	/*******************************************************************************
+	 * MAGIC METHODS
+	 *******************************************************************************/
 
 	/**
-	 * I/O handler constructor
-	 * .
-	 * @param ReaderInterface $reader Resource reader instance
+	 * Delete the resource
+	 *
+	 * @return boolean Success
+	 * @throws RuntimeException If the resource cannot be deleted
 	 */
-	public function __construct(ReaderInterface $reader)
+	public function __invoke()
 	{
-		$this->_reader = $reader;
+		// If a file resource is read
+		if ($this->_reader instanceof FileReader) {
+
+			// If a copy error occurs
+			if (!@unlink($this->_reader->getFile())) {
+				throw new RuntimeException(sprintf('Could not delete "%s"', $this->_reader->getFile()),
+					RuntimeException::COULD_NOT_DELETE_FILE);
+			}
+		}
+
+		return true;
 	}
 }

@@ -33,40 +33,41 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Hydrator;
+namespace Apparat\Resource\Framework\Model\Resource;
 
 
-use Apparat\Resource\Domain\Model\Hydrator\AbstractSinglepartHydrator;
-use Apparat\Resource\Domain\Model\Part\PartInterface;
-use Apparat\Resource\Framework\Part\TextPart;
+use Apparat\Resource\Domain\Contract\ReaderInterface;
+use Apparat\Resource\Domain\Contract\WriterInterface;
+use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
+use Apparat\Resource\Framework\Model\Hydrator\TextHydrator;
 
 /**
- * Text part hydrator
+ * Text resource
  *
- * @package Apparat\Resource\Framework\Hydrator
+ * @package Apparat\Resource\Framework\Model\Resource
+ * @method TextResource set() set(string $data) Set the content of the resource
+ * @method TextResource setPart() setPart(string $data, string $part = '/') Set the content of the resource
+ * @method TextResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
+ * @method TextResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
+ * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
+ * @method string undefinedMethod() undefinedMethod() Undefined method dummy
+ * @method TextResource from($src) static from($src, ...$parameters) Instantiate from source
+ * @method WriterInterface to() to($target, ...$parameters) Write to target
  */
-class TextHydrator extends AbstractSinglepartHydrator
+class TextResource extends AbstractSinglePartResource
 {
+	/**
+	 * Use resource factory and text resource convenience methods and properties
+	 */
+	use FactoryMethods, TextResourceMethods;
 
 	/**
-	 * Serialize a resource part
+	 * Text resource constructor
 	 *
-	 * @param PartInterface $part Resource part
-	 * @return string Serialized resource part
+	 * @param ReaderInterface $reader Reader instance
 	 */
-	public function dehydrate(PartInterface $part)
+	public function __construct(ReaderInterface $reader = null)
 	{
-		return strval($part);
-	}
-
-	/**
-	 * Translate data to a text resource part
-	 *
-	 * @param string $data Part data
-	 * @return TextPart Text resource part
-	 */
-	public function hydrate($data)
-	{
-		return new TextPart($data, $this);
+		parent::__construct($reader, TextHydrator::class);
 	}
 }

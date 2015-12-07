@@ -33,7 +33,7 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Resource;
+namespace Apparat\Resource\Framework\Model\Resource;
 
 use Apparat\Resource\Domain\Contract\ReaderInterface;
 use Apparat\Resource\Domain\Contract\WriterInterface;
@@ -41,16 +41,16 @@ use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
 use Apparat\Resource\Domain\Model\Part\PartChoice;
 use Apparat\Resource\Domain\Model\Resource\AbstractResource;
-use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
-use Apparat\Resource\Framework\Hydrator\FrontMarkHydrator;
-use Apparat\Resource\Framework\Hydrator\FrontMatterHydrator;
-use Apparat\Resource\Framework\Hydrator\JsonHydrator;
-use Apparat\Resource\Framework\Hydrator\YamlHydrator;
+use Apparat\Resource\Framework\Model\Hydrator\CommonMarkHydrator;
+use Apparat\Resource\Framework\Model\Hydrator\FrontMarkHydrator;
+use Apparat\Resource\Framework\Model\Hydrator\FrontMatterHydrator;
+use Apparat\Resource\Framework\Model\Hydrator\JsonHydrator;
+use Apparat\Resource\Framework\Model\Hydrator\YamlHydrator;
 
 /**
  * FrontMark resource (CommonMark resource with YAML or JSON front matter)
  *
- * @package Apparat\Resource\Framework\Resource
+ * @package Apparat\Resource\Framework\Model\Resource
  * @method FrontMarkResource setPart() setPart(array $data, string $part = '/') Set the content of the resource
  * @method FrontMarkResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
  * @method FrontMarkResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource

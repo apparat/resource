@@ -35,9 +35,9 @@
 
 namespace ApparatTest;
 
-use Apparat\Resource\Framework\Resource\CommonMarkResource;
+use Apparat\Resource\Framework\Model\Resource\CommonMarkResource;
 use Apparat\Resource\Framework\Io\InMemory\Reader;
-use Apparat\Resource\Framework\Part\CommonMarkPart;
+use Apparat\Resource\Framework\Model\Part\CommonMarkPart;
 
 /**
  * CommonMark file tests

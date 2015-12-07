@@ -38,10 +38,10 @@ namespace ApparatTest;
 use Apparat\Resource\Framework\Io\InMemory\Reader;
 use Apparat\Resource\Framework\Io\InMemory\ReaderWriter;
 use Apparat\Resource\Framework\Io\InMemory\Writer;
-use Apparat\Resource\Framework\Part\TextPart;
-use Apparat\Resource\Framework\Resource\TextResource;
+use Apparat\Resource\Framework\Model\Part\TextPart;
+use Apparat\Resource\Framework\Model\Resource\TextResource;
 use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;
-use Apparat\Resource\Domain\Model\RuntimeException;
+use Apparat\Resource\Domain\Model\Resource\RuntimeException;
 
 /**
  * Text file tests

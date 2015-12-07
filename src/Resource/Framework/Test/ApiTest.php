@@ -33,7 +33,7 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Io {
+namespace Apparat\Resource\Framework\Service {
 
 	/**
 	 * Mocked version of the native copy() function
@@ -79,17 +79,17 @@ namespace Apparat\Resource\Framework\Io {
 
 namespace ApparatTest {
 
+	use Apparat\Resource\Framework\Api\InvalidArgumentException;
+	use Apparat\Resource\Framework\Service\RuntimeException;
+	use Apparat\Resource\Framework\Api\Tools;
 	use Apparat\Resource\Framework\Io\InMemory\Writer;
-	use Apparat\Resource\Framework\Io\InvalidArgumentException;
-	use Apparat\Resource\Framework\Io\Io;
-	use Apparat\Resource\Framework\Io\RuntimeException;
 
 	/**
 	 * I/O handler test
 	 *
 	 * @package ApparatTest
 	 */
-	class IoTest extends TestBase
+	class ApiTest extends TestBase
 	{
 		/**
 		 * Example text file
@@ -106,7 +106,7 @@ namespace ApparatTest {
 		 */
 		public function testCopyInvalidReaderStreamWrapper()
 		{
-			Io::copy('foo://bar');
+			Tools::copy('foo://bar');
 		}
 
 		/**
@@ -117,7 +117,7 @@ namespace ApparatTest {
 		 */
 		public function testCopyInvalidWriterStreamWrapper()
 		{
-			Io::copy('file://'.self::TXT_FILE)->to('foo://bar');
+			Tools::copy('file://'.self::TXT_FILE)->to('foo://bar');
 		}
 
 		/**
@@ -127,7 +127,7 @@ namespace ApparatTest {
 		{
 			$tempFile = $this->_createTemporaryFile(true);
 			$randomString = md5(rand());
-			Io::copy($randomString)->to('file://'.$tempFile);
+			Tools::copy($randomString)->to('file://'.$tempFile);
 			$this->assertStringEqualsFile($tempFile, $randomString);
 		}
 
@@ -137,7 +137,7 @@ namespace ApparatTest {
 		public function testCopyFileToFile()
 		{
 			$tempFile = $this->_createTemporaryFile(true);
-			Io::copy('file://'.self::TXT_FILE)->to('file://'.$tempFile);
+			Tools::copy('file://'.self::TXT_FILE)->to('file://'.$tempFile);
 			$this->assertFileEquals($tempFile, self::TXT_FILE);
 		}
 
@@ -151,7 +151,7 @@ namespace ApparatTest {
 		{
 			$GLOBALS['mockCopy'] = true;
 			$tempFile = $this->_createTemporaryFile(true);
-			Io::copy('file://'.self::TXT_FILE)->to('file://'.$tempFile);
+			Tools::copy('file://'.self::TXT_FILE)->to('file://'.$tempFile);
 			$this->assertFileEquals($tempFile, self::TXT_FILE);
 			unset($GLOBALS['mockCopy']);
 		}
@@ -163,7 +163,7 @@ namespace ApparatTest {
 		{
 			$randomString = md5(rand());
 			/** @var Writer $writer */
-			$writer = Io::copy($randomString)->to('');
+			$writer = Tools::copy($randomString)->to('');
 			$this->assertInstanceOf(Writer::class, $writer);
 			$this->assertEquals($randomString, $writer->getData());
 		}
@@ -174,7 +174,7 @@ namespace ApparatTest {
 		public function testCopyFileToString()
 		{
 			/** @var Writer $writer */
-			$writer = Io::copy('file://'.self::TXT_FILE)->to('');
+			$writer = Tools::copy('file://'.self::TXT_FILE)->to('');
 			$this->assertInstanceOf(Writer::class, $writer);
 			$this->assertStringEqualsFile(self::TXT_FILE, $writer->getData());
 		}
@@ -187,7 +187,7 @@ namespace ApparatTest {
 		 */
 		public function testMoveInvalidReaderStreamWrapper()
 		{
-			Io::move('foo://bar');
+			Tools::move('foo://bar');
 		}
 
 		/**
@@ -198,7 +198,7 @@ namespace ApparatTest {
 		 */
 		public function testMoveInvalidWriterStreamWrapper()
 		{
-			Io::move('file://'.self::TXT_FILE)->to('foo://bar');
+			Tools::move('file://'.self::TXT_FILE)->to('foo://bar');
 		}
 
 		/**
@@ -208,7 +208,7 @@ namespace ApparatTest {
 		{
 			$tempFile = $this->_createTemporaryFile(true);
 			$randomString = md5(rand());
-			Io::move($randomString)->to('file://'.$tempFile);
+			Tools::move($randomString)->to('file://'.$tempFile);
 			$this->assertStringEqualsFile($tempFile, $randomString);
 		}
 
@@ -220,7 +220,7 @@ namespace ApparatTest {
 			$srcFile = $this->_createTemporaryFile(true);
 			copy(self::TXT_FILE, $srcFile);
 			$tempFile = $this->_createTemporaryFile(true);
-			Io::move('file://'.$srcFile)->to('file://'.$tempFile);
+			Tools::move('file://'.$srcFile)->to('file://'.$tempFile);
 			$this->assertFileEquals(self::TXT_FILE, $tempFile);
 		}
 
@@ -234,7 +234,7 @@ namespace ApparatTest {
 		{
 			$GLOBALS['mockMove'] = true;
 			$tempFile = $this->_createTemporaryFile(true);
-			Io::move('file://'.self::TXT_FILE)->to('file://'.$tempFile);
+			Tools::move('file://'.self::TXT_FILE)->to('file://'.$tempFile);
 			$this->assertFileEquals($tempFile, self::TXT_FILE);
 			unset($GLOBALS['mockMove']);
 		}
@@ -246,7 +246,7 @@ namespace ApparatTest {
 		{
 			$randomString = md5(rand());
 			/** @var Writer $writer */
-			$writer = Io::move($randomString)->to('');
+			$writer = Tools::move($randomString)->to('');
 			$this->assertInstanceOf(Writer::class, $writer);
 			$this->assertEquals($randomString, $writer->getData());
 		}
@@ -259,7 +259,7 @@ namespace ApparatTest {
 			$srcFile = $this->_createTemporaryFile(true);
 			copy(self::TXT_FILE, $srcFile);
 			/** @var Writer $writer */
-			$writer = Io::move('file://'.$srcFile)->to('');
+			$writer = Tools::move('file://'.$srcFile)->to('');
 			$this->assertInstanceOf(Writer::class, $writer);
 			$this->assertStringEqualsFile(self::TXT_FILE, $writer->getData());
 		}
@@ -271,7 +271,7 @@ namespace ApparatTest {
 		{
 			$srcFile = $this->_createTemporaryFile(true);
 			copy(self::TXT_FILE, $srcFile);
-			$this->assertEquals(true, Io::delete('file://'.$srcFile));
+			$this->assertEquals(true, Tools::delete('file://'.$srcFile));
 			$this->assertFileNotExists($srcFile);
 		}
 
@@ -284,7 +284,7 @@ namespace ApparatTest {
 		public function testDeleteFileError()
 		{
 			$GLOBALS['mockUnlink'] = true;
-			Io::delete('file://'.self::TXT_FILE);
+			Tools::delete('file://'.self::TXT_FILE);
 			unset($GLOBALS['mockUnlink']);
 		}
 
@@ -296,7 +296,7 @@ namespace ApparatTest {
 		 */
 		public function testDeleteInvalidReaderStreamWrapper()
 		{
-			Io::delete('foo://bar');
+			Tools::delete('foo://bar');
 		}
 	}
 }

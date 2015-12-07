@@ -33,7 +33,7 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Hydrator;
+namespace Apparat\Resource\Framework\Model\Hydrator;
 
 use Apparat\Resource\Application\Service\StringUtility;
 use Apparat\Resource\Domain\Model\Hydrator\AbstractSequenceHydrator;
@@ -43,7 +43,7 @@ use Apparat\Resource\Domain\Model\Part\PartAggregateInterface;
 /**
  * FrontMark part hydrator (combination of YAML / JSON front matter and CommonMark part)
  *
- * @package Apparat\Resource\Framework\Hydrator
+ * @package Apparat\Resource\Framework\Model\Hydrator
  */
 class FrontMarkHydrator extends AbstractSequenceHydrator
 {

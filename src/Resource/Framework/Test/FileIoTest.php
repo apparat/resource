@@ -58,7 +58,7 @@ namespace Apparat\Resource\Framework\Io\File {
 
 namespace ApparatTest {
 
-    use Apparat\Resource\Framework\Resource\TextResource;
+    use Apparat\Resource\Framework\Model\Resource\TextResource;
     use Apparat\Resource\Framework\Io\File\InvalidArgumentException;
     use Apparat\Resource\Framework\Io\File\Reader;
     use Apparat\Resource\Framework\Io\File\ReaderWriter;

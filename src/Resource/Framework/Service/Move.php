@@ -33,9 +33,11 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Io;
+namespace Apparat\Resource\Framework\Service;
 
 use Apparat\Resource\Domain\Contract\WriterInterface;
+use Apparat\Resource\Framework\Api\InvalidArgumentException;
+use Apparat\Resource\Framework\Api\Tools;
 use Apparat\Resource\Framework\Io\File\Reader as FileReader;
 use Apparat\Resource\Framework\Io\File\Writer as FileWriter;
 use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
@@ -45,7 +47,7 @@ use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
  *
  * @package Apparat\Resource\Framework\Io
  */
-class Move extends IoHandler
+class Move extends AbstractService
 {
 	/*******************************************************************************
 	 * PUBLIC METHODS
@@ -61,7 +63,7 @@ class Move extends IoHandler
 	 */
 	public function to($target, ...$parameters)
 	{
-		$writer = Io::writer($target, $parameters);
+		$writer = Tools::writer($target, $parameters);
 
 		// If it's a file writer
 		if ($writer instanceof FileWriter) {

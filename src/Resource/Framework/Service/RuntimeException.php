@@ -33,41 +33,31 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Resource;
-
-
-use Apparat\Resource\Domain\Contract\ReaderInterface;
-use Apparat\Resource\Domain\Contract\WriterInterface;
-use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
-use Apparat\Resource\Framework\Hydrator\TextHydrator;
+namespace Apparat\Resource\Framework\Service;
 
 /**
- * Text resource
+ * I/O runtime exception
  *
- * @package Apparat\Resource\Framework\Resource
- * @method TextResource set() set(string $data) Set the content of the resource
- * @method TextResource setPart() setPart(string $data, string $part = '/') Set the content of the resource
- * @method TextResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
- * @method TextResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
- * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
- * @method string undefinedMethod() undefinedMethod() Undefined method dummy
- * @method TextResource from($src) static from($src, ...$parameters) Instantiate from source
- * @method WriterInterface to() to($target, ...$parameters) Write to target
+ * @package Apparat\Resource\Framework\Io
  */
-class TextResource extends AbstractSinglePartResource
+class RuntimeException extends \RuntimeException
 {
 	/**
-	 * Use resource factory and text resource convenience methods and properties
-	 */
-	use FactoryMethods, TextResourceMethods;
-
-	/**
-	 * Text resource constructor
+	 * Could not copy file to file
 	 *
-	 * @param ReaderInterface $reader Reader instance
+	 * @var int
 	 */
-	public function __construct(ReaderInterface $reader = null)
-	{
-		parent::__construct($reader, TextHydrator::class);
-	}
+	const COULD_NOT_COPY_FILE_TO_FILE = 1448569381;
+	/**
+	 * Could not copy file to file
+	 *
+	 * @var int
+	 */
+	const COULD_NOT_MOVE_FILE_TO_FILE = 1448571473;
+	/**
+	 * Could not delete file
+	 *
+	 * @var int
+	 */
+	const COULD_NOT_DELETE_FILE = 1448574428;
 }

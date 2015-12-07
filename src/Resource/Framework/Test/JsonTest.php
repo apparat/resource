@@ -36,8 +36,8 @@
 namespace ApparatTest;
 
 use Apparat\Resource\Framework\Io\InMemory\Reader;
-use Apparat\Resource\Framework\Part\JsonPart;
-use Apparat\Resource\Framework\Resource\JsonResource;
+use Apparat\Resource\Framework\Model\Part\JsonPart;
+use Apparat\Resource\Framework\Model\Resource\JsonResource;
 
 \date_default_timezone_set('UTC');
 

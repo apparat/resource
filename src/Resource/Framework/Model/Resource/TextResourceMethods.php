@@ -33,76 +33,38 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Part;
+namespace Apparat\Resource\Framework\Model\Resource;
 
-use League\CommonMark\DocParser;
-use League\CommonMark\Environment;
-use League\CommonMark\HtmlRenderer;
+use Apparat\Resource\Domain\Model\Part\PartInterface;
 
 /**
- * CommonMark resource part
+ * Text resource convenience methods
  *
- * @package Apparat\Resource\Framework\Part
+ * @package Apparat\Resource\Framework\Model\Resource
+ * @method TextResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
+ * @method TextResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
  */
-class CommonMarkPart extends TextPart
+trait TextResourceMethods
 {
 	/**
-	 * Mime type
+	 * Append content to the sole part
 	 *
-	 * @var string
+	 * @param string $data Contents
+	 * @return PartInterface New part
 	 */
-	const MIME_TYPE = 'text/x-markdown';
-
-	/**
-	 * Convert the CommonMark source to HTML
-	 *
-	 * @return string CommonMark HTML
-	 */
-	public function getHtml()
+	public function append($data)
 	{
-		$html = '';
-
-		if (strlen($this->_content)) {
-			$environment = $this->_environment();
-			$parser = new DocParser($environment);
-			$renderer = new HtmlRenderer($environment);
-			$html = $renderer->renderBlock($parser->parse($this->_content));
-		}
-
-		return $html;
-	}
-
-	/*******************************************************************************
-	 * PRIVATE METHODS
-	 *******************************************************************************/
-
-	/**
-	 * Create and return a CommonMark environment
-	 *
-	 * @return Environment CommonMark environment
-	 */
-	protected function _environment()
-	{
-
-		// Obtain a pre-configured Environment with all the CommonMark parsers/renderers ready-to-go
-		$environment = Environment::createCommonMarkEnvironment();
-
-		// Custom environment initialization
-		$this->_initializeEnvironment($environment);
-
-		return $environment;
+		return $this->appendPart($data, '/');
 	}
 
 	/**
-	 * Custom environment initialization
+	 * Prepend content to the sole part
 	 *
-	 * Overwrite this method in subclasses to register your own parsers/renderers.
-	 *
-	 * @param Environment $environment
+	 * @param string $data Contents
+	 * @return PartInterface New text part
 	 */
-	protected function _initializeEnvironment(Environment $environment)
+	public function prepend($data)
 	{
-		// Optional: Add your own parsers/renderers here, if desired
-		// For example:  $environment->addInlineParser(new TwitterHandleParser());
+		return $this->prependPart($data, '/');
 	}
 }

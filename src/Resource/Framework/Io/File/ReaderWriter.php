@@ -35,7 +35,6 @@
 
 namespace Apparat\Resource\Framework\Io\File;
 
-
 use Apparat\Resource\Domain\Contract\ReaderInterface;
 
 /**

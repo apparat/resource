@@ -33,32 +33,32 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Hydrator;
+namespace Apparat\Resource\Framework\Model\Hydrator;
 
-use Apparat\Resource\Framework\Part\JsonPart;
+use Apparat\Resource\Framework\Model\Part\YamlPart;
 
 /**
  * CommonMark part hydrator
  *
- * @package Apparat\Resource\Framework\Hydrator
+ * @package Apparat\Resource\Framework\Model\Hydrator
  */
-class JsonHydrator extends TextHydrator
+class YamlHydrator extends TextHydrator
 {
     /**
-     * JSON part identifier
+     * YAML part identifier
      *
      * @var string
      */
-    const JSON = 'json';
+    const YAML = 'yaml';
 
     /**
-     * Translate data to a JSON resource part
+     * Translate data to a YAML resource part
      *
      * @param string $data Part data
-     * @return JsonPart JSON resource part
+     * @return YamlPart YAML resource part
      */
     public function hydrate($data)
     {
-        return new JsonPart($data, $this);
+        return new YamlPart($data, $this);
     }
 }
