@@ -35,7 +35,7 @@
 
 namespace Apparat\Resource\Domain\Model\Part;
 
-use Apparat\Resource\Domain\Model\Hydrator\SinglepartHydrator;
+use Apparat\Resource\Domain\Model\Hydrator\AbstractSinglepartHydrator;
 
 /**
  * Content part
@@ -62,9 +62,9 @@ abstract class AbstractContentPart extends AbstractPart
 	 * Part constructor
 	 *
 	 * @param string $content Part content
-	 * @param SinglepartHydrator $hydrator Associated hydrator
+	 * @param AbstractSinglepartHydrator $hydrator Associated hydrator
 	 */
-	public function __construct($content = '', SinglepartHydrator $hydrator)
+	public function __construct($content = '', AbstractSinglepartHydrator $hydrator)
 	{
 		parent::__construct($hydrator);
 		$this->_content = $content;

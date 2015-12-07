@@ -42,7 +42,7 @@ use Apparat\Resource\Domain\Model\Part\PartInterface;
  *
  * @package Apparat\Resource\Domain\Model\Hydrator
  */
-interface Hydrator
+interface HydratorInterface
 {
 	/**
 	 * Default hydrator name

@@ -35,7 +35,7 @@
 
 namespace Apparat\Resource\Domain\Model\Part;
 
-use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
+use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 
 /**
  * File part interface
@@ -78,7 +78,7 @@ interface PartInterface
 	/**
 	 * Return the associated hydrator
 	 *
-	 * @return Hydrator Associated hydrator
+	 * @return HydratorInterface Associated hydrator
 	 */
 	public function getHydrator();
 

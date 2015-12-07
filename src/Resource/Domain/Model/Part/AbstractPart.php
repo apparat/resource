@@ -35,7 +35,7 @@
 
 namespace Apparat\Resource\Domain\Model\Part;
 
-use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
+use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 
 /**
  * Abstract base class for file parts
@@ -47,16 +47,16 @@ abstract class AbstractPart implements PartInterface
 	/**
 	 * Associated hydrator
 	 *
-	 * @var Hydrator
+	 * @var HydratorInterface
 	 */
 	protected $_hydrator = null;
 
 	/**
 	 * Abstract part constructor
 	 *
-	 * @param Hydrator $hydrator Associated hydrator
+	 * @param HydratorInterface $hydrator Associated hydrator
 	 */
-	public function __construct(Hydrator $hydrator)
+	public function __construct(HydratorInterface $hydrator)
 	{
 		$this->_hydrator = $hydrator;
 	}
@@ -64,7 +64,7 @@ abstract class AbstractPart implements PartInterface
 	/**
 	 * Return the associated hydrator
 	 *
-	 * @return Hydrator Associated hydrator
+	 * @return HydratorInterface Associated hydrator
 	 */
 	public function getHydrator()
 	{

@@ -37,7 +37,7 @@ namespace Apparat\Resource\Framework\Resource;
 
 use Apparat\Resource\Domain\Contract\ReaderInterface;
 use Apparat\Resource\Domain\Contract\WriterInterface;
-use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
+use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
 use Apparat\Resource\Domain\Model\Part\PartChoice;
 use Apparat\Resource\Domain\Model\Resource\AbstractResource;
@@ -84,7 +84,7 @@ class FrontMarkResource extends AbstractResource
 					],
 					FrontMatterHydrator::class
 				],
-				Hydrator::STANDARD => CommonMarkHydrator::class,
+				HydratorInterface::STANDARD => CommonMarkHydrator::class,
 			],
 			FrontMarkHydrator::class
 		));
@@ -98,7 +98,7 @@ class FrontMarkResource extends AbstractResource
 	 */
 	public function set($data)
 	{
-		return $this->setPart($data, '/0/'.Hydrator::STANDARD);
+		return $this->setPart($data, '/0/'.HydratorInterface::STANDARD);
 	}
 
 	/**
@@ -108,7 +108,7 @@ class FrontMarkResource extends AbstractResource
 	 */
 	public function get()
 	{
-		return $this->getPart('/0/'.Hydrator::STANDARD);
+		return $this->getPart('/0/'.HydratorInterface::STANDARD);
 	}
 
 	/**
@@ -119,7 +119,7 @@ class FrontMarkResource extends AbstractResource
 	 */
 	public function append($data)
 	{
-		return $this->appendPart($data, '/0/'.Hydrator::STANDARD);
+		return $this->appendPart($data, '/0/'.HydratorInterface::STANDARD);
 	}
 
 	/**
@@ -130,7 +130,7 @@ class FrontMarkResource extends AbstractResource
 	 */
 	public function prepend($data)
 	{
-		return $this->prependPart($data, '/0/'.Hydrator::STANDARD);
+		return $this->prependPart($data, '/0/'.HydratorInterface::STANDARD);
 	}
 
 	/**
@@ -140,7 +140,7 @@ class FrontMarkResource extends AbstractResource
 	 */
 	public function getHtml()
 	{
-		return $this->getHtmlPart('/0/'.Hydrator::STANDARD);
+		return $this->getHtmlPart('/0/'.HydratorInterface::STANDARD);
 	}
 
 	/**

@@ -35,6 +35,7 @@
 
 namespace Apparat\Resource\Domain\Model\Hydrator;
 
+use Apparat\Resource\Domain\Factory\HydratorFactory;
 use Apparat\Resource\Domain\Model\Part\AbstractPart;
 use Apparat\Resource\Domain\Model\Part\AbstractPartAggregate;
 use Apparat\Resource\Domain\Model\Part\PartAggregateInterface;
@@ -45,7 +46,7 @@ use Apparat\Resource\Domain\Model\Part\PartInterface;
  *
  * @package Apparat\Resource\Domain\Model\Hydrator
  */
-abstract class MultipartHydrator extends AbstractHydrator
+abstract class AbstractMultipartHydrator extends AbstractHydrator
 {
 	/**
 	 * Subhydrators
@@ -87,7 +88,7 @@ abstract class MultipartHydrator extends AbstractHydrator
 	 */
 	public function __construct(array $subhydrators, $minOccurrences = 1, $maxOccurrences = 1)
 	{
-		parent::__construct(Hydrator::STANDARD);
+		parent::__construct(HydratorInterface::STANDARD);
 
 		// Run through all subhydrators
 		foreach ($subhydrators as $part => $subhydrator) {
@@ -96,7 +97,7 @@ abstract class MultipartHydrator extends AbstractHydrator
 			AbstractPart::validatePartIdentifier($part);
 
 			// If the subhydrator needs to be instantiated from a string or array
-			if (!($subhydrator instanceof Hydrator)) {
+			if (!($subhydrator instanceof HydratorInterface)) {
 				$subhydrator = HydratorFactory::build(is_array($subhydrator) ? $subhydrator : [[$part => $subhydrator]]);
 			}
 
@@ -213,7 +214,7 @@ abstract class MultipartHydrator extends AbstractHydrator
 	 */
 	protected function _dehydratePart($subhydrator, PartInterface $part)
 	{
-		/** @var Hydrator $subhydratorInstance */
+		/** @var HydratorInterface $subhydratorInstance */
 		$subhydratorInstance = $this->_subhydrators[$subhydrator];
 		return $subhydratorInstance->dehydrate($part);
 	}

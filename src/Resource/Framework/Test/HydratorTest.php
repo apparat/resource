@@ -35,8 +35,8 @@
 
 namespace ApparatTest;
 
-use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
-use Apparat\Resource\Domain\Model\Hydrator\HydratorFactory;
+use Apparat\Resource\Domain\Factory\HydratorFactory;
+use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Hydrator\InvalidArgumentException;
 use Apparat\Resource\Domain\Model\Hydrator\RuntimeException;
 use Apparat\Resource\Domain\Model\Part\AbstractPartAggregate;
@@ -145,7 +145,7 @@ trait AggregateHydratorMocks
  *
  * @package ApparatTest
  */
-class SequenceHydrator extends \Apparat\Resource\Domain\Model\Hydrator\SequenceHydrator
+class AbstractSequenceHydrator extends \Apparat\Resource\Domain\Model\Hydrator\AbstractSequenceHydrator
 {
 	/**
 	 * Use multipart hydrator mock methods
@@ -158,7 +158,7 @@ class SequenceHydrator extends \Apparat\Resource\Domain\Model\Hydrator\SequenceH
  *
  * @package ApparatTest
  */
-class ChoiceHydrator extends \Apparat\Resource\Domain\Model\Hydrator\ChoiceHydrator
+class AbstractChoiceHydrator extends \Apparat\Resource\Domain\Model\Hydrator\AbstractChoiceHydrator
 {
 	/**
 	 * Use multipart hydrator mock methods
@@ -249,7 +249,7 @@ class HydratorTest extends TestBase
 	public function testInvalidMultipartHydratorParameters()
 	{
 		$GLOBALS['mockValidateParameters'] = true;
-		HydratorFactory::build([[1, 2], SequenceHydrator::class, true]);
+		HydratorFactory::build([[1, 2], AbstractSequenceHydrator::class, true]);
 		unset($GLOBALS['mockValidateParameters']);
 	}
 
@@ -261,7 +261,7 @@ class HydratorTest extends TestBase
 	 */
 	public function testTooFewMultipartHydratorParameters()
 	{
-		HydratorFactory::build([[1, 2], SequenceHydrator::class, 0]);
+		HydratorFactory::build([[1, 2], AbstractSequenceHydrator::class, 0]);
 	}
 
 	/**
@@ -272,7 +272,7 @@ class HydratorTest extends TestBase
 	 */
 	public function testInvalidMultipartHydratorMinimumOccurrences()
 	{
-		HydratorFactory::build([[1, 2], SequenceHydrator::class, 0, 1]);
+		HydratorFactory::build([[1, 2], AbstractSequenceHydrator::class, 0, 1]);
 	}
 
 	/**
@@ -283,7 +283,7 @@ class HydratorTest extends TestBase
 	 */
 	public function testInvalidMultipartHydratorMaximumOccurrences()
 	{
-		HydratorFactory::build([[1, 2], SequenceHydrator::class, 2, 1]);
+		HydratorFactory::build([[1, 2], AbstractSequenceHydrator::class, 2, 1]);
 	}
 
 	/**
@@ -294,7 +294,7 @@ class HydratorTest extends TestBase
 	 */
 	public function testInvalidMultipartSubhydratorClass()
 	{
-		HydratorFactory::build([[\stdClass::class, \stdClass::class], SequenceHydrator::class, 1, 1]);
+		HydratorFactory::build([[\stdClass::class, \stdClass::class], AbstractSequenceHydrator::class, 1, 1]);
 	}
 
 	/**
@@ -302,14 +302,14 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydrator()
 	{
-		/** @var SequenceHydrator $sequenceHydrator */
+		/** @var AbstractSequenceHydrator $sequenceHydrator */
 		$sequenceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			SequenceHydrator::class,
+			AbstractSequenceHydrator::class,
 			1,
 			1
 		]);
-		$this->assertInstanceOf(SequenceHydrator::class, $sequenceHydrator);
+		$this->assertInstanceOf(AbstractSequenceHydrator::class, $sequenceHydrator);
 	}
 
 	/**
@@ -317,14 +317,14 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydratorName()
 	{
-		/** @var SequenceHydrator $sequenceHydrator */
+		/** @var AbstractSequenceHydrator $sequenceHydrator */
 		$sequenceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			SequenceHydrator::class,
+			AbstractSequenceHydrator::class,
 			1,
 			1
 		]);
-		$this->assertEquals(Hydrator::STANDARD, $sequenceHydrator->getName());
+		$this->assertEquals(HydratorInterface::STANDARD, $sequenceHydrator->getName());
 	}
 
 	/**
@@ -335,10 +335,10 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydratorDehydrationOfInvalidPart()
 	{
-		/** @var SequenceHydrator $sequenceHydrator */
+		/** @var AbstractSequenceHydrator $sequenceHydrator */
 		$sequenceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			SequenceHydrator::class,
+			AbstractSequenceHydrator::class,
 			1,
 			1
 		]);
@@ -353,10 +353,10 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydratorDehydrationWithInvalidOccurrenceDehydration()
 	{
-		/** @var SequenceHydrator $sequenceHydrator */
+		/** @var AbstractSequenceHydrator $sequenceHydrator */
 		$sequenceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			SequenceHydrator::class,
+			AbstractSequenceHydrator::class,
 			1,
 			1
 		]);
@@ -374,10 +374,10 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydratorInvalidAggregateClass()
 	{
-		/** @var SequenceHydrator $sequenceHydrator */
+		/** @var AbstractSequenceHydrator $sequenceHydrator */
 		$sequenceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			SequenceHydrator::class,
+			AbstractSequenceHydrator::class,
 			1,
 			1
 		]);
@@ -394,10 +394,10 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydratorSequenceEmptyOccurrence()
 	{
-		/** @var SequenceHydrator $sequenceHydrator */
+		/** @var AbstractSequenceHydrator $sequenceHydrator */
 		$sequenceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			SequenceHydrator::class,
+			AbstractSequenceHydrator::class,
 			1,
 			1
 		]);
@@ -415,10 +415,10 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydratorSequenceInvalidSubhydratorName()
 	{
-		/** @var SequenceHydrator $sequenceHydrator */
+		/** @var AbstractSequenceHydrator $sequenceHydrator */
 		$sequenceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			SequenceHydrator::class,
+			AbstractSequenceHydrator::class,
 			1,
 			1
 		]);
@@ -436,10 +436,10 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydratorSequenceInvalidPartInstance()
 	{
-		/** @var SequenceHydrator $sequenceHydrator */
+		/** @var AbstractSequenceHydrator $sequenceHydrator */
 		$sequenceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			SequenceHydrator::class,
+			AbstractSequenceHydrator::class,
 			1,
 			1
 		]);
@@ -454,10 +454,10 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydratorSequenceCount()
 	{
-		/** @var SequenceHydrator $sequenceHydrator */
+		/** @var AbstractSequenceHydrator $sequenceHydrator */
 		$sequenceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			SequenceHydrator::class,
+			AbstractSequenceHydrator::class,
 			1,
 			1
 		]);
@@ -472,10 +472,10 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydratorSequenceInvalidOccurrenceNumber()
 	{
-		/** @var SequenceHydrator $sequenceHydrator */
+		/** @var AbstractSequenceHydrator $sequenceHydrator */
 		$sequenceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			SequenceHydrator::class,
+			AbstractSequenceHydrator::class,
 			1,
 			1
 		]);
@@ -489,10 +489,10 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydratorSequenceSerialization()
 	{
-		/** @var SequenceHydrator $sequenceHydrator */
+		/** @var AbstractSequenceHydrator $sequenceHydrator */
 		$sequenceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			SequenceHydrator::class,
+			AbstractSequenceHydrator::class,
 			1,
 			1
 		]);
@@ -508,10 +508,10 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydratorSequenceInvalidAssignmentPartIdentifier()
 	{
-		/** @var SequenceHydrator $sequenceHydrator */
+		/** @var AbstractSequenceHydrator $sequenceHydrator */
 		$sequenceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			SequenceHydrator::class,
+			AbstractSequenceHydrator::class,
 			1,
 			1
 		]);
@@ -528,10 +528,10 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydratorSequenceUnknownMethod()
 	{
-		/** @var SequenceHydrator $sequenceHydrator */
+		/** @var AbstractSequenceHydrator $sequenceHydrator */
 		$sequenceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			SequenceHydrator::class,
+			AbstractSequenceHydrator::class,
 			1,
 			1
 		]);
@@ -547,10 +547,10 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydratorChoiceEmptyOccurrence()
 	{
-		/** @var ChoiceHydrator $choiceHydrator */
+		/** @var AbstractChoiceHydrator $choiceHydrator */
 		$choiceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			ChoiceHydrator::class,
+			AbstractChoiceHydrator::class,
 			1,
 			1
 		]);
@@ -568,10 +568,10 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydratorChoiceInvalidSubhydratorName()
 	{
-		/** @var ChoiceHydrator $choiceHydrator */
+		/** @var AbstractChoiceHydrator $choiceHydrator */
 		$choiceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			ChoiceHydrator::class,
+			AbstractChoiceHydrator::class,
 			1,
 			1
 		]);
@@ -589,10 +589,10 @@ class HydratorTest extends TestBase
 	 */
 	public function testMultipartHydratorChoiceInvalidPartInstance()
 	{
-		/** @var ChoiceHydrator $choiceHydrator */
+		/** @var AbstractChoiceHydrator $choiceHydrator */
 		$choiceHydrator = HydratorFactory::build([
 			[TextHydrator::class, TextHydrator::class],
-			ChoiceHydrator::class,
+			AbstractChoiceHydrator::class,
 			1,
 			1
 		]);
@@ -610,7 +610,7 @@ class HydratorTest extends TestBase
 	 */
 	public function testInvalidSinglepartHydratorClass()
 	{
-		HydratorFactory::build([[Hydrator::STANDARD => \stdClass::class]]);
+		HydratorFactory::build([[HydratorInterface::STANDARD => \stdClass::class]]);
 	}
 
 	/**
@@ -627,7 +627,7 @@ class HydratorTest extends TestBase
 	 */
 	public function testTextHydratorVerbose()
 	{
-		$textHydrator = HydratorFactory::build([[Hydrator::STANDARD => TextHydrator::class]]);
+		$textHydrator = HydratorFactory::build([[HydratorInterface::STANDARD => TextHydrator::class]]);
 		$this->assertInstanceOf(TextHydrator::class, $textHydrator);
 	}
 
@@ -636,7 +636,7 @@ class HydratorTest extends TestBase
 	 */
 	public function testTextHydratorName()
 	{
-		$textHydrator = HydratorFactory::build([[Hydrator::STANDARD => TextHydrator::class]]);
-		$this->assertEquals(Hydrator::STANDARD, $textHydrator->getName());
+		$textHydrator = HydratorFactory::build([[HydratorInterface::STANDARD => TextHydrator::class]]);
+		$this->assertEquals(HydratorInterface::STANDARD, $textHydrator->getName());
 	}
 }

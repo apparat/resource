@@ -35,7 +35,7 @@
 
 namespace Apparat\Resource\Domain\Model\Part;
 
-use Apparat\Resource\Domain\Model\Hydrator\MultipartHydrator;
+use Apparat\Resource\Domain\Model\Hydrator\AbstractMultipartHydrator;
 
 /**
  * Abstract part aggregate
@@ -94,9 +94,9 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
 	 * @param array $template Subpart template
 	 * @param array|int $minOccurrences Minimum occurrences
 	 * @param int $maxOccurrences Maximum occurrences
-	 * @param MultipartHydrator $hydrator
+	 * @param AbstractMultipartHydrator $hydrator
 	 */
-	public function __construct(array $template, $minOccurrences = 1, $maxOccurrences = 1, MultipartHydrator $hydrator)
+	public function __construct(array $template, $minOccurrences = 1, $maxOccurrences = 1, AbstractMultipartHydrator $hydrator)
 	{
 		self::validateOccurrences($minOccurrences, $maxOccurrences);
 		$this->_template = $template;

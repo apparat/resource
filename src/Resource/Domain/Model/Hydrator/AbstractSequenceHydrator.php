@@ -43,7 +43,7 @@ use Apparat\Resource\Domain\Model\Part\PartSequence;
  *
  * @package Apparat\Resource\Domain\Model\Hydrator
  */
-abstract class SequenceHydrator extends MultipartHydrator
+abstract class AbstractSequenceHydrator extends AbstractMultipartHydrator
 {
     /**
      * Part aggregate class name

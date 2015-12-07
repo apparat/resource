@@ -37,8 +37,8 @@ namespace Apparat\Resource\Domain\Model\Resource;
 
 use Apparat\Resource\Domain\Contract\ReaderInterface;
 use Apparat\Resource\Domain\Contract\WriterInterface;
-use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
-use Apparat\Resource\Domain\Model\Hydrator\HydratorFactory;
+use Apparat\Resource\Domain\Factory\HydratorFactory;
+use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Part\AbstractPart;
 use Apparat\Resource\Domain\Model\Part\PartInterface;
 
@@ -65,7 +65,7 @@ abstract class AbstractResource
 	/**
 	 * File hydrator
 	 *
-	 * @var Hydrator
+	 * @var HydratorInterface
 	 */
 	private $_hydrator = null;
 
@@ -164,12 +164,12 @@ abstract class AbstractResource
 	 * Private constructor
 	 *
 	 * @param ReaderInterface $reader Reader instance
-	 * @param Hydrator|array|string $hydrator File hydrator
+	 * @param HydratorInterface|array|string $hydrator File hydrator
 	 */
 	protected function __construct(ReaderInterface $reader = null, $hydrator)
 	{
 		// If the hydrator needs to be instantiated from a string or array
-		if (!($hydrator instanceof Hydrator)) {
+		if (!($hydrator instanceof HydratorInterface)) {
 			$hydrator = HydratorFactory::build((array)$hydrator);
 		}
 

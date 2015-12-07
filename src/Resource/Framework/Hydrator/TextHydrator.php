@@ -36,7 +36,7 @@
 namespace Apparat\Resource\Framework\Hydrator;
 
 
-use Apparat\Resource\Domain\Model\Hydrator\SinglepartHydrator;
+use Apparat\Resource\Domain\Model\Hydrator\AbstractSinglepartHydrator;
 use Apparat\Resource\Domain\Model\Part\PartInterface;
 use Apparat\Resource\Framework\Part\TextPart;
 
@@ -45,7 +45,7 @@ use Apparat\Resource\Framework\Part\TextPart;
  *
  * @package Apparat\Resource\Framework\Hydrator
  */
-class TextHydrator extends SinglepartHydrator
+class TextHydrator extends AbstractSinglepartHydrator
 {
 
 	/**

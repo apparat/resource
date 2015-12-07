@@ -35,7 +35,7 @@
 
 namespace ApparatTest;
 
-use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
+use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;
 use Apparat\Resource\Domain\Model\Part\OutOfBoundsException;
 use Apparat\Resource\Domain\Model\Part\PartChoice;
@@ -63,7 +63,7 @@ class PartSequenceMock extends PartSequence
 	 */
 	public function invalidateCommonMarkPart()
 	{
-		$this->_occurrences[0][Hydrator::STANDARD] = null;
+		$this->_occurrences[0][HydratorInterface::STANDARD] = null;
 	}
 }
 
@@ -105,7 +105,7 @@ class FrontMarkResourceMock extends AbstractResource
 					],
 					FrontMatterHydrator::class
 				],
-				Hydrator::STANDARD => CommonMarkHydrator::class,
+				HydratorInterface::STANDARD => CommonMarkHydrator::class,
 			],
 			FrontMarkHydratorMock::class
 		));
@@ -281,7 +281,7 @@ class FrontMarkTest extends TestBase
 	{
 		$frontMarkResource = new FrontMarkResourceMock(new Reader($this->_yamlFrontMark));
 		$frontMarkResource->invalidateCommonMarkPart();
-		$frontMarkResource->getPart('/0/'.Hydrator::STANDARD);
+		$frontMarkResource->getPart('/0/'.HydratorInterface::STANDARD);
 	}
 
 	/**
@@ -374,7 +374,7 @@ class FrontMarkTest extends TestBase
 		$randomSet = md5(rand());
 		$frontMarkResource = new FrontMarkResource(new Reader($this->_yamlFrontMark));
 		$frontMarkResource->set($randomSet);
-		$this->assertEquals($randomSet, $frontMarkResource->getPart('/0/'.Hydrator::STANDARD));
+		$this->assertEquals($randomSet, $frontMarkResource->getPart('/0/'.HydratorInterface::STANDARD));
 		$this->assertEquals($randomSet, $frontMarkResource->get());
 	}
 

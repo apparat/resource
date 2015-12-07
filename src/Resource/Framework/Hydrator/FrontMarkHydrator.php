@@ -36,8 +36,8 @@
 namespace Apparat\Resource\Framework\Hydrator;
 
 use Apparat\Resource\Application\Utility;
-use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
-use Apparat\Resource\Domain\Model\Hydrator\SequenceHydrator;
+use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
+use Apparat\Resource\Domain\Model\Hydrator\AbstractSequenceHydrator;
 use Apparat\Resource\Domain\Model\Part\PartAggregateInterface;
 
 /**
@@ -45,7 +45,7 @@ use Apparat\Resource\Domain\Model\Part\PartAggregateInterface;
  *
  * @package Apparat\Resource\Framework\Hydrator
  */
-class FrontMarkHydrator extends SequenceHydrator
+class FrontMarkHydrator extends AbstractSequenceHydrator
 {
 	/**
 	 * Translate data to a YAML resource part
@@ -75,7 +75,7 @@ class FrontMarkHydrator extends SequenceHydrator
 
 		// Assign the front matter and body part
 		$aggregate->assign(FrontMatterHydrator::FRONTMATTER, $frontMatter, 0);
-		$aggregate->assign(Hydrator::STANDARD, $commonMarkBody, 0);
+		$aggregate->assign(HydratorInterface::STANDARD, $commonMarkBody, 0);
 
 		return $aggregate;
 	}

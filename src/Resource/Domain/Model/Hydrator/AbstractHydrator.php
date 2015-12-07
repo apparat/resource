@@ -40,32 +40,32 @@ namespace Apparat\Resource\Domain\Model\Hydrator;
  *
  * @package Apparat\Resource\Domain\Model\Hydrator
  */
-abstract class AbstractHydrator implements Hydrator
+abstract class AbstractHydrator implements HydratorInterface
 {
-    /**
-     * Part name
-     *
-     * @var string
-     */
-    protected $_name = '';
+	/**
+	 * Part name
+	 *
+	 * @var string
+	 */
+	protected $_name = '';
 
-    /**
-     * Hydrator constructor
-     *
-     * @param string $name Part name
-     */
-    public function __construct($name)
-    {
-        $this->_name = trim($name);
-    }
+	/**
+	 * Hydrator constructor
+	 *
+	 * @param string $name Part name
+	 */
+	public function __construct($name)
+	{
+		$this->_name = trim($name);
+	}
 
-    /**
-     * Return the part name
-     *
-     * @return string Part name
-     */
-    public function getName()
-    {
-        return $this->_name;
-    }
+	/**
+	 * Return the part name
+	 *
+	 * @return string Part name
+	 */
+	public function getName()
+	{
+		return $this->_name;
+	}
 }

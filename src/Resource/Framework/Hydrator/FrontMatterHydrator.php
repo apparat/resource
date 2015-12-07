@@ -35,7 +35,7 @@
 
 namespace Apparat\Resource\Framework\Hydrator;
 
-use Apparat\Resource\Domain\Model\Hydrator\ChoiceHydrator;
+use Apparat\Resource\Domain\Model\Hydrator\AbstractChoiceHydrator;
 use Apparat\Resource\Domain\Model\Part\PartInterface;
 use Apparat\Resource\Framework\Part\YamlPart;
 
@@ -44,7 +44,7 @@ use Apparat\Resource\Framework\Part\YamlPart;
  *
  * @package Apparat\Resource\Framework\Hydrator
  */
-class FrontMatterHydrator extends ChoiceHydrator
+class FrontMatterHydrator extends AbstractChoiceHydrator
 {
 	/**
 	 * Front matter part identifier

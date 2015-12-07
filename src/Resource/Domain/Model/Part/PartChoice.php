@@ -35,7 +35,7 @@
 
 namespace Apparat\Resource\Domain\Model\Part;
 
-use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
+use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 
 /**
  * Part choice
@@ -72,7 +72,7 @@ class PartChoice extends AbstractPartAggregate
 	{
 		$occurrence = $this->_prepareAssignment($part, $occurrence);
 
-		/** @var Hydrator $hydrator */
+		/** @var HydratorInterface $hydrator */
 		$hydrator =& $this->_template[$part];
 		$this->_occurrences[$occurrence] = [$part => $hydrator->hydrate($data)];
 	}
