@@ -35,52 +35,85 @@
 
 namespace Apparat\Resource\Domain\Model\Part;
 
-use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
+use Apparat\Resource\Domain\Model\Hydrator\SinglepartHydrator;
 
 /**
- * File part interface
+ * Content part
  *
  * @package Apparat\Resource\Domain\Model\Part
  */
-interface Part
+abstract class AbstractContentPart extends AbstractPart
 {
+	/**
+	 * Mime type
+	 *
+	 * @var string
+	 */
+	const MIME_TYPE = 'application/octet-stream';
+
+	/**
+	 * Text content
+	 *
+	 * @var string
+	 */
+	protected $_content = '';
+
+	/**
+	 * Part constructor
+	 *
+	 * @param string $content Part content
+	 * @param SinglepartHydrator $hydrator Associated hydrator
+	 */
+	public function __construct($content = '', SinglepartHydrator $hydrator)
+	{
+		parent::__construct($hydrator);
+		$this->_content = $content;
+	}
+
 	/**
 	 * Serialize this file part
 	 *
 	 * @return string   File part content
 	 */
-	public function __toString();
+	public function __toString()
+	{
+		return strval($this->_content);
+	}
+
+	/**
+	 * Return the mime type of this part
+	 *
+	 * @return string   MIME type
+	 */
+	public function getMimeType()
+	{
+		return static::MIME_TYPE;
+	}
 
 	/**
 	 * Set the contents of a part
 	 *
-	 * @param mixed $data Contents
-	 * @param array $subparts Subpart identifiers
-	 * @return Part Modified part
+	 * @param string $data Contents
+	 * @return AbstractContentPart New content part
 	 */
-	public function set($data, array $subparts = []);
+	public function set($data, array $subparts = [])
+	{
+		$class = get_class($this);
+		return new $class($data, $this->_hydrator);
+	}
 
 	/**
-	 * Return a nested subpart (or the part itself)
+	 * Return the part itself
+	 *
+	 * Content parts don't have subparts, so this method will always return the part itself
 	 *
 	 * @param array $subparts Subpart identifiers
-	 * @return Part Nested subpart (or the part itself)
+	 * @return PartInterface Self reference
 	 */
-	public function get(array $subparts = []);
-
-	/**
-	 * Get the MIME type of this part
-	 *
-	 * @return string   MIME type
-	 */
-	public function getMimeType();
-
-	/**
-	 * Return the associated hydrator
-	 *
-	 * @return Hydrator Associated hydrator
-	 */
-	public function getHydrator();
+	public function get(array $subparts = [])
+	{
+		return $this;
+	}
 
 	/**
 	 * Delegate a method call to a subpart
@@ -89,6 +122,16 @@ interface Part
 	 * @param array $subparts Subpart identifiers
 	 * @param array $arguments Method arguments
 	 * @return mixed Method result
+	 * @throws InvalidArgumentException If there are subpart identifiers
 	 */
-	public function delegate($method, array $subparts, array $arguments);
+	public function delegate($method, array $subparts, array $arguments)
+	{
+		// If there are subpart identifiers given
+		if (count($subparts)) {
+			throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
+				InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
+		}
+
+		return parent::delegate($method, $subparts, $arguments);
+	}
 }

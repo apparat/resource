@@ -42,7 +42,7 @@ use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
  *
  * @package Apparat\Resource\Domain\Model\Part
  */
-class PartChoice extends PartAggregate
+class PartChoice extends AbstractPartAggregate
 {
 	/**
 	 * Part name wildcard
@@ -95,7 +95,7 @@ class PartChoice extends PartAggregate
 	 *
 	 * @param int $occurrence Occurrence index
 	 * @param string $part Part identifier
-	 * @return Part Part instance
+	 * @return PartInterface Part instance
 	 */
 	protected function _getOccurrencePart(&$occurrence, &$part)
 	{

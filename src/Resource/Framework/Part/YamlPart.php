@@ -35,7 +35,7 @@
 
 namespace Apparat\Resource\Framework\Part;
 
-use Apparat\Resource\Domain\Model\Part\ContentPart;
+use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -45,7 +45,7 @@ use Symfony\Component\Yaml\Yaml;
  * @see http://yaml.org/spec/1.2/spec.pdf
  * @see http://yaml.org/spec/1.2/spec.html
  */
-class YamlPart extends ContentPart
+class YamlPart extends AbstractContentPart
 {
 	/**
 	 * Mime type

@@ -36,14 +36,14 @@
 namespace Apparat\Resource\Framework\Part;
 
 
-use Apparat\Resource\Domain\Model\Part\ContentPart;
+use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
 
 /**
  * Text resource part
  *
  * @package Apparat\Resource\Framework\Part
  */
-class TextPart extends ContentPart
+class TextPart extends AbstractContentPart
 {
     /**
      * Mime type

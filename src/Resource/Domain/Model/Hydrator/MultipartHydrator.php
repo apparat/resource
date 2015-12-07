@@ -36,8 +36,9 @@
 namespace Apparat\Resource\Domain\Model\Hydrator;
 
 use Apparat\Resource\Domain\Model\Part\AbstractPart;
-use Apparat\Resource\Domain\Model\Part\Part;
-use Apparat\Resource\Domain\Model\Part\PartAggregate;
+use Apparat\Resource\Domain\Model\Part\AbstractPartAggregate;
+use Apparat\Resource\Domain\Model\Part\PartAggregateInterface;
+use Apparat\Resource\Domain\Model\Part\PartInterface;
 
 /**
  * Multipart hydrator
@@ -111,14 +112,14 @@ abstract class MultipartHydrator extends AbstractHydrator
 	/**
 	 * Serialize a file part
 	 *
-	 * @param Part $part File part
+	 * @param PartInterface $part File part
 	 * @return string Serialized file part
 	 * @throws InvalidArgumentException If the part class cannot be dehydrated by this hydrator
 	 */
-	public function dehydrate(Part $part)
+	public function dehydrate(PartInterface $part)
 	{
 		// Make sure it's a part aggregate that should be dehydrated
-		if (!($part instanceof PartAggregate)) {
+		if (!($part instanceof PartAggregateInterface)) {
 			throw new InvalidArgumentException(sprintf('Invalid dehydration part class "%s"', get_class($part)),
 				InvalidArgumentException::INVALID_DEHYDRATION_PART_CLASS);
 		}
@@ -146,13 +147,13 @@ abstract class MultipartHydrator extends AbstractHydrator
 	 * Initialize the aggregate part
 	 *
 	 * @param string $data Part data
-	 * @return PartAggregate Part aggregate
+	 * @return AbstractPartAggregate Part aggregate
 	 */
 	public function hydrate($data)
 	{
 		// If the part aggregate class isn't valid
 		if (!$this->_aggregateClass || !class_exists($this->_aggregateClass) || !is_subclass_of($this->_aggregateClass,
-				PartAggregate::class)
+				PartAggregateInterface::class)
 		) {
 			throw new RuntimeException(sprintf('Invalid part aggregate class "%s"', $this->_aggregateClass),
 				RuntimeException::INVALID_PART_AGGREGATE_CLASS);
@@ -186,7 +187,7 @@ abstract class MultipartHydrator extends AbstractHydrator
 		}
 
 		// Validate the occurrence numbers
-		PartAggregate::validateOccurrences($parameters[0], $parameters[1]);
+		AbstractPartAggregate::validateOccurrences($parameters[0], $parameters[1]);
 
 		return true;
 	}
@@ -207,10 +208,10 @@ abstract class MultipartHydrator extends AbstractHydrator
 	 * Dehydrate a single part with a particular subhydrator
 	 *
 	 * @param string $subhydrator Subhydrator name
-	 * @param Part $part Part instance
+	 * @param PartInterface $part Part instance
 	 * @return string Dehydrated part
 	 */
-	protected function _dehydratePart($subhydrator, Part $part)
+	protected function _dehydratePart($subhydrator, PartInterface $part)
 	{
 		/** @var Hydrator $subhydratorInstance */
 		$subhydratorInstance = $this->_subhydrators[$subhydrator];

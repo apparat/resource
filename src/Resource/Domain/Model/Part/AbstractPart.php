@@ -42,7 +42,7 @@ use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
  *
  * @package Apparat\Resource\Domain\Model\Part
  */
-abstract class AbstractPart implements Part
+abstract class AbstractPart implements PartInterface
 {
 	/**
 	 * Associated hydrator

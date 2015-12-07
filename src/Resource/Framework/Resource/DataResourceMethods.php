@@ -36,7 +36,7 @@
 namespace Apparat\Resource\Framework\Resource;
 
 use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
-use Apparat\Resource\Domain\Model\Part\ContentPart;
+use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
 
 /**
  * Data resource convenience methods
@@ -61,7 +61,7 @@ trait DataResourceMethods
 	 * Set the sole data content
 	 *
 	 * @param array $data New data
-	 * @return ContentPart Self reference
+	 * @return AbstractContentPart Self reference
 	 */
 	public function setData(array $data)
 	{

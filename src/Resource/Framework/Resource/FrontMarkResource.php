@@ -38,7 +38,7 @@ namespace Apparat\Resource\Framework\Resource;
 use Apparat\Resource\Domain\Contract\ReaderInterface;
 use Apparat\Resource\Domain\Contract\WriterInterface;
 use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
-use Apparat\Resource\Domain\Model\Part\ContentPart;
+use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
 use Apparat\Resource\Domain\Model\Part\PartChoice;
 use Apparat\Resource\Domain\Model\Resource\AbstractResource;
 use Apparat\Resource\Framework\Hydrator\CommonMarkHydrator;
@@ -157,7 +157,7 @@ class FrontMarkResource extends AbstractResource
 	 * Set the sole data content
 	 *
 	 * @param array $data New data
-	 * @return ContentPart Self reference
+	 * @return AbstractContentPart Self reference
 	 */
 	public function setData(array $data)
 	{

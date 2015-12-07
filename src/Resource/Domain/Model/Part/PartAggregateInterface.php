@@ -33,38 +33,14 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Resource;
-
-use Apparat\Resource\Domain\Model\Part\PartInterface;
+namespace Apparat\Resource\Domain\Model\Part;
 
 /**
- * Text resource convenience methods
+ * Part aggregate interface
  *
- * @package Apparat\Resource\Framework\Resource
- * @method TextResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
- * @method TextResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
+ * @package Apparat\Resource\Domain\Model\Part
  */
-trait TextResourceMethods
+interface PartAggregateInterface extends PartInterface, \Countable, \Iterator
 {
-	/**
-	 * Append content to the sole part
-	 *
-	 * @param string $data Contents
-	 * @return PartInterface New part
-	 */
-	public function append($data)
-	{
-		return $this->appendPart($data, '/');
-	}
 
-	/**
-	 * Prepend content to the sole part
-	 *
-	 * @param string $data Contents
-	 * @return PartInterface New text part
-	 */
-	public function prepend($data)
-	{
-		return $this->prependPart($data, '/');
-	}
 }

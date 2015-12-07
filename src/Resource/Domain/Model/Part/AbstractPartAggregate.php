@@ -42,7 +42,7 @@ use Apparat\Resource\Domain\Model\Hydrator\MultipartHydrator;
  *
  * @package Apparat\Resource\Domain\Model\Part
  */
-abstract class PartAggregate extends AbstractPart implements \Countable, \Iterator
+abstract class AbstractPartAggregate extends AbstractPart implements PartAggregateInterface
 {
 	/**
 	 * Subpart template
@@ -135,7 +135,7 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 	 * @param array $subparts Subpart path identifiers
 	 * @param int $occurrence Effective occurrence index
 	 * @param string $part Effective part identifier
-	 * @return Part Nested subpart (or the part itself)
+	 * @return PartInterface Nested subpart (or the part itself)
 	 * @throws InvalidArgumentException If there are too few subpart identifiers given
 	 * @throws InvalidArgumentException If the occurrence index is invalid
 	 * @throws OutOfBoundsException If the occurrence index is out of bounds
@@ -158,7 +158,7 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 	 *
 	 * @param mixed $data Contents
 	 * @param array $subparts Subpart identifiers
-	 * @return Part Modified part
+	 * @return PartInterface Modified part
 	 */
 	public function set($data, array $subparts = [])
 	{
@@ -320,7 +320,7 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 	 * @param array $subparts Subpart path identifiers
 	 * @param int $occurrence Effective occurrence index
 	 * @param string $part Effective part identifier
-	 * @return Part Immediate subpart
+	 * @return PartInterface Immediate subpart
 	 * @throws InvalidArgumentException If there are too few subpart identifiers
 	 * @throws InvalidArgumentException If the occurrence index is invalid
 	 * @throws OutOfBoundsException If the occurrence index is out of bounds
@@ -362,7 +362,7 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 
 		// If the part is empty
 		$partInstance = $this->_getOccurrencePart($occurrence, $part);
-		if (!($partInstance instanceof Part)) {
+		if (!($partInstance instanceof PartInterface)) {
 			throw new InvalidArgumentException(sprintf('Part "%s" does not exist', $occurrence.'/'.$part),
 				InvalidArgumentException::PART_DOES_NOT_EXIST);
 		}
@@ -442,7 +442,7 @@ abstract class PartAggregate extends AbstractPart implements \Countable, \Iterat
 	 *
 	 * @param int $occurrence Occurrence index
 	 * @param string $part Part identifier
-	 * @return Part Part instance
+	 * @return PartInterface Part instance
 	 */
 	protected function _getOccurrencePart(&$occurrence, &$part)
 	{

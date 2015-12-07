@@ -35,7 +35,7 @@
 
 namespace Apparat\Resource\Domain\Model\Hydrator;
 
-use Apparat\Resource\Domain\Model\Part\Part;
+use Apparat\Resource\Domain\Model\Part\PartInterface;
 
 /**
  * File hydrator interface
@@ -54,16 +54,16 @@ interface Hydrator
 	/**
 	 * Serialize a file part
 	 *
-	 * @param Part $part File part
+	 * @param PartInterface $part File part
 	 * @return string Serialized file part
 	 */
-	public function dehydrate(Part $part);
+	public function dehydrate(PartInterface $part);
 
 	/**
 	 * Translate data to a file part
 	 *
 	 * @param string $data Part data
-	 * @return Part File part
+	 * @return PartInterface File part
 	 */
 	public function hydrate($data);
 

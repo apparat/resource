@@ -35,9 +35,9 @@
 
 namespace Apparat\Resource\Framework\Hydrator;
 
-use Apparat\Resource\Framework\Part\YamlPart;
 use Apparat\Resource\Domain\Model\Hydrator\ChoiceHydrator;
-use Apparat\Resource\Domain\Model\Part\Part;
+use Apparat\Resource\Domain\Model\Part\PartInterface;
+use Apparat\Resource\Framework\Part\YamlPart;
 
 /**
  * FrontMark part hydrator (combination of YAML / JSON front matter and CommonMark part)
@@ -57,7 +57,7 @@ class FrontMatterHydrator extends ChoiceHydrator
 	 * Translate data to a resource part
 	 *
 	 * @param string $data Part data
-	 * @return Part Resource part
+	 * @return PartInterface Resource part
 	 */
 	public function hydrate($data)
 	{
@@ -79,20 +79,20 @@ class FrontMatterHydrator extends ChoiceHydrator
 	 * Dehydrate a single part with a particular subhydrator
 	 *
 	 * @param string $subhydrator Subhydrator name
-	 * @param Part $part Part instance
+	 * @param PartInterface $part Part instance
 	 * @return string Dehydrated part
 	 */
-	protected function _dehydratePart($subhydrator, Part $part)
+	protected function _dehydratePart($subhydrator, PartInterface $part)
 	{
 		$content = trim(parent::_dehydratePart($subhydrator, $part));
 
 		// If it's a YAML part: Terminate if necessary
-		if (strlen($content) && ($part instanceof YamlPart) && !preg_match('%\R' . preg_quote(YamlPart::DOCUMENT_END) . '$%',
+		if (strlen($content) && ($part instanceof YamlPart) && !preg_match('%\R'.preg_quote(YamlPart::DOCUMENT_END).'$%',
 				$content)
 		) {
 			$content .= PHP_EOL.YamlPart::DOCUMENT_END;
 		}
 
-		return $content . PHP_EOL;
+		return $content.PHP_EOL;
 	}
 }

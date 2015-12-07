@@ -40,7 +40,7 @@ use Apparat\Resource\Domain\Contract\WriterInterface;
 use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
 use Apparat\Resource\Domain\Model\Hydrator\HydratorFactory;
 use Apparat\Resource\Domain\Model\Part\AbstractPart;
-use Apparat\Resource\Domain\Model\Part\Part;
+use Apparat\Resource\Domain\Model\Part\PartInterface;
 
 /**
  * File
@@ -52,7 +52,7 @@ abstract class AbstractResource
 	/**
 	 * Part or part aggregate
 	 *
-	 * @var Part
+	 * @var PartInterface
 	 */
 	protected $_part = null;
 
@@ -195,11 +195,11 @@ abstract class AbstractResource
 	/**
 	 * Lazy-hydrate and return the main file part
 	 *
-	 * @return Part Main file part
+	 * @return PartInterface Main file part
 	 */
 	protected function _part()
 	{
-		if (!($this->_part instanceof Part)) {
+		if (!($this->_part instanceof PartInterface)) {
 			$this->_part = $this->_hydrator->hydrate(($this->_reader instanceof ReaderInterface) ? $this->_reader->read() : '');
 		}
 		return $this->_part;

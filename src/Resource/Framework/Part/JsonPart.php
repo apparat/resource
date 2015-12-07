@@ -35,14 +35,14 @@
 
 namespace Apparat\Resource\Framework\Part;
 
-use Apparat\Resource\Domain\Model\Part\ContentPart;
+use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
 
 /**
  * JSON resource part
  *
  * @package Apparat\Resource\Framework\Part
  */
-class JsonPart extends ContentPart
+class JsonPart extends AbstractContentPart
 {
 	/**
 	 * Mime type

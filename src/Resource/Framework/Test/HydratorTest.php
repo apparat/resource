@@ -35,14 +35,15 @@
 
 namespace ApparatTest;
 
-use Apparat\Resource\Framework\Hydrator\TextHydrator;
-use Apparat\Resource\Framework\Part\TextPart;
 use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
 use Apparat\Resource\Domain\Model\Hydrator\HydratorFactory;
 use Apparat\Resource\Domain\Model\Hydrator\InvalidArgumentException;
 use Apparat\Resource\Domain\Model\Hydrator\RuntimeException;
+use Apparat\Resource\Domain\Model\Part\AbstractPartAggregate;
 use Apparat\Resource\Domain\Model\Part\OutOfBoundsException;
-use Apparat\Resource\Domain\Model\Part\PartAggregate;
+use Apparat\Resource\Domain\Model\Part\PartAggregateInterface;
+use Apparat\Resource\Framework\Hydrator\TextHydrator;
+use Apparat\Resource\Framework\Part\TextPart;
 
 
 /**
@@ -56,7 +57,7 @@ trait AggregateHydratorMocks
 	 * Translate data to a file part
 	 *
 	 * @param string $data Part data
-	 * @return PartAggregate Resource part
+	 * @return PartAggregateInterface Resource part
 	 */
 	public function hydrate($data)
 	{
@@ -64,7 +65,7 @@ trait AggregateHydratorMocks
 			$this->_aggregateClass = self::class;
 		}
 
-		/** @var PartAggregate $aggregate */
+		/** @var AbstractPartAggregate $aggregate */
 		$aggregate = parent::hydrate(null);
 		foreach (explode('|', $data) as $part => $str) {
 			if (!empty($GLOBALS['mockOccurrenceNumber'])) {

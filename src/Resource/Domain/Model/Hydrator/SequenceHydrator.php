@@ -35,7 +35,7 @@
 
 namespace Apparat\Resource\Domain\Model\Hydrator;
 
-use Apparat\Resource\Domain\Model\Part\Part;
+use Apparat\Resource\Domain\Model\Part\PartInterface;
 use Apparat\Resource\Domain\Model\Part\PartSequence;
 
 /**
@@ -79,7 +79,7 @@ abstract class SequenceHydrator extends MultipartHydrator
             }
 
             // If the part value is not a valid part instance
-            if (!$part || !($part instanceof Part)) {
+            if (!$part || !($part instanceof PartInterface)) {
                 throw new $this->_occurrenceDehydrationException(sprintf('Invalid part instance "%s"', gettype($part).(is_object($part) ? '<'.get_class($part).'>' : '')), constant($this->_occurrenceDehydrationException.'::INVALID_PART_INSTANCE'));
             }
 

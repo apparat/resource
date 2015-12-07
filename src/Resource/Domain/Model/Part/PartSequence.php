@@ -42,7 +42,7 @@ use Apparat\Resource\Domain\Model\Hydrator\Hydrator;
  *
  * @package Apparat\Resource\Domain\Model\Part
  */
-class PartSequence extends PartAggregate
+class PartSequence extends AbstractPartAggregate
 {
     /**
      * Add an occurrence
