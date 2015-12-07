@@ -4,7 +4,8 @@
  * apparat-resource
  *
  * @category    Apparat
- * @package     Apparat_<Package>
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -43,7 +44,8 @@ use Apparat\Resource\Framework\Model\Hydrator\YamlHydrator;
 /**
  * YAML resource
  *
- * @package Apparat\Resource\Framework\Model\Resource
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  * @method YamlResource set() set(array $data) Set the content of the resource
  * @method YamlResource setPart() setPart(array $data, string $part = '/') Set the content of the resource
  * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the resource

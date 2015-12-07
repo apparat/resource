@@ -4,7 +4,8 @@
  * apparat-resource
  *
  * @category    Apparat
- * @package     Apparat_<Package>
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -49,7 +50,8 @@ use Apparat\Resource\Framework\Model\Part\TextPart;
 /**
  * Mock methods for multipart hydrators
  *
- * @package ApparatTest
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  */
 trait AggregateHydratorMocks
 {
@@ -143,7 +145,8 @@ trait AggregateHydratorMocks
 /**
  * Sequence hydrator mock
  *
- * @package ApparatTest
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  */
 class AbstractSequenceHydrator extends \Apparat\Resource\Domain\Model\Hydrator\AbstractSequenceHydrator
 {
@@ -156,7 +159,8 @@ class AbstractSequenceHydrator extends \Apparat\Resource\Domain\Model\Hydrator\A
 /**
  * Choice hydrator mock
  *
- * @package ApparatTest
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  */
 class AbstractChoiceHydrator extends \Apparat\Resource\Domain\Model\Hydrator\AbstractChoiceHydrator
 {
@@ -169,7 +173,8 @@ class AbstractChoiceHydrator extends \Apparat\Resource\Domain\Model\Hydrator\Abs
 /**
  * Hydrator tests
  *
- * @package ApparatTest
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  */
 class HydratorTest extends TestBase
 {

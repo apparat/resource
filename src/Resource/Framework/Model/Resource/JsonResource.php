@@ -4,7 +4,8 @@
  * apparat-resource
  *
  * @category    Apparat
- * @package     Apparat_<Package>
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -43,7 +44,8 @@ use Apparat\Resource\Framework\Model\Hydrator\JsonHydrator;
 /**
  * JSON resource
  *
- * @package Apparat\Resource\Framework\Model\Resource
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  * @method JsonResource set() set(array $data) Set the content of the resource
  * @method JsonResource setPart() setPart(array $data, string $part = '/') Set the content of the resource
  * @method array getDataPart() getDataPart(string $part = '/') Get the JSON data of the resource

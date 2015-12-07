@@ -4,7 +4,8 @@
  * apparat-resource
  *
  * @category    Apparat
- * @package     Apparat_<Package>
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -42,7 +43,8 @@ use Apparat\Resource\Framework\Model\Part\CommonMarkPart;
 /**
  * CommonMark file tests
  *
- * @package ApparatTest
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  */
 class CommonMarkTest extends TestBase
 {

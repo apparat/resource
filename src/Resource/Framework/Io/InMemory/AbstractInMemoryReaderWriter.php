@@ -4,7 +4,8 @@
  * apparat-resource
  *
  * @category    Apparat
- * @package     Apparat_<Package>
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -39,7 +40,8 @@ namespace Apparat\Resource\Framework\Io\InMemory;
 /**
  * Abstract base class for in-memory readers/writers
  *
- * @package Apparat\Resource\Framework\Io\InMemory
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  */
 class AbstractInMemoryReaderWriter
 {

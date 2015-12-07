@@ -4,7 +4,8 @@
  * apparat/resource
  *
  * @category    Jkphl
- * @package     Jkphl_apparat/resource
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -47,7 +48,8 @@ use Apparat\Resource\Framework\Api\InvalidArgumentException;
 /**
  * Resource factory methods
  *
- * @package Apparat\Resource\Framework\Model\Resource
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  */
 trait FactoryMethods
 {

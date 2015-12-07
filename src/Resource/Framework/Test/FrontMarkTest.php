@@ -4,7 +4,8 @@
  * apparat-resource
  *
  * @category    Apparat
- * @package     Apparat_<Package>
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -54,7 +55,8 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * Mocked part sequence
  *
- * @package ApparatTest
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  */
 class PartSequenceMock extends PartSequence
 {
@@ -70,7 +72,8 @@ class PartSequenceMock extends PartSequence
 /**
  * Mocked FrontMark hydrator
  *
- * @package ApparatTest
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  */
 class FrontMarkHydratorMock extends FrontMarkHydrator
 {
@@ -85,7 +88,8 @@ class FrontMarkHydratorMock extends FrontMarkHydrator
 /**
  * Mocked FrontMark file
  *
- * @package ApparatTest
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  */
 class FrontMarkResourceMock extends AbstractResource
 {
@@ -125,7 +129,8 @@ class FrontMarkResourceMock extends AbstractResource
 /**
  * FrontMark file tests
  *
- * @package ApparatTest
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  */
 class FrontMarkTest extends TestBase
 {

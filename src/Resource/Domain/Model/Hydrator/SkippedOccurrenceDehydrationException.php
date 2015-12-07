@@ -4,7 +4,8 @@
  * apparat/resource
  *
  * @category    Jkphl
- * @package     Jkphl_apparat/resource
+ * @package     Apparat\Resource
+ * @subpackage Apparat\Resource\Domain
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -40,7 +41,8 @@ namespace Apparat\Resource\Domain\Model\Hydrator;
 /**
  * Skipped occurrence dehydration exception
  *
- * @package Apparat\Resource\Domain\Model\Hydrator
+ * @package     Apparat\Resource
+ * @subpackage Apparat\Resource\Domain
  */
 class SkippedOccurrenceDehydrationException extends RuntimeException
 {

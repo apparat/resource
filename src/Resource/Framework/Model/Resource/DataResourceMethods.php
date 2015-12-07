@@ -4,7 +4,8 @@
  * apparat-resource
  *
  * @category    Apparat
- * @package     Apparat_<Package>
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
@@ -41,7 +42,8 @@ use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
 /**
  * Data resource convenience methods
  *
- * @package Apparat\Resource\Framework\Model\Resource
+ * @package     Apparat\Resource
+ * @subpackage  Apparat\Resource\Framework
  * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the resource
  * @method AbstractSinglePartResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the resource
  */
