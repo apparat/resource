@@ -35,9 +35,9 @@
 
 namespace Apparat\Resource\Framework\Hydrator;
 
-use Apparat\Resource\Application\Utility;
-use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
+use Apparat\Resource\Application\Service\StringUtility;
 use Apparat\Resource\Domain\Model\Hydrator\AbstractSequenceHydrator;
+use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Part\PartAggregateInterface;
 
 /**
@@ -58,7 +58,7 @@ class FrontMarkHydrator extends AbstractSequenceHydrator
 		$aggregate = parent::hydrate(null);
 
 		// Prepare and split the frontmatter data
-		$data = Utility::stripBom($data);
+		$data = StringUtility::stripBom($data);
 		$frontMatter = '';
 		$commonMarkBody = $data;
 

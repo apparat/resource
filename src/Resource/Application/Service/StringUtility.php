@@ -10,8 +10,6 @@
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
 
-namespace Jkphl;
-
 /***********************************************************************************
  *  The MIT License (MIT)
  *
@@ -35,19 +33,19 @@ namespace Jkphl;
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Application;
+namespace Apparat\Resource\Application\Service;
 
 /**
- * General utilities
+ * String utility
  *
  * @package Apparat\Resource\Application
  */
-class Utility
+class StringUtility
 {
 	/**
 	 * Strip the byte order mark off the beginning of a string
 	 *
-	 * @param string $str           String with byte order mark
+	 * @param string $str String with byte order mark
 	 * @return string               String without byte order mark
 	 */
 	public static function stripBom($str)
