@@ -40,7 +40,11 @@ use Apparat\Resource\Framework\Api\Resource;
 use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
 use Apparat\Resource\Framework\Io\File\Writer as FileWriter;
 use Apparat\Resource\Framework\Api\InvalidArgumentException;
+use Apparat\Resource\Framework\Model\Resource\CommonMarkResource;
+use Apparat\Resource\Framework\Model\Resource\FrontMarkResource;
+use Apparat\Resource\Framework\Model\Resource\JsonResource;
 use Apparat\Resource\Framework\Model\Resource\TextResource;
+use Apparat\Resource\Framework\Model\Resource\YamlResource;
 
 /**
  * Resource factory tests
@@ -58,18 +62,46 @@ class FactoryTest extends TestBase
 	protected $_text = null;
 
 	/**
-	 * Example text file
-	 *
-	 * @var string
-	 */
-	const TXT_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'cc0.txt';
-
-	/**
 	 * Example JSON data
 	 *
 	 * @var string
 	 */
 	protected $_json = null;
+
+	/**
+	 * Example YAML data
+	 *
+	 * @var string
+	 */
+	protected $_yaml = null;
+
+	/**
+	 * Example CommonMark data
+	 *
+	 * @var string
+	 */
+	protected $_commonMark = null;
+
+	/**
+	 * Example FrontMark data with YAML front matter
+	 *
+	 * @var string
+	 */
+	protected $_yamlFrontMark = null;
+
+	/**
+	 * Example FrontMark file with JSON front matter
+	 *
+	 * @var string
+	 */
+	protected $_jsonFrontMark = null;
+
+	/**
+	 * Example text file
+	 *
+	 * @var string
+	 */
+	const TXT_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'cc0.txt';
 
 	/**
 	 * Example JSON file
@@ -79,12 +111,44 @@ class FactoryTest extends TestBase
 	const JSON_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.json';
 
 	/**
+	 * Example YAML file
+	 *
+	 * @var string
+	 */
+	const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.yaml';
+
+	/**
+	 * Example CommonMark file
+	 *
+	 * @var string
+	 */
+	const COMMONMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'commonmark.md';
+
+	/**
+	 * Example FrontMark file with YAML front matter
+	 *
+	 * @var string
+	 */
+	const YAML_FRONTMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'yaml-frontmark.md';
+	/**
+	 * Example FrontMark file with JSON front matter
+	 *
+	 * @var string
+	 */
+	const JSON_FRONTMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'json-frontmark.md';
+
+	/**
 	 * Sets up the fixture
 	 */
 	protected function setUp()
 	{
 		parent::setUp();
 		$this->_text = file_get_contents(self::TXT_FILE);
+		$this->_json = file_get_contents(self::JSON_FILE);
+		$this->_yaml = file_get_contents(self::YAML_FILE);
+		$this->_commonMark = file_get_contents(self::COMMONMARK_FILE);
+		$this->_yamlFrontMark = file_get_contents(self::YAML_FRONTMARK_FILE);
+		$this->_jsonFrontMark = file_get_contents(self::JSON_FRONTMARK_FILE);
 	}
 
 	/**
@@ -152,5 +216,55 @@ class FactoryTest extends TestBase
 	public function testTextFactoryInvalidWriter()
 	{
 		Resource::text($this->_text)->to('foo://'.$this->_createTemporaryFile(true));
+	}
+
+	/**
+	 * Test the JSON resource factory with a file path input (file reader)
+	 */
+	public function testJsonFactoryFileReader()
+	{
+		$jsonResource = Resource::json('file://'.self::JSON_FILE);
+		$this->assertInstanceOf(JsonResource::class, $jsonResource);
+		$this->assertEquals($this->_json, $jsonResource->get());
+	}
+
+	/**
+	 * Test the YAML resource factory with a file path input (file reader)
+	 */
+	public function testYamlFactoryFileReader()
+	{
+		$yamlResource = Resource::yaml('file://'.self::YAML_FILE);
+		$this->assertInstanceOf(YamlResource::class, $yamlResource);
+		$this->assertEquals($this->_yaml, $yamlResource->get());
+	}
+
+	/**
+	 * Test the CommonMark resource factory with a file path input (file reader)
+	 */
+	public function testCommonMarkFactoryFileReader()
+	{
+		$commonMarkResource = Resource::commonMark('file://'.self::COMMONMARK_FILE);
+		$this->assertInstanceOf(CommonMarkResource::class, $commonMarkResource);
+		$this->assertEquals($this->_commonMark, $commonMarkResource->get());
+	}
+
+	/**
+	 * Test the YAML FrontMark resource factory with a file path input (file reader)
+	 */
+	public function testYamlFrontMarkFactoryFileReader()
+	{
+		$yamlFrontMarkResource = Resource::frontMark('file://'.self::YAML_FRONTMARK_FILE);
+		$this->assertInstanceOf(FrontMarkResource::class, $yamlFrontMarkResource);
+		$this->assertEquals($this->_yamlFrontMark, strval($yamlFrontMarkResource));
+	}
+
+	/**
+	 * Test the JSON FrontMark resource factory with a file path input (file reader)
+	 */
+	public function testJsonFrontMarkFactoryFileReader()
+	{
+		$jsonFrontMarkResource = Resource::frontMark('file://'.self::JSON_FRONTMARK_FILE);
+		$this->assertInstanceOf(FrontMarkResource::class, $jsonFrontMarkResource);
+		$this->assertEquals($this->_jsonFrontMark, strval($jsonFrontMarkResource));
 	}
 }
