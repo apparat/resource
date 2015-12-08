@@ -38,12 +38,11 @@ namespace Jkphl;
 
 namespace Apparat\Resource\Framework\Model\Resource;
 
-use Apparat\Resource\Domain\Contract\ReaderInterface;
 use Apparat\Resource\Domain\Contract\WriterInterface;
 use Apparat\Resource\Domain\Model\Resource\AbstractResource;
+use Apparat\Resource\Framework\Api\InvalidArgumentException;
 use Apparat\Resource\Framework\Api\Tools;
 use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
-use Apparat\Resource\Framework\Api\InvalidArgumentException;
 
 /**
  * Resource factory methods
@@ -90,28 +89,5 @@ trait ResourceTrait
 
 		throw new InvalidArgumentException('Invalid writer stream wrapper',
 			InvalidArgumentException::INVALID_WRITER_STREAM_WRAPPER);
-	}
-
-	/*******************************************************************************
-	 * STATIC METHODS
-	 *******************************************************************************/
-
-	/**
-	 * Create an instance from a stream-wrapped source
-	 *
-	 * @param string $src Stream-wrapped source
-	 * @param array $parameters Reader parameters
-	 * @return AbstractResource Resource instance
-	 * @throws InvalidArgumentException If an invalid reader stream wrapper is given
-	 */
-	public static function from($src, ...$parameters)
-	{
-		$reader = Tools::reader($src, $parameters);
-		if ($reader instanceof ReaderInterface) {
-			return new static($reader);
-		}
-
-		throw new InvalidArgumentException('Invalid reader stream wrapper',
-			InvalidArgumentException::INVALID_READER_STREAM_WRAPPER);
 	}
 }

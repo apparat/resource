@@ -36,6 +36,7 @@
 
 namespace ApparatTest;
 
+use Apparat\Resource\Framework\Api\Resource;
 use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
 use Apparat\Resource\Framework\Io\File\Writer as FileWriter;
 use Apparat\Resource\Framework\Api\InvalidArgumentException;
@@ -64,6 +65,20 @@ class FactoryTest extends TestBase
 	const TXT_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'cc0.txt';
 
 	/**
+	 * Example JSON data
+	 *
+	 * @var string
+	 */
+	protected $_json = null;
+
+	/**
+	 * Example JSON file
+	 *
+	 * @var string
+	 */
+	const JSON_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.json';
+
+	/**
 	 * Sets up the fixture
 	 */
 	protected function setUp()
@@ -78,7 +93,7 @@ class FactoryTest extends TestBase
 	public function testTextFactoryStringReader()
 	{
 		$randString = md5(rand());
-		$textResource = TextResource::from($randString);
+		$textResource = Resource::text($randString);
 		$this->assertInstanceOf(TextResource::class, $textResource);
 		$this->assertEquals($randString, $textResource->get());
 		$this->assertEquals($randString, strval($textResource));
@@ -89,7 +104,7 @@ class FactoryTest extends TestBase
 	 */
 	public function testTextFactoryFileReader()
 	{
-		$textResource = TextResource::from('file://'.self::TXT_FILE);
+		$textResource = Resource::text('file://'.self::TXT_FILE);
 		$this->assertInstanceOf(TextResource::class, $textResource);
 		$this->assertEquals($this->_text, $textResource->get());
 	}
@@ -102,7 +117,7 @@ class FactoryTest extends TestBase
 	 */
 	public function testTextFactoryInvalidReader()
 	{
-		TextResource::from('foo://'.self::TXT_FILE);
+		Resource::text('foo://'.self::TXT_FILE);
 	}
 
 	/**
@@ -110,7 +125,7 @@ class FactoryTest extends TestBase
 	 */
 	public function testTextFactoryStringWriter()
 	{
-		$textResource = TextResource::from($this->_text);
+		$textResource = Resource::text($this->_text);
 		$writer = $textResource->to('');
 		$this->assertInstanceOf(InMemoryWriter::class, $writer);
 		$this->assertEquals($this->_text, $writer->getData());
@@ -122,7 +137,7 @@ class FactoryTest extends TestBase
 	public function testTextFactoryFileWriter()
 	{
 		$tempFileName = $this->_createTemporaryFile(true);
-		$textResource = TextResource::from($this->_text);
+		$textResource = Resource::text($this->_text);
 		$writer = $textResource->to('file://'.$tempFileName, FileWriter::FILE_CREATE);
 		$this->assertInstanceOf(FileWriter::class, $writer);
 		$this->assertStringEqualsFile($tempFileName, $this->_text);
@@ -136,6 +151,6 @@ class FactoryTest extends TestBase
 	 */
 	public function testTextFactoryInvalidWriter()
 	{
-		TextResource::from($this->_text)->to('foo://'.$this->_createTemporaryFile(true));
+		Resource::text($this->_text)->to('foo://'.$this->_createTemporaryFile(true));
 	}
 }
