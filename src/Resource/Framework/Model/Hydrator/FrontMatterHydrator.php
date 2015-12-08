@@ -92,9 +92,9 @@ class FrontMatterHydrator extends AbstractChoiceHydrator
 		if (strlen($content) && ($part instanceof YamlPart) && !preg_match('%\R'.preg_quote(YamlPart::DOCUMENT_END).'$%',
 				$content)
 		) {
-			$content .= PHP_EOL.YamlPart::DOCUMENT_END;
+			$content .= "\n".YamlPart::DOCUMENT_END;
 		}
 
-		return $content.PHP_EOL;
+		return $content."\n";
 	}
 }
