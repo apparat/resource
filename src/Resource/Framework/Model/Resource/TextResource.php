@@ -61,7 +61,7 @@ class TextResource extends AbstractSinglePartResource
 	/**
 	 * Use resource factory and text resource convenience methods and properties
 	 */
-	use FactoryMethods, TextResourceMethods;
+	use ResourceTrait, TextResourceTrait;
 
 	/**
 	 * Text resource constructor

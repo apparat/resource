@@ -68,7 +68,7 @@ class FrontMarkResource extends AbstractResource
 	/**
 	 * Use resource factory methods and properties
 	 */
-	use FactoryMethods;
+	use ResourceTrait;
 
 	/**
 	 * FrontMark resource constructor

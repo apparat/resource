@@ -51,7 +51,7 @@ use Apparat\Resource\Framework\Api\InvalidArgumentException;
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
  */
-trait FactoryMethods
+trait ResourceTrait
 {
 	/*******************************************************************************
 	 * PUBLIC METHODS

@@ -36,37 +36,37 @@
 
 namespace Apparat\Resource\Framework\Model\Resource;
 
-use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
-use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
+use Apparat\Resource\Domain\Model\Part\PartInterface;
 
 /**
- * Data resource convenience methods
+ * Text resource convenience methods
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
- * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the resource
- * @method AbstractSinglePartResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the resource
+ * @method TextResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
+ * @method TextResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
  */
-trait DataResourceMethods
+trait TextResourceTrait
 {
 	/**
-	 * Return the unserialized sole data content
+	 * Append content to the sole part
 	 *
-	 * @return array Unserialized data content
+	 * @param string $data Contents
+	 * @return PartInterface New part
 	 */
-	public function getData()
+	public function append($data)
 	{
-		return $this->getDataPart('/');
+		return $this->appendPart($data, '/');
 	}
 
 	/**
-	 * Set the sole data content
+	 * Prepend content to the sole part
 	 *
-	 * @param array $data New data
-	 * @return AbstractContentPart Self reference
+	 * @param string $data Contents
+	 * @return PartInterface New text part
 	 */
-	public function setData(array $data)
+	public function prepend($data)
 	{
-		return $this->setDataPart($data, '/');
+		return $this->prependPart($data, '/');
 	}
 }

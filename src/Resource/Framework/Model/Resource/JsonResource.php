@@ -59,7 +59,7 @@ class JsonResource extends AbstractSinglePartResource
 	/**
 	 * Use resource factory and data resource convenience methods and properties
 	 */
-	use FactoryMethods, DataResourceMethods;
+	use ResourceTrait, DataResourceTrait;
 
 	/**
 	 * JSON resource constructor
