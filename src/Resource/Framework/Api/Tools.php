@@ -61,7 +61,7 @@ class Tools
 	 *
 	 * @var array
 	 */
-	public static $reader = array(
+	protected static $_reader = array(
 		AbstractFileReaderWriter::WRAPPER => FileReader::class,
 		AbstractInMemoryReaderWriter::WRAPPER => InMemoryReader::class,
 	);
@@ -71,7 +71,7 @@ class Tools
 	 *
 	 * @var array
 	 */
-	public static $writer = array(
+	protected static $_writer = array(
 		AbstractFileReaderWriter::WRAPPER => FileWriter::class,
 		AbstractInMemoryReaderWriter::WRAPPER => InMemoryWriter::class,
 	);
@@ -88,7 +88,7 @@ class Tools
 		$reader = null;
 
 		// Run through all registered readers
-		foreach (self::$reader as $wrapper => $readerClass) {
+		foreach (self::$_reader as $wrapper => $readerClass) {
 			$wrapperLength = strlen($wrapper);
 
 			// If this wrapper is used: Instantiate the reader and resource
@@ -114,7 +114,7 @@ class Tools
 		$writer = null;
 
 		// Run through all registered writer
-		foreach (self::$writer as $wrapper => $writerClass) {
+		foreach (self::$_writer as $wrapper => $writerClass) {
 			$wrapperLength = strlen($wrapper);
 
 			// If this wrapper is used: Instantiate the reader and resource
@@ -136,6 +136,7 @@ class Tools
 	 * @param string $src Stream-wrapped source
 	 * @param array ...$parameters Reader parameters
 	 * @return Copy Copy handler
+	 * @api
 	 */
 	public static function copy($src, ...$parameters)
 	{
@@ -154,6 +155,7 @@ class Tools
 	 * @param string $src Stream-wrapped source
 	 * @param array ...$parameters Reader parameters
 	 * @return Move move handler
+	 * @api
 	 */
 	public static function move($src, ...$parameters)
 	{
@@ -172,6 +174,7 @@ class Tools
 	 * @param string $src Stream-wrapped source
 	 * @param array ...$parameters Reader parameters
 	 * @return Move move handler
+	 * @api
 	 */
 	public static function delete($src, ...$parameters)
 	{

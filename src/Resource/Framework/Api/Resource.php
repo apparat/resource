@@ -60,6 +60,7 @@ class Resource
 	 * @param string $src Stream-wrapped source
 	 * @param array $parameters Reader parameters
 	 * @return TextResource Text resource instance
+	 * @api
 	 */
 	public static function text($src, ...$parameters)
 	{
@@ -72,6 +73,7 @@ class Resource
 	 * @param string $src Stream-wrapped source
 	 * @param array $parameters Reader parameters
 	 * @return YamlResource YAML resource instance
+	 * @api
 	 */
 	public static function yaml($src, ...$parameters)
 	{
@@ -84,6 +86,7 @@ class Resource
 	 * @param string $src Stream-wrapped source
 	 * @param array $parameters Reader parameters
 	 * @return JsonResource JSON resource instance
+	 * @api
 	 */
 	public static function json($src, ...$parameters)
 	{
@@ -96,6 +99,7 @@ class Resource
 	 * @param string $src Stream-wrapped source
 	 * @param array $parameters Reader parameters
 	 * @return CommonMarkResource CommonMark resource instance
+	 * @api
 	 */
 	public static function commonMark($src, ...$parameters)
 	{
@@ -108,6 +112,7 @@ class Resource
 	 * @param string $src Stream-wrapped source
 	 * @param array $parameters Reader parameters
 	 * @return FrontMarkResource CommonMark resource instance
+	 * @api
 	 */
 	public static function frontMark($src, ...$parameters)
 	{

@@ -36,7 +36,12 @@
 
 namespace Apparat\Resource\Domain\Model\Hydrator;
 
-
+/**
+ * InvalidArgumentException
+ *
+ * @package Apparat\Resource
+ * @subpackage Apparat\Resource\Domain
+ */
 class InvalidArgumentException extends \InvalidArgumentException
 {
     /**

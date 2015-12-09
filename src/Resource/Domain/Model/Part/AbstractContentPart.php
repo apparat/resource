@@ -96,6 +96,7 @@ abstract class AbstractContentPart extends AbstractPart
 	 * Set the contents of a part
 	 *
 	 * @param string $data Contents
+	 * @param array $subparts Subparts
 	 * @return AbstractContentPart New content part
 	 */
 	public function set($data, array $subparts = [])
