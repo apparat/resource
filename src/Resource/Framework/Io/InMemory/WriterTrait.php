@@ -60,7 +60,7 @@ trait WriterTrait
     /**
      * Return the in-memory data
      *
-     * @return string in-memory data
+     * @return string In-memory data
      */
     public function getData()
     {

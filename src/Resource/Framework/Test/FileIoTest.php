@@ -71,7 +71,7 @@ namespace ApparatTest {
      * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
      */
-    class FileIoTest extends TestBase
+    class FileIoTest extends AbstractTest
     {
         /**
          * Example text data

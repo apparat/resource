@@ -91,7 +91,7 @@ namespace ApparatTest {
 	 * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
 	 */
-	class ApiTest extends TestBase
+	class ApiTest extends AbstractTest
 	{
 		/**
 		 * Example text file

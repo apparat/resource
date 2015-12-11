@@ -46,7 +46,7 @@ use Apparat\Resource\Framework\Model\Part\CommonMarkPart;
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
  */
-class CommonMarkTest extends TestBase
+class CommonMarkTest extends AbstractTest
 {
     /**
      * Example CommonMark data

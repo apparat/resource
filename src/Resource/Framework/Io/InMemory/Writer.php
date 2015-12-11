@@ -43,6 +43,7 @@ use Apparat\Resource\Domain\Contract\WriterInterface;
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
+ * @method string getData() getData() Get the in-memory data
  */
 class Writer extends AbstractInMemoryReaderWriter implements WriterInterface
 {

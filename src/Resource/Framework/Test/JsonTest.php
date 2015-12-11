@@ -48,7 +48,7 @@ use Apparat\Resource\Framework\Model\Resource\JsonResource;
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
  */
-class JsonTest extends TestBase
+class JsonTest extends AbstractTest
 {
 	/**
 	 * Example JSON data

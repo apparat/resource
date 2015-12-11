@@ -48,7 +48,7 @@ use Apparat\Resource\Framework\Model\Part\YamlPart;
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
  */
-class YamlTest extends TestBase
+class YamlTest extends AbstractTest
 {
     /**
      * Example YAML data

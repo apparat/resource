@@ -50,7 +50,7 @@ use Apparat\Resource\Domain\Model\Resource\RuntimeException;
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
  */
-class TextTest extends TestBase
+class TextTest extends AbstractTest
 {
 	/**
 	 * Example text data

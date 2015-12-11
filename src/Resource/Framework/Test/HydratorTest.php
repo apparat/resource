@@ -68,6 +68,7 @@ trait AggregateHydratorMocks
 		}
 
 		/** @var AbstractPartAggregate $aggregate */
+		/** @noinspection  PhpUndefinedMethodInspection */
 		$aggregate = parent::hydrate(null);
 		foreach (explode('|', $data) as $part => $str) {
 			if (!empty($GLOBALS['mockOccurrenceNumber'])) {
@@ -95,10 +96,12 @@ trait AggregateHydratorMocks
 
 			// If an empty occurrence shall be tested
 			if (!empty($GLOBALS['mockEmptyOccurrence'])) {
+				/** @noinspection PhpUndefinedMethodInspection */
 				return parent::_dehydrateOccurrence([]);
 
 				// If an invalid subhydrator name should be tested
 			} elseif (!empty($GLOBALS['mockSubhydratorName'])) {
+				/** @noinspection PhpUndefinedMethodInspection */
 				return parent::_dehydrateOccurrence(array_combine(array_map(function ($name) {
 					return '_'.$name.'_';
 				}, array_keys($occurrence)),
@@ -106,10 +109,12 @@ trait AggregateHydratorMocks
 
 				// If an invalid part instance should be tested
 			} elseif (!empty($GLOBALS['mockPartInstance'])) {
+				/** @noinspection PhpUndefinedMethodInspection */
 				return parent::_dehydrateOccurrence(array_fill_keys(array_keys($occurrence), null));
 
 				// Else: Regular processing
 			} else {
+				/** @noinspection PhpUndefinedMethodInspection */
 				return parent::_dehydrateOccurrence($occurrence);
 			}
 			// Else return a mock result
@@ -133,6 +138,7 @@ trait AggregateHydratorMocks
 
 		// If the default validation should be used
 		if (empty($GLOBALS['mockValidateParameters'])) {
+			/** @noinspection PhpUndefinedMethodInspection */
 			return parent::validateParameters(...$parameters);
 
 			// Else return a mock result
@@ -176,7 +182,7 @@ class AbstractChoiceHydrator extends \Apparat\Resource\Domain\Model\Hydrator\Abs
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
  */
-class HydratorTest extends TestBase
+class HydratorTest extends AbstractTest
 {
 
 	/**

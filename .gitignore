@@ -1,5 +1,6 @@
 /.idea
-/apidocs/*
+/build
+/docs
 /vendor/*
 /composer.lock
 .env

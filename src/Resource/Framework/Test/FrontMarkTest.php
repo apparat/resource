@@ -132,7 +132,7 @@ class FrontMarkResourceMock extends AbstractResource
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
  */
-class FrontMarkTest extends TestBase
+class FrontMarkTest extends AbstractTest
 {
 	/**
 	 * Example CommonMark data

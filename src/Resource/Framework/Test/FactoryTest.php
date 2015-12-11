@@ -52,7 +52,7 @@ use Apparat\Resource\Framework\Model\Resource\YamlResource;
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
  */
-class FactoryTest extends TestBase
+class FactoryTest extends AbstractTest
 {
 	/**
 	 * Example text data
@@ -190,6 +190,7 @@ class FactoryTest extends TestBase
 	public function testTextFactoryStringWriter()
 	{
 		$textResource = Resource::text($this->_text);
+		/** @var InMemoryWriter $writer */
 		$writer = $textResource->to('');
 		$this->assertInstanceOf(InMemoryWriter::class, $writer);
 		$this->assertEquals($this->_text, $writer->getData());
