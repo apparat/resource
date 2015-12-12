@@ -81,15 +81,15 @@ namespace Apparat\Resource\Framework\Service {
 namespace ApparatTest {
 
 	use Apparat\Resource\Framework\Api\InvalidArgumentException;
-	use Apparat\Resource\Framework\Service\RuntimeException;
 	use Apparat\Resource\Framework\Api\Tools;
 	use Apparat\Resource\Framework\Io\InMemory\Writer;
+	use Apparat\Resource\Framework\Service\RuntimeException;
 
 	/**
 	 * I/O handler test
 	 *
 	 * @package     Apparat\Resource
- * @subpackage  Apparat\Resource\Framework
+	 * @subpackage  Apparat\Resource\Framework
 	 */
 	class ApiTest extends AbstractTest
 	{
