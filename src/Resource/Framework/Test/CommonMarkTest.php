@@ -17,7 +17,7 @@
  *  Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
- *  this software and associated documentation files (the "Software"), to deal in
+ *  this software and associated documentation Fixture (the "Software"), to deal in
  *  the Software without restriction, including without limitation the rights to
  *  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  *  the Software, and to permit persons to whom the Software is furnished to do so,
@@ -60,7 +60,7 @@ class CommonMarkTest extends AbstractTest
      *
      * @var string
      */
-    const COMMONMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'commonmark.md';
+    const COMMONMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.md';
 
     /**
      * Sets up the fixture
@@ -142,7 +142,7 @@ class CommonMarkTest extends AbstractTest
      */
     public function testCommonMarkResourceHtmlPart()
     {
-        $expectedHtml = $this->_normalizeHtml(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'commonmark.html'));
+        $expectedHtml = $this->_normalizeHtml(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html'));
         $commonMarkResource = new CommonMarkResource(new Reader($this->_commonMark));
         $this->assertEquals($expectedHtml, $this->_normalizeHtml($commonMarkResource->getHtmlPart()));
     }
@@ -152,7 +152,7 @@ class CommonMarkTest extends AbstractTest
      */
     public function testCommonMarkResourceHtml()
     {
-        $expectedHtml = $this->_normalizeHtml(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'commonmark.html'));
+        $expectedHtml = $this->_normalizeHtml(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html'));
         $commonMarkResource = new CommonMarkResource(new Reader($this->_commonMark));
         $this->assertEquals($expectedHtml, $this->_normalizeHtml($commonMarkResource->getHtml()));
     }

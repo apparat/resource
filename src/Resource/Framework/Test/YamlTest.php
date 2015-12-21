@@ -17,7 +17,7 @@
  *  Copyright © 2015 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
- *  this software and associated documentation files (the "Software"), to deal in
+ *  this software and associated documentation Fixture (the "Software"), to deal in
  *  the Software without restriction, including without limitation the rights to
  *  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  *  the Software, and to permit persons to whom the Software is furnished to do so,
@@ -62,7 +62,7 @@ class YamlTest extends AbstractTest
      *
      * @var string
      */
-    const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.yaml';
+    const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.yaml';
 
     /**
      * Sets up the fixture
@@ -109,7 +109,7 @@ class YamlTest extends AbstractTest
      */
     public function testYamlResourceGetData()
     {
-        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
+        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
         $yamlResource = new YamlResource(new Reader($this->_yaml));
         $this->assertArrayEquals($expectedData, $yamlResource->getDataPart());
         $this->assertArrayEquals($expectedData, $yamlResource->getData());
@@ -121,7 +121,7 @@ class YamlTest extends AbstractTest
     public function testYamlResourceSetDataPart()
     {
         // Prepare modified expected data
-        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
+        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
         $expectedData['date'] = time();
         $expectedData['bill-to']['given'] = 'John';
         $expectedData['bill-to']['family'] = 'Doe';
@@ -143,7 +143,7 @@ class YamlTest extends AbstractTest
     public function testYamlResourceSetData()
     {
         // Prepare modified expected data
-        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'invoice.php';
+        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
         $expectedData['date'] = time();
         $expectedData['bill-to']['given'] = 'John';
         $expectedData['bill-to']['family'] = 'Doe';
