@@ -72,7 +72,10 @@ class YamlPart extends AbstractContentPart
 		$data = array();
 
 		if (strlen($this->_content)) {
+			$defaultTimezone = date_default_timezone_get();
+			date_default_timezone_set('UTC');
 			$data = Yaml::parse($this->_content);
+			date_default_timezone_set($defaultTimezone);
 		}
 
 		return $data;
@@ -86,6 +89,10 @@ class YamlPart extends AbstractContentPart
 	 */
 	public function setData(array $data)
 	{
-		return $this->set(Yaml::dump($data));
+		$defaultTimezone = date_default_timezone_get();
+		date_default_timezone_set('UTC');
+		$dataStr = Yaml::dump($data);
+		date_default_timezone_set($defaultTimezone);
+		return $this->set($dataStr);
 	}
 }
