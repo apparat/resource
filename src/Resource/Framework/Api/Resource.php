@@ -111,7 +111,7 @@ class Resource
 	 *
 	 * @param string $src Stream-wrapped source
 	 * @param array $parameters Reader parameters
-	 * @return FrontMarkResource CommonMark resource instance
+	 * @return FrontMarkResource FrontMark resource instance
 	 * @api
 	 */
 	public static function frontMark($src, ...$parameters)
