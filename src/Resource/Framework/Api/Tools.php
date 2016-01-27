@@ -56,135 +56,143 @@ use Apparat\Resource\Framework\Service\Move;
  */
 class Tools
 {
-	/**
-	 * Reader classes for stream wrappers
-	 *
-	 * @var array
-	 */
-	protected static $_reader = array(
-		AbstractFileReaderWriter::WRAPPER => FileReader::class,
-		AbstractInMemoryReaderWriter::WRAPPER => InMemoryReader::class,
-	);
+    /**
+     * Reader classes for stream wrappers
+     *
+     * @var array
+     */
+    protected static $_reader = array(
+        AbstractFileReaderWriter::WRAPPER => FileReader::class,
+        AbstractInMemoryReaderWriter::WRAPPER => InMemoryReader::class,
+    );
 
-	/**
-	 * Writer classes for stream wrappers
-	 *
-	 * @var array
-	 */
-	protected static $_writer = array(
-		AbstractFileReaderWriter::WRAPPER => FileWriter::class,
-		AbstractInMemoryReaderWriter::WRAPPER => InMemoryWriter::class,
-	);
+    /**
+     * Writer classes for stream wrappers
+     *
+     * @var array
+     */
+    protected static $_writer = array(
+        AbstractFileReaderWriter::WRAPPER => FileWriter::class,
+        AbstractInMemoryReaderWriter::WRAPPER => InMemoryWriter::class,
+    );
 
-	/**
-	 * Find and instantiate a reader for a particular source
-	 *
-	 * @param string $src Source
-	 * @param array $parameters Parameters
-	 * @return null|ReaderInterface  Reader instance
-	 */
-	public static function reader(&$src, array $parameters = array())
-	{
-		$reader = null;
+    /**
+     * Find and instantiate a reader for a particular source
+     *
+     * @param string $src Source
+     * @param array $parameters Parameters
+     * @return null|ReaderInterface  Reader instance
+     */
+    public static function reader(&$src, array $parameters = array())
+    {
+        $reader = null;
 
-		// Run through all registered readers
-		foreach (self::$_reader as $wrapper => $readerClass) {
-			$wrapperLength = strlen($wrapper);
+        // Run through all registered readers
+        foreach (self::$_reader as $wrapper => $readerClass) {
+            $wrapperLength = strlen($wrapper);
 
-			// If this wrapper is used: Instantiate the reader and resource
-			if ($wrapperLength ? !strncmp($wrapper, $src, $wrapperLength) : !preg_match("%^[a-z0-9\.]+\:\/\/%", $src)) {
-				$src = substr($src, $wrapperLength);
-				$reader = new $readerClass($src, ...$parameters);
-				break;
-			}
-		}
+            // If this wrapper is used: Instantiate the reader and resource
+            if ($wrapperLength ? !strncmp($wrapper, $src, $wrapperLength) : !preg_match("%^[a-z0-9\.]+\:\/\/%", $src)) {
+                $src = substr($src, $wrapperLength);
+                $reader = new $readerClass($src, ...$parameters);
+                break;
+            }
+        }
 
-		return $reader;
-	}
+        return $reader;
+    }
 
-	/**
-	 * Find and instantiate a writer for a particular target
-	 *
-	 * @param string $target Target
-	 * @param array $parameters Parameters
-	 * @return null|WriterInterface  Writer instance
-	 */
-	public static function writer(&$target, array $parameters = array())
-	{
-		$writer = null;
+    /**
+     * Find and instantiate a writer for a particular target
+     *
+     * @param string $target Target
+     * @param array $parameters Parameters
+     * @return null|WriterInterface  Writer instance
+     */
+    public static function writer(&$target, array $parameters = array())
+    {
+        $writer = null;
 
-		// Run through all registered writer
-		foreach (self::$_writer as $wrapper => $writerClass) {
-			$wrapperLength = strlen($wrapper);
+        // Run through all registered writer
+        foreach (self::$_writer as $wrapper => $writerClass) {
+            $wrapperLength = strlen($wrapper);
 
-			// If this wrapper is used: Instantiate the reader and resource
-			if ($wrapperLength ? !strncmp($wrapper, $target, $wrapperLength) : !preg_match("%^[a-z0-9\.]+\:\/\/%",
-				$target)
-			) {
-				$target = substr($target, $wrapperLength);
-				$writer = new $writerClass($target, ...$parameters);
-				break;
-			}
-		}
+            // If this wrapper is used: Instantiate the reader and resource
+            if ($wrapperLength ? !strncmp($wrapper, $target, $wrapperLength) : !preg_match(
+                "%^[a-z0-9\.]+\:\/\/%",
+                $target
+            )
+            ) {
+                $target = substr($target, $wrapperLength);
+                $writer = new $writerClass($target, ...$parameters);
+                break;
+            }
+        }
 
-		return $writer;
-	}
+        return $writer;
+    }
 
-	/**
-	 * Copy a resource
-	 *
-	 * @param string $src Stream-wrapped source
-	 * @param array ...$parameters Reader parameters
-	 * @return Copy Copy handler
-	 * @api
-	 */
-	public static function copy($src, ...$parameters)
-	{
-		$reader = self::reader($src, $parameters);
-		if ($reader instanceof ReaderInterface) {
-			return new Copy($reader);
-		}
+    /**
+     * Copy a resource
+     *
+     * @param string $src Stream-wrapped source
+     * @param array ...$parameters Reader parameters
+     * @return Copy Copy handler
+     * @api
+     */
+    public static function copy($src, ...$parameters)
+    {
+        $reader = self::reader($src, $parameters);
+        if ($reader instanceof ReaderInterface) {
+            return new Copy($reader);
+        }
 
-		throw new InvalidArgumentException('Invalid reader stream wrapper',
-			InvalidArgumentException::INVALID_READER_STREAM_WRAPPER);
-	}
+        throw new InvalidArgumentException(
+            'Invalid reader stream wrapper',
+            InvalidArgumentException::INVALID_READER_STREAM_WRAPPER
+        );
+    }
 
-	/**
-	 * Move / rename a resource
-	 *
-	 * @param string $src Stream-wrapped source
-	 * @param array ...$parameters Reader parameters
-	 * @return Move move handler
-	 * @api
-	 */
-	public static function move($src, ...$parameters)
-	{
-		$reader = self::reader($src, $parameters);
-		if ($reader instanceof ReaderInterface) {
-			return new Move($reader);
-		}
+    /**
+     * Move / rename a resource
+     *
+     * @param string $src Stream-wrapped source
+     * @param array ...$parameters Reader parameters
+     * @return Move move handler
+     * @api
+     */
+    public static function move($src, ...$parameters)
+    {
+        $reader = self::reader($src, $parameters);
+        if ($reader instanceof ReaderInterface) {
+            return new Move($reader);
+        }
 
-		throw new InvalidArgumentException('Invalid reader stream wrapper',
-			InvalidArgumentException::INVALID_READER_STREAM_WRAPPER);
-	}
+        throw new InvalidArgumentException(
+            'Invalid reader stream wrapper',
+            InvalidArgumentException::INVALID_READER_STREAM_WRAPPER
+        );
+    }
 
-	/**
-	 * Delete a resource
-	 *
-	 * @param string $src Stream-wrapped source
-	 * @param array ...$parameters Reader parameters
-	 * @return Move move handler
-	 * @api
-	 */
-	public static function delete($src, ...$parameters)
-	{
-		$reader = self::reader($src, $parameters);
-		if ($reader instanceof ReaderInterface) {
-			$deleter = new Delete($reader);
-			return $deleter();
-		}
+    /**
+     * Delete a resource
+     *
+     * @param string $src Stream-wrapped source
+     * @param array ...$parameters Reader parameters
+     * @return Move move handler
+     * @api
+     */
+    public static function delete($src, ...$parameters)
+    {
+        $reader = self::reader($src, $parameters);
+        if ($reader instanceof ReaderInterface) {
+            $deleter = new Delete($reader);
+            return $deleter();
+        }
 
-		throw new InvalidArgumentException('Invalid reader stream wrapper',
-			InvalidArgumentException::INVALID_READER_STREAM_WRAPPER);
-	}
+        throw new InvalidArgumentException(
+            'Invalid reader stream wrapper',
+            InvalidArgumentException::INVALID_READER_STREAM_WRAPPER
+        );
+    }
 }

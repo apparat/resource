@@ -50,89 +50,89 @@ use Apparat\Resource\Framework\Model\Resource\JsonResource;
  */
 class JsonTest extends AbstractTest
 {
-	/**
-	 * Example JSON data
-	 *
-	 * @var string
-	 */
-	protected $_json = null;
+    /**
+     * Example JSON data
+     *
+     * @var string
+     */
+    protected $_json = null;
 
-	/**
-	 * Example JSON file
-	 *
-	 * @var string
-	 */
-	const JSON_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.json';
+    /**
+     * Example JSON file
+     *
+     * @var string
+     */
+    const JSON_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.json';
 
-	/**
-	 * Sets up the fixture
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-		$this->_json = file_get_contents(self::JSON_FILE);
-	}
+    /**
+     * Sets up the fixture
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->_json = file_get_contents(self::JSON_FILE);
+    }
 
-	/**
-	 * Test the JSON file constructor
-	 */
-	public function testJsonResource()
-	{
-		$jsonResource = new JsonResource();
-		$this->assertInstanceOf(JsonResource::class, $jsonResource);
-		$this->assertEquals(JsonPart::MIME_TYPE, $jsonResource->getMimeTypePart());
-	}
+    /**
+     * Test the JSON file constructor
+     */
+    public function testJsonResource()
+    {
+        $jsonResource = new JsonResource();
+        $this->assertInstanceOf(JsonResource::class, $jsonResource);
+        $this->assertEquals(JsonPart::MIME_TYPE, $jsonResource->getMimeTypePart());
+    }
 
-	/**
-	 * Test the JSON file constructor with reader
-	 */
-	public function testJsonResourceReader()
-	{
-		$jsonResource = new JsonResource(new Reader($this->_json));
-		$this->assertEquals($this->_json, $jsonResource->getPart());
-	}
+    /**
+     * Test the JSON file constructor with reader
+     */
+    public function testJsonResourceReader()
+    {
+        $jsonResource = new JsonResource(new Reader($this->_json));
+        $this->assertEquals($this->_json, $jsonResource->getPart());
+    }
 
-	/**
-	 * Test getting the data of a JSON file with unallowed subparts
-	 *
-	 * @expectedException \Apparat\Resource\Domain\Model\Part\InvalidArgumentException
-	 * @expectedExceptionCode 1447365624
-	 */
-	public function testJsonResourceHtmlSubparts()
-	{
-		$jsonResource = new JsonResource(new Reader($this->_json));
-		$jsonResource->getDataPart('a/b/c');
-	}
+    /**
+     * Test getting the data of a JSON file with unallowed subparts
+     *
+     * @expectedException \Apparat\Resource\Domain\Model\Part\InvalidArgumentException
+     * @expectedExceptionCode 1447365624
+     */
+    public function testJsonResourceHtmlSubparts()
+    {
+        $jsonResource = new JsonResource(new Reader($this->_json));
+        $jsonResource->getDataPart('a/b/c');
+    }
 
-	/**
-	 * Test getting the data of a Json file
-	 */
-	public function testJsonResourceGetData()
-	{
-		$expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
-		$jsonResource = new JsonResource(new Reader($this->_json));
-		$this->assertArrayEquals($expectedData, $jsonResource->getDataPart());
-	}
+    /**
+     * Test getting the data of a Json file
+     */
+    public function testJsonResourceGetData()
+    {
+        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
+        $jsonResource = new JsonResource(new Reader($this->_json));
+        $this->assertArrayEquals($expectedData, $jsonResource->getDataPart());
+    }
 
-	/**
-	 * Test getting the data of a Json file
-	 */
-	public function testJsonResourceSetData()
-	{
-		// Prepare modified expected data
-		$expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
-		$expectedData['date'] = time();
-		$expectedData['bill-to']['given'] = 'John';
-		$expectedData['bill-to']['family'] = 'Doe';
-		$expectedData['product'][] = [
-			'sku' => 'ABC123',
-			'quantity' => 1,
-			'description' => 'Dummy',
-			'price' => 123
-		];
-		unset($expectedData['comments']);
-		$jsonResource = new JsonResource(new Reader($this->_json));
-		$jsonResource->setDataPart($expectedData);
-		$this->assertArrayEquals($expectedData, $jsonResource->getDataPart());
-	}
+    /**
+     * Test getting the data of a Json file
+     */
+    public function testJsonResourceSetData()
+    {
+        // Prepare modified expected data
+        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
+        $expectedData['date'] = time();
+        $expectedData['bill-to']['given'] = 'John';
+        $expectedData['bill-to']['family'] = 'Doe';
+        $expectedData['product'][] = [
+            'sku' => 'ABC123',
+            'quantity' => 1,
+            'description' => 'Dummy',
+            'price' => 123
+        ];
+        unset($expectedData['comments']);
+        $jsonResource = new JsonResource(new Reader($this->_json));
+        $jsonResource->setDataPart($expectedData);
+        $this->assertArrayEquals($expectedData, $jsonResource->getDataPart());
+    }
 }

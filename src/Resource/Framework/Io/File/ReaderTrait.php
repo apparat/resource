@@ -46,6 +46,16 @@ namespace Apparat\Resource\Framework\Io\File;
 trait ReaderTrait
 {
     /**
+     * Read the file content
+     *
+     * @return string File content
+     */
+    public function read()
+    {
+        return file_get_contents($this->_file);
+    }
+
+    /**
      * Validate the reader file
      *
      * @throws InvalidArgumentException If the file does not exist
@@ -56,30 +66,26 @@ trait ReaderTrait
     {
         // If the file does not exist
         if (!@file_exists($this->_file)) {
-            throw new InvalidArgumentException(sprintf('File "%s" does not exist', $this->_file),
-                InvalidArgumentException::FILE_DOES_NOT_EXIST);
+            throw new InvalidArgumentException(
+                sprintf('File "%s" does not exist', $this->_file),
+                InvalidArgumentException::FILE_DOES_NOT_EXIST
+            );
         }
 
         // If the file is not a file
         if (!@is_file($this->_file)) {
-            throw new InvalidArgumentException(sprintf('File "%s" is not a file', $this->_file),
-                InvalidArgumentException::FILE_IS_NOT_A_FILE);
+            throw new InvalidArgumentException(
+                sprintf('File "%s" is not a file', $this->_file),
+                InvalidArgumentException::FILE_IS_NOT_A_FILE
+            );
         }
 
         // If the file is not readable
         if (!@is_readable($this->_file)) {
-            throw new InvalidArgumentException(sprintf('File "%s" is not readable', $this->_file),
-                InvalidArgumentException::FILE_NOT_READABLE);
+            throw new InvalidArgumentException(
+                sprintf('File "%s" is not readable', $this->_file),
+                InvalidArgumentException::FILE_NOT_READABLE
+            );
         }
-    }
-
-    /**
-     * Read the file content
-     *
-     * @return string File content
-     */
-    public function read()
-    {
-        return file_get_contents($this->_file);
     }
 }

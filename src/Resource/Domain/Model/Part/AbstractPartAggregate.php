@@ -46,408 +46,435 @@ use Apparat\Resource\Domain\Model\Hydrator\AbstractMultipartHydrator;
  */
 abstract class AbstractPartAggregate extends AbstractPart implements PartAggregateInterface
 {
-	/**
-	 * Subpart template
-	 *
-	 * @var array
-	 */
-	protected $_template = array();
-	/**
-	 * Minimum occurrences
-	 *
-	 * @var int
-	 */
-	protected $_minimumOccurrences = 1;
-	/**
-	 * Maximum occurrences
-	 *
-	 * @var int
-	 */
-	protected $_maximumOccurrences = 1;
-	/**
-	 * Occurrences
-	 *
-	 * @var array
-	 */
-	protected $_occurrences = [];
-	/**
-	 * Current occurrence index
-	 *
-	 * @var int
-	 */
-	protected $_occurrenceCurrent = 0;
-	/**
-	 * Current occurrence iterator
-	 *
-	 * @var int
-	 */
-	protected $_occurrenceIterator = 0;
+    /**
+     * Unbound occurrences
+     *
+     * @var int
+     */
+    const UNBOUND = -1;
+    /**
+     * Subpart template
+     *
+     * @var array
+     */
+    protected $_template = array();
+    /**
+     * Minimum occurrences
+     *
+     * @var int
+     */
+    protected $_minimumOccurrences = 1;
+    /**
+     * Maximum occurrences
+     *
+     * @var int
+     */
+    protected $_maximumOccurrences = 1;
+    /**
+     * Occurrences
+     *
+     * @var array
+     */
+    protected $_occurrences = [];
+    /**
+     * Current occurrence index
+     *
+     * @var int
+     */
+    protected $_occurrenceCurrent = 0;
+    /**
+     * Current occurrence iterator
+     *
+     * @var int
+     */
+    protected $_occurrenceIterator = 0;
 
-	/**
-	 * Unbound occurrences
-	 *
-	 * @var int
-	 */
-	const UNBOUND = -1;
+    /**
+     * Part constructor
+     *
+     * @param array $template Subpart template
+     * @param array|int $minOccurrences Minimum occurrences
+     * @param int $maxOccurrences Maximum occurrences
+     * @param AbstractMultipartHydrator $hydrator
+     */
+    public function __construct(
+        array $template,
+        $minOccurrences = 1,
+        $maxOccurrences = 1,
+        AbstractMultipartHydrator $hydrator
+    ) {
+        self::validateOccurrences($minOccurrences, $maxOccurrences);
+        $this->_template = $template;
+        $this->_minimumOccurrences = intval($minOccurrences);
+        $this->_maximumOccurrences = intval($maxOccurrences);
 
-	/**
-	 * Part constructor
-	 *
-	 * @param array $template Subpart template
-	 * @param array|int $minOccurrences Minimum occurrences
-	 * @param int $maxOccurrences Maximum occurrences
-	 * @param AbstractMultipartHydrator $hydrator
-	 */
-	public function __construct(array $template, $minOccurrences = 1, $maxOccurrences = 1, AbstractMultipartHydrator $hydrator)
-	{
-		self::validateOccurrences($minOccurrences, $maxOccurrences);
-		$this->_template = $template;
-		$this->_minimumOccurrences = intval($minOccurrences);
-		$this->_maximumOccurrences = intval($maxOccurrences);
+        parent::__construct($hydrator);
 
-		parent::__construct($hydrator);
+        // Initialize the occurrences
+        $this->_initializeOccurrences($this->_minimumOccurrences);
+    }
 
-		// Initialize the occurrences
-		$this->_initializeOccurrences($this->_minimumOccurrences);
-	}
+    /**
+     * Validate minimum / maximum occurrence numbers
+     *
+     * @param int $minOccurrences Minimum occurrences
+     * @param int $maxOccurrences Maximum occurrences
+     * @return void
+     * @throws InvalidArgumentException If the minimum occurrences are less than 1
+     * @throws InvalidArgumentException If the maximum occurrences are not unbound and less than the minimum occurrences
+     */
+    public static function validateOccurrences($minOccurrences, $maxOccurrences)
+    {
+        // Minimum occurrences
+        $minOccurrences = intval($minOccurrences);
+        if ($minOccurrences < 1) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Invalid part aggregate minimum occurrences "%s"',
+                    $minOccurrences
+                ), InvalidArgumentException::INVALID_MINIMUM_OCCURRENCES
+            );
+        }
 
-	/**
-	 * Serialize this file part
-	 *
-	 * @return string   File part content
-	 */
-	public function __toString()
-	{
-		return $this->_hydrator->dehydrate($this);
-	}
+        // Maximum occurrences
+        $maxOccurrences = intval($maxOccurrences);
+        if (($maxOccurrences < $minOccurrences) && ($maxOccurrences != self::UNBOUND)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Invalid part aggregate maximum occurrences "%s"',
+                    $maxOccurrences
+                ), InvalidArgumentException::INVALID_MAXIMUM_OCCURRENCES
+            );
+        }
+    }
 
-	/**
-	 * Return the mime type of this part
-	 *
-	 * @return string   MIME type
-	 */
-	public function getMimeType()
-	{
-		return null;
-	}
+    /**
+     * Initialize a particular number of occurrences
+     *
+     * @param int $occurrences Occurrences number
+     * @throws OutOfBoundsException If an invalid number of occurrences is specified
+     */
+    protected function _initializeOccurrences($occurrences)
+    {
+        // If the occurrences number is invalid
+        if (($occurrences < $this->_minimumOccurrences) || (($this->_maximumOccurrences != self::UNBOUND) && ($occurrences > $this->_maximumOccurrences))) {
+            throw new OutOfBoundsException(
+                sprintf('Invalid occurrences number "%s"', $occurrences),
+                OutOfBoundsException::INVALID_OCCURRENCES_NUMBER
+            );
+        }
 
-	/**
-	 * Return a nested subpart (or the part itself)
-	 *
-	 * @param array $subparts Subpart path identifiers
-	 * @param int $occurrence Effective occurrence index
-	 * @param string $part Effective part identifier
-	 * @return PartInterface Nested subpart (or the part itself)
-	 * @throws InvalidArgumentException If there are too few subpart identifiers given
-	 * @throws InvalidArgumentException If the occurrence index is invalid
-	 * @throws OutOfBoundsException If the occurrence index is out of bounds
-	 */
-	public function get(array $subparts = array(), &$occurrence = 0, &$part = '')
-	{
-		// If a subpart is requested
-		if (count($subparts)) {
-			$subpart = $this->_getImmediateSubpart($subparts, $occurrence, $part);
-			return $subpart->get($subparts);
+        // Initialize the particular number of occurrences
+        for ($occurrence = count($this->_occurrences); $occurrence < $occurrences; ++$occurrence) {
+            $this->_addOccurrence();
+        }
+    }
 
-			// Else: return this
-		} else {
-			return $this;
-		}
-	}
+    /**
+     * Add an occurrence
+     *
+     * @return void
+     */
+    abstract protected function _addOccurrence();
 
-	/**
-	 * Set the contents of a part
-	 *
-	 * @param mixed $data Contents
-	 * @param array $subparts Subpart identifiers
-	 * @return PartInterface Modified part
-	 */
-	public function set($data, array $subparts = [])
-	{
-		// If there are subparts: Delegate
-		if (count($subparts)) {
-			$occurrence = 0;
-			$part = '';
-			$subpart = $this->get($subparts, $occurrence, $part)->set($data, []);
-			$this->_occurrences[$occurrence][$part] = $subpart;
-			return $this;
+    /**
+     * Serialize this file part
+     *
+     * @return string   File part content
+     */
+    public function __toString()
+    {
+        return $this->_hydrator->dehydrate($this);
+    }
 
-			// Else: Rehydrate
-		} else {
-			return $this->_hydrator->hydrate($data);
-		}
-	}
+    /**
+     * Return the mime type of this part
+     *
+     * @return string   MIME type
+     */
+    public function getMimeType()
+    {
+        return null;
+    }
 
-	/**
-	 * Delegate a method call to a subpart
-	 *
-	 * @param string $method Method nae
-	 * @param array $subparts Subpart identifiers
-	 * @param array $arguments Method arguments
-	 * @return mixed Method result
-	 */
-	public function delegate($method, array $subparts, array $arguments)
-	{
-		// If there are subpart identifiers: Delegate method call
-		if (count($subparts)) {
-			$occurrence = 0;
-			$part = '';
-			$subpart = $this->_getImmediateSubpart($subparts, $occurrence, $part);
-			$result = $subpart->delegate($method, $subparts, $arguments);
+    /**
+     * Set the contents of a part
+     *
+     * @param mixed $data Contents
+     * @param array $subparts Subpart identifiers
+     * @return PartInterface Modified part
+     */
+    public function set($data, array $subparts = [])
+    {
+        // If there are subparts: Delegate
+        if (count($subparts)) {
+            $occurrence = 0;
+            $part = '';
+            $subpart = $this->get($subparts, $occurrence, $part)->set($data, []);
+            $this->_occurrences[$occurrence][$part] = $subpart;
+            return $this;
 
-			// If it's a setter method
-			if (!strncmp('set', $method, 3)) {
+            // Else: Rehydrate
+        } else {
+            return $this->_hydrator->hydrate($data);
+        }
+    }
 
-				// Exchange the modified part
-				$this->_occurrences[$occurrence][$part] = $result;
+    /**
+     * Return a nested subpart (or the part itself)
+     *
+     * @param array $subparts Subpart path identifiers
+     * @param int $occurrence Effective occurrence index
+     * @param string $part Effective part identifier
+     * @return PartInterface Nested subpart (or the part itself)
+     * @throws InvalidArgumentException If there are too few subpart identifiers given
+     * @throws InvalidArgumentException If the occurrence index is invalid
+     * @throws OutOfBoundsException If the occurrence index is out of bounds
+     */
+    public function get(array $subparts = array(), &$occurrence = 0, &$part = '')
+    {
+        // If a subpart is requested
+        if (count($subparts)) {
+            $subpart = $this->_getImmediateSubpart($subparts, $occurrence, $part);
+            return $subpart->get($subparts);
 
-				// Return a self reference
-				return $this;
+            // Else: return this
+        } else {
+            return $this;
+        }
+    }
 
-				// Else: Return the method result
-			} else {
-				return $result;
-			}
-		}
+    /**
+     * Return an immediate subpart
+     *
+     * @param array $subparts Subpart path identifiers
+     * @param int $occurrence Effective occurrence index
+     * @param string $part Effective part identifier
+     * @return PartInterface Immediate subpart
+     * @throws InvalidArgumentException If there are too few subpart identifiers
+     * @throws InvalidArgumentException If the occurrence index is invalid
+     * @throws OutOfBoundsException If the occurrence index is out of bounds
+     * @throws InvalidArgumentException If the subpart identifier is unknown
+     * @throws InvalidArgumentException If the subpart does not exist
+     */
+    protected function _getImmediateSubpart(array &$subparts, &$occurrence = 0, &$part = '')
+    {
 
-		return parent::delegate($method, $subparts, $arguments);
-	}
+        // Check if there are at least 2 subpart path identifiers available
+        if (count($subparts) < 2) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Too few subpart identifiers ("%s")',
+                    implode('/', $subparts)
+                ),
+                InvalidArgumentException::TOO_FEW_SUBPART_IDENTIFIERS
+            );
+        }
 
-	/**
-	 * Assign data to a particular part
-	 *
-	 * @param string $part Part identifier
-	 * @param string $data Part data
-	 * @param null|int $occurrence Occurrence to assign the part data to
-	 */
-	abstract public function assign($part, $data, $occurrence = null);
+        // Validate the occurrence index
+        $occurrence = array_shift($subparts);
+        if ((strval(intval($occurrence)) != $occurrence)) {
+            throw new InvalidArgumentException(
+                sprintf('Invalid occurrence index "%s"', $occurrence),
+                InvalidArgumentException::INVALID_OCCURRENCE_INDEX
+            );
+        }
 
-	/**
-	 * Return the number of occurrences
-	 *
-	 * @return int Number of occurrences
-	 */
-	public function count()
-	{
-		return count($this->_occurrences);
-	}
+        // If the occurrence index is out of bounds
+        if ((intval($occurrence) < 0) || ($occurrence >= count($this->_occurrences))) {
+            throw new OutOfBoundsException(
+                sprintf('Occurrence index "%s" out of bounds', $occurrence),
+                OutOfBoundsException::OCCURRENCE_INDEX_OUT_OF_BOUNDS
+            );
+        }
 
-	/**
-	 * Return the current occurrence
-	 *
-	 * @return array Current occurrence
-	 */
-	public function current()
-	{
-		return $this->_occurrences[$this->_occurrenceIterator];
-	}
+        // Validate the part identifier
+        $part = array_shift($subparts);
+        self::validatePartIdentifier($part);
 
-	/**
-	 * Increment the internal occurrence iterator
-	 *
-	 * @return void
-	 */
-	public function next()
-	{
-		++$this->_occurrenceIterator;
-	}
+        // Test if the part identifier is known
+        if (!$this->_isKnownPartIdentifier($occurrence, $part)) {
+            throw new InvalidArgumentException(
+                sprintf('Unknown part identifier "%s"', $part),
+                InvalidArgumentException::UNKNOWN_PART_IDENTIFIER
+            );
+        }
 
-	/**
-	 * Return the internal occurrence iterator
-	 *
-	 * @return int Internal occurrence iterator
-	 */
-	public function key()
-	{
-		return $this->_occurrenceIterator;
-	}
+        // If the part is empty
+        $partInstance = $this->_getOccurrencePart($occurrence, $part);
+        if (!($partInstance instanceof PartInterface)) {
+            throw new InvalidArgumentException(
+                sprintf('Part "%s" does not exist', $occurrence.'/'.$part),
+                InvalidArgumentException::PART_DOES_NOT_EXIST
+            );
+        }
 
-	/**
-	 * Test if the current occurrence is valid
-	 *
-	 * @return boolean The current occurrence is valid
-	 */
-	public function valid()
-	{
-		return isset($this->_occurrences[$this->_occurrenceIterator]);
-	}
+        return $partInstance;
+    }
 
-	/**
-	 * Reset the internal occurrence iterator
-	 *
-	 * @return void
-	 */
-	public function rewind()
-	{
-		$this->_occurrenceIterator = 0;
-	}
+    /**
+     * Test if a particular part identifier is known for a particular occurrence
+     *
+     * @param int $occurrence Occurrence index
+     * @param string $part Part identifier
+     * @return bool Is known part identifier
+     */
+    protected function _isKnownPartIdentifier($occurrence, $part)
+    {
+        return array_key_exists($part, $this->_occurrences[$occurrence]);
+    }
 
-	/*******************************************************************************
-	 * STATIC METHODS
-	 *******************************************************************************/
+    /**
+     * Return a particular part of a particular occurrence
+     *
+     * @param int $occurrence Occurrence index
+     * @param string $part Part identifier
+     * @return PartInterface Part instance
+     */
+    protected function _getOccurrencePart(&$occurrence, &$part)
+    {
+        return $this->_occurrences[$occurrence][$part];
+    }
 
-	/**
-	 * Validate minimum / maximum occurrence numbers
-	 *
-	 * @param int $minOccurrences Minimum occurrences
-	 * @param int $maxOccurrences Maximum occurrences
-	 * @return void
-	 * @throws InvalidArgumentException If the minimum occurrences are less than 1
-	 * @throws InvalidArgumentException If the maximum occurrences are not unbound and less than the minimum occurrences
-	 */
-	public static function validateOccurrences($minOccurrences, $maxOccurrences)
-	{
-		// Minimum occurrences
-		$minOccurrences = intval($minOccurrences);
-		if ($minOccurrences < 1) {
-			throw new InvalidArgumentException(sprintf('Invalid part aggregate minimum occurrences "%s"',
-				$minOccurrences), InvalidArgumentException::INVALID_MINIMUM_OCCURRENCES);
-		}
+    /**
+     * Delegate a method call to a subpart
+     *
+     * @param string $method Method nae
+     * @param array $subparts Subpart identifiers
+     * @param array $arguments Method arguments
+     * @return mixed Method result
+     */
+    public function delegate($method, array $subparts, array $arguments)
+    {
+        // If there are subpart identifiers: Delegate method call
+        if (count($subparts)) {
+            $occurrence = 0;
+            $part = '';
+            $subpart = $this->_getImmediateSubpart($subparts, $occurrence, $part);
+            $result = $subpart->delegate($method, $subparts, $arguments);
 
-		// Maximum occurrences
-		$maxOccurrences = intval($maxOccurrences);
-		if (($maxOccurrences < $minOccurrences) && ($maxOccurrences != self::UNBOUND)) {
-			throw new InvalidArgumentException(sprintf('Invalid part aggregate maximum occurrences "%s"',
-				$maxOccurrences), InvalidArgumentException::INVALID_MAXIMUM_OCCURRENCES);
-		}
-	}
+            // If it's a setter method
+            if (!strncmp('set', $method, 3)) {
 
-	/*******************************************************************************
-	 * PRIVATE METHODS
-	 *******************************************************************************/
+                // Exchange the modified part
+                $this->_occurrences[$occurrence][$part] = $result;
 
-	/**
-	 * Return an immediate subpart
-	 *
-	 * @param array $subparts Subpart path identifiers
-	 * @param int $occurrence Effective occurrence index
-	 * @param string $part Effective part identifier
-	 * @return PartInterface Immediate subpart
-	 * @throws InvalidArgumentException If there are too few subpart identifiers
-	 * @throws InvalidArgumentException If the occurrence index is invalid
-	 * @throws OutOfBoundsException If the occurrence index is out of bounds
-	 * @throws InvalidArgumentException If the subpart identifier is unknown
-	 * @throws InvalidArgumentException If the subpart does not exist
-	 */
-	protected function _getImmediateSubpart(array &$subparts, &$occurrence = 0, &$part = '')
-	{
+                // Return a self reference
+                return $this;
 
-		// Check if there are at least 2 subpart path identifiers available
-		if (count($subparts) < 2) {
-			throw new InvalidArgumentException(sprintf('Too few subpart identifiers ("%s")',
-				implode('/', $subparts)),
-				InvalidArgumentException::TOO_FEW_SUBPART_IDENTIFIERS);
-		}
+                // Else: Return the method result
+            } else {
+                return $result;
+            }
+        }
 
-		// Validate the occurrence index
-		$occurrence = array_shift($subparts);
-		if ((strval(intval($occurrence)) != $occurrence)) {
-			throw new InvalidArgumentException(sprintf('Invalid occurrence index "%s"', $occurrence),
-				InvalidArgumentException::INVALID_OCCURRENCE_INDEX);
-		}
+        return parent::delegate($method, $subparts, $arguments);
+    }
 
-		// If the occurrence index is out of bounds
-		if ((intval($occurrence) < 0) || ($occurrence >= count($this->_occurrences))) {
-			throw new OutOfBoundsException(sprintf('Occurrence index "%s" out of bounds', $occurrence),
-				OutOfBoundsException::OCCURRENCE_INDEX_OUT_OF_BOUNDS);
-		}
+    /**
+     * Assign data to a particular part
+     *
+     * @param string $part Part identifier
+     * @param string $data Part data
+     * @param null|int $occurrence Occurrence to assign the part data to
+     */
+    abstract public function assign($part, $data, $occurrence = null);
 
-		// Validate the part identifier
-		$part = array_shift($subparts);
-		self::validatePartIdentifier($part);
+    /*******************************************************************************
+     * STATIC METHODS
+     *******************************************************************************/
 
-		// Test if the part identifier is known
-		if (!$this->_isKnownPartIdentifier($occurrence, $part)) {
-			throw new InvalidArgumentException(sprintf('Unknown part identifier "%s"', $part),
-				InvalidArgumentException::UNKNOWN_PART_IDENTIFIER);
-		}
+    /**
+     * Return the number of occurrences
+     *
+     * @return int Number of occurrences
+     */
+    public function count()
+    {
+        return count($this->_occurrences);
+    }
 
-		// If the part is empty
-		$partInstance = $this->_getOccurrencePart($occurrence, $part);
-		if (!($partInstance instanceof PartInterface)) {
-			throw new InvalidArgumentException(sprintf('Part "%s" does not exist', $occurrence.'/'.$part),
-				InvalidArgumentException::PART_DOES_NOT_EXIST);
-		}
+    /*******************************************************************************
+     * PRIVATE METHODS
+     *******************************************************************************/
 
-		return $partInstance;
-	}
+    /**
+     * Return the current occurrence
+     *
+     * @return array Current occurrence
+     */
+    public function current()
+    {
+        return $this->_occurrences[$this->_occurrenceIterator];
+    }
 
-	/**
-	 * Initialize a particular number of occurrences
-	 *
-	 * @param int $occurrences Occurrences number
-	 * @throws OutOfBoundsException If an invalid number of occurrences is specified
-	 */
-	protected function _initializeOccurrences($occurrences)
-	{
-		// If the occurrences number is invalid
-		if (($occurrences < $this->_minimumOccurrences) || (($this->_maximumOccurrences != self::UNBOUND) && ($occurrences > $this->_maximumOccurrences))) {
-			throw new OutOfBoundsException(sprintf('Invalid occurrences number "%s"', $occurrences),
-				OutOfBoundsException::INVALID_OCCURRENCES_NUMBER);
-		}
+    /**
+     * Increment the internal occurrence iterator
+     *
+     * @return void
+     */
+    public function next()
+    {
+        ++$this->_occurrenceIterator;
+    }
 
-		// Initialize the particular number of occurrences
-		for ($occurrence = count($this->_occurrences); $occurrence < $occurrences; ++$occurrence) {
-			$this->_addOccurrence();
-		}
-	}
+    /**
+     * Return the internal occurrence iterator
+     *
+     * @return int Internal occurrence iterator
+     */
+    public function key()
+    {
+        return $this->_occurrenceIterator;
+    }
 
-	/**
-	 * Add an occurrence
-	 *
-	 * @return void
-	 */
-	abstract protected function _addOccurrence();
+    /**
+     * Test if the current occurrence is valid
+     *
+     * @return boolean The current occurrence is valid
+     */
+    public function valid()
+    {
+        return isset($this->_occurrences[$this->_occurrenceIterator]);
+    }
 
-	/**
-	 * Prepare a part assignment
-	 *
-	 * @param string $part Part identifier
-	 * @param null|int $occurrence Occurrence to assign the part data to
-	 * @return int Occurrence index
-	 * @throws InvalidArgumentException If the part identifier is invalid
-	 */
-	protected function _prepareAssignment($part, $occurrence = null)
-	{
+    /**
+     * Reset the internal occurrence iterator
+     *
+     * @return void
+     */
+    public function rewind()
+    {
+        $this->_occurrenceIterator = 0;
+    }
 
-		// If the part identifier is invalid
-		if (!strlen($part) || !array_key_exists($part, $this->_template)) {
-			throw new InvalidArgumentException(sprintf('Invalid part identifier "%s"', $part),
-				InvalidArgumentException::INVALID_PART_IDENTIFIER);
-		}
+    /**
+     * Prepare a part assignment
+     *
+     * @param string $part Part identifier
+     * @param null|int $occurrence Occurrence to assign the part data to
+     * @return int Occurrence index
+     * @throws InvalidArgumentException If the part identifier is invalid
+     */
+    protected function _prepareAssignment($part, $occurrence = null)
+    {
 
-		// Use the current occurrence if not specified
-		if ($occurrence === null) {
-			$occurrence = $this->_occurrenceCurrent;
-		}
+        // If the part identifier is invalid
+        if (!strlen($part) || !array_key_exists($part, $this->_template)) {
+            throw new InvalidArgumentException(
+                sprintf('Invalid part identifier "%s"', $part),
+                InvalidArgumentException::INVALID_PART_IDENTIFIER
+            );
+        }
 
-		// Initialize the required number or occurrences
-		$this->_initializeOccurrences($occurrence + 1);
+        // Use the current occurrence if not specified
+        if ($occurrence === null) {
+            $occurrence = $this->_occurrenceCurrent;
+        }
 
-		return $occurrence;
-	}
+        // Initialize the required number or occurrences
+        $this->_initializeOccurrences($occurrence + 1);
 
-	/**
-	 * Test if a particular part identifier is known for a particular occurrence
-	 *
-	 * @param int $occurrence Occurrence index
-	 * @param string $part Part identifier
-	 * @return bool Is known part identifier
-	 */
-	protected function _isKnownPartIdentifier($occurrence, $part)
-	{
-		return array_key_exists($part, $this->_occurrences[$occurrence]);
-	}
-
-	/**
-	 * Return a particular part of a particular occurrence
-	 *
-	 * @param int $occurrence Occurrence index
-	 * @param string $part Part identifier
-	 * @return PartInterface Part instance
-	 */
-	protected function _getOccurrencePart(&$occurrence, &$part)
-	{
-		return $this->_occurrences[$occurrence][$part];
-	}
+        return $occurrence;
+    }
 }

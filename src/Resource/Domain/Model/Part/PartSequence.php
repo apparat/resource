@@ -46,29 +46,29 @@ use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
  */
 class PartSequence extends AbstractPartAggregate
 {
-	/**
-	 * Add an occurrence
-	 *
-	 * @return void
-	 */
-	protected function _addOccurrence()
-	{
-		$this->_occurrences[] = array_fill_keys(array_keys($this->_template), null);
-	}
+    /**
+     * Assign data to a particular part
+     *
+     * @param string $part Part identifier
+     * @param string $data Part data
+     * @param null|int $occurrence Occurrence to assign the part data to
+     */
+    public function assign($part, $data, $occurrence = null)
+    {
+        $occurrence = $this->_prepareAssignment($part, $occurrence);
 
-	/**
-	 * Assign data to a particular part
-	 *
-	 * @param string $part Part identifier
-	 * @param string $data Part data
-	 * @param null|int $occurrence Occurrence to assign the part data to
-	 */
-	public function assign($part, $data, $occurrence = null)
-	{
-		$occurrence = $this->_prepareAssignment($part, $occurrence);
+        /** @var HydratorInterface $hydrator */
+        $hydrator =& $this->_template[$part];
+        $this->_occurrences[$occurrence][$part] = $hydrator->hydrate($data);
+    }
 
-		/** @var HydratorInterface $hydrator */
-		$hydrator =& $this->_template[$part];
-		$this->_occurrences[$occurrence][$part] = $hydrator->hydrate($data);
-	}
+    /**
+     * Add an occurrence
+     *
+     * @return void
+     */
+    protected function _addOccurrence()
+    {
+        $this->_occurrences[] = array_fill_keys(array_keys($this->_template), null);
+    }
 }

@@ -42,7 +42,8 @@ namespace Apparat\Resource\Framework\Io\File {
      * @param $filename
      * @return bool
      */
-    function is_readable($filename) {
+    function is_readable($filename)
+    {
         return empty($GLOBALS['mockIsReadable']) ? \is_readable($filename) : false;
     }
 
@@ -52,24 +53,25 @@ namespace Apparat\Resource\Framework\Io\File {
      * @param $filename
      * @return bool
      */
-    function is_writeable($filename) {
+    function is_writeable($filename)
+    {
         return empty($GLOBALS['mockIsWriteable']) ? \is_writeable($filename) : false;
     }
 }
 
 namespace ApparatTest {
 
-    use Apparat\Resource\Framework\Model\Resource\TextResource;
     use Apparat\Resource\Framework\Io\File\InvalidArgumentException;
     use Apparat\Resource\Framework\Io\File\Reader;
     use Apparat\Resource\Framework\Io\File\ReaderWriter;
     use Apparat\Resource\Framework\Io\File\Writer;
+    use Apparat\Resource\Framework\Model\Resource\TextResource;
 
     /**
      * FileIo tests
      *
      * @package     Apparat\Resource
- * @subpackage  Apparat\Resource\Framework
+     * @subpackage  Apparat\Resource\Framework
      */
     class FileIoTest extends AbstractTest
     {
@@ -193,7 +195,8 @@ namespace ApparatTest {
         /**
          * Test the file writer with a newly created file
          */
-        public function testFileWriterWithCreatedFile() {
+        public function testFileWriterWithCreatedFile()
+        {
             $textReource = new TextResource(new \Apparat\Resource\Framework\Io\InMemory\Reader($this->_text));
             $tempFile = $this->_createTemporaryFile(true);
             $textReource->dump(new Writer($tempFile, Writer::FILE_CREATE));
@@ -203,7 +206,8 @@ namespace ApparatTest {
         /**
          * Test the file writer with an overwritten file
          */
-        public function testFileWriterWithOverwrittenFile() {
+        public function testFileWriterWithOverwrittenFile()
+        {
             $textReource = new TextResource(new \Apparat\Resource\Framework\Io\InMemory\Reader($this->_text));
             $tempFile = $this->_createTemporaryFile();
             $textReource->dump(new Writer($tempFile, Writer::FILE_OVERWRITE));
@@ -213,7 +217,8 @@ namespace ApparatTest {
         /**
          * Test the file reader/writer
          */
-        public function testFileReaderWriterWithCreatedFile() {
+        public function testFileReaderWriterWithCreatedFile()
+        {
             $tempFile = $this->_createTemporaryFile(true);
             copy(self::TXT_FILE, $tempFile);
             $randomAppend = md5(rand());

@@ -44,22 +44,22 @@ namespace Apparat\Resource\Framework\Service;
  */
 class RuntimeException extends \RuntimeException
 {
-	/**
-	 * Could not copy file to file
-	 *
-	 * @var int
-	 */
-	const COULD_NOT_COPY_FILE_TO_FILE = 1448569381;
-	/**
-	 * Could not copy file to file
-	 *
-	 * @var int
-	 */
-	const COULD_NOT_MOVE_FILE_TO_FILE = 1448571473;
-	/**
-	 * Could not delete file
-	 *
-	 * @var int
-	 */
-	const COULD_NOT_DELETE_FILE = 1448574428;
+    /**
+     * Could not copy file to file
+     *
+     * @var int
+     */
+    const COULD_NOT_COPY_FILE_TO_FILE = 1448569381;
+    /**
+     * Could not copy file to file
+     *
+     * @var int
+     */
+    const COULD_NOT_MOVE_FILE_TO_FILE = 1448571473;
+    /**
+     * Could not delete file
+     *
+     * @var int
+     */
+    const COULD_NOT_DELETE_FILE = 1448574428;
 }

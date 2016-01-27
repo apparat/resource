@@ -46,37 +46,37 @@ use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
  */
 class JsonPart extends AbstractContentPart
 {
-	/**
-	 * Mime type
-	 *
-	 * @var string
-	 */
-	const MIME_TYPE = 'application/json';
+    /**
+     * Mime type
+     *
+     * @var string
+     */
+    const MIME_TYPE = 'application/json';
 
-	/**
-	 * Return the unserialized JSON source
-	 *
-	 * @return array Unserialized JSON data
-	 */
-	public function getData()
-	{
-		$data = array();
+    /**
+     * Return the unserialized JSON source
+     *
+     * @return array Unserialized JSON data
+     */
+    public function getData()
+    {
+        $data = array();
 
-		if (strlen($this->_content)) {
-			$data = json_decode($this->_content, true);
-		}
+        if (strlen($this->_content)) {
+            $data = json_decode($this->_content, true);
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 
-	/**
-	 * Set JSON data
-	 *
-	 * @param array $data New data
-	 * @return JsonPart Self reference
-	 */
-	public function setData(array $data)
-	{
-		return $this->set(json_encode($data, JSON_PRETTY_PRINT));
-	}
+    /**
+     * Set JSON data
+     *
+     * @param array $data New data
+     * @return JsonPart Self reference
+     */
+    public function setData(array $data)
+    {
+        return $this->set(json_encode($data, JSON_PRETTY_PRINT));
+    }
 }

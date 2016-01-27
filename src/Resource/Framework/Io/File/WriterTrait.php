@@ -46,60 +46,69 @@ namespace Apparat\Resource\Framework\Io\File;
 trait WriterTrait
 
 {
-	/**
-	 * File options
-	 *
-	 * @var int
-	 */
-	protected $_options;
+    /**
+     * File options
+     *
+     * @var int
+     */
+    protected $_options;
 
-	/**
-	 * Set the file options
-	 *
-	 * @param int $options File options
-	 */
-	protected function _setOptions($options)
-	{
-		$options = intval($options);
-		$allOptions = Writer::FILE_CREATE | Writer::FILE_OVERWRITE;
+    /**
+     * Write data
+     *
+     * @param string $data Data to write
+     * @return int Bytes written
+     */
+    public function write($data)
+    {
+        return file_put_contents($this->_file, $data);
+    }
 
-		if (($options & $allOptions) != $options) {
-			throw new InvalidArgumentException(sprintf('Invalid file writer option "%s"', $options & ~$allOptions),
-				InvalidArgumentException::INVALID_FILE_WRITER_OPTIONS);
-		}
+    /**
+     * Set the file options
+     *
+     * @param int $options File options
+     */
+    protected function _setOptions($options)
+    {
+        $options = intval($options);
+        $allOptions = Writer::FILE_CREATE | Writer::FILE_OVERWRITE;
 
-		$this->_options = $options;
-	}
+        if (($options & $allOptions) != $options) {
+            throw new InvalidArgumentException(
+                sprintf('Invalid file writer option "%s"', $options & ~$allOptions),
+                InvalidArgumentException::INVALID_FILE_WRITER_OPTIONS
+            );
+        }
 
-	/**
-	 * Validate the writer file
-	 *
-	 * @throws InvalidArgumentException If the file cannot be created
-	 * @throws InvalidArgumentException If the file cannot be overwritten
-	 */
-	protected function _validateWriterFile()
-	{
-		// If the file does not exist and cannot be created
-		if (!@file_exists($this->_file) && !($this->_options & Writer::FILE_CREATE)) {
-			throw new InvalidArgumentException(sprintf('File "%s" cannot be created', $this->_file),
-				InvalidArgumentException::FILE_CANNOT_BE_CREATED);
-		}
+        $this->_options = $options;
+    }
 
-		// If the file exists but cannot be overwritten
-		if (@file_exists($this->_file) && (!@is_file($this->_file) || !@is_writeable($this->_file) || !($this->_options & Writer::FILE_OVERWRITE))) {
-			throw new InvalidArgumentException(sprintf('File "%s" cannot be overwritten', $this->_file),
-				InvalidArgumentException::FILE_CANNOT_BE_OVERWRITTEN);
-		}
-	}
+    /**
+     * Validate the writer file
+     *
+     * @throws InvalidArgumentException If the file cannot be created
+     * @throws InvalidArgumentException If the file cannot be overwritten
+     */
+    protected function _validateWriterFile()
+    {
+        // If the file does not exist and cannot be created
+        if (!@file_exists($this->_file) && !($this->_options & Writer::FILE_CREATE)) {
+            throw new InvalidArgumentException(
+                sprintf('File "%s" cannot be created', $this->_file),
+                InvalidArgumentException::FILE_CANNOT_BE_CREATED
+            );
+        }
 
-	/**
-	 * Write data
-	 *
-	 * @param string $data Data to write
-	 * @return int Bytes written
-	 */
-	public function write($data)
-	{
-		return file_put_contents($this->_file, $data);
-	}
+        // If the file exists but cannot be overwritten
+        if (@file_exists($this->_file) && (!@is_file($this->_file) || !@is_writeable(
+                    $this->_file
+                ) || !($this->_options & Writer::FILE_OVERWRITE))
+        ) {
+            throw new InvalidArgumentException(
+                sprintf('File "%s" cannot be overwritten', $this->_file),
+                InvalidArgumentException::FILE_CANNOT_BE_OVERWRITTEN
+            );
+        }
+    }
 }

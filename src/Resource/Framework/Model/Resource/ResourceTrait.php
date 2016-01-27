@@ -52,42 +52,52 @@ use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
  */
 trait ResourceTrait
 {
-	/*******************************************************************************
-	 * PUBLIC METHODS
-	 *******************************************************************************/
+    /*******************************************************************************
+     * PUBLIC METHODS
+     *******************************************************************************/
 
-	/**
-	 * String serialization
-	 *
-	 * @return string String value (file content)
-	 */
-	public function __toString()
-	{
-		$writer = new InMemoryWriter();
+    /**
+     * String serialization
+     *
+     * @return string String value (file content)
+     */
+    public function __toString()
+    {
+        $writer = new InMemoryWriter();
 
-		/** @var AbstractResource $this */
-		$this->dump($writer);
+        /** @var AbstractResource $this */
+        $this->dump($writer);
 
-		return $writer->getData();
-	}
+        return $writer->getData();
+    }
 
-	/**
-	 * Dump this file to a stream-wrapped target
-	 *
-	 * @param string $target Stream-wrapped target
-	 * @param array $parameters Writer parameters
-	 * @return WriterInterface Writer instance
-	 * @throws InvalidArgumentException If an invalid reader stream wrapper is given
-	 */
-	public function to($target, ...$parameters)
-	{
-		$writer = Tools::writer($target, $parameters);
-		if ($writer instanceof WriterInterface) {
-			$this->dump($writer);
-			return $writer;
-		}
+    /**
+     * Dump this file to a stream-wrapped target
+     *
+     * @param string $target Stream-wrapped target
+     * @param array $parameters Writer parameters
+     * @return WriterInterface Writer instance
+     * @throws InvalidArgumentException If an invalid reader stream wrapper is given
+     */
+    public function to($target, ...$parameters)
+    {
+        $writer = Tools::writer($target, $parameters);
+        if ($writer instanceof WriterInterface) {
+            $this->dump($writer);
+            return $writer;
+        }
 
-		throw new InvalidArgumentException('Invalid writer stream wrapper',
-			InvalidArgumentException::INVALID_WRITER_STREAM_WRAPPER);
-	}
+        throw new InvalidArgumentException(
+            'Invalid writer stream wrapper',
+            InvalidArgumentException::INVALID_WRITER_STREAM_WRAPPER
+        );
+    }
+
+    /**
+     * Dump this files contents into a writer
+     *
+     * @param WriterInterface $writer Writer instance
+     * @return Resource Self reference
+     */
+    abstract public function dump(WriterInterface $writer);
 }

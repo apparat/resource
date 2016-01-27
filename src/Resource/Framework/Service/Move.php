@@ -51,75 +51,81 @@ use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
  */
 class Move extends AbstractService
 {
-	/*******************************************************************************
-	 * PUBLIC METHODS
-	 *******************************************************************************/
+    /*******************************************************************************
+     * PUBLIC METHODS
+     *******************************************************************************/
 
-	/**
-	 * Move / rename the source resource to a target resource
-	 *
-	 * @param string $target Stream wrapped target
-	 * @param array $parameters Writer parameters
-	 * @return WriterInterface Writer instance
-	 * @throws InvalidArgumentException If the writer stream wrapper is invalid
-	 */
-	public function to($target, ...$parameters)
-	{
-		$writer = Tools::writer($target, $parameters);
+    /**
+     * Move / rename the source resource to a target resource
+     *
+     * @param string $target Stream wrapped target
+     * @param array $parameters Writer parameters
+     * @return WriterInterface Writer instance
+     * @throws InvalidArgumentException If the writer stream wrapper is invalid
+     */
+    public function to($target, ...$parameters)
+    {
+        $writer = Tools::writer($target, $parameters);
 
-		// If it's a file writer
-		if ($writer instanceof FileWriter) {
-			return $this->_moveToFile($writer);
-		}
+        // If it's a file writer
+        if ($writer instanceof FileWriter) {
+            return $this->_moveToFile($writer);
+        }
 
-		// If it's an in-memory writer
-		if ($writer instanceof InMemoryWriter) {
-			return $this->_moveToInMemory($writer);
-		}
+        // If it's an in-memory writer
+        if ($writer instanceof InMemoryWriter) {
+            return $this->_moveToInMemory($writer);
+        }
 
-		throw new InvalidArgumentException('Invalid writer stream wrapper',
-			InvalidArgumentException::INVALID_WRITER_STREAM_WRAPPER);
-	}
+        throw new InvalidArgumentException(
+            'Invalid writer stream wrapper',
+            InvalidArgumentException::INVALID_WRITER_STREAM_WRAPPER
+        );
+    }
 
-	/*******************************************************************************
-	 * PRIVATE METHODS
-	 *******************************************************************************/
+    /*******************************************************************************
+     * PRIVATE METHODS
+     *******************************************************************************/
 
-	/**
-	 * Move / rename the resource to a file
-	 *
-	 * @param FileWriter $writer Target file writer
-	 * @return FileWriter File writer instance
-	 * @throws RuntimeException If the resource cannot be moved / renamed
-	 */
-	protected function _moveToFile(FileWriter $writer)
-	{
-		// If a file resource is read
-		if ($this->_reader instanceof FileReader) {
+    /**
+     * Move / rename the resource to a file
+     *
+     * @param FileWriter $writer Target file writer
+     * @return FileWriter File writer instance
+     * @throws RuntimeException If the resource cannot be moved / renamed
+     */
+    protected function _moveToFile(FileWriter $writer)
+    {
+        // If a file resource is read
+        if ($this->_reader instanceof FileReader) {
 
-			// If a copy error occurs
-			if (!@rename($this->_reader->getFile(), $writer->getFile())) {
-				throw new RuntimeException(sprintf('Could not move / rename "%s" to "%s"', $this->_reader->getFile(),
-					$writer->getFile()), RuntimeException::COULD_NOT_MOVE_FILE_TO_FILE);
-			}
+            // If a copy error occurs
+            if (!@rename($this->_reader->getFile(), $writer->getFile())) {
+                throw new RuntimeException(
+                    sprintf(
+                        'Could not move / rename "%s" to "%s"', $this->_reader->getFile(),
+                        $writer->getFile()
+                    ), RuntimeException::COULD_NOT_MOVE_FILE_TO_FILE
+                );
+            }
 
-			// Else: In-memory resource
-		} else {
-			$writer->write($this->_reader->read());
-		}
+            // Else: In-memory resource
+        } else {
+            $writer->write($this->_reader->read());
+        }
 
-		return $writer;
-	}
+        return $writer;
+    }
 
-	/**
-	 * Move / rename the resource to a in-memory buffer
-	 *
-	 * @param InMemoryWriter $writer Target in-memory writer
-	 * @return InMemoryWriter In-memory writer instance
-	 */
-	protected function _moveToInMemory(InMemoryWriter $writer)
-	{
-		$writer->write($this->_reader->read());
-		return $writer;
-	}
+    /**
+     * Move / rename the resource to a in-memory buffer
+     *
+     * @param InMemoryWriter $writer Target in-memory writer
+     * @return InMemoryWriter In-memory writer instance
+     */
+    protected function _moveToInMemory(InMemoryWriter $writer)
+    {
+        $writer->write($this->_reader->read());
+        return $writer;
+    }
 }

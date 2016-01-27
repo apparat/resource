@@ -49,50 +49,50 @@ use Symfony\Component\Yaml\Yaml;
  */
 class YamlPart extends AbstractContentPart
 {
-	/**
-	 * Mime type
-	 *
-	 * @var string
-	 */
-	const MIME_TYPE = 'text/x-yaml';
-	/**
-	 * Document end marker
-	 *
-	 * @var string
-	 */
-	const DOCUMENT_END = '...';
+    /**
+     * Mime type
+     *
+     * @var string
+     */
+    const MIME_TYPE = 'text/x-yaml';
+    /**
+     * Document end marker
+     *
+     * @var string
+     */
+    const DOCUMENT_END = '...';
 
-	/**
-	 * Return the unserialized YAML source
-	 *
-	 * @return array Unserialized YAML data
-	 */
-	public function getData()
-	{
-		$data = array();
+    /**
+     * Return the unserialized YAML source
+     *
+     * @return array Unserialized YAML data
+     */
+    public function getData()
+    {
+        $data = array();
 
-		if (strlen($this->_content)) {
-			$defaultTimezone = date_default_timezone_get();
-			date_default_timezone_set('UTC');
-			$data = Yaml::parse($this->_content);
-			date_default_timezone_set($defaultTimezone);
-		}
+        if (strlen($this->_content)) {
+            $defaultTimezone = date_default_timezone_get();
+            date_default_timezone_set('UTC');
+            $data = Yaml::parse($this->_content);
+            date_default_timezone_set($defaultTimezone);
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 
-	/**
-	 * Set YAML data
-	 *
-	 * @param array $data New data
-	 * @return YamlPart Self reference
-	 */
-	public function setData(array $data)
-	{
-		$defaultTimezone = date_default_timezone_get();
-		date_default_timezone_set('UTC');
-		$dataStr = Yaml::dump($data);
-		date_default_timezone_set($defaultTimezone);
-		return $this->set($dataStr);
-	}
+    /**
+     * Set YAML data
+     *
+     * @param array $data New data
+     * @return YamlPart Self reference
+     */
+    public function setData(array $data)
+    {
+        $defaultTimezone = date_default_timezone_get();
+        date_default_timezone_set('UTC');
+        $dataStr = Yaml::dump($data);
+        date_default_timezone_set($defaultTimezone);
+        return $this->set($dataStr);
+    }
 }

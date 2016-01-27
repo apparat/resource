@@ -44,12 +44,12 @@ namespace Apparat\Resource\Framework\Io\File;
  */
 class AbstractFileReaderWriter
 {
-	/**
-	 * Resource type stream wrapper
-	 *
-	 * @var string
-	 */
-	const WRAPPER = 'file://';
+    /**
+     * Resource type stream wrapper
+     *
+     * @var string
+     */
+    const WRAPPER = 'file://';
 
     /**
      * File path
@@ -68,12 +68,13 @@ class AbstractFileReaderWriter
         $this->_file = $file;
     }
 
-	/**
-	 * Return the file path
-	 *
-	 * @return string File Path
-	 */
-	public function getFile() {
-		return $this->_file;
-	}
+    /**
+     * Return the file path
+     *
+     * @return string File Path
+     */
+    public function getFile()
+    {
+        return $this->_file;
+    }
 }

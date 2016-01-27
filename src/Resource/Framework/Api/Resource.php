@@ -54,92 +54,94 @@ use Apparat\Resource\Framework\Model\Resource\YamlResource;
 class Resource
 {
 
-	/**
-	 * Create and return a text resource instance
-	 *
-	 * @param string $src Stream-wrapped source
-	 * @param array $parameters Reader parameters
-	 * @return TextResource Text resource instance
-	 * @api
-	 */
-	public static function text($src, ...$parameters)
-	{
-		return self::_from($src, TextResource::class, ...$parameters);
-	}
+    /**
+     * Create and return a text resource instance
+     *
+     * @param string $src Stream-wrapped source
+     * @param array $parameters Reader parameters
+     * @return TextResource Text resource instance
+     * @api
+     */
+    public static function text($src, ...$parameters)
+    {
+        return self::_from($src, TextResource::class, ...$parameters);
+    }
 
-	/**
-	 * Create and return a YAML resource instance
-	 *
-	 * @param string $src Stream-wrapped source
-	 * @param array $parameters Reader parameters
-	 * @return YamlResource YAML resource instance
-	 * @api
-	 */
-	public static function yaml($src, ...$parameters)
-	{
-		return self::_from($src, YamlResource::class, ...$parameters);
-	}
+    /**
+     * Create and return a YAML resource instance
+     *
+     * @param string $src Stream-wrapped source
+     * @param array $parameters Reader parameters
+     * @return YamlResource YAML resource instance
+     * @api
+     */
+    public static function yaml($src, ...$parameters)
+    {
+        return self::_from($src, YamlResource::class, ...$parameters);
+    }
 
-	/**
-	 * Create and return a JSON resource instance
-	 *
-	 * @param string $src Stream-wrapped source
-	 * @param array $parameters Reader parameters
-	 * @return JsonResource JSON resource instance
-	 * @api
-	 */
-	public static function json($src, ...$parameters)
-	{
-		return self::_from($src, JsonResource::class, ...$parameters);
-	}
+    /**
+     * Create and return a JSON resource instance
+     *
+     * @param string $src Stream-wrapped source
+     * @param array $parameters Reader parameters
+     * @return JsonResource JSON resource instance
+     * @api
+     */
+    public static function json($src, ...$parameters)
+    {
+        return self::_from($src, JsonResource::class, ...$parameters);
+    }
 
-	/**
-	 * Create and return a CommonMark resource instance
-	 *
-	 * @param string $src Stream-wrapped source
-	 * @param array $parameters Reader parameters
-	 * @return CommonMarkResource CommonMark resource instance
-	 * @api
-	 */
-	public static function commonMark($src, ...$parameters)
-	{
-		return self::_from($src, CommonMarkResource::class, ...$parameters);
-	}
+    /**
+     * Create and return a CommonMark resource instance
+     *
+     * @param string $src Stream-wrapped source
+     * @param array $parameters Reader parameters
+     * @return CommonMarkResource CommonMark resource instance
+     * @api
+     */
+    public static function commonMark($src, ...$parameters)
+    {
+        return self::_from($src, CommonMarkResource::class, ...$parameters);
+    }
 
-	/**
-	 * Create and return a FrontMark resource instance
-	 *
-	 * @param string $src Stream-wrapped source
-	 * @param array $parameters Reader parameters
-	 * @return FrontMarkResource FrontMark resource instance
-	 * @api
-	 */
-	public static function frontMark($src, ...$parameters)
-	{
-		return self::_from($src, FrontMarkResource::class, ...$parameters);
-	}
+    /**
+     * Create and return a FrontMark resource instance
+     *
+     * @param string $src Stream-wrapped source
+     * @param array $parameters Reader parameters
+     * @return FrontMarkResource FrontMark resource instance
+     * @api
+     */
+    public static function frontMark($src, ...$parameters)
+    {
+        return self::_from($src, FrontMarkResource::class, ...$parameters);
+    }
 
-	/*******************************************************************************
-	 * STATIC METHODS
-	 *******************************************************************************/
+    /*******************************************************************************
+     * STATIC METHODS
+     *******************************************************************************/
 
-	/**
-	 * Create a reader instance from a stream-wrapped source
-	 *
-	 * @param string $src Stream-wrapped source
-	 * @param string $resourceClass Resource class name
-	 * @param array $parameters Reader parameters
-	 * @return AbstractResource Resource instance
-	 * @throws InvalidArgumentException If an invalid reader stream wrapper is given
-	 */
-	protected static function _from($src, $resourceClass, ...$parameters)
-	{
-		$reader = Tools::reader($src, $parameters);
-		if ($reader instanceof ReaderInterface) {
-			return new $resourceClass($reader);
-		}
+    /**
+     * Create a reader instance from a stream-wrapped source
+     *
+     * @param string $src Stream-wrapped source
+     * @param string $resourceClass Resource class name
+     * @param array $parameters Reader parameters
+     * @return AbstractResource Resource instance
+     * @throws InvalidArgumentException If an invalid reader stream wrapper is given
+     */
+    protected static function _from($src, $resourceClass, ...$parameters)
+    {
+        $reader = Tools::reader($src, $parameters);
+        if ($reader instanceof ReaderInterface) {
+            return new $resourceClass($reader);
+        }
 
-		throw new InvalidArgumentException('Invalid reader stream wrapper',
-			InvalidArgumentException::INVALID_READER_STREAM_WRAPPER);
-	}
+        throw new InvalidArgumentException(
+            'Invalid reader stream wrapper',
+            InvalidArgumentException::INVALID_READER_STREAM_WRAPPER
+        );
+    }
 }

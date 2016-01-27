@@ -46,66 +46,70 @@ use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
  */
 abstract class AbstractPart implements PartInterface
 {
-	/**
-	 * Associated hydrator
-	 *
-	 * @var HydratorInterface
-	 */
-	protected $_hydrator = null;
+    /**
+     * Associated hydrator
+     *
+     * @var HydratorInterface
+     */
+    protected $_hydrator = null;
 
-	/**
-	 * Abstract part constructor
-	 *
-	 * @param HydratorInterface $hydrator Associated hydrator
-	 */
-	public function __construct(HydratorInterface $hydrator)
-	{
-		$this->_hydrator = $hydrator;
-	}
+    /**
+     * Abstract part constructor
+     *
+     * @param HydratorInterface $hydrator Associated hydrator
+     */
+    public function __construct(HydratorInterface $hydrator)
+    {
+        $this->_hydrator = $hydrator;
+    }
 
-	/**
-	 * Return the associated hydrator
-	 *
-	 * @return HydratorInterface Associated hydrator
-	 */
-	public function getHydrator()
-	{
-		return $this->_hydrator;
-	}
+    /**
+     * Validate a part identifier
+     *
+     * @param string $part Part identifier
+     * @throws InvalidArgumentException If the part identifier is not valid
+     */
+    public static function validatePartIdentifier($part)
+    {
+        $part = strval($part);
+        if (!preg_match("%^[a-z0-9\_\*]+$%i", $part)) {
+            throw new InvalidArgumentException(
+                sprintf('Invalid part path identifier "%s"', $part),
+                InvalidArgumentException::INVALID_PART_IDENTIFIER
+            );
+        }
+    }
 
-	/**
-	 * Delegate a method call to a subpart
-	 *
-	 * @param string $method Method nae
-	 * @param array $subparts Subpart identifiers
-	 * @param array $arguments Method arguments
-	 * @return mixed Method result
-	 * @throws InvalidArgumentException If the method is unknown
-	 */
-	public function delegate($method, array $subparts, array $arguments)
-	{
-		// If the method is unknown
-		if (!is_callable(array($this, $method))) {
-			throw new InvalidArgumentException(sprintf('Unknown part method "%s"', $method),
-				InvalidArgumentException::UNKNOWN_PART_METHOD);
-		}
+    /**
+     * Return the associated hydrator
+     *
+     * @return HydratorInterface Associated hydrator
+     */
+    public function getHydrator()
+    {
+        return $this->_hydrator;
+    }
 
-		// Call the method
-		return call_user_func_array(array($this, $method), $arguments);
-	}
+    /**
+     * Delegate a method call to a subpart
+     *
+     * @param string $method Method nae
+     * @param array $subparts Subpart identifiers
+     * @param array $arguments Method arguments
+     * @return mixed Method result
+     * @throws InvalidArgumentException If the method is unknown
+     */
+    public function delegate($method, array $subparts, array $arguments)
+    {
+        // If the method is unknown
+        if (!is_callable(array($this, $method))) {
+            throw new InvalidArgumentException(
+                sprintf('Unknown part method "%s"', $method),
+                InvalidArgumentException::UNKNOWN_PART_METHOD
+            );
+        }
 
-	/**
-	 * Validate a part identifier
-	 *
-	 * @param string $part Part identifier
-	 * @throws InvalidArgumentException If the part identifier is not valid
-	 */
-	public static function validatePartIdentifier($part)
-	{
-		$part = strval($part);
-		if (!preg_match("%^[a-z0-9\_\*]+$%i", $part)) {
-			throw new InvalidArgumentException(sprintf('Invalid part path identifier "%s"', $part),
-				InvalidArgumentException::INVALID_PART_IDENTIFIER);
-		}
-	}
+        // Call the method
+        return call_user_func_array(array($this, $method), $arguments);
+    }
 }

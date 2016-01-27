@@ -36,9 +36,9 @@
 
 namespace ApparatTest;
 
-use Apparat\Resource\Framework\Model\Resource\YamlResource;
 use Apparat\Resource\Framework\Io\InMemory\Reader;
 use Apparat\Resource\Framework\Model\Part\YamlPart;
+use Apparat\Resource\Framework\Model\Resource\YamlResource;
 
 \date_default_timezone_set('UTC');
 

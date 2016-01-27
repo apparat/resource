@@ -36,9 +36,9 @@
 
 namespace ApparatTest;
 
-use Apparat\Resource\Framework\Model\Resource\CommonMarkResource;
 use Apparat\Resource\Framework\Io\InMemory\Reader;
 use Apparat\Resource\Framework\Model\Part\CommonMarkPart;
+use Apparat\Resource\Framework\Model\Resource\CommonMarkResource;
 
 /**
  * CommonMark file tests
@@ -142,7 +142,9 @@ class CommonMarkTest extends AbstractTest
      */
     public function testCommonMarkResourceHtmlPart()
     {
-        $expectedHtml = $this->_normalizeHtml(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html'));
+        $expectedHtml = $this->_normalizeHtml(
+            file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
+        );
         $commonMarkResource = new CommonMarkResource(new Reader($this->_commonMark));
         $this->assertEquals($expectedHtml, $this->_normalizeHtml($commonMarkResource->getHtmlPart()));
     }
@@ -152,7 +154,9 @@ class CommonMarkTest extends AbstractTest
      */
     public function testCommonMarkResourceHtml()
     {
-        $expectedHtml = $this->_normalizeHtml(file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html'));
+        $expectedHtml = $this->_normalizeHtml(
+            file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
+        );
         $commonMarkResource = new CommonMarkResource(new Reader($this->_commonMark));
         $this->assertEquals($expectedHtml, $this->_normalizeHtml($commonMarkResource->getHtml()));
     }

@@ -9,8 +9,8 @@
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
-
-/***********************************************************************************
+ *
+ * /***********************************************************************************
  *  The MIT License (MIT)
  *
  *  Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
@@ -43,15 +43,15 @@ namespace Apparat\Resource\Application\Service;
  */
 class StringUtility
 {
-	/**
-	 * Strip the byte order mark off the beginning of a string
-	 *
-	 * @param string $str String with byte order mark
-	 * @return string               String without byte order mark
-	 */
-	public static function stripBom($str)
-	{
-		$bom = pack('H*', 'EFBBBF');
-		return preg_replace("/^$bom/", '', $str);
-	}
+    /**
+     * Strip the byte order mark off the beginning of a string
+     *
+     * @param string $str String with byte order mark
+     * @return string               String without byte order mark
+     */
+    public static function stripBom($str)
+    {
+        $bom = pack('H*', 'EFBBBF');
+        return preg_replace("/^$bom/", '', $str);
+    }
 }

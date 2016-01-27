@@ -46,51 +46,51 @@ use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
  */
 interface PartInterface
 {
-	/**
-	 * Serialize this file part
-	 *
-	 * @return string   File part content
-	 */
-	public function __toString();
+    /**
+     * Serialize this file part
+     *
+     * @return string   File part content
+     */
+    public function __toString();
 
-	/**
-	 * Set the contents of a part
-	 *
-	 * @param mixed $data Contents
-	 * @param array $subparts Subpart identifiers
-	 * @return PartInterface Modified part
-	 */
-	public function set($data, array $subparts = []);
+    /**
+     * Set the contents of a part
+     *
+     * @param mixed $data Contents
+     * @param array $subparts Subpart identifiers
+     * @return PartInterface Modified part
+     */
+    public function set($data, array $subparts = []);
 
-	/**
-	 * Return a nested subpart (or the part itself)
-	 *
-	 * @param array $subparts Subpart identifiers
-	 * @return PartInterface Nested subpart (or the part itself)
-	 */
-	public function get(array $subparts = []);
+    /**
+     * Return a nested subpart (or the part itself)
+     *
+     * @param array $subparts Subpart identifiers
+     * @return PartInterface Nested subpart (or the part itself)
+     */
+    public function get(array $subparts = []);
 
-	/**
-	 * Get the MIME type of this part
-	 *
-	 * @return string   MIME type
-	 */
-	public function getMimeType();
+    /**
+     * Get the MIME type of this part
+     *
+     * @return string   MIME type
+     */
+    public function getMimeType();
 
-	/**
-	 * Return the associated hydrator
-	 *
-	 * @return HydratorInterface Associated hydrator
-	 */
-	public function getHydrator();
+    /**
+     * Return the associated hydrator
+     *
+     * @return HydratorInterface Associated hydrator
+     */
+    public function getHydrator();
 
-	/**
-	 * Delegate a method call to a subpart
-	 *
-	 * @param string $method Method nae
-	 * @param array $subparts Subpart identifiers
-	 * @param array $arguments Method arguments
-	 * @return mixed Method result
-	 */
-	public function delegate($method, array $subparts, array $arguments);
+    /**
+     * Delegate a method call to a subpart
+     *
+     * @param string $method Method nae
+     * @param array $subparts Subpart identifiers
+     * @param array $arguments Method arguments
+     * @return mixed Method result
+     */
+    public function delegate($method, array $subparts, array $arguments);
 }

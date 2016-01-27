@@ -46,33 +46,33 @@ use Apparat\Resource\Domain\Model\Part\PartInterface;
  */
 interface HydratorInterface
 {
-	/**
-	 * Default hydrator name
-	 *
-	 * @var string
-	 */
-	const STANDARD = 'standard';
+    /**
+     * Default hydrator name
+     *
+     * @var string
+     */
+    const STANDARD = 'standard';
 
-	/**
-	 * Serialize a file part
-	 *
-	 * @param PartInterface $part File part
-	 * @return string Serialized file part
-	 */
-	public function dehydrate(PartInterface $part);
+    /**
+     * Serialize a file part
+     *
+     * @param PartInterface $part File part
+     * @return string Serialized file part
+     */
+    public function dehydrate(PartInterface $part);
 
-	/**
-	 * Translate data to a file part
-	 *
-	 * @param string $data Part data
-	 * @return PartInterface File part
-	 */
-	public function hydrate($data);
+    /**
+     * Translate data to a file part
+     *
+     * @param string $data Part data
+     * @return PartInterface File part
+     */
+    public function hydrate($data);
 
-	/**
-	 * Return the part name
-	 *
-	 * @return string Part name
-	 */
-	public function getName();
+    /**
+     * Return the part name
+     *
+     * @return string Part name
+     */
+    public function getName();
 }

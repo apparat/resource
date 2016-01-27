@@ -46,95 +46,97 @@ use Apparat\Resource\Domain\Model\Hydrator\AbstractSinglepartHydrator;
  */
 abstract class AbstractContentPart extends AbstractPart
 {
-	/**
-	 * Mime type
-	 *
-	 * @var string
-	 */
-	const MIME_TYPE = 'application/octet-stream';
+    /**
+     * Mime type
+     *
+     * @var string
+     */
+    const MIME_TYPE = 'application/octet-stream';
 
-	/**
-	 * Text content
-	 *
-	 * @var string
-	 */
-	protected $_content = '';
+    /**
+     * Text content
+     *
+     * @var string
+     */
+    protected $_content = '';
 
-	/**
-	 * Part constructor
-	 *
-	 * @param string $content Part content
-	 * @param AbstractSinglepartHydrator $hydrator Associated hydrator
-	 */
-	public function __construct($content = '', AbstractSinglepartHydrator $hydrator)
-	{
-		parent::__construct($hydrator);
-		$this->_content = $content;
-	}
+    /**
+     * Part constructor
+     *
+     * @param string $content Part content
+     * @param AbstractSinglepartHydrator $hydrator Associated hydrator
+     */
+    public function __construct($content = '', AbstractSinglepartHydrator $hydrator)
+    {
+        parent::__construct($hydrator);
+        $this->_content = $content;
+    }
 
-	/**
-	 * Serialize this file part
-	 *
-	 * @return string   File part content
-	 */
-	public function __toString()
-	{
-		return strval($this->_content);
-	}
+    /**
+     * Serialize this file part
+     *
+     * @return string   File part content
+     */
+    public function __toString()
+    {
+        return strval($this->_content);
+    }
 
-	/**
-	 * Return the mime type of this part
-	 *
-	 * @return string   MIME type
-	 */
-	public function getMimeType()
-	{
-		return static::MIME_TYPE;
-	}
+    /**
+     * Return the mime type of this part
+     *
+     * @return string   MIME type
+     */
+    public function getMimeType()
+    {
+        return static::MIME_TYPE;
+    }
 
-	/**
-	 * Set the contents of a part
-	 *
-	 * @param string $data Contents
-	 * @param array $subparts Subparts
-	 * @return AbstractContentPart New content part
-	 */
-	public function set($data, array $subparts = [])
-	{
-		$class = get_class($this);
-		return new $class($data, $this->_hydrator);
-	}
+    /**
+     * Set the contents of a part
+     *
+     * @param string $data Contents
+     * @param array $subparts Subparts
+     * @return AbstractContentPart New content part
+     */
+    public function set($data, array $subparts = [])
+    {
+        $class = get_class($this);
+        return new $class($data, $this->_hydrator);
+    }
 
-	/**
-	 * Return the part itself
-	 *
-	 * Content parts don't have subparts, so this method will always return the part itself
-	 *
-	 * @param array $subparts Subpart identifiers
-	 * @return PartInterface Self reference
-	 */
-	public function get(array $subparts = [])
-	{
-		return $this;
-	}
+    /**
+     * Return the part itself
+     *
+     * Content parts don't have subparts, so this method will always return the part itself
+     *
+     * @param array $subparts Subpart identifiers
+     * @return PartInterface Self reference
+     */
+    public function get(array $subparts = [])
+    {
+        return $this;
+    }
 
-	/**
-	 * Delegate a method call to a subpart
-	 *
-	 * @param string $method Method nae
-	 * @param array $subparts Subpart identifiers
-	 * @param array $arguments Method arguments
-	 * @return mixed Method result
-	 * @throws InvalidArgumentException If there are subpart identifiers
-	 */
-	public function delegate($method, array $subparts, array $arguments)
-	{
-		// If there are subpart identifiers given
-		if (count($subparts)) {
-			throw new InvalidArgumentException(sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
-				InvalidArgumentException::SUBPARTS_NOT_ALLOWED);
-		}
+    /**
+     * Delegate a method call to a subpart
+     *
+     * @param string $method Method nae
+     * @param array $subparts Subpart identifiers
+     * @param array $arguments Method arguments
+     * @return mixed Method result
+     * @throws InvalidArgumentException If there are subpart identifiers
+     */
+    public function delegate($method, array $subparts, array $arguments)
+    {
+        // If there are subpart identifiers given
+        if (count($subparts)) {
+            throw new InvalidArgumentException(
+                sprintf('Subparts are not allowed (%s)', implode('/', $subparts)),
+                InvalidArgumentException::SUBPARTS_NOT_ALLOWED
+            );
+        }
 
-		return parent::delegate($method, $subparts, $arguments);
-	}
+        return parent::delegate($method, $subparts, $arguments);
+    }
 }

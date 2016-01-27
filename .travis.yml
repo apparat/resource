@@ -5,6 +5,9 @@ php:
   - 7.0
   - hhvm
 
+env:
+- APP_ENV=development
+
 matrix:
   allow_failures:
     - php: hhvm
@@ -12,7 +15,6 @@ matrix:
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
-  - touch .env
   - if [ "$TRAVIS_PHP_VERSION" == "hhvm" ]; then echo 'date.timezone = Europe/Berlin' >> /etc/hhvm/php.ini; fi;
   - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then echo 'date.timezone = Europe/Berlin' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi;
 
@@ -22,3 +24,8 @@ script:
 
 after_script:
   - bash -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/coveralls -v; fi;'
+  - vendor/bin/test-reporter
+
+addons:
+    code_climate:
+        repo_token: 9a18c09fbf809a6241ebe8f99da04c2e395055fbb9c83f3a62e8ad021a0db9d3

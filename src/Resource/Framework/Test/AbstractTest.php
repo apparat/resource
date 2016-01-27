@@ -42,7 +42,8 @@ namespace ApparatTest;
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
  */
-abstract class AbstractTest extends \PHPUnit_Framework_TestCase {
+abstract class AbstractTest extends \PHPUnit_Framework_TestCase
+{
     /**
      * Temporary FILES
      *
@@ -51,54 +52,27 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase {
     protected $_tmpFiles = array();
 
     /**
-     * Tears down the fixture
-     */
-    protected function tearDown() {
-        foreach ($this->_tmpFiles as $tmpFile) {
-            if (@is_file($tmpFile)) {
-                @unlink($tmpFile);
-            } else {
-                @rmdir($tmpFile);
-            }
-        }
-    }
-
-    /**
-     * Prepare and register a temporary file name
-     *
-     * @param bool $nameOnly Return the name only (don't create file)
-     * @return string Temporary file name
-     */
-    protected function _createTemporaryFile($nameOnly = false) {
-        $this->_tmpFiles[] = $tempFileName = tempnam(sys_get_temp_dir(), 'apparat_test_');
-        if ($nameOnly) {
-            @unlink($tempFileName);
-        }
-        return $tempFileName;
-    }
-
-    /**
      * Test if two arrays equal in their keys and values
      *
-     * @param array $expected       Expected result
-     * @param array $actual         Actual result
-     * @param string $message       Message
+     * @param array $expected Expected result
+     * @param array $actual Actual result
+     * @param string $message Message
      */
-    public function assertArrayEquals(array $expected, array $actual, $message = '') {
-        $this->assertEquals($this->_sortArrayForComparison($expected), $this->_sortArrayForComparison($actual), $message);
+    public function assertArrayEquals(array $expected, array $actual, $message = '')
+    {
+        $this->assertEquals(
+            $this->_sortArrayForComparison($expected), $this->_sortArrayForComparison($actual), $message
+        );
     }
-
-    /*******************************************************************************
-     * PRIVATE METHODS
-     *******************************************************************************/
 
     /**
      * Recursively sort an array for comparison with another array
      *
-     * @param array $array          Array
+     * @param array $array Array
      * @return array                Sorted array
      */
-    protected function _sortArrayForComparison(array $array) {
+    protected function _sortArrayForComparison(array $array)
+    {
 
         // Test if all array keys are numeric
         $allNumeric = true;
@@ -125,18 +99,51 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase {
         return $array;
     }
 
-	/**
-	 * Normalize HTML contents
-	 *
-	 * @param string $html Original HTML
-	 * @return string Normalized HTML
-	 */
-	protected function _normalizeHtml($html)
-	{
-		$htmlDom = new \DOMDocument();
-		$htmlDom->preserveWhiteSpace = false;
-		$htmlDom->formatOutput = false;
-		$htmlDom->loadXML("<html><head><title>apparat</title></head><body>$html</body></html>");
-		return $htmlDom->saveXML();
-	}
+    /**
+     * Tears down the fixture
+     */
+    protected function tearDown()
+    {
+        foreach ($this->_tmpFiles as $tmpFile) {
+            if (@is_file($tmpFile)) {
+                @unlink($tmpFile);
+            } else {
+                @rmdir($tmpFile);
+            }
+        }
+    }
+
+    /*******************************************************************************
+     * PRIVATE METHODS
+     *******************************************************************************/
+
+    /**
+     * Prepare and register a temporary file name
+     *
+     * @param bool $nameOnly Return the name only (don't create file)
+     * @return string Temporary file name
+     */
+    protected function _createTemporaryFile($nameOnly = false)
+    {
+        $this->_tmpFiles[] = $tempFileName = tempnam(sys_get_temp_dir(), 'apparat_test_');
+        if ($nameOnly) {
+            @unlink($tempFileName);
+        }
+        return $tempFileName;
+    }
+
+    /**
+     * Normalize HTML contents
+     *
+     * @param string $html Original HTML
+     * @return string Normalized HTML
+     */
+    protected function _normalizeHtml($html)
+    {
+        $htmlDom = new \DOMDocument();
+        $htmlDom->preserveWhiteSpace = false;
+        $htmlDom->formatOutput = false;
+        $htmlDom->loadXML("<html><head><title>apparat</title></head><body>$html</body></html>");
+        return $htmlDom->saveXML();
+    }
 }

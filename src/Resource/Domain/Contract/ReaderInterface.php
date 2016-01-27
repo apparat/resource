@@ -44,10 +44,10 @@ namespace Apparat\Resource\Domain\Contract;
  */
 interface ReaderInterface
 {
-	/**
-	 * Read the file content
-	 *
-	 * @return string File content
-	 */
-	public function read();
+    /**
+     * Read the file content
+     *
+     * @return string File content
+     */
+    public function read();
 }

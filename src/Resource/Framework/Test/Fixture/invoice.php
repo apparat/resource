@@ -35,55 +35,55 @@
  ***********************************************************************************/
 
 return array(
-	'invoice' => 34843,
-	'date' => 980208000,
-	'bill-to' =>
-		array(
-			'given' => 'Chris',
-			'family' => 'Dumars',
-			'address' =>
-				array(
-					'lines' => '458 Walkman Dr.
+    'invoice' => 34843,
+    'date' => 980208000,
+    'bill-to' =>
+        array(
+            'given' => 'Chris',
+            'family' => 'Dumars',
+            'address' =>
+                array(
+                    'lines' => '458 Walkman Dr.
 Suite #292
 ',
-					'city' => 'Royal Oak',
-					'state' => 'MI',
-					'postal' => 48046,
-				),
-		),
-	'ship-to' =>
-		array(
-			'given' => 'Chris',
-			'family' => 'Dumars',
-			'address' =>
-				array(
-					'lines' => '458 Walkman Dr.
+                    'city' => 'Royal Oak',
+                    'state' => 'MI',
+                    'postal' => 48046,
+                ),
+        ),
+    'ship-to' =>
+        array(
+            'given' => 'Chris',
+            'family' => 'Dumars',
+            'address' =>
+                array(
+                    'lines' => '458 Walkman Dr.
 Suite #292
 ',
-					'city' => 'Royal Oak',
-					'state' => 'MI',
-					'postal' => 48046,
-				),
-		),
-	'product' =>
-		array(
-			0 =>
-				array(
-					'sku' => 'BL394D',
-					'quantity' => 4,
-					'description' => 'Basketball',
-					'price' => 450,
-				),
-			1 =>
-				array(
-					'sku' => 'BL4438H',
-					'quantity' => 1,
-					'description' => 'Super Hoop',
-					'price' => 2392,
-				),
-		),
-	'tax' => 251.41999999999999,
-	'total' => 4443.5200000000004,
-	'comments' => 'Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338.
+                    'city' => 'Royal Oak',
+                    'state' => 'MI',
+                    'postal' => 48046,
+                ),
+        ),
+    'product' =>
+        array(
+            0 =>
+                array(
+                    'sku' => 'BL394D',
+                    'quantity' => 4,
+                    'description' => 'Basketball',
+                    'price' => 450,
+                ),
+            1 =>
+                array(
+                    'sku' => 'BL4438H',
+                    'quantity' => 1,
+                    'description' => 'Super Hoop',
+                    'price' => 2392,
+                ),
+        ),
+    'tax' => 251.41999999999999,
+    'total' => 4443.5200000000004,
+    'comments' => 'Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338.
 ',
 );

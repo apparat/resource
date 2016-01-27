@@ -46,67 +46,69 @@ use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
  */
 class PartChoice extends AbstractPartAggregate
 {
-	/**
-	 * Part name wildcard
-	 *
-	 * @var string
-	 */
-	const WILDCARD = '*';
+    /**
+     * Part name wildcard
+     *
+     * @var string
+     */
+    const WILDCARD = '*';
 
-	/**
-	 * Add an occurrence
-	 *
-	 * @return void
-	 */
-	protected function _addOccurrence()
-	{
-		$this->_occurrences[] = null;
-	}
+    /**
+     * Assign data to a particular part
+     *
+     * @param string $part Part identifier
+     * @param string $data Part data
+     * @param null|int $occurrence Occurrence to assign the part data to
+     */
+    public function assign($part, $data, $occurrence = null)
+    {
+        $occurrence = $this->_prepareAssignment($part, $occurrence);
 
-	/**
-	 * Assign data to a particular part
-	 *
-	 * @param string $part Part identifier
-	 * @param string $data Part data
-	 * @param null|int $occurrence Occurrence to assign the part data to
-	 */
-	public function assign($part, $data, $occurrence = null)
-	{
-		$occurrence = $this->_prepareAssignment($part, $occurrence);
+        /** @var HydratorInterface $hydrator */
+        $hydrator =& $this->_template[$part];
+        $this->_occurrences[$occurrence] = [$part => $hydrator->hydrate($data)];
+    }
 
-		/** @var HydratorInterface $hydrator */
-		$hydrator =& $this->_template[$part];
-		$this->_occurrences[$occurrence] = [$part => $hydrator->hydrate($data)];
-	}
+    /**
+     * Add an occurrence
+     *
+     * @return void
+     */
+    protected function _addOccurrence()
+    {
+        $this->_occurrences[] = null;
+    }
 
-	/**
-	 * Test if a particular part identifier is known for a particular occurrence
-	 *
-	 * @param int $occurrence Occurrence index
-	 * @param string $part Part identifier
-	 * @return bool Is known part identifier
-	 */
-	protected function _isKnownPartIdentifier($occurrence, $part)
-	{
-		return parent::_isKnownPartIdentifier($occurrence,
-			$part) || (($part == self::WILDCARD) && count($this->_occurrences[$occurrence]));
-	}
+    /**
+     * Test if a particular part identifier is known for a particular occurrence
+     *
+     * @param int $occurrence Occurrence index
+     * @param string $part Part identifier
+     * @return bool Is known part identifier
+     */
+    protected function _isKnownPartIdentifier($occurrence, $part)
+    {
+        return parent::_isKnownPartIdentifier(
+            $occurrence,
+            $part
+        ) || (($part == self::WILDCARD) && count($this->_occurrences[$occurrence]));
+    }
 
-	/**
-	 * Return a particular part of a particular occurrence
-	 *
-	 * @param int $occurrence Occurrence index
-	 * @param string $part Part identifier
-	 * @return PartInterface Part instance
-	 */
-	protected function _getOccurrencePart(&$occurrence, &$part)
-	{
-		reset($this->_occurrences[$occurrence]);
+    /**
+     * Return a particular part of a particular occurrence
+     *
+     * @param int $occurrence Occurrence index
+     * @param string $part Part identifier
+     * @return PartInterface Part instance
+     */
+    protected function _getOccurrencePart(&$occurrence, &$part)
+    {
+        reset($this->_occurrences[$occurrence]);
 
-		if ($part == self::WILDCARD) {
-			$part = key($this->_occurrences[$occurrence]);
-		}
+        if ($part == self::WILDCARD) {
+            $part = key($this->_occurrences[$occurrence]);
+        }
 
-		return parent::_getOccurrencePart($occurrence, $part);
-	}
+        return parent::_getOccurrencePart($occurrence, $part);
+    }
 }

@@ -48,63 +48,63 @@ use League\CommonMark\HtmlRenderer;
  */
 class CommonMarkPart extends TextPart
 {
-	/**
-	 * Mime type
-	 *
-	 * @var string
-	 */
-	const MIME_TYPE = 'text/x-markdown';
+    /**
+     * Mime type
+     *
+     * @var string
+     */
+    const MIME_TYPE = 'text/x-markdown';
 
-	/**
-	 * Convert the CommonMark source to HTML
-	 *
-	 * @return string CommonMark HTML
-	 */
-	public function getHtml()
-	{
-		$html = '';
+    /**
+     * Convert the CommonMark source to HTML
+     *
+     * @return string CommonMark HTML
+     */
+    public function getHtml()
+    {
+        $html = '';
 
-		if (strlen($this->_content)) {
-			$environment = $this->_environment();
-			$parser = new DocParser($environment);
-			$renderer = new HtmlRenderer($environment);
-			$html = $renderer->renderBlock($parser->parse($this->_content));
-		}
+        if (strlen($this->_content)) {
+            $environment = $this->_environment();
+            $parser = new DocParser($environment);
+            $renderer = new HtmlRenderer($environment);
+            $html = $renderer->renderBlock($parser->parse($this->_content));
+        }
 
-		return $html;
-	}
+        return $html;
+    }
 
-	/*******************************************************************************
-	 * PRIVATE METHODS
-	 *******************************************************************************/
+    /*******************************************************************************
+     * PRIVATE METHODS
+     *******************************************************************************/
 
-	/**
-	 * Create and return a CommonMark environment
-	 *
-	 * @return Environment CommonMark environment
-	 */
-	protected function _environment()
-	{
+    /**
+     * Create and return a CommonMark environment
+     *
+     * @return Environment CommonMark environment
+     */
+    protected function _environment()
+    {
 
-		// Obtain a pre-configured Environment with all the CommonMark parsers/renderers ready-to-go
-		$environment = Environment::createCommonMarkEnvironment();
+        // Obtain a pre-configured Environment with all the CommonMark parsers/renderers ready-to-go
+        $environment = Environment::createCommonMarkEnvironment();
 
-		// Custom environment initialization
-		$this->_initializeEnvironment($environment);
+        // Custom environment initialization
+        $this->_initializeEnvironment($environment);
 
-		return $environment;
-	}
+        return $environment;
+    }
 
-	/**
-	 * Custom environment initialization
-	 *
-	 * Overwrite this method in subclasses to register your own parsers/renderers.
-	 *
-	 * @param Environment $environment
-	 */
-	protected function _initializeEnvironment(Environment $environment)
-	{
-		// Optional: Add your own parsers/renderers here, if desired
-		// For example:  $environment->addInlineParser(new TwitterHandleParser());
-	}
+    /**
+     * Custom environment initialization
+     *
+     * Overwrite this method in subclasses to register your own parsers/renderers.
+     *
+     * @param Environment $environment
+     */
+    protected function _initializeEnvironment(Environment $environment)
+    {
+        // Optional: Add your own parsers/renderers here, if desired
+        // For example:  $environment->addInlineParser(new TwitterHandleParser());
+    }
 }

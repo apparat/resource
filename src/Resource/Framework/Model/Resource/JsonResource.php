@@ -56,18 +56,18 @@ use Apparat\Resource\Framework\Model\Hydrator\JsonHydrator;
  */
 class JsonResource extends AbstractSinglePartResource
 {
-	/**
-	 * Use resource factory and data resource convenience methods and properties
-	 */
-	use ResourceTrait, DataResourceTrait;
+    /**
+     * Use resource factory and data resource convenience methods and properties
+     */
+    use ResourceTrait, DataResourceTrait;
 
-	/**
-	 * JSON resource constructor
-	 *
-	 * @param ReaderInterface $reader Reader instance
-	 */
-	public function __construct(ReaderInterface $reader = null)
-	{
-		parent::__construct($reader, JsonHydrator::class);
-	}
+    /**
+     * JSON resource constructor
+     *
+     * @param ReaderInterface $reader Reader instance
+     */
+    public function __construct(ReaderInterface $reader = null)
+    {
+        parent::__construct($reader, JsonHydrator::class);
+    }
 }

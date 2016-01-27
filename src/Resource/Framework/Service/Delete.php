@@ -46,28 +46,30 @@ use Apparat\Resource\Framework\Io\File\Reader as FileReader;
  */
 class Delete extends AbstractService
 {
-	/*******************************************************************************
-	 * MAGIC METHODS
-	 *******************************************************************************/
+    /*******************************************************************************
+     * MAGIC METHODS
+     *******************************************************************************/
 
-	/**
-	 * Delete the resource
-	 *
-	 * @return boolean Success
-	 * @throws RuntimeException If the resource cannot be deleted
-	 */
-	public function __invoke()
-	{
-		// If a file resource is read
-		if ($this->_reader instanceof FileReader) {
+    /**
+     * Delete the resource
+     *
+     * @return boolean Success
+     * @throws RuntimeException If the resource cannot be deleted
+     */
+    public function __invoke()
+    {
+        // If a file resource is read
+        if ($this->_reader instanceof FileReader) {
 
-			// If a copy error occurs
-			if (!@unlink($this->_reader->getFile())) {
-				throw new RuntimeException(sprintf('Could not delete "%s"', $this->_reader->getFile()),
-					RuntimeException::COULD_NOT_DELETE_FILE);
-			}
-		}
+            // If a copy error occurs
+            if (!@unlink($this->_reader->getFile())) {
+                throw new RuntimeException(
+                    sprintf('Could not delete "%s"', $this->_reader->getFile()),
+                    RuntimeException::COULD_NOT_DELETE_FILE
+                );
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

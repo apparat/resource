@@ -56,18 +56,18 @@ use Apparat\Resource\Framework\Model\Hydrator\YamlHydrator;
  */
 class YamlResource extends AbstractSinglePartResource
 {
-	/**
-	 * Use resource factory and data resource convenience methods and properties
-	 */
-	use ResourceTrait, DataResourceTrait;
+    /**
+     * Use resource factory and data resource convenience methods and properties
+     */
+    use ResourceTrait, DataResourceTrait;
 
-	/**
-	 * YAML resource constructor
-	 *
-	 * @param ReaderInterface $reader Reader instance
-	 */
-	public function __construct(ReaderInterface $reader = null)
-	{
-		parent::__construct($reader, YamlHydrator::class);
-	}
+    /**
+     * YAML resource constructor
+     *
+     * @param ReaderInterface $reader Reader instance
+     */
+    public function __construct(ReaderInterface $reader = null)
+    {
+        parent::__construct($reader, YamlHydrator::class);
+    }
 }

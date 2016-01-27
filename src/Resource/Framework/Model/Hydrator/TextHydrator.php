@@ -50,25 +50,25 @@ use Apparat\Resource\Framework\Model\Part\TextPart;
 class TextHydrator extends AbstractSinglepartHydrator
 {
 
-	/**
-	 * Serialize a resource part
-	 *
-	 * @param PartInterface $part Resource part
-	 * @return string Serialized resource part
-	 */
-	public function dehydrate(PartInterface $part)
-	{
-		return strval($part);
-	}
+    /**
+     * Serialize a resource part
+     *
+     * @param PartInterface $part Resource part
+     * @return string Serialized resource part
+     */
+    public function dehydrate(PartInterface $part)
+    {
+        return strval($part);
+    }
 
-	/**
-	 * Translate data to a text resource part
-	 *
-	 * @param string $data Part data
-	 * @return TextPart Text resource part
-	 */
-	public function hydrate($data)
-	{
-		return new TextPart($data, $this);
-	}
+    /**
+     * Translate data to a text resource part
+     *
+     * @param string $data Part data
+     * @return TextPart Text resource part
+     */
+    public function hydrate($data)
+    {
+        return new TextPart($data, $this);
+    }
 }

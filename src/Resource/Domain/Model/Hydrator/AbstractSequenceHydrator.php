@@ -67,7 +67,11 @@ abstract class AbstractSequenceHydrator extends AbstractMultipartHydrator
     {
         // If the occurrence is invalid
         if (!count($occurrence)) {
-            throw new $this->_occurrenceDehydrationException('Empty occurrence', constant($this->_occurrenceDehydrationException.'::EMPTY_OCCURRENCE'));
+            throw new $this->_occurrenceDehydrationException(
+                'Empty occurrence', constant(
+                $this->_occurrenceDehydrationException.'::EMPTY_OCCURRENCE'
+            )
+            );
         }
 
         $sequence = [];
@@ -77,12 +81,20 @@ abstract class AbstractSequenceHydrator extends AbstractMultipartHydrator
 
             // If the part name doesn't match a known subhydrator
             if (!strlen($subhydrator) || !array_key_exists($subhydrator, $this->_subhydrators)) {
-                throw new $this->_occurrenceDehydrationException(sprintf('No matching subhydrator "%s"', $subhydrator), constant($this->_occurrenceDehydrationException.'::NO_MATCHING_SUBHYDRATOR'));
+                throw new $this->_occurrenceDehydrationException(
+                    sprintf('No matching subhydrator "%s"', $subhydrator), constant(
+                    $this->_occurrenceDehydrationException.'::NO_MATCHING_SUBHYDRATOR'
+                )
+                );
             }
 
             // If the part value is not a valid part instance
             if (!$part || !($part instanceof PartInterface)) {
-                throw new $this->_occurrenceDehydrationException(sprintf('Invalid part instance "%s"', gettype($part).(is_object($part) ? '<'.get_class($part).'>' : '')), constant($this->_occurrenceDehydrationException.'::INVALID_PART_INSTANCE'));
+                throw new $this->_occurrenceDehydrationException(
+                    sprintf(
+                        'Invalid part instance "%s"', gettype($part).(is_object($part) ? '<'.get_class($part).'>' : '')
+                    ), constant($this->_occurrenceDehydrationException.'::INVALID_PART_INSTANCE')
+                );
             }
 
             $sequence[$subhydrator] = $this->_dehydratePart($subhydrator, $part);
@@ -97,7 +109,8 @@ abstract class AbstractSequenceHydrator extends AbstractMultipartHydrator
      * @param array $sequence Part occurrence sequence
      * @return string Combined sequence
      */
-    protected function _combineOccurrenceSequence(array $sequence) {
+    protected function _combineOccurrenceSequence(array $sequence)
+    {
         return implode('', array_map('strval', $sequence));
     }
 }

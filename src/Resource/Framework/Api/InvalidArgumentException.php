@@ -44,16 +44,16 @@ namespace Apparat\Resource\Framework\Api;
  */
 class InvalidArgumentException extends \InvalidArgumentException
 {
-	/**
-	 * Invalid reader stream wrapper
-	 *
-	 * @var int
-	 */
-	const INVALID_READER_STREAM_WRAPPER = 1448493550;
-	/**
-	 * Invalid writer stream wrapper
-	 *
-	 * @var int
-	 */
-	const INVALID_WRITER_STREAM_WRAPPER = 1448493564;
+    /**
+     * Invalid reader stream wrapper
+     *
+     * @var int
+     */
+    const INVALID_READER_STREAM_WRAPPER = 1448493550;
+    /**
+     * Invalid writer stream wrapper
+     *
+     * @var int
+     */
+    const INVALID_WRITER_STREAM_WRAPPER = 1448493564;
 }

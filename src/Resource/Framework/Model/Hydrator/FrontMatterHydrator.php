@@ -48,53 +48,55 @@ use Apparat\Resource\Framework\Model\Part\YamlPart;
  */
 class FrontMatterHydrator extends AbstractChoiceHydrator
 {
-	/**
-	 * Front matter part identifier
-	 *
-	 * @var string
-	 */
-	const FRONTMATTER = 'frontmatter';
+    /**
+     * Front matter part identifier
+     *
+     * @var string
+     */
+    const FRONTMATTER = 'frontmatter';
 
-	/**
-	 * Translate data to a resource part
-	 *
-	 * @param string $data Part data
-	 * @return PartInterface Resource part
-	 */
-	public function hydrate($data)
-	{
-		$aggregate = parent::hydrate(null);
+    /**
+     * Translate data to a resource part
+     *
+     * @param string $data Part data
+     * @return PartInterface Resource part
+     */
+    public function hydrate($data)
+    {
+        $aggregate = parent::hydrate(null);
 
-		// If it's a JSON front matter
-		if (!strncmp('{', trim($data), 1)) {
-			$aggregate->assign(JsonHydrator::JSON, $data, 0);
+        // If it's a JSON front matter
+        if (!strncmp('{', trim($data), 1)) {
+            $aggregate->assign(JsonHydrator::JSON, $data, 0);
 
-			// Else: Assign as YAML front matter
-		} else {
-			$aggregate->assign(YamlHydrator::YAML, $data, 0);
-		}
+            // Else: Assign as YAML front matter
+        } else {
+            $aggregate->assign(YamlHydrator::YAML, $data, 0);
+        }
 
-		return $aggregate;
-	}
+        return $aggregate;
+    }
 
-	/**
-	 * Dehydrate a single part with a particular subhydrator
-	 *
-	 * @param string $subhydrator Subhydrator name
-	 * @param PartInterface $part Part instance
-	 * @return string Dehydrated part
-	 */
-	protected function _dehydratePart($subhydrator, PartInterface $part)
-	{
-		$content = trim(parent::_dehydratePart($subhydrator, $part));
+    /**
+     * Dehydrate a single part with a particular subhydrator
+     *
+     * @param string $subhydrator Subhydrator name
+     * @param PartInterface $part Part instance
+     * @return string Dehydrated part
+     */
+    protected function _dehydratePart($subhydrator, PartInterface $part)
+    {
+        $content = trim(parent::_dehydratePart($subhydrator, $part));
 
-		// If it's a YAML part: Terminate if necessary
-		if (strlen($content) && ($part instanceof YamlPart) && !preg_match('%\R'.preg_quote(YamlPart::DOCUMENT_END).'$%',
-				$content)
-		) {
-			$content .= "\n".YamlPart::DOCUMENT_END;
-		}
+        // If it's a YAML part: Terminate if necessary
+        if (strlen($content) && ($part instanceof YamlPart) && !preg_match(
+                '%\R'.preg_quote(YamlPart::DOCUMENT_END).'$%',
+                $content
+            )
+        ) {
+            $content .= "\n".YamlPart::DOCUMENT_END;
+        }
 
-		return $content."\n";
-	}
+        return $content."\n";
+    }
 }

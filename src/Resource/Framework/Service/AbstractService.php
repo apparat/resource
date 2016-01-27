@@ -46,20 +46,20 @@ use Apparat\Resource\Domain\Contract\ReaderInterface;
  */
 abstract class AbstractService
 {
-	/**
-	 * Resource reader instance
-	 *
-	 * @var ReaderInterface
-	 */
-	protected $_reader = null;
+    /**
+     * Resource reader instance
+     *
+     * @var ReaderInterface
+     */
+    protected $_reader = null;
 
-	/**
-	 * I/O handler constructor
-	 * .
-	 * @param ReaderInterface $reader Resource reader instance
-	 */
-	public function __construct(ReaderInterface $reader)
-	{
-		$this->_reader = $reader;
-	}
+    /**
+     * I/O handler constructor
+     * .
+     * @param ReaderInterface $reader Resource reader instance
+     */
+    public function __construct(ReaderInterface $reader)
+    {
+        $this->_reader = $reader;
+    }
 }

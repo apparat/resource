@@ -44,24 +44,24 @@ namespace Apparat\Resource\Domain\Model\Resource;
  */
 abstract class AbstractSinglePartResource extends AbstractResource
 {
-	/**
-	 * Set the content of the sole part
-	 *
-	 * @param string $data Content
-	 * @return AbstractSinglePartResource Self reference
-	 */
-	public function set($data)
-	{
-		return $this->setPart($data, '/');
-	}
+    /**
+     * Set the content of the sole part
+     *
+     * @param string $data Content
+     * @return AbstractSinglePartResource Self reference
+     */
+    public function set($data)
+    {
+        return $this->setPart($data, '/');
+    }
 
-	/**
-	 * Return the sole part's content
-	 *
-	 * @return string Part content
-	 */
-	public function get()
-	{
-		return $this->getPart('/');
-	}
+    /**
+     * Return the sole part's content
+     *
+     * @return string Part content
+     */
+    public function get()
+    {
+        return $this->getPart('/');
+    }
 }
