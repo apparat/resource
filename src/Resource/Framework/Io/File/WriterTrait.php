@@ -51,7 +51,7 @@ trait WriterTrait
      *
      * @var int
      */
-    protected $_options;
+    protected $options;
 
     /**
      * Write data
@@ -69,7 +69,7 @@ trait WriterTrait
      *
      * @param int $options File options
      */
-    protected function _setOptions($options)
+    protected function setOptions($options)
     {
         $options = intval($options);
         $allOptions = Writer::FILE_CREATE | Writer::FILE_OVERWRITE;
@@ -81,7 +81,7 @@ trait WriterTrait
             );
         }
 
-        $this->_options = $options;
+        $this->options = $options;
     }
 
     /**
@@ -90,10 +90,10 @@ trait WriterTrait
      * @throws InvalidArgumentException If the file cannot be created
      * @throws InvalidArgumentException If the file cannot be overwritten
      */
-    protected function _validateWriterFile()
+    protected function validateWriterFile()
     {
         // If the file does not exist and cannot be created
-        if (!@file_exists($this->file) && !($this->_options & Writer::FILE_CREATE)) {
+        if (!@file_exists($this->file) && !($this->options & Writer::FILE_CREATE)) {
             throw new InvalidArgumentException(
                 sprintf('File "%s" cannot be created', $this->file),
                 InvalidArgumentException::FILE_CANNOT_BE_CREATED
@@ -103,7 +103,7 @@ trait WriterTrait
         // If the file exists but cannot be overwritten
         if (@file_exists($this->file) && (!@is_file($this->file) || !@is_writeable(
                     $this->file
-                ) || !($this->_options & Writer::FILE_OVERWRITE))
+                ) || !($this->options & Writer::FILE_OVERWRITE))
         ) {
             throw new InvalidArgumentException(
                 sprintf('File "%s" cannot be overwritten', $this->file),

@@ -36,7 +36,6 @@
 
 namespace Apparat\Resource\Framework\Io\InMemory;
 
-
 use Apparat\Resource\Domain\Contract\ReaderInterface;
 use Apparat\Resource\Domain\Contract\WriterInterface;
 

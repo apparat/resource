@@ -71,7 +71,7 @@ class Tools
      *
      * @var array
      */
-    protected static $_writer = array(
+    protected static $writer = array(
         AbstractFileReaderWriter::WRAPPER => FileWriter::class,
         AbstractInMemoryReaderWriter::WRAPPER => InMemoryWriter::class,
     );
@@ -114,7 +114,7 @@ class Tools
         $writer = null;
 
         // Run through all registered writer
-        foreach (self::$_writer as $wrapper => $writerClass) {
+        foreach (self::$writer as $wrapper => $writerClass) {
             $wrapperLength = strlen($wrapper);
 
             // If this wrapper is used: Instantiate the reader and resource

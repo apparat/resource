@@ -69,12 +69,12 @@ class Move extends AbstractService
 
         // If it's a file writer
         if ($writer instanceof FileWriter) {
-            return $this->_moveToFile($writer);
+            return $this->moveToFile($writer);
         }
 
         // If it's an in-memory writer
         if ($writer instanceof InMemoryWriter) {
-            return $this->_moveToInMemory($writer);
+            return $this->moveToInMemory($writer);
         }
 
         throw new InvalidArgumentException(
@@ -94,7 +94,7 @@ class Move extends AbstractService
      * @return FileWriter File writer instance
      * @throws RuntimeException If the resource cannot be moved / renamed
      */
-    protected function _moveToFile(FileWriter $writer)
+    protected function moveToFile(FileWriter $writer)
     {
         // If a file resource is read
         if ($this->reader instanceof FileReader) {
@@ -123,7 +123,7 @@ class Move extends AbstractService
      * @param InMemoryWriter $writer Target in-memory writer
      * @return InMemoryWriter In-memory writer instance
      */
-    protected function _moveToInMemory(InMemoryWriter $writer)
+    protected function moveToInMemory(InMemoryWriter $writer)
     {
         $writer->write($this->reader->read());
         return $writer;

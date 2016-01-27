@@ -100,7 +100,7 @@ abstract class AbstractSequenceHydrator extends AbstractMultipartHydrator
             $sequence[$subhydrator] = $this->dehydratePart($subhydrator, $part);
         }
 
-        return $this->_combineOccurrenceSequence($sequence);
+        return $this->combineOccurrenceSequence($sequence);
     }
 
     /**
@@ -109,7 +109,7 @@ abstract class AbstractSequenceHydrator extends AbstractMultipartHydrator
      * @param array $sequence Part occurrence sequence
      * @return string Combined sequence
      */
-    protected function _combineOccurrenceSequence(array $sequence)
+    protected function combineOccurrenceSequence(array $sequence)
     {
         return implode('', array_map('strval', $sequence));
     }

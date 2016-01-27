@@ -69,12 +69,12 @@ class Copy extends AbstractService
 
         // If it's a file writer
         if ($writer instanceof FileWriter) {
-            return $this->_copyToFile($writer);
+            return $this->copyToFile($writer);
         }
 
         // If it's an in-memory writer
         if ($writer instanceof InMemoryWriter) {
-            return $this->_copyToInMemory($writer);
+            return $this->copyToInMemory($writer);
         }
 
         throw new InvalidArgumentException(
@@ -94,7 +94,7 @@ class Copy extends AbstractService
      * @return FileWriter File writer instance
      * @throws RuntimeException If the resource cannot be copied
      */
-    protected function _copyToFile(FileWriter $writer)
+    protected function copyToFile(FileWriter $writer)
     {
         // If a file resource is read
         if ($this->reader instanceof FileReader) {
@@ -123,7 +123,7 @@ class Copy extends AbstractService
      * @param InMemoryWriter $writer Target in-memory writer
      * @return InMemoryWriter In-memory writer instance
      */
-    protected function _copyToInMemory(InMemoryWriter $writer)
+    protected function copyToInMemory(InMemoryWriter $writer)
     {
         $writer->write($this->reader->read());
         return $writer;

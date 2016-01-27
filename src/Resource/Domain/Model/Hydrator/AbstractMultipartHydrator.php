@@ -149,7 +149,7 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
         }
 
         // Combine and return the dehydrated occurrences
-        return $this->_combineDehydratedOccurrences($occurrences);
+        return $this->combineDehydratedOccurrences($occurrences);
     }
 
     /**
@@ -192,7 +192,7 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
      * @param array $parameters Parameters
      * @return boolean Parameters are valid
      */
-    static function validateParameters(...$parameters)
+    public static function validateParameters(...$parameters)
     {
 
         // If the number of parameters isn't exactly 2
@@ -243,7 +243,7 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
      * @param array $occurrences List of dehydrated occurrences
      * @return string Combined dehydrated occurrences
      */
-    protected function _combineDehydratedOccurrences(array $occurrences)
+    protected function combineDehydratedOccurrences(array $occurrences)
     {
         return implode('', array_map('strval', $occurrences));
     }

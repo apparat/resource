@@ -62,7 +62,7 @@ class PartChoice extends AbstractPartAggregate
      */
     public function assign($part, $data, $occurrence = null)
     {
-        $occurrence = $this->_prepareAssignment($part, $occurrence);
+        $occurrence = $this->prepareAssignment($part, $occurrence);
 
         /** @var HydratorInterface $hydrator */
         $hydrator =& $this->template[$part];
@@ -74,7 +74,7 @@ class PartChoice extends AbstractPartAggregate
      *
      * @return void
      */
-    protected function _addOccurrence()
+    protected function addOccurrence()
     {
         $this->occurrences[] = null;
     }
@@ -86,9 +86,9 @@ class PartChoice extends AbstractPartAggregate
      * @param string $part Part identifier
      * @return bool Is known part identifier
      */
-    protected function _isKnownPartIdentifier($occurrence, $part)
+    protected function isKnownPartIdentifier($occurrence, $part)
     {
-        return parent::_isKnownPartIdentifier(
+        return parent::isKnownPartIdentifier(
             $occurrence,
             $part
         ) || (($part == self::WILDCARD) && count($this->occurrences[$occurrence]));
@@ -101,7 +101,7 @@ class PartChoice extends AbstractPartAggregate
      * @param string $part Part identifier
      * @return PartInterface Part instance
      */
-    protected function _getOccurrencePart(&$occurrence, &$part)
+    protected function getOccurrencePart(&$occurrence, &$part)
     {
         reset($this->occurrences[$occurrence]);
 
@@ -109,6 +109,6 @@ class PartChoice extends AbstractPartAggregate
             $part = key($this->occurrences[$occurrence]);
         }
 
-        return parent::_getOccurrencePart($occurrence, $part);
+        return parent::getOccurrencePart($occurrence, $part);
     }
 }

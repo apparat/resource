@@ -72,7 +72,7 @@ class FrontMarkHydrator extends AbstractSequenceHydrator
 
             // Else: Check for JSON front matter
         } elseif (!strncmp('{', trim($data), 1)) {
-            list($frontMatter, $commonMarkBody) = $this->_extractJsonFrontmatter($data);
+            list($frontMatter, $commonMarkBody) = $this->extractJsonFrontmatter($data);
         }
 
         // Assign the front matter and body part
@@ -88,7 +88,7 @@ class FrontMarkHydrator extends AbstractSequenceHydrator
      * @param string $data String
      * @return array    JSON front matter and string remainder
      */
-    protected function _extractJsonFrontmatter($data)
+    protected function extractJsonFrontmatter($data)
     {
         $jsonFrontMatter = '';
         $remainder = $data;

@@ -74,9 +74,9 @@ class Writer extends AbstractFileReaderWriter implements WriterInterface
         parent::__construct($file);
 
         // Set the file options
-        $this->_setOptions($options);
+        $this->setOptions($options);
 
         // Validate the file
-        $this->_validateWriterFile();
+        $this->validateWriterFile();
     }
 }

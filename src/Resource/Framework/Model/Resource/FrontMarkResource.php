@@ -79,18 +79,18 @@ class FrontMarkResource extends AbstractResource
     {
         parent::__construct(
             $reader, array(
-            [
-                FrontMatterHydrator::FRONTMATTER => [
-                    [
-                        JsonHydrator::JSON => JsonHydrator::class,
-                        YamlHydrator::YAML => YamlHydrator::class
-                    ],
-                    FrontMatterHydrator::class
-                ],
-                HydratorInterface::STANDARD => CommonMarkHydrator::class,
-            ],
-            FrontMarkHydrator::class
-        )
+                       [
+                           FrontMatterHydrator::FRONTMATTER => [
+                               [
+                                   JsonHydrator::JSON => JsonHydrator::class,
+                                   YamlHydrator::YAML => YamlHydrator::class
+                               ],
+                               FrontMatterHydrator::class
+                           ],
+                           HydratorInterface::STANDARD => CommonMarkHydrator::class,
+                       ],
+                       FrontMarkHydrator::class
+                   )
         );
     }
 
@@ -167,6 +167,4 @@ class FrontMarkResource extends AbstractResource
     {
         return $this->setDataPart($data, '/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.PartChoice::WILDCARD);
     }
-
-
 }

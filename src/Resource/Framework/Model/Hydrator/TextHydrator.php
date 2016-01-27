@@ -36,7 +36,6 @@
 
 namespace Apparat\Resource\Framework\Model\Hydrator;
 
-
 use Apparat\Resource\Domain\Model\Hydrator\AbstractSinglepartHydrator;
 use Apparat\Resource\Domain\Model\Part\PartInterface;
 use Apparat\Resource\Framework\Model\Part\TextPart;

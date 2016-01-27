@@ -111,7 +111,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
         parent::__construct($hydrator);
 
         // Initialize the occurrences
-        $this->_initializeOccurrences($this->minimumOccurrences);
+        $this->initializeOccurrences($this->minimumOccurrences);
     }
 
     /**
@@ -154,7 +154,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      * @param int $occurrences Occurrences number
      * @throws OutOfBoundsException If an invalid number of occurrences is specified
      */
-    protected function _initializeOccurrences($occurrences)
+    protected function initializeOccurrences($occurrences)
     {
         // If the occurrences number is invalid
         if (($occurrences < $this->minimumOccurrences) || (($this->maximumOccurrences != self::UNBOUND) && ($occurrences > $this->maximumOccurrences))) {
@@ -166,7 +166,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
 
         // Initialize the particular number of occurrences
         for ($occurrence = count($this->occurrences); $occurrence < $occurrences; ++$occurrence) {
-            $this->_addOccurrence();
+            $this->addOccurrence();
         }
     }
 
@@ -175,7 +175,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      *
      * @return void
      */
-    abstract protected function _addOccurrence();
+    abstract protected function addOccurrence();
 
     /**
      * Serialize this file part
@@ -235,7 +235,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
     {
         // If a subpart is requested
         if (count($subparts)) {
-            $subpart = $this->_getImmediateSubpart($subparts, $occurrence, $part);
+            $subpart = $this->getImmediateSubpart($subparts, $occurrence, $part);
             return $subpart->get($subparts);
 
             // Else: return this
@@ -257,7 +257,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      * @throws InvalidArgumentException If the subpart identifier is unknown
      * @throws InvalidArgumentException If the subpart does not exist
      */
-    protected function _getImmediateSubpart(array &$subparts, &$occurrence = 0, &$part = '')
+    protected function getImmediateSubpart(array &$subparts, &$occurrence = 0, &$part = '')
     {
 
         // Check if there are at least 2 subpart path identifiers available
@@ -293,7 +293,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
         self::validatePartIdentifier($part);
 
         // Test if the part identifier is known
-        if (!$this->_isKnownPartIdentifier($occurrence, $part)) {
+        if (!$this->isKnownPartIdentifier($occurrence, $part)) {
             throw new InvalidArgumentException(
                 sprintf('Unknown part identifier "%s"', $part),
                 InvalidArgumentException::UNKNOWN_PART_IDENTIFIER
@@ -301,7 +301,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
         }
 
         // If the part is empty
-        $partInstance = $this->_getOccurrencePart($occurrence, $part);
+        $partInstance = $this->getOccurrencePart($occurrence, $part);
         if (!($partInstance instanceof PartInterface)) {
             throw new InvalidArgumentException(
                 sprintf('Part "%s" does not exist', $occurrence.'/'.$part),
@@ -319,7 +319,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      * @param string $part Part identifier
      * @return bool Is known part identifier
      */
-    protected function _isKnownPartIdentifier($occurrence, $part)
+    protected function isKnownPartIdentifier($occurrence, $part)
     {
         return array_key_exists($part, $this->occurrences[$occurrence]);
     }
@@ -331,7 +331,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      * @param string $part Part identifier
      * @return PartInterface Part instance
      */
-    protected function _getOccurrencePart(&$occurrence, &$part)
+    protected function getOccurrencePart(&$occurrence, &$part)
     {
         return $this->occurrences[$occurrence][$part];
     }
@@ -350,7 +350,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
         if (count($subparts)) {
             $occurrence = 0;
             $part = '';
-            $subpart = $this->_getImmediateSubpart($subparts, $occurrence, $part);
+            $subpart = $this->getImmediateSubpart($subparts, $occurrence, $part);
             $result = $subpart->delegate($method, $subparts, $arguments);
 
             // If it's a setter method
@@ -456,7 +456,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      * @return int Occurrence index
      * @throws InvalidArgumentException If the part identifier is invalid
      */
-    protected function _prepareAssignment($part, $occurrence = null)
+    protected function prepareAssignment($part, $occurrence = null)
     {
 
         // If the part identifier is invalid
@@ -473,7 +473,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
         }
 
         // Initialize the required number or occurrences
-        $this->_initializeOccurrences($occurrence + 1);
+        $this->initializeOccurrences($occurrence + 1);
 
         return $occurrence;
     }

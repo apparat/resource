@@ -36,7 +36,6 @@
 
 namespace Apparat\Resource\Framework\Model\Part;
 
-
 use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
 
 /**

@@ -36,7 +36,6 @@
 
 namespace Apparat\Resource\Framework\Api;
 
-
 use Apparat\Resource\Domain\Contract\ReaderInterface;
 use Apparat\Resource\Domain\Model\Resource\AbstractResource;
 use Apparat\Resource\Framework\Model\Resource\CommonMarkResource;
@@ -64,7 +63,7 @@ class Resource
      */
     public static function text($src, ...$parameters)
     {
-        return self::_from($src, TextResource::class, ...$parameters);
+        return self::fromSource($src, TextResource::class, ...$parameters);
     }
 
     /**
@@ -77,7 +76,7 @@ class Resource
      */
     public static function yaml($src, ...$parameters)
     {
-        return self::_from($src, YamlResource::class, ...$parameters);
+        return self::fromSource($src, YamlResource::class, ...$parameters);
     }
 
     /**
@@ -90,7 +89,7 @@ class Resource
      */
     public static function json($src, ...$parameters)
     {
-        return self::_from($src, JsonResource::class, ...$parameters);
+        return self::fromSource($src, JsonResource::class, ...$parameters);
     }
 
     /**
@@ -103,7 +102,7 @@ class Resource
      */
     public static function commonMark($src, ...$parameters)
     {
-        return self::_from($src, CommonMarkResource::class, ...$parameters);
+        return self::fromSource($src, CommonMarkResource::class, ...$parameters);
     }
 
     /**
@@ -116,7 +115,7 @@ class Resource
      */
     public static function frontMark($src, ...$parameters)
     {
-        return self::_from($src, FrontMarkResource::class, ...$parameters);
+        return self::fromSource($src, FrontMarkResource::class, ...$parameters);
     }
 
     /*******************************************************************************
@@ -132,7 +131,7 @@ class Resource
      * @return AbstractResource Resource instance
      * @throws InvalidArgumentException If an invalid reader stream wrapper is given
      */
-    protected static function _from($src, $resourceClass, ...$parameters)
+    protected static function fromSource($src, $resourceClass, ...$parameters)
     {
         $reader = Tools::reader($src, $parameters);
         if ($reader instanceof ReaderInterface) {

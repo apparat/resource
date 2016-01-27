@@ -84,7 +84,7 @@ abstract class AbstractResource
      */
     public function load(ReaderInterface $reader)
     {
-        $this->_reset();
+        $this->reset();
         $this->reader = $reader;
         return $this;
     }
@@ -194,7 +194,7 @@ abstract class AbstractResource
      *
      * @return void
      */
-    protected function _reset()
+    protected function reset()
     {
         $this->part = null;
     }

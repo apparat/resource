@@ -65,7 +65,7 @@ class CommonMarkPart extends TextPart
         $html = '';
 
         if (strlen($this->content)) {
-            $environment = $this->_environment();
+            $environment = $this->environment();
             $parser = new DocParser($environment);
             $renderer = new HtmlRenderer($environment);
             $html = $renderer->renderBlock($parser->parse($this->content));
@@ -83,14 +83,14 @@ class CommonMarkPart extends TextPart
      *
      * @return Environment CommonMark environment
      */
-    protected function _environment()
+    protected function environment()
     {
 
         // Obtain a pre-configured Environment with all the CommonMark parsers/renderers ready-to-go
         $environment = Environment::createCommonMarkEnvironment();
 
         // Custom environment initialization
-        $this->_initializeEnvironment($environment);
+        $this->initializeEnvironment($environment);
 
         return $environment;
     }
@@ -102,7 +102,7 @@ class CommonMarkPart extends TextPart
      *
      * @param Environment $environment
      */
-    protected function _initializeEnvironment(Environment $environment)
+    protected function initializeEnvironment(Environment $environment)
     {
         // Optional: Add your own parsers/renderers here, if desired
         // For example:  $environment->addInlineParser(new TwitterHandleParser());

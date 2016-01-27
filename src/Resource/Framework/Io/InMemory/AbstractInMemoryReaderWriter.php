@@ -36,7 +36,6 @@
 
 namespace Apparat\Resource\Framework\Io\InMemory;
 
-
 /**
  * Abstract base class for in-memory readers/writers
  *

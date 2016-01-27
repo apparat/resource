@@ -55,7 +55,7 @@ class PartSequence extends AbstractPartAggregate
      */
     public function assign($part, $data, $occurrence = null)
     {
-        $occurrence = $this->_prepareAssignment($part, $occurrence);
+        $occurrence = $this->prepareAssignment($part, $occurrence);
 
         /** @var HydratorInterface $hydrator */
         $hydrator =& $this->template[$part];
@@ -67,7 +67,7 @@ class PartSequence extends AbstractPartAggregate
      *
      * @return void
      */
-    protected function _addOccurrence()
+    protected function addOccurrence()
     {
         $this->occurrences[] = array_fill_keys(array_keys($this->template), null);
     }
