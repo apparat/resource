@@ -8,7 +8,7 @@
  * @subpackage Apparat\Resource\Domain
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -51,7 +51,7 @@ abstract class AbstractPart implements PartInterface
      *
      * @var HydratorInterface
      */
-    protected $_hydrator = null;
+    protected $hydrator = null;
 
     /**
      * Abstract part constructor
@@ -60,7 +60,7 @@ abstract class AbstractPart implements PartInterface
      */
     public function __construct(HydratorInterface $hydrator)
     {
-        $this->_hydrator = $hydrator;
+        $this->hydrator = $hydrator;
     }
 
     /**
@@ -87,7 +87,7 @@ abstract class AbstractPart implements PartInterface
      */
     public function getHydrator()
     {
-        return $this->_hydrator;
+        return $this->hydrator;
     }
 
     /**

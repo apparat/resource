@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -142,11 +142,11 @@ class CommonMarkTest extends AbstractTest
      */
     public function testCommonMarkResourceHtmlPart()
     {
-        $expectedHtml = $this->_normalizeHtml(
+        $expectedHtml = $this->normalizeHtml(
             file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
         );
         $commonMarkResource = new CommonMarkResource(new Reader($this->_commonMark));
-        $this->assertEquals($expectedHtml, $this->_normalizeHtml($commonMarkResource->getHtmlPart()));
+        $this->assertEquals($expectedHtml, $this->normalizeHtml($commonMarkResource->getHtmlPart()));
     }
 
     /**
@@ -154,10 +154,10 @@ class CommonMarkTest extends AbstractTest
      */
     public function testCommonMarkResourceHtml()
     {
-        $expectedHtml = $this->_normalizeHtml(
+        $expectedHtml = $this->normalizeHtml(
             file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
         );
         $commonMarkResource = new CommonMarkResource(new Reader($this->_commonMark));
-        $this->assertEquals($expectedHtml, $this->_normalizeHtml($commonMarkResource->getHtml()));
+        $this->assertEquals($expectedHtml, $this->normalizeHtml($commonMarkResource->getHtml()));
     }
 }

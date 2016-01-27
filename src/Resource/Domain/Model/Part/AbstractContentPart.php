@@ -8,7 +8,7 @@
  * @subpackage Apparat\Resource\Domain
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -58,7 +58,7 @@ abstract class AbstractContentPart extends AbstractPart
      *
      * @var string
      */
-    protected $_content = '';
+    protected $content = '';
 
     /**
      * Part constructor
@@ -69,7 +69,7 @@ abstract class AbstractContentPart extends AbstractPart
     public function __construct($content = '', AbstractSinglepartHydrator $hydrator)
     {
         parent::__construct($hydrator);
-        $this->_content = $content;
+        $this->content = $content;
     }
 
     /**
@@ -79,7 +79,7 @@ abstract class AbstractContentPart extends AbstractPart
      */
     public function __toString()
     {
-        return strval($this->_content);
+        return strval($this->content);
     }
 
     /**
@@ -102,7 +102,7 @@ abstract class AbstractContentPart extends AbstractPart
     public function set($data, array $subparts = [])
     {
         $class = get_class($this);
-        return new $class($data, $this->_hydrator);
+        return new $class($data, $this->hydrator);
     }
 
     /**

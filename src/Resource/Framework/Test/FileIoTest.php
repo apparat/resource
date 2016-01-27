@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -198,7 +198,7 @@ namespace ApparatTest {
         public function testFileWriterWithCreatedFile()
         {
             $textReource = new TextResource(new \Apparat\Resource\Framework\Io\InMemory\Reader($this->_text));
-            $tempFile = $this->_createTemporaryFile(true);
+            $tempFile = $this->createTemporaryFile(true);
             $textReource->dump(new Writer($tempFile, Writer::FILE_CREATE));
             $this->assertFileEquals(self::TXT_FILE, $tempFile);
         }
@@ -209,7 +209,7 @@ namespace ApparatTest {
         public function testFileWriterWithOverwrittenFile()
         {
             $textReource = new TextResource(new \Apparat\Resource\Framework\Io\InMemory\Reader($this->_text));
-            $tempFile = $this->_createTemporaryFile();
+            $tempFile = $this->createTemporaryFile();
             $textReource->dump(new Writer($tempFile, Writer::FILE_OVERWRITE));
             $this->assertFileEquals(self::TXT_FILE, $tempFile);
         }
@@ -219,7 +219,7 @@ namespace ApparatTest {
          */
         public function testFileReaderWriterWithCreatedFile()
         {
-            $tempFile = $this->_createTemporaryFile(true);
+            $tempFile = $this->createTemporaryFile(true);
             copy(self::TXT_FILE, $tempFile);
             $randomAppend = md5(rand());
             $fileReaderWriter = new ReaderWriter($tempFile);

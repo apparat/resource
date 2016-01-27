@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -56,7 +56,7 @@ class AbstractFileReaderWriter
      *
      * @var string
      */
-    protected $_file;
+    protected $file;
 
     /**
      * Constructor
@@ -65,7 +65,7 @@ class AbstractFileReaderWriter
      */
     public function __construct($file)
     {
-        $this->_file = $file;
+        $this->file = $file;
     }
 
     /**
@@ -75,6 +75,6 @@ class AbstractFileReaderWriter
      */
     public function getFile()
     {
-        return $this->_file;
+        return $this->file;
     }
 }

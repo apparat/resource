@@ -8,7 +8,7 @@
  * @subpackage Apparat\Resource\Domain
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -57,37 +57,37 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      *
      * @var array
      */
-    protected $_template = array();
+    protected $template = array();
     /**
      * Minimum occurrences
      *
      * @var int
      */
-    protected $_minimumOccurrences = 1;
+    protected $minimumOccurrences = 1;
     /**
      * Maximum occurrences
      *
      * @var int
      */
-    protected $_maximumOccurrences = 1;
+    protected $maximumOccurrences = 1;
     /**
      * Occurrences
      *
      * @var array
      */
-    protected $_occurrences = [];
+    protected $occurrences = [];
     /**
      * Current occurrence index
      *
      * @var int
      */
-    protected $_occurrenceCurrent = 0;
+    protected $occurrenceCurrent = 0;
     /**
      * Current occurrence iterator
      *
      * @var int
      */
-    protected $_occurrenceIterator = 0;
+    protected $occurrenceIterator = 0;
 
     /**
      * Part constructor
@@ -104,14 +104,14 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
         AbstractMultipartHydrator $hydrator
     ) {
         self::validateOccurrences($minOccurrences, $maxOccurrences);
-        $this->_template = $template;
-        $this->_minimumOccurrences = intval($minOccurrences);
-        $this->_maximumOccurrences = intval($maxOccurrences);
+        $this->template = $template;
+        $this->minimumOccurrences = intval($minOccurrences);
+        $this->maximumOccurrences = intval($maxOccurrences);
 
         parent::__construct($hydrator);
 
         // Initialize the occurrences
-        $this->_initializeOccurrences($this->_minimumOccurrences);
+        $this->_initializeOccurrences($this->minimumOccurrences);
     }
 
     /**
@@ -157,7 +157,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
     protected function _initializeOccurrences($occurrences)
     {
         // If the occurrences number is invalid
-        if (($occurrences < $this->_minimumOccurrences) || (($this->_maximumOccurrences != self::UNBOUND) && ($occurrences > $this->_maximumOccurrences))) {
+        if (($occurrences < $this->minimumOccurrences) || (($this->maximumOccurrences != self::UNBOUND) && ($occurrences > $this->maximumOccurrences))) {
             throw new OutOfBoundsException(
                 sprintf('Invalid occurrences number "%s"', $occurrences),
                 OutOfBoundsException::INVALID_OCCURRENCES_NUMBER
@@ -165,7 +165,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
         }
 
         // Initialize the particular number of occurrences
-        for ($occurrence = count($this->_occurrences); $occurrence < $occurrences; ++$occurrence) {
+        for ($occurrence = count($this->occurrences); $occurrence < $occurrences; ++$occurrence) {
             $this->_addOccurrence();
         }
     }
@@ -184,7 +184,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      */
     public function __toString()
     {
-        return $this->_hydrator->dehydrate($this);
+        return $this->hydrator->dehydrate($this);
     }
 
     /**
@@ -211,12 +211,12 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
             $occurrence = 0;
             $part = '';
             $subpart = $this->get($subparts, $occurrence, $part)->set($data, []);
-            $this->_occurrences[$occurrence][$part] = $subpart;
+            $this->occurrences[$occurrence][$part] = $subpart;
             return $this;
 
             // Else: Rehydrate
         } else {
-            return $this->_hydrator->hydrate($data);
+            return $this->hydrator->hydrate($data);
         }
     }
 
@@ -281,7 +281,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
         }
 
         // If the occurrence index is out of bounds
-        if ((intval($occurrence) < 0) || ($occurrence >= count($this->_occurrences))) {
+        if ((intval($occurrence) < 0) || ($occurrence >= count($this->occurrences))) {
             throw new OutOfBoundsException(
                 sprintf('Occurrence index "%s" out of bounds', $occurrence),
                 OutOfBoundsException::OCCURRENCE_INDEX_OUT_OF_BOUNDS
@@ -321,7 +321,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      */
     protected function _isKnownPartIdentifier($occurrence, $part)
     {
-        return array_key_exists($part, $this->_occurrences[$occurrence]);
+        return array_key_exists($part, $this->occurrences[$occurrence]);
     }
 
     /**
@@ -333,7 +333,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      */
     protected function _getOccurrencePart(&$occurrence, &$part)
     {
-        return $this->_occurrences[$occurrence][$part];
+        return $this->occurrences[$occurrence][$part];
     }
 
     /**
@@ -357,7 +357,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
             if (!strncmp('set', $method, 3)) {
 
                 // Exchange the modified part
-                $this->_occurrences[$occurrence][$part] = $result;
+                $this->occurrences[$occurrence][$part] = $result;
 
                 // Return a self reference
                 return $this;
@@ -391,7 +391,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      */
     public function count()
     {
-        return count($this->_occurrences);
+        return count($this->occurrences);
     }
 
     /*******************************************************************************
@@ -405,7 +405,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      */
     public function current()
     {
-        return $this->_occurrences[$this->_occurrenceIterator];
+        return $this->occurrences[$this->occurrenceIterator];
     }
 
     /**
@@ -415,7 +415,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      */
     public function next()
     {
-        ++$this->_occurrenceIterator;
+        ++$this->occurrenceIterator;
     }
 
     /**
@@ -425,7 +425,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      */
     public function key()
     {
-        return $this->_occurrenceIterator;
+        return $this->occurrenceIterator;
     }
 
     /**
@@ -435,7 +435,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      */
     public function valid()
     {
-        return isset($this->_occurrences[$this->_occurrenceIterator]);
+        return isset($this->occurrences[$this->occurrenceIterator]);
     }
 
     /**
@@ -445,7 +445,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
      */
     public function rewind()
     {
-        $this->_occurrenceIterator = 0;
+        $this->occurrenceIterator = 0;
     }
 
     /**
@@ -460,7 +460,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
     {
 
         // If the part identifier is invalid
-        if (!strlen($part) || !array_key_exists($part, $this->_template)) {
+        if (!strlen($part) || !array_key_exists($part, $this->template)) {
             throw new InvalidArgumentException(
                 sprintf('Invalid part identifier "%s"', $part),
                 InvalidArgumentException::INVALID_PART_IDENTIFIER
@@ -469,7 +469,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
 
         // Use the current occurrence if not specified
         if ($occurrence === null) {
-            $occurrence = $this->_occurrenceCurrent;
+            $occurrence = $this->occurrenceCurrent;
         }
 
         // Initialize the required number or occurrences

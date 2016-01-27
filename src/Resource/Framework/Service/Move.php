@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -63,7 +63,7 @@ class Move extends AbstractService
      * @return WriterInterface Writer instance
      * @throws InvalidArgumentException If the writer stream wrapper is invalid
      */
-    public function to($target, ...$parameters)
+    public function toTarget($target, ...$parameters)
     {
         $writer = Tools::writer($target, $parameters);
 
@@ -97,13 +97,13 @@ class Move extends AbstractService
     protected function _moveToFile(FileWriter $writer)
     {
         // If a file resource is read
-        if ($this->_reader instanceof FileReader) {
+        if ($this->reader instanceof FileReader) {
 
             // If a copy error occurs
-            if (!@rename($this->_reader->getFile(), $writer->getFile())) {
+            if (!@rename($this->reader->getFile(), $writer->getFile())) {
                 throw new RuntimeException(
                     sprintf(
-                        'Could not move / rename "%s" to "%s"', $this->_reader->getFile(),
+                        'Could not move / rename "%s" to "%s"', $this->reader->getFile(),
                         $writer->getFile()
                     ), RuntimeException::COULD_NOT_MOVE_FILE_TO_FILE
                 );
@@ -111,7 +111,7 @@ class Move extends AbstractService
 
             // Else: In-memory resource
         } else {
-            $writer->write($this->_reader->read());
+            $writer->write($this->reader->read());
         }
 
         return $writer;
@@ -125,7 +125,7 @@ class Move extends AbstractService
      */
     protected function _moveToInMemory(InMemoryWriter $writer)
     {
-        $writer->write($this->_reader->read());
+        $writer->write($this->reader->read());
         return $writer;
     }
 }

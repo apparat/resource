@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -65,7 +65,7 @@ class PartSequenceMock extends PartSequence
      */
     public function invalidateCommonMarkPart()
     {
-        $this->_occurrences[0][HydratorInterface::STANDARD] = null;
+        $this->occurrences[0][HydratorInterface::STANDARD] = null;
     }
 }
 
@@ -82,7 +82,7 @@ class FrontMarkHydratorMock extends FrontMarkHydrator
      *
      * @var string
      */
-    protected $_aggregateClass = PartSequenceMock::class;
+    protected $aggregateClass = PartSequenceMock::class;
 }
 
 /**
@@ -123,7 +123,7 @@ class FrontMarkResourceMock extends AbstractResource
     public function invalidateCommonMarkPart()
     {
         /** @var PartSequenceMock $sequence */
-        $sequence = $this->_part();
+        $sequence = $this->part();
         $sequence->invalidateCommonMarkPart();
     }
 }
@@ -424,10 +424,10 @@ class FrontMarkTest extends AbstractTest
      */
     public function testYamlGetCommonMarkHtml()
     {
-        $expectedHtml = $this->_normalizeHtml(
+        $expectedHtml = $this->normalizeHtml(
             file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
         );
         $frontMarkResource = new FrontMarkResource(new Reader($this->_yamlFrontMark));
-        $this->assertEquals($expectedHtml, $this->_normalizeHtml($frontMarkResource->getHtml()));
+        $this->assertEquals($expectedHtml, $this->normalizeHtml($frontMarkResource->getHtml()));
     }
 }

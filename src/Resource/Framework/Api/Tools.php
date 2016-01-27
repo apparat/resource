@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -61,7 +61,7 @@ class Tools
      *
      * @var array
      */
-    protected static $_reader = array(
+    protected static $reader = array(
         AbstractFileReaderWriter::WRAPPER => FileReader::class,
         AbstractInMemoryReaderWriter::WRAPPER => InMemoryReader::class,
     );
@@ -88,7 +88,7 @@ class Tools
         $reader = null;
 
         // Run through all registered readers
-        foreach (self::$_reader as $wrapper => $readerClass) {
+        foreach (self::$reader as $wrapper => $readerClass) {
             $wrapperLength = strlen($wrapper);
 
             // If this wrapper is used: Instantiate the reader and resource

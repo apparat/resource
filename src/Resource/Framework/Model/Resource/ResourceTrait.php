@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 namespace Jkphl;
@@ -79,7 +79,7 @@ trait ResourceTrait
      * @return WriterInterface Writer instance
      * @throws InvalidArgumentException If an invalid reader stream wrapper is given
      */
-    public function to($target, ...$parameters)
+    public function toTarget($target, ...$parameters)
     {
         $writer = Tools::writer($target, $parameters);
         if ($writer instanceof WriterInterface) {

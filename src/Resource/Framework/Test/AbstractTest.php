@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -49,7 +49,7 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_tmpFiles = array();
+    protected $tmpFiles = array();
 
     /**
      * Test if two arrays equal in their keys and values
@@ -61,7 +61,7 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
     public function assertArrayEquals(array $expected, array $actual, $message = '')
     {
         $this->assertEquals(
-            $this->_sortArrayForComparison($expected), $this->_sortArrayForComparison($actual), $message
+            $this->sortArrayForComparison($expected), $this->sortArrayForComparison($actual), $message
         );
     }
 
@@ -71,7 +71,7 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
      * @param array $array Array
      * @return array                Sorted array
      */
-    protected function _sortArrayForComparison(array $array)
+    protected function sortArrayForComparison(array $array)
     {
 
         // Test if all array keys are numeric
@@ -92,7 +92,7 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
         reset($array);
         while (list($key, $value) = each($array)) {
             if (is_array($value)) {
-                $array[$key] = $this->_sortArrayForComparison($value);
+                $array[$key] = $this->sortArrayForComparison($value);
             }
         }
 
@@ -104,7 +104,7 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        foreach ($this->_tmpFiles as $tmpFile) {
+        foreach ($this->tmpFiles as $tmpFile) {
             if (@is_file($tmpFile)) {
                 @unlink($tmpFile);
             } else {
@@ -123,9 +123,9 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
      * @param bool $nameOnly Return the name only (don't create file)
      * @return string Temporary file name
      */
-    protected function _createTemporaryFile($nameOnly = false)
+    protected function createTemporaryFile($nameOnly = false)
     {
-        $this->_tmpFiles[] = $tempFileName = tempnam(sys_get_temp_dir(), 'apparat_test_');
+        $this->tmpFiles[] = $tempFileName = tempnam(sys_get_temp_dir(), 'apparat_test_');
         if ($nameOnly) {
             @unlink($tempFileName);
         }
@@ -138,7 +138,7 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
      * @param string $html Original HTML
      * @return string Normalized HTML
      */
-    protected function _normalizeHtml($html)
+    protected function normalizeHtml($html)
     {
         $htmlDom = new \DOMDocument();
         $htmlDom->preserveWhiteSpace = false;

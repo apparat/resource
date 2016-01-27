@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -71,10 +71,10 @@ class YamlPart extends AbstractContentPart
     {
         $data = array();
 
-        if (strlen($this->_content)) {
+        if (strlen($this->content)) {
             $defaultTimezone = date_default_timezone_get();
             date_default_timezone_set('UTC');
-            $data = Yaml::parse($this->_content);
+            $data = Yaml::parse($this->content);
             date_default_timezone_set($defaultTimezone);
         }
 

@@ -8,7 +8,7 @@
  * @subpackage Apparat\Resource\Domain
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -65,8 +65,8 @@ class PartChoice extends AbstractPartAggregate
         $occurrence = $this->_prepareAssignment($part, $occurrence);
 
         /** @var HydratorInterface $hydrator */
-        $hydrator =& $this->_template[$part];
-        $this->_occurrences[$occurrence] = [$part => $hydrator->hydrate($data)];
+        $hydrator =& $this->template[$part];
+        $this->occurrences[$occurrence] = [$part => $hydrator->hydrate($data)];
     }
 
     /**
@@ -76,7 +76,7 @@ class PartChoice extends AbstractPartAggregate
      */
     protected function _addOccurrence()
     {
-        $this->_occurrences[] = null;
+        $this->occurrences[] = null;
     }
 
     /**
@@ -91,7 +91,7 @@ class PartChoice extends AbstractPartAggregate
         return parent::_isKnownPartIdentifier(
             $occurrence,
             $part
-        ) || (($part == self::WILDCARD) && count($this->_occurrences[$occurrence]));
+        ) || (($part == self::WILDCARD) && count($this->occurrences[$occurrence]));
     }
 
     /**
@@ -103,10 +103,10 @@ class PartChoice extends AbstractPartAggregate
      */
     protected function _getOccurrencePart(&$occurrence, &$part)
     {
-        reset($this->_occurrences[$occurrence]);
+        reset($this->occurrences[$occurrence]);
 
         if ($part == self::WILDCARD) {
-            $part = key($this->_occurrences[$occurrence]);
+            $part = key($this->occurrences[$occurrence]);
         }
 
         return parent::_getOccurrencePart($occurrence, $part);

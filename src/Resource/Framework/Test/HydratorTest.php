@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -64,7 +64,7 @@ trait AggregateHydratorMocks
     public function hydrate($data)
     {
         if (!empty($GLOBALS['mockAggregateClass'])) {
-            $this->_aggregateClass = self::class;
+            $this->aggregateClass = self::class;
         }
 
         /** @var AbstractPartAggregate $aggregate */
@@ -88,7 +88,7 @@ trait AggregateHydratorMocks
      * @param array $occurrence Occurrence
      * @return string Dehydrated occurrence
      */
-    protected function _dehydrateOccurrence(array $occurrence)
+    protected function dehydrateOccurrence(array $occurrence)
     {
 
         // If the default validation should be used
@@ -97,12 +97,12 @@ trait AggregateHydratorMocks
             // If an empty occurrence shall be tested
             if (!empty($GLOBALS['mockEmptyOccurrence'])) {
                 /** @noinspection PhpUndefinedMethodInspection */
-                return parent::_dehydrateOccurrence([]);
+                return parent::dehydrateOccurrence([]);
 
                 // If an invalid subhydrator name should be tested
             } elseif (!empty($GLOBALS['mockSubhydratorName'])) {
                 /** @noinspection PhpUndefinedMethodInspection */
-                return parent::_dehydrateOccurrence(
+                return parent::dehydrateOccurrence(
                     array_combine(
                         array_map(
                             function ($name) {
@@ -116,12 +116,12 @@ trait AggregateHydratorMocks
                 // If an invalid part instance should be tested
             } elseif (!empty($GLOBALS['mockPartInstance'])) {
                 /** @noinspection PhpUndefinedMethodInspection */
-                return parent::_dehydrateOccurrence(array_fill_keys(array_keys($occurrence), null));
+                return parent::dehydrateOccurrence(array_fill_keys(array_keys($occurrence), null));
 
                 // Else: Regular processing
             } else {
                 /** @noinspection PhpUndefinedMethodInspection */
-                return parent::_dehydrateOccurrence($occurrence);
+                return parent::dehydrateOccurrence($occurrence);
             }
             // Else return a mock result
         } else {

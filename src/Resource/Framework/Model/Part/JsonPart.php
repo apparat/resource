@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -62,8 +62,8 @@ class JsonPart extends AbstractContentPart
     {
         $data = array();
 
-        if (strlen($this->_content)) {
-            $data = json_decode($this->_content, true);
+        if (strlen($this->content)) {
+            $data = json_decode($this->content, true);
         }
 
         return $data;

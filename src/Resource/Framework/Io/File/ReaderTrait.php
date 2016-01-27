@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -41,7 +41,7 @@ namespace Apparat\Resource\Framework\Io\File;
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
- * @property string $_file File path
+ * @property string $file File path
  */
 trait ReaderTrait
 {
@@ -52,7 +52,7 @@ trait ReaderTrait
      */
     public function read()
     {
-        return file_get_contents($this->_file);
+        return file_get_contents($this->file);
     }
 
     /**
@@ -62,28 +62,28 @@ trait ReaderTrait
      * @throws InvalidArgumentException If the file is not a file
      * @throws InvalidArgumentException If the file is not readable
      */
-    protected function _validateReaderFile()
+    protected function validateReaderFile()
     {
         // If the file does not exist
-        if (!@file_exists($this->_file)) {
+        if (!@file_exists($this->file)) {
             throw new InvalidArgumentException(
-                sprintf('File "%s" does not exist', $this->_file),
+                sprintf('File "%s" does not exist', $this->file),
                 InvalidArgumentException::FILE_DOES_NOT_EXIST
             );
         }
 
         // If the file is not a file
-        if (!@is_file($this->_file)) {
+        if (!@is_file($this->file)) {
             throw new InvalidArgumentException(
-                sprintf('File "%s" is not a file', $this->_file),
+                sprintf('File "%s" is not a file', $this->file),
                 InvalidArgumentException::FILE_IS_NOT_A_FILE
             );
         }
 
         // If the file is not readable
-        if (!@is_readable($this->_file)) {
+        if (!@is_readable($this->file)) {
             throw new InvalidArgumentException(
-                sprintf('File "%s" is not readable', $this->_file),
+                sprintf('File "%s" is not readable', $this->file),
                 InvalidArgumentException::FILE_NOT_READABLE
             );
         }

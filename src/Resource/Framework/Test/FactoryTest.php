@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -191,7 +191,7 @@ class FactoryTest extends AbstractTest
     {
         $textResource = Resource::text($this->_text);
         /** @var InMemoryWriter $writer */
-        $writer = $textResource->to('');
+        $writer = $textResource->toTarget('');
         $this->assertInstanceOf(InMemoryWriter::class, $writer);
         $this->assertEquals($this->_text, $writer->getData());
     }
@@ -201,9 +201,9 @@ class FactoryTest extends AbstractTest
      */
     public function testTextFactoryFileWriter()
     {
-        $tempFileName = $this->_createTemporaryFile(true);
+        $tempFileName = $this->createTemporaryFile(true);
         $textResource = Resource::text($this->_text);
-        $writer = $textResource->to('file://'.$tempFileName, FileWriter::FILE_CREATE);
+        $writer = $textResource->toTarget('file://'.$tempFileName, FileWriter::FILE_CREATE);
         $this->assertInstanceOf(FileWriter::class, $writer);
         $this->assertStringEqualsFile($tempFileName, $this->_text);
     }
@@ -216,7 +216,7 @@ class FactoryTest extends AbstractTest
      */
     public function testTextFactoryInvalidWriter()
     {
-        Resource::text($this->_text)->to('foo://'.$this->_createTemporaryFile(true));
+        Resource::text($this->_text)->toTarget('foo://'.$this->createTemporaryFile(true));
     }
 
     /**

@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -51,7 +51,7 @@ abstract class AbstractService
      *
      * @var ReaderInterface
      */
-    protected $_reader = null;
+    protected $reader = null;
 
     /**
      * I/O handler constructor
@@ -60,6 +60,6 @@ abstract class AbstractService
      */
     public function __construct(ReaderInterface $reader)
     {
-        $this->_reader = $reader;
+        $this->reader = $reader;
     }
 }

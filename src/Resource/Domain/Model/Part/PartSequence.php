@@ -8,7 +8,7 @@
  * @subpackage Apparat\Resource\Domain
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -58,8 +58,8 @@ class PartSequence extends AbstractPartAggregate
         $occurrence = $this->_prepareAssignment($part, $occurrence);
 
         /** @var HydratorInterface $hydrator */
-        $hydrator =& $this->_template[$part];
-        $this->_occurrences[$occurrence][$part] = $hydrator->hydrate($data);
+        $hydrator =& $this->template[$part];
+        $this->occurrences[$occurrence][$part] = $hydrator->hydrate($data);
     }
 
     /**
@@ -69,6 +69,6 @@ class PartSequence extends AbstractPartAggregate
      */
     protected function _addOccurrence()
     {
-        $this->_occurrences[] = array_fill_keys(array_keys($this->_template), null);
+        $this->occurrences[] = array_fill_keys(array_keys($this->template), null);
     }
 }

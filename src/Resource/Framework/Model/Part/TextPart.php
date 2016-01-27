@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -62,7 +62,7 @@ class TextPart extends AbstractContentPart
      */
     public function append($data)
     {
-        return $this->set($this->_content.$data);
+        return $this->set($this->content.$data);
     }
 
     /**
@@ -73,6 +73,6 @@ class TextPart extends AbstractContentPart
      */
     public function prepend($data)
     {
-        return $this->set($data.$this->_content);
+        return $this->set($data.$this->content);
     }
 }

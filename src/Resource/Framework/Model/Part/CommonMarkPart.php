@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -64,11 +64,11 @@ class CommonMarkPart extends TextPart
     {
         $html = '';
 
-        if (strlen($this->_content)) {
+        if (strlen($this->content)) {
             $environment = $this->_environment();
             $parser = new DocParser($environment);
             $renderer = new HtmlRenderer($environment);
-            $html = $renderer->renderBlock($parser->parse($this->_content));
+            $html = $renderer->renderBlock($parser->parse($this->content));
         }
 
         return $html;

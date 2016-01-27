@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -41,7 +41,7 @@ namespace Apparat\Resource\Framework\Io\File;
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
- * @property string $_file File path
+ * @property string $file File path
  */
 trait WriterTrait
 
@@ -61,7 +61,7 @@ trait WriterTrait
      */
     public function write($data)
     {
-        return file_put_contents($this->_file, $data);
+        return file_put_contents($this->file, $data);
     }
 
     /**
@@ -93,20 +93,20 @@ trait WriterTrait
     protected function _validateWriterFile()
     {
         // If the file does not exist and cannot be created
-        if (!@file_exists($this->_file) && !($this->_options & Writer::FILE_CREATE)) {
+        if (!@file_exists($this->file) && !($this->_options & Writer::FILE_CREATE)) {
             throw new InvalidArgumentException(
-                sprintf('File "%s" cannot be created', $this->_file),
+                sprintf('File "%s" cannot be created', $this->file),
                 InvalidArgumentException::FILE_CANNOT_BE_CREATED
             );
         }
 
         // If the file exists but cannot be overwritten
-        if (@file_exists($this->_file) && (!@is_file($this->_file) || !@is_writeable(
-                    $this->_file
+        if (@file_exists($this->file) && (!@is_file($this->file) || !@is_writeable(
+                    $this->file
                 ) || !($this->_options & Writer::FILE_OVERWRITE))
         ) {
             throw new InvalidArgumentException(
-                sprintf('File "%s" cannot be overwritten', $this->_file),
+                sprintf('File "%s" cannot be overwritten', $this->file),
                 InvalidArgumentException::FILE_CANNOT_BE_OVERWRITTEN
             );
         }

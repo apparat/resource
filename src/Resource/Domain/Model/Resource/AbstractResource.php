@@ -8,7 +8,7 @@
  * @subpackage Apparat\Resource\Domain
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -57,20 +57,20 @@ abstract class AbstractResource
      *
      * @var PartInterface
      */
-    protected $_part = null;
+    protected $part = null;
 
     /**
      * Reader instance
      *
      * @var ReaderInterface
      */
-    protected $_reader = null;
+    protected $reader = null;
     /**
      * File hydrator
      *
      * @var HydratorInterface
      */
-    private $_hydrator = null;
+    private $hydrator = null;
 
     /*******************************************************************************
      * PUBLIC METHODS
@@ -85,7 +85,7 @@ abstract class AbstractResource
     public function load(ReaderInterface $reader)
     {
         $this->_reset();
-        $this->_reader = $reader;
+        $this->reader = $reader;
         return $this;
     }
 
@@ -110,7 +110,7 @@ abstract class AbstractResource
      */
     public function setPart($data, $part = '/')
     {
-        $this->_part = $this->_part()->set($data, $this->_partPath($part));
+        $this->part = $this->part()->set($data, $this->partPath($part));
         return $this;
     }
 
@@ -122,8 +122,8 @@ abstract class AbstractResource
      */
     public function getPart($part = '/')
     {
-        $partPath = $this->_partPath($part);
-        $part = $this->_part()->get($partPath);
+        $partPath = $this->partPath($part);
+        $part = $this->part()->get($partPath);
         return $part->getHydrator()->dehydrate($part);
     }
 
@@ -143,15 +143,15 @@ abstract class AbstractResource
             $partMethod = $partMethod[1];
             $isGetterMethod = (!strncmp('get', $partMethod, 3));
             $delegateArguments = $isGetterMethod ? array() : array_slice($arguments, 0, 1);
-            $subpartPathArgumentIndex = $isGetterMethod ? 0 : 1;
-            $subparts = $this->_partPath(
-                (count($arguments) > $subpartPathArgumentIndex) ? $arguments[$subpartPathArgumentIndex] : '/'
+            $subpartPathArgIndex = $isGetterMethod ? 0 : 1;
+            $subparts = $this->partPath(
+                (count($arguments) > $subpartPathArgIndex) ? $arguments[$subpartPathArgIndex] : '/'
             );
-            $delegateResult = $this->_part()->delegate($partMethod, $subparts, $delegateArguments);
+            $delegateResult = $this->part()->delegate($partMethod, $subparts, $delegateArguments);
             if ($isGetterMethod) {
                 return $delegateResult;
             } else {
-                $this->_part = $delegateResult;
+                $this->part = $delegateResult;
                 return $this;
             }
 
@@ -181,7 +181,7 @@ abstract class AbstractResource
         }
 
         // Register the hydrator
-        $this->_hydrator = $hydrator;
+        $this->hydrator = $hydrator;
 
         // Register the reader if available
         if ($reader instanceof ReaderInterface) {
@@ -196,7 +196,7 @@ abstract class AbstractResource
      */
     protected function _reset()
     {
-        $this->_part = null;
+        $this->part = null;
     }
 
     /**
@@ -204,14 +204,14 @@ abstract class AbstractResource
      *
      * @return PartInterface Main file part
      */
-    protected function _part()
+    protected function part()
     {
-        if (!($this->_part instanceof PartInterface)) {
-            $this->_part = $this->_hydrator->hydrate(
-                ($this->_reader instanceof ReaderInterface) ? $this->_reader->read() : ''
+        if (!($this->part instanceof PartInterface)) {
+            $this->part = $this->hydrator->hydrate(
+                ($this->reader instanceof ReaderInterface) ? $this->reader->read() : ''
             );
         }
-        return $this->_part;
+        return $this->part;
     }
 
     /**
@@ -220,7 +220,7 @@ abstract class AbstractResource
      * @param string $path Part path string
      * @return array Part path identifiers
      */
-    protected function _partPath($path)
+    protected function partPath($path)
     {
         return (trim($path) == '/') ? [] : array_map(
             function ($pathIdentifier) {

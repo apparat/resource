@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -119,7 +119,7 @@ namespace ApparatTest {
          */
         public function testCopyInvalidWriterStreamWrapper()
         {
-            Tools::copy('file://'.self::TXT_FILE)->to('foo://bar');
+            Tools::copy('file://'.self::TXT_FILE)->toTarget('foo://bar');
         }
 
         /**
@@ -127,9 +127,9 @@ namespace ApparatTest {
          */
         public function testCopyStringToFile()
         {
-            $tempFile = $this->_createTemporaryFile(true);
+            $tempFile = $this->createTemporaryFile(true);
             $randomString = md5(rand());
-            Tools::copy($randomString)->to('file://'.$tempFile);
+            Tools::copy($randomString)->toTarget('file://'.$tempFile);
             $this->assertStringEqualsFile($tempFile, $randomString);
         }
 
@@ -138,8 +138,8 @@ namespace ApparatTest {
          */
         public function testCopyFileToFile()
         {
-            $tempFile = $this->_createTemporaryFile(true);
-            Tools::copy('file://'.self::TXT_FILE)->to('file://'.$tempFile);
+            $tempFile = $this->createTemporaryFile(true);
+            Tools::copy('file://'.self::TXT_FILE)->toTarget('file://'.$tempFile);
             $this->assertFileEquals($tempFile, self::TXT_FILE);
         }
 
@@ -152,8 +152,8 @@ namespace ApparatTest {
         public function testCopyFileToFileError()
         {
             $GLOBALS['mockCopy'] = true;
-            $tempFile = $this->_createTemporaryFile(true);
-            Tools::copy('file://'.self::TXT_FILE)->to('file://'.$tempFile);
+            $tempFile = $this->createTemporaryFile(true);
+            Tools::copy('file://'.self::TXT_FILE)->toTarget('file://'.$tempFile);
             $this->assertFileEquals($tempFile, self::TXT_FILE);
             unset($GLOBALS['mockCopy']);
         }
@@ -165,7 +165,7 @@ namespace ApparatTest {
         {
             $randomString = md5(rand());
             /** @var Writer $writer */
-            $writer = Tools::copy($randomString)->to('');
+            $writer = Tools::copy($randomString)->toTarget('');
             $this->assertInstanceOf(Writer::class, $writer);
             $this->assertEquals($randomString, $writer->getData());
         }
@@ -176,7 +176,7 @@ namespace ApparatTest {
         public function testCopyFileToString()
         {
             /** @var Writer $writer */
-            $writer = Tools::copy('file://'.self::TXT_FILE)->to('');
+            $writer = Tools::copy('file://'.self::TXT_FILE)->toTarget('');
             $this->assertInstanceOf(Writer::class, $writer);
             $this->assertStringEqualsFile(self::TXT_FILE, $writer->getData());
         }
@@ -200,7 +200,7 @@ namespace ApparatTest {
          */
         public function testMoveInvalidWriterStreamWrapper()
         {
-            Tools::move('file://'.self::TXT_FILE)->to('foo://bar');
+            Tools::move('file://'.self::TXT_FILE)->toTarget('foo://bar');
         }
 
         /**
@@ -208,9 +208,9 @@ namespace ApparatTest {
          */
         public function testMoveStringToFile()
         {
-            $tempFile = $this->_createTemporaryFile(true);
+            $tempFile = $this->createTemporaryFile(true);
             $randomString = md5(rand());
-            Tools::move($randomString)->to('file://'.$tempFile);
+            Tools::move($randomString)->toTarget('file://'.$tempFile);
             $this->assertStringEqualsFile($tempFile, $randomString);
         }
 
@@ -219,10 +219,10 @@ namespace ApparatTest {
          */
         public function testMoveFileToFile()
         {
-            $srcFile = $this->_createTemporaryFile(true);
+            $srcFile = $this->createTemporaryFile(true);
             copy(self::TXT_FILE, $srcFile);
-            $tempFile = $this->_createTemporaryFile(true);
-            Tools::move('file://'.$srcFile)->to('file://'.$tempFile);
+            $tempFile = $this->createTemporaryFile(true);
+            Tools::move('file://'.$srcFile)->toTarget('file://'.$tempFile);
             $this->assertFileEquals(self::TXT_FILE, $tempFile);
         }
 
@@ -235,8 +235,8 @@ namespace ApparatTest {
         public function testMoveFileToFileError()
         {
             $GLOBALS['mockMove'] = true;
-            $tempFile = $this->_createTemporaryFile(true);
-            Tools::move('file://'.self::TXT_FILE)->to('file://'.$tempFile);
+            $tempFile = $this->createTemporaryFile(true);
+            Tools::move('file://'.self::TXT_FILE)->toTarget('file://'.$tempFile);
             $this->assertFileEquals($tempFile, self::TXT_FILE);
             unset($GLOBALS['mockMove']);
         }
@@ -248,7 +248,7 @@ namespace ApparatTest {
         {
             $randomString = md5(rand());
             /** @var Writer $writer */
-            $writer = Tools::move($randomString)->to('');
+            $writer = Tools::move($randomString)->toTarget('');
             $this->assertInstanceOf(Writer::class, $writer);
             $this->assertEquals($randomString, $writer->getData());
         }
@@ -258,10 +258,10 @@ namespace ApparatTest {
          */
         public function testMoveFileToString()
         {
-            $srcFile = $this->_createTemporaryFile(true);
+            $srcFile = $this->createTemporaryFile(true);
             copy(self::TXT_FILE, $srcFile);
             /** @var Writer $writer */
-            $writer = Tools::move('file://'.$srcFile)->to('');
+            $writer = Tools::move('file://'.$srcFile)->toTarget('');
             $this->assertInstanceOf(Writer::class, $writer);
             $this->assertStringEqualsFile(self::TXT_FILE, $writer->getData());
         }
@@ -271,7 +271,7 @@ namespace ApparatTest {
          */
         public function testDeleteFile()
         {
-            $srcFile = $this->_createTemporaryFile(true);
+            $srcFile = $this->createTemporaryFile(true);
             copy(self::TXT_FILE, $srcFile);
             $this->assertEquals(true, Tools::delete('file://'.$srcFile));
             $this->assertFileNotExists($srcFile);

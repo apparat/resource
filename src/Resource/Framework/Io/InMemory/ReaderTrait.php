@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -51,7 +51,7 @@ trait ReaderTrait
      */
     public function __construct($data)
     {
-        $this->_data = $data;
+        $this->data = $data;
     }
 
     /**
@@ -61,6 +61,6 @@ trait ReaderTrait
      */
     public function read()
     {
-        return $this->_data;
+        return $this->data;
     }
 }

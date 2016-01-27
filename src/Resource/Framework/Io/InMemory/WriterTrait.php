@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -41,7 +41,7 @@ namespace Apparat\Resource\Framework\Io\InMemory;
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
- * @property string $_data Resource data
+ * @property string $data Resource data
  */
 trait WriterTrait
 {
@@ -53,7 +53,7 @@ trait WriterTrait
      */
     public function write($data)
     {
-        $this->_data = $data;
+        $this->data = $data;
         return strlen($data);
     }
 
@@ -64,6 +64,6 @@ trait WriterTrait
      */
     public function getData()
     {
-        return $this->_data;
+        return $this->data;
     }
 }

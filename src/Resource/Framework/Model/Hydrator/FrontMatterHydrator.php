@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -84,9 +84,9 @@ class FrontMatterHydrator extends AbstractChoiceHydrator
      * @param PartInterface $part Part instance
      * @return string Dehydrated part
      */
-    protected function _dehydratePart($subhydrator, PartInterface $part)
+    protected function dehydratePart($subhydrator, PartInterface $part)
     {
-        $content = trim(parent::_dehydratePart($subhydrator, $part));
+        $content = trim(parent::dehydratePart($subhydrator, $part));
 
         // If it's a YAML part: Terminate if necessary
         if (strlen($content) && ($part instanceof YamlPart) && !preg_match(

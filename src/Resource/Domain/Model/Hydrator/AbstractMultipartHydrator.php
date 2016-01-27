@@ -8,7 +8,7 @@
  * @subpackage Apparat\Resource\Domain
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -55,31 +55,31 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
      *
      * @var array
      */
-    protected $_subhydrators = array();
+    protected $subhydrators = array();
     /**
      * Minimum occurrences
      *
      * @var int
      */
-    protected $_minimumOccurrences = 1;
+    protected $minimumOccurrences = 1;
     /**
      * Maximum occurrences
      *
      * @var int
      */
-    protected $_maximumOccurrences = 1;
+    protected $maximumOccurrences = 1;
     /**
      * Part aggregate class name
      *
      * @var string
      */
-    protected $_aggregateClass = null;
+    protected $aggregateClass = null;
     /**
      * Empty occurrence dehydration behaviour
      *
      * @var string
      */
-    protected $_occurrenceDehydrationException = SkippedOccurrenceDehydrationException::class;
+    protected $occDhdrException = SkippedOccurrenceDehydrationException::class;
 
     /**
      * Multipart hydrator constructor
@@ -105,13 +105,13 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
                 );
             }
 
-            $this->_subhydrators[$part] = $subhydrator;
+            $this->subhydrators[$part] = $subhydrator;
         }
 
         // Validate the occurrence numbers
         self::validateParameters($minOccurrences, $maxOccurrences);
-        $this->_minimumOccurrences = intval($minOccurrences);
-        $this->_maximumOccurrences = intval($maxOccurrences);
+        $this->minimumOccurrences = intval($minOccurrences);
+        $this->maximumOccurrences = intval($maxOccurrences);
     }
 
     /**
@@ -135,7 +135,7 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
 
         // Run through all occurrences of the part
         foreach ($part as $occurrenceIndex => $occurrence) {
-            $occurrence = $this->_dehydrateOccurrence($occurrence);
+            $occurrence = $this->dehydrateOccurrence($occurrence);
 
             // If the occurrence is not a string
             if (!is_string($occurrence)) {
@@ -161,19 +161,19 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
     public function hydrate($data)
     {
         // If the part aggregate class isn't valid
-        if (!$this->_aggregateClass || !class_exists($this->_aggregateClass) || !is_subclass_of(
-                $this->_aggregateClass,
+        if (!$this->aggregateClass || !class_exists($this->aggregateClass) || !is_subclass_of(
+                $this->aggregateClass,
                 PartAggregateInterface::class
             )
         ) {
             throw new RuntimeException(
-                sprintf('Invalid part aggregate class "%s"', $this->_aggregateClass),
+                sprintf('Invalid part aggregate class "%s"', $this->aggregateClass),
                 RuntimeException::INVALID_PART_AGGREGATE_CLASS
             );
         }
 
-        return new $this->_aggregateClass(
-            $this->_subhydrators, $this->_minimumOccurrences, $this->_maximumOccurrences,
+        return new $this->aggregateClass(
+            $this->subhydrators, $this->minimumOccurrences, $this->maximumOccurrences,
             $this
         );
     }
@@ -221,7 +221,7 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
      * @param array $occurrence Occurrence
      * @return string Dehydrated occurrence
      */
-    abstract protected function _dehydrateOccurrence(array $occurrence);
+    abstract protected function dehydrateOccurrence(array $occurrence);
 
     /**
      * Dehydrate a single part with a particular subhydrator
@@ -230,10 +230,10 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
      * @param PartInterface $part Part instance
      * @return string Dehydrated part
      */
-    protected function _dehydratePart($subhydrator, PartInterface $part)
+    protected function dehydratePart($subhydrator, PartInterface $part)
     {
         /** @var HydratorInterface $subhydratorInstance */
-        $subhydratorInstance = $this->_subhydrators[$subhydrator];
+        $subhydratorInstance = $this->subhydrators[$subhydrator];
         return $subhydratorInstance->dehydrate($part);
     }
 

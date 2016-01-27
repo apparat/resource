@@ -8,7 +8,7 @@
  * @subpackage Apparat\Resource\Domain
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -52,7 +52,7 @@ abstract class AbstractChoiceHydrator extends AbstractMultipartHydrator
      *
      * @var string
      */
-    protected $_aggregateClass = PartChoice::class;
+    protected $aggregateClass = PartChoice::class;
 
     /**
      * Dehydrate a single occurrence
@@ -63,38 +63,38 @@ abstract class AbstractChoiceHydrator extends AbstractMultipartHydrator
      * @throws RuntimeException If a part name doesn't match a known subhydrator
      * @throws RuntimeException If a part is invalid
      */
-    protected function _dehydrateOccurrence(array $occurrence)
+    protected function dehydrateOccurrence(array $occurrence)
     {
         // If the occurrence is invalid
         if (!count($occurrence)) {
-            throw new $this->_occurrenceDehydrationException(
+            throw new $this->occDhdrException(
                 'Empty occurrence',
-                constant($this->_occurrenceDehydrationException.'::EMPTY_OCCURRENCE')
+                constant($this->occDhdrException.'::EMPTY_OCCURRENCE')
             );
         }
 
         // If the part name doesn't match a known subhydrator
         reset($occurrence);
         $subhydrator = key($occurrence);
-        if (!strlen($subhydrator) || !array_key_exists($subhydrator, $this->_subhydrators)) {
-            throw new $this->_occurrenceDehydrationException(
+        if (!strlen($subhydrator) || !array_key_exists($subhydrator, $this->subhydrators)) {
+            throw new $this->occDhdrException(
                 sprintf('No matching subhydrator "%s"', $subhydrator),
-                constant($this->_occurrenceDehydrationException.'::NO_MATCHING_SUBHYDRATOR')
+                constant($this->occDhdrException.'::NO_MATCHING_SUBHYDRATOR')
             );
         }
 
         // If the part value is not a valid part instance
         $part = current($occurrence);
         if (!$part || !($part instanceof PartInterface)) {
-            throw new $this->_occurrenceDehydrationException(
+            throw new $this->occDhdrException(
                 sprintf(
                     'Invalid part instance "%s"',
                     gettype($part).(is_object($part) ? '<'.get_class($part).'>' : '')
                 ),
-                constant($this->_occurrenceDehydrationException.'::INVALID_PART_INSTANCE')
+                constant($this->occDhdrException.'::INVALID_PART_INSTANCE')
             );
         }
 
-        return $this->_dehydratePart($subhydrator, $part);
+        return $this->dehydratePart($subhydrator, $part);
     }
 }

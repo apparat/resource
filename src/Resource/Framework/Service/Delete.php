@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -59,12 +59,12 @@ class Delete extends AbstractService
     public function __invoke()
     {
         // If a file resource is read
-        if ($this->_reader instanceof FileReader) {
+        if ($this->reader instanceof FileReader) {
 
             // If a copy error occurs
-            if (!@unlink($this->_reader->getFile())) {
+            if (!@unlink($this->reader->getFile())) {
                 throw new RuntimeException(
-                    sprintf('Could not delete "%s"', $this->_reader->getFile()),
+                    sprintf('Could not delete "%s"', $this->reader->getFile()),
                     RuntimeException::COULD_NOT_DELETE_FILE
                 );
             }

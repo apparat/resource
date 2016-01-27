@@ -8,7 +8,7 @@
  * @subpackage  Apparat\Resource\Framework
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -62,6 +62,6 @@ class ReaderWriter extends Writer implements ReaderInterface
         parent::__construct($file, $options | self::FILE_OVERWRITE);
 
         // Validate the file
-        $this->_validateReaderFile();
+        $this->validateReaderFile();
     }
 }

@@ -8,7 +8,7 @@
  * @subpackage Apparat\Resource\Domain
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
- * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
+ * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 /***********************************************************************************
@@ -49,7 +49,7 @@ abstract class AbstractHydrator implements HydratorInterface
      *
      * @var string
      */
-    protected $_name = '';
+    protected $name = '';
 
     /**
      * Hydrator constructor
@@ -58,7 +58,7 @@ abstract class AbstractHydrator implements HydratorInterface
      */
     public function __construct($name)
     {
-        $this->_name = trim($name);
+        $this->name = trim($name);
     }
 
     /**
@@ -68,6 +68,6 @@ abstract class AbstractHydrator implements HydratorInterface
      */
     public function getName()
     {
-        return $this->_name;
+        return $this->name;
     }
 }
