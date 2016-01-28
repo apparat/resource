@@ -11,7 +11,6 @@
  * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Jkphl;
 
 /***********************************************************************************
  *  The MIT License (MIT)

@@ -36,6 +36,7 @@
 
 namespace ApparatTest;
 
+use Apparat\Kernel\Tests\AbstractTest;
 use Apparat\Resource\Domain\Factory\HydratorFactory;
 use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Hydrator\InvalidArgumentException;

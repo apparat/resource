@@ -36,6 +36,7 @@
 
 namespace ApparatTest;
 
+use Apparat\Kernel\Tests\AbstractTest;
 use Apparat\Resource\Framework\Api\InvalidArgumentException;
 use Apparat\Resource\Framework\Api\Resource;
 use Apparat\Resource\Framework\Io\File\Writer as FileWriter;
@@ -59,42 +60,42 @@ class FactoryTest extends AbstractTest
      *
      * @var string
      */
-    protected $_text = null;
+    protected $text = null;
 
     /**
      * Example JSON data
      *
      * @var string
      */
-    protected $_json = null;
+    protected $json = null;
 
     /**
      * Example YAML data
      *
      * @var string
      */
-    protected $_yaml = null;
+    protected $yaml = null;
 
     /**
      * Example CommonMark data
      *
      * @var string
      */
-    protected $_commonMark = null;
+    protected $commonMark = null;
 
     /**
      * Example FrontMark data with YAML front matter
      *
      * @var string
      */
-    protected $_yamlFrontMark = null;
+    protected $yamlFrontMark = null;
 
     /**
      * Example FrontMark file with JSON front matter
      *
      * @var string
      */
-    protected $_jsonFrontMark = null;
+    protected $jsonFrontMark = null;
 
     /**
      * Example text file
@@ -143,12 +144,12 @@ class FactoryTest extends AbstractTest
     protected function setUp()
     {
         parent::setUp();
-        $this->_text = file_get_contents(self::TXT_FILE);
-        $this->_json = file_get_contents(self::JSON_FILE);
-        $this->_yaml = file_get_contents(self::YAML_FILE);
-        $this->_commonMark = file_get_contents(self::COMMONMARK_FILE);
-        $this->_yamlFrontMark = file_get_contents(self::YAML_FRONTMARK_FILE);
-        $this->_jsonFrontMark = file_get_contents(self::JSON_FRONTMARK_FILE);
+        $this->text = file_get_contents(self::TXT_FILE);
+        $this->json = file_get_contents(self::JSON_FILE);
+        $this->yaml = file_get_contents(self::YAML_FILE);
+        $this->commonMark = file_get_contents(self::COMMONMARK_FILE);
+        $this->yamlFrontMark = file_get_contents(self::YAML_FRONTMARK_FILE);
+        $this->jsonFrontMark = file_get_contents(self::JSON_FRONTMARK_FILE);
     }
 
     /**
@@ -170,7 +171,7 @@ class FactoryTest extends AbstractTest
     {
         $textResource = Resource::text('file://'.self::TXT_FILE);
         $this->assertInstanceOf(TextResource::class, $textResource);
-        $this->assertEquals($this->_text, $textResource->get());
+        $this->assertEquals($this->text, $textResource->get());
     }
 
     /**
@@ -189,11 +190,11 @@ class FactoryTest extends AbstractTest
      */
     public function testTextFactoryStringWriter()
     {
-        $textResource = Resource::text($this->_text);
+        $textResource = Resource::text($this->text);
         /** @var InMemoryWriter $writer */
         $writer = $textResource->toTarget('');
         $this->assertInstanceOf(InMemoryWriter::class, $writer);
-        $this->assertEquals($this->_text, $writer->getData());
+        $this->assertEquals($this->text, $writer->getData());
     }
 
     /**
@@ -201,11 +202,11 @@ class FactoryTest extends AbstractTest
      */
     public function testTextFactoryFileWriter()
     {
-        $tempFileName = $this->createTemporaryFile(true);
-        $textResource = Resource::text($this->_text);
+        $tempFileName = $this->createTemporaryFileName();
+        $textResource = Resource::text($this->text);
         $writer = $textResource->toTarget('file://'.$tempFileName, FileWriter::FILE_CREATE);
         $this->assertInstanceOf(FileWriter::class, $writer);
-        $this->assertStringEqualsFile($tempFileName, $this->_text);
+        $this->assertStringEqualsFile($tempFileName, $this->text);
     }
 
     /**
@@ -216,7 +217,7 @@ class FactoryTest extends AbstractTest
      */
     public function testTextFactoryInvalidWriter()
     {
-        Resource::text($this->_text)->toTarget('foo://'.$this->createTemporaryFile(true));
+        Resource::text($this->text)->toTarget('foo://'.$this->createTemporaryFileName());
     }
 
     /**
@@ -226,7 +227,7 @@ class FactoryTest extends AbstractTest
     {
         $jsonResource = Resource::json('file://'.self::JSON_FILE);
         $this->assertInstanceOf(JsonResource::class, $jsonResource);
-        $this->assertEquals($this->_json, $jsonResource->get());
+        $this->assertEquals($this->json, $jsonResource->get());
     }
 
     /**
@@ -236,7 +237,7 @@ class FactoryTest extends AbstractTest
     {
         $yamlResource = Resource::yaml('file://'.self::YAML_FILE);
         $this->assertInstanceOf(YamlResource::class, $yamlResource);
-        $this->assertEquals($this->_yaml, $yamlResource->get());
+        $this->assertEquals($this->yaml, $yamlResource->get());
     }
 
     /**
@@ -246,7 +247,7 @@ class FactoryTest extends AbstractTest
     {
         $commonMarkResource = Resource::commonMark('file://'.self::COMMONMARK_FILE);
         $this->assertInstanceOf(CommonMarkResource::class, $commonMarkResource);
-        $this->assertEquals($this->_commonMark, $commonMarkResource->get());
+        $this->assertEquals($this->commonMark, $commonMarkResource->get());
     }
 
     /**
@@ -256,7 +257,7 @@ class FactoryTest extends AbstractTest
     {
         $yamlFrontMarkResource = Resource::frontMark('file://'.self::YAML_FRONTMARK_FILE);
         $this->assertInstanceOf(FrontMarkResource::class, $yamlFrontMarkResource);
-        $this->assertEquals($this->_yamlFrontMark, strval($yamlFrontMarkResource));
+        $this->assertEquals($this->yamlFrontMark, strval($yamlFrontMarkResource));
     }
 
     /**
@@ -266,6 +267,6 @@ class FactoryTest extends AbstractTest
     {
         $jsonFrontMarkResource = Resource::frontMark('file://'.self::JSON_FRONTMARK_FILE);
         $this->assertInstanceOf(FrontMarkResource::class, $jsonFrontMarkResource);
-        $this->assertEquals($this->_jsonFrontMark, strval($jsonFrontMarkResource));
+        $this->assertEquals($this->jsonFrontMark, strval($jsonFrontMarkResource));
     }
 }

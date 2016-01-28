@@ -36,6 +36,7 @@
 
 namespace ApparatTest;
 
+use Apparat\Kernel\Tests\AbstractTest;
 use Apparat\Resource\Framework\Io\InMemory\Reader;
 use Apparat\Resource\Framework\Model\Part\CommonMarkPart;
 use Apparat\Resource\Framework\Model\Resource\CommonMarkResource;
@@ -53,7 +54,7 @@ class CommonMarkTest extends AbstractTest
      *
      * @var string
      */
-    protected $_commonMark = null;
+    protected $commonMark = null;
 
     /**
      * Example CommonMark file
@@ -68,7 +69,7 @@ class CommonMarkTest extends AbstractTest
     protected function setUp()
     {
         parent::setUp();
-        $this->_commonMark = file_get_contents(self::COMMONMARK_FILE);
+        $this->commonMark = file_get_contents(self::COMMONMARK_FILE);
     }
 
     /**
@@ -86,8 +87,8 @@ class CommonMarkTest extends AbstractTest
      */
     public function testCommonMarkResourceReader()
     {
-        $commonMarkResource = new CommonMarkResource(new Reader($this->_commonMark));
-        $this->assertEquals($this->_commonMark, $commonMarkResource->getPart());
+        $commonMarkResource = new CommonMarkResource(new Reader($this->commonMark));
+        $this->assertEquals($this->commonMark, $commonMarkResource->getPart());
     }
 
     /**
@@ -133,7 +134,7 @@ class CommonMarkTest extends AbstractTest
      */
     public function testCommonMarkResourceHtmlSubparts()
     {
-        $commonMarkResource = new CommonMarkResource(new Reader($this->_commonMark));
+        $commonMarkResource = new CommonMarkResource(new Reader($this->commonMark));
         $commonMarkResource->getHtmlPart('a/b/c');
     }
 
@@ -145,7 +146,7 @@ class CommonMarkTest extends AbstractTest
         $expectedHtml = $this->normalizeHtml(
             file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
         );
-        $commonMarkResource = new CommonMarkResource(new Reader($this->_commonMark));
+        $commonMarkResource = new CommonMarkResource(new Reader($this->commonMark));
         $this->assertEquals($expectedHtml, $this->normalizeHtml($commonMarkResource->getHtmlPart()));
     }
 
@@ -157,7 +158,7 @@ class CommonMarkTest extends AbstractTest
         $expectedHtml = $this->normalizeHtml(
             file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
         );
-        $commonMarkResource = new CommonMarkResource(new Reader($this->_commonMark));
+        $commonMarkResource = new CommonMarkResource(new Reader($this->commonMark));
         $this->assertEquals($expectedHtml, $this->normalizeHtml($commonMarkResource->getHtml()));
     }
 }

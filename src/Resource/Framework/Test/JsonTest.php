@@ -36,6 +36,7 @@
 
 namespace ApparatTest;
 
+use Apparat\Kernel\Tests\AbstractTest;
 use Apparat\Resource\Framework\Io\InMemory\Reader;
 use Apparat\Resource\Framework\Model\Part\JsonPart;
 use Apparat\Resource\Framework\Model\Resource\JsonResource;
@@ -55,7 +56,7 @@ class JsonTest extends AbstractTest
      *
      * @var string
      */
-    protected $_json = null;
+    protected $json = null;
 
     /**
      * Example JSON file
@@ -70,7 +71,7 @@ class JsonTest extends AbstractTest
     protected function setUp()
     {
         parent::setUp();
-        $this->_json = file_get_contents(self::JSON_FILE);
+        $this->json = file_get_contents(self::JSON_FILE);
     }
 
     /**
@@ -88,8 +89,8 @@ class JsonTest extends AbstractTest
      */
     public function testJsonResourceReader()
     {
-        $jsonResource = new JsonResource(new Reader($this->_json));
-        $this->assertEquals($this->_json, $jsonResource->getPart());
+        $jsonResource = new JsonResource(new Reader($this->json));
+        $this->assertEquals($this->json, $jsonResource->getPart());
     }
 
     /**
@@ -100,7 +101,7 @@ class JsonTest extends AbstractTest
      */
     public function testJsonResourceHtmlSubparts()
     {
-        $jsonResource = new JsonResource(new Reader($this->_json));
+        $jsonResource = new JsonResource(new Reader($this->json));
         $jsonResource->getDataPart('a/b/c');
     }
 
@@ -110,7 +111,7 @@ class JsonTest extends AbstractTest
     public function testJsonResourceGetData()
     {
         $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
-        $jsonResource = new JsonResource(new Reader($this->_json));
+        $jsonResource = new JsonResource(new Reader($this->json));
         $this->assertArrayEquals($expectedData, $jsonResource->getDataPart());
     }
 
@@ -131,7 +132,7 @@ class JsonTest extends AbstractTest
             'price' => 123
         ];
         unset($expectedData['comments']);
-        $jsonResource = new JsonResource(new Reader($this->_json));
+        $jsonResource = new JsonResource(new Reader($this->json));
         $jsonResource->setDataPart($expectedData);
         $this->assertArrayEquals($expectedData, $jsonResource->getDataPart());
     }

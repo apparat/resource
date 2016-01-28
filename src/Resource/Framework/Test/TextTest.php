@@ -36,6 +36,7 @@
 
 namespace ApparatTest;
 
+use Apparat\Kernel\Tests\AbstractTest;
 use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;
 use Apparat\Resource\Domain\Model\Resource\RuntimeException;
 use Apparat\Resource\Framework\Io\InMemory\Reader;
@@ -57,7 +58,7 @@ class TextTest extends AbstractTest
      *
      * @var string
      */
-    protected $_text = null;
+    protected $text = null;
 
     /**
      * Example text file
@@ -72,7 +73,7 @@ class TextTest extends AbstractTest
     protected function setUp()
     {
         parent::setUp();
-        $this->_text = file_get_contents(self::TXT_FILE);
+        $this->text = file_get_contents(self::TXT_FILE);
     }
 
     /**
@@ -90,8 +91,8 @@ class TextTest extends AbstractTest
      */
     public function testTextResourceReader()
     {
-        $textReource = new TextResource(new Reader($this->_text));
-        $this->assertEquals($this->_text, $textReource->getPart());
+        $textReource = new TextResource(new Reader($this->text));
+        $this->assertEquals($this->text, $textReource->getPart());
     }
 
     /**
@@ -100,8 +101,8 @@ class TextTest extends AbstractTest
     public function testTextResourceLoad()
     {
         $textReource = new TextResource();
-        $textReource->load(new Reader($this->_text));
-        $this->assertEquals($this->_text, $textReource->getPart());
+        $textReource->load(new Reader($this->text));
+        $this->assertEquals($this->text, $textReource->getPart());
     }
 
     /**
@@ -143,8 +144,8 @@ class TextTest extends AbstractTest
      */
     public function testTextResourceGet()
     {
-        $textReource = new TextResource(new Reader($this->_text));
-        $this->assertEquals($this->_text, $textReource->get());
+        $textReource = new TextResource(new Reader($this->text));
+        $this->assertEquals($this->text, $textReource->get());
     }
 
     /**
@@ -262,9 +263,9 @@ class TextTest extends AbstractTest
     public function testTextResourceReaderWriter()
     {
         $randomAppend = md5(rand());
-        $readerWriter = new ReaderWriter($this->_text);
+        $readerWriter = new ReaderWriter($this->text);
         $textReource = new TextResource($readerWriter);
         $textReource->appendPart($randomAppend)->dump($readerWriter);
-        $this->assertEquals($this->_text.$randomAppend, $readerWriter->getData());
+        $this->assertEquals($this->text.$randomAppend, $readerWriter->getData());
     }
 }

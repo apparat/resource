@@ -36,6 +36,7 @@
 
 namespace ApparatTest;
 
+use Apparat\Kernel\Tests\AbstractTest;
 use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;
 use Apparat\Resource\Domain\Model\Part\OutOfBoundsException;
@@ -141,19 +142,19 @@ class FrontMarkTest extends AbstractTest
      *
      * @var string
      */
-    protected $_commonMark = null;
+    protected $commonMark = null;
     /**
      * Example FrontMark data with YAML front matter
      *
      * @var string
      */
-    protected $_yamlFrontMark = null;
+    protected $yamlFrontMark = null;
     /**
      * Example FrontMark file with JSON front matter
      *
      * @var string
      */
-    protected $_jsonFrontMark = null;
+    protected $jsonFrontMark = null;
     /**
      * Example YAML file
      *
@@ -203,9 +204,9 @@ class FrontMarkTest extends AbstractTest
     protected function setUp()
     {
         parent::setUp();
-        $this->_commonMark = file_get_contents(self::COMMONMARK_FILE);
-        $this->_yamlFrontMark = file_get_contents(self::YAML_FRONTMARK_FILE);
-        $this->_jsonFrontMark = file_get_contents(self::JSON_FRONTMARK_FILE);
+        $this->commonMark = file_get_contents(self::COMMONMARK_FILE);
+        $this->yamlFrontMark = file_get_contents(self::YAML_FRONTMARK_FILE);
+        $this->jsonFrontMark = file_get_contents(self::JSON_FRONTMARK_FILE);
     }
 
     /**
@@ -226,7 +227,7 @@ class FrontMarkTest extends AbstractTest
      */
     public function testYamlTooFewPartIdentifiers()
     {
-        $frontMarkResource = new FrontMarkResource(new Reader($this->_yamlFrontMark));
+        $frontMarkResource = new FrontMarkResource(new Reader($this->yamlFrontMark));
         $frontMarkResource->getPart('/0');
     }
 
@@ -238,7 +239,7 @@ class FrontMarkTest extends AbstractTest
      */
     public function testYamlInvalidOccurrenceIndex()
     {
-        $frontMarkResource = new FrontMarkResource(new Reader($this->_yamlFrontMark));
+        $frontMarkResource = new FrontMarkResource(new Reader($this->yamlFrontMark));
         $frontMarkResource->getPart('/abc/123');
     }
 
@@ -250,7 +251,7 @@ class FrontMarkTest extends AbstractTest
      */
     public function testYamlOccurrenceIndexOutOfBounds()
     {
-        $frontMarkResource = new FrontMarkResource(new Reader($this->_yamlFrontMark));
+        $frontMarkResource = new FrontMarkResource(new Reader($this->yamlFrontMark));
         $frontMarkResource->getPart('/123/abc');
     }
 
@@ -262,7 +263,7 @@ class FrontMarkTest extends AbstractTest
      */
     public function testYamlInvalidSubpartIdentifier()
     {
-        $frontMarkResource = new FrontMarkResource(new Reader($this->_yamlFrontMark));
+        $frontMarkResource = new FrontMarkResource(new Reader($this->yamlFrontMark));
         $frontMarkResource->getPart('/123/~');
     }
 
@@ -274,7 +275,7 @@ class FrontMarkTest extends AbstractTest
      */
     public function testYamlUnknownSubpartIdentifier()
     {
-        $frontMarkResource = new FrontMarkResource(new Reader($this->_yamlFrontMark));
+        $frontMarkResource = new FrontMarkResource(new Reader($this->yamlFrontMark));
         $frontMarkResource->getPart('/0/abc');
     }
 
@@ -286,7 +287,7 @@ class FrontMarkTest extends AbstractTest
      */
     public function testYamlInvalidPartInstance()
     {
-        $frontMarkResource = new FrontMarkResourceMock(new Reader($this->_yamlFrontMark));
+        $frontMarkResource = new FrontMarkResourceMock(new Reader($this->yamlFrontMark));
         $frontMarkResource->invalidateCommonMarkPart();
         $frontMarkResource->getPart('/0/'.HydratorInterface::STANDARD);
     }
@@ -297,7 +298,7 @@ class FrontMarkTest extends AbstractTest
     public function testYamlGetFrontmatterPart()
     {
         $expectedData = Yaml::parse(file_get_contents(self::YAML_FRONTMATTER_FILE));
-        $frontMarkResource = new FrontMarkResource(new Reader($this->_yamlFrontMark));
+        $frontMarkResource = new FrontMarkResource(new Reader($this->yamlFrontMark));
         $actualData = Yaml::parse($frontMarkResource->getPart('/0/'.FrontMatterHydrator::FRONTMATTER));
         $this->assertArrayEquals($expectedData, $actualData);
     }
@@ -310,7 +311,7 @@ class FrontMarkTest extends AbstractTest
     {
         $yaml = file_get_contents(self::YAML_FILE);
         $expectedData = Yaml::parse($yaml);
-        $frontMarkResource = new FrontMarkResource(new Reader($this->_yamlFrontMark));
+        $frontMarkResource = new FrontMarkResource(new Reader($this->yamlFrontMark));
         $frontMarkResource->setPart($yaml, '/0/'.FrontMatterHydrator::FRONTMATTER);
         $actualData = Yaml::parse(
             $frontMarkResource->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.YamlHydrator::YAML)
@@ -324,7 +325,7 @@ class FrontMarkTest extends AbstractTest
      */
     public function testJsonFrontMarkResource()
     {
-        $frontMarkResource = new FrontMarkResource(new Reader($this->_jsonFrontMark));
+        $frontMarkResource = new FrontMarkResource(new Reader($this->jsonFrontMark));
         $this->assertStringEqualsFile(
             self::JSON_FRONTMATTER_FILE,
             $frontMarkResource->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.JsonHydrator::JSON)
@@ -350,7 +351,7 @@ class FrontMarkTest extends AbstractTest
      */
     public function testJsonFrontMarkFrontmatterWildcard()
     {
-        $frontMarkResource = new FrontMarkResource(new Reader($this->_jsonFrontMark));
+        $frontMarkResource = new FrontMarkResource(new Reader($this->jsonFrontMark));
         $this->assertStringEqualsFile(
             self::JSON_FRONTMATTER_FILE,
             $frontMarkResource->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.PartChoice::WILDCARD)
@@ -363,7 +364,7 @@ class FrontMarkTest extends AbstractTest
      */
     public function testJsonFrontMarkFrontmatterGetData()
     {
-        $frontMarkResource = new FrontMarkResource(new Reader($this->_jsonFrontMark));
+        $frontMarkResource = new FrontMarkResource(new Reader($this->jsonFrontMark));
         $this->assertArrayEquals(
             json_decode(file_get_contents(self::JSON_FRONTMATTER_FILE), true),
             $frontMarkResource->getData()
@@ -377,7 +378,7 @@ class FrontMarkTest extends AbstractTest
     public function testJsonFrontMarkFrontmatterSetData()
     {
         $expectedJson = json_decode(file_get_contents(self::JSON_FILE), true);
-        $frontMarkResource = new FrontMarkResource(new Reader($this->_jsonFrontMark));
+        $frontMarkResource = new FrontMarkResource(new Reader($this->jsonFrontMark));
         $frontMarkResource->setData($expectedJson);
         $this->assertArrayEquals(
             $expectedJson,
@@ -391,7 +392,7 @@ class FrontMarkTest extends AbstractTest
     public function testYamlSetGetCommonMark()
     {
         $randomSet = md5(rand());
-        $frontMarkResource = new FrontMarkResource(new Reader($this->_yamlFrontMark));
+        $frontMarkResource = new FrontMarkResource(new Reader($this->yamlFrontMark));
         $frontMarkResource->set($randomSet);
         $this->assertEquals($randomSet, $frontMarkResource->getPart('/0/'.HydratorInterface::STANDARD));
         $this->assertEquals($randomSet, $frontMarkResource->get());
@@ -403,9 +404,9 @@ class FrontMarkTest extends AbstractTest
     public function testYamlAppendCommonMark()
     {
         $randomAppend = md5(rand());
-        $frontMarkResource = new FrontMarkResource(new Reader($this->_yamlFrontMark));
+        $frontMarkResource = new FrontMarkResource(new Reader($this->yamlFrontMark));
         $frontMarkResource->append($randomAppend);
-        $this->assertEquals($this->_commonMark.$randomAppend, $frontMarkResource->get());
+        $this->assertEquals($this->commonMark.$randomAppend, $frontMarkResource->get());
     }
 
     /**
@@ -414,9 +415,9 @@ class FrontMarkTest extends AbstractTest
     public function testYamlPrependCommonMark()
     {
         $randomPrepend = md5(rand());
-        $frontMarkResource = new FrontMarkResource(new Reader($this->_yamlFrontMark));
+        $frontMarkResource = new FrontMarkResource(new Reader($this->yamlFrontMark));
         $frontMarkResource->prepend($randomPrepend);
-        $this->assertEquals($randomPrepend.$this->_commonMark, $frontMarkResource->get());
+        $this->assertEquals($randomPrepend.$this->commonMark, $frontMarkResource->get());
     }
 
     /**
@@ -427,7 +428,7 @@ class FrontMarkTest extends AbstractTest
         $expectedHtml = $this->normalizeHtml(
             file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
         );
-        $frontMarkResource = new FrontMarkResource(new Reader($this->_yamlFrontMark));
+        $frontMarkResource = new FrontMarkResource(new Reader($this->yamlFrontMark));
         $this->assertEquals($expectedHtml, $this->normalizeHtml($frontMarkResource->getHtml()));
     }
 }

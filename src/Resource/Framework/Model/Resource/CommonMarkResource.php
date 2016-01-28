@@ -36,7 +36,6 @@
 
 namespace Apparat\Resource\Framework\Model\Resource;
 
-
 use Apparat\Resource\Domain\Contract\ReaderInterface;
 use Apparat\Resource\Domain\Contract\WriterInterface;
 use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;

@@ -213,11 +213,9 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
             $subpart = $this->get($subparts, $occurrence, $part)->set($data, []);
             $this->occurrences[$occurrence][$part] = $subpart;
             return $this;
-
-            // Else: Rehydrate
-        } else {
-            return $this->hydrator->hydrate($data);
         }
+
+        return $this->hydrator->hydrate($data);
     }
 
     /**
@@ -237,11 +235,9 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
         if (count($subparts)) {
             $subpart = $this->getImmediateSubpart($subparts, $occurrence, $part);
             return $subpart->get($subparts);
-
-            // Else: return this
-        } else {
-            return $this;
         }
+
+        return $this;
     }
 
     /**

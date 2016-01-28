@@ -134,7 +134,7 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
         $occurrences = [];
 
         // Run through all occurrences of the part
-        foreach ($part as $occurrenceIndex => $occurrence) {
+        foreach ($part as $occurrence) {
             $occurrence = $this->dehydrateOccurrence($occurrence);
 
             // If the occurrence is not a string

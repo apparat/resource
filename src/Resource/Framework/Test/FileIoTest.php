@@ -61,6 +61,7 @@ namespace Apparat\Resource\Framework\Io\File {
 
 namespace ApparatTest {
 
+    use Apparat\Kernel\Tests\AbstractTest;
     use Apparat\Resource\Framework\Io\File\InvalidArgumentException;
     use Apparat\Resource\Framework\Io\File\Reader;
     use Apparat\Resource\Framework\Io\File\ReaderWriter;
@@ -80,7 +81,7 @@ namespace ApparatTest {
          *
          * @var string
          */
-        protected $_text = null;
+        protected $text = null;
 
         /**
          * Example text file
@@ -95,7 +96,7 @@ namespace ApparatTest {
         protected function setUp()
         {
             parent::setUp();
-            $this->_text = file_get_contents(self::TXT_FILE);
+            $this->text = file_get_contents(self::TXT_FILE);
         }
 
         /**
@@ -143,7 +144,7 @@ namespace ApparatTest {
             $textReource = new TextResource($fileReader);
             $inMemoryWriter = new \Apparat\Resource\Framework\Io\InMemory\Writer();
             $textReource->dump($inMemoryWriter);
-            $this->assertEquals($this->_text, $inMemoryWriter->getData());
+            $this->assertEquals($this->text, $inMemoryWriter->getData());
         }
 
         /**
@@ -197,8 +198,8 @@ namespace ApparatTest {
          */
         public function testFileWriterWithCreatedFile()
         {
-            $textReource = new TextResource(new \Apparat\Resource\Framework\Io\InMemory\Reader($this->_text));
-            $tempFile = $this->createTemporaryFile(true);
+            $textReource = new TextResource(new \Apparat\Resource\Framework\Io\InMemory\Reader($this->text));
+            $tempFile = $this->createTemporaryFileName();
             $textReource->dump(new Writer($tempFile, Writer::FILE_CREATE));
             $this->assertFileEquals(self::TXT_FILE, $tempFile);
         }
@@ -208,7 +209,7 @@ namespace ApparatTest {
          */
         public function testFileWriterWithOverwrittenFile()
         {
-            $textReource = new TextResource(new \Apparat\Resource\Framework\Io\InMemory\Reader($this->_text));
+            $textReource = new TextResource(new \Apparat\Resource\Framework\Io\InMemory\Reader($this->text));
             $tempFile = $this->createTemporaryFile();
             $textReource->dump(new Writer($tempFile, Writer::FILE_OVERWRITE));
             $this->assertFileEquals(self::TXT_FILE, $tempFile);
@@ -219,13 +220,13 @@ namespace ApparatTest {
          */
         public function testFileReaderWriterWithCreatedFile()
         {
-            $tempFile = $this->createTemporaryFile(true);
+            $tempFile = $this->createTemporaryFileName();
             copy(self::TXT_FILE, $tempFile);
             $randomAppend = md5(rand());
             $fileReaderWriter = new ReaderWriter($tempFile);
             $textReource = new TextResource($fileReaderWriter);
             $textReource->appendPart($randomAppend)->dump($fileReaderWriter);
-            $this->assertStringEqualsFile($tempFile, $this->_text.$randomAppend);
+            $this->assertStringEqualsFile($tempFile, $this->text.$randomAppend);
         }
     }
 }

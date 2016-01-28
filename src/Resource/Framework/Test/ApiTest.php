@@ -80,6 +80,7 @@ namespace Apparat\Resource\Framework\Service {
 
 namespace ApparatTest {
 
+    use Apparat\Kernel\Tests\AbstractTest;
     use Apparat\Resource\Framework\Api\InvalidArgumentException;
     use Apparat\Resource\Framework\Api\Tools;
     use Apparat\Resource\Framework\Io\InMemory\Writer;
@@ -127,7 +128,7 @@ namespace ApparatTest {
          */
         public function testCopyStringToFile()
         {
-            $tempFile = $this->createTemporaryFile(true);
+            $tempFile = $this->createTemporaryFileName();
             $randomString = md5(rand());
             Tools::copy($randomString)->toTarget('file://'.$tempFile);
             $this->assertStringEqualsFile($tempFile, $randomString);
@@ -138,7 +139,7 @@ namespace ApparatTest {
          */
         public function testCopyFileToFile()
         {
-            $tempFile = $this->createTemporaryFile(true);
+            $tempFile = $this->createTemporaryFileName();
             Tools::copy('file://'.self::TXT_FILE)->toTarget('file://'.$tempFile);
             $this->assertFileEquals($tempFile, self::TXT_FILE);
         }
@@ -152,7 +153,7 @@ namespace ApparatTest {
         public function testCopyFileToFileError()
         {
             $GLOBALS['mockCopy'] = true;
-            $tempFile = $this->createTemporaryFile(true);
+            $tempFile = $this->createTemporaryFileName();
             Tools::copy('file://'.self::TXT_FILE)->toTarget('file://'.$tempFile);
             $this->assertFileEquals($tempFile, self::TXT_FILE);
             unset($GLOBALS['mockCopy']);
@@ -208,7 +209,7 @@ namespace ApparatTest {
          */
         public function testMoveStringToFile()
         {
-            $tempFile = $this->createTemporaryFile(true);
+            $tempFile = $this->createTemporaryFileName();
             $randomString = md5(rand());
             Tools::move($randomString)->toTarget('file://'.$tempFile);
             $this->assertStringEqualsFile($tempFile, $randomString);
@@ -219,9 +220,9 @@ namespace ApparatTest {
          */
         public function testMoveFileToFile()
         {
-            $srcFile = $this->createTemporaryFile(true);
+            $srcFile = $this->createTemporaryFileName();
             copy(self::TXT_FILE, $srcFile);
-            $tempFile = $this->createTemporaryFile(true);
+            $tempFile = $this->createTemporaryFileName();
             Tools::move('file://'.$srcFile)->toTarget('file://'.$tempFile);
             $this->assertFileEquals(self::TXT_FILE, $tempFile);
         }
@@ -235,7 +236,7 @@ namespace ApparatTest {
         public function testMoveFileToFileError()
         {
             $GLOBALS['mockMove'] = true;
-            $tempFile = $this->createTemporaryFile(true);
+            $tempFile = $this->createTemporaryFileName();
             Tools::move('file://'.self::TXT_FILE)->toTarget('file://'.$tempFile);
             $this->assertFileEquals($tempFile, self::TXT_FILE);
             unset($GLOBALS['mockMove']);
@@ -258,7 +259,7 @@ namespace ApparatTest {
          */
         public function testMoveFileToString()
         {
-            $srcFile = $this->createTemporaryFile(true);
+            $srcFile = $this->createTemporaryFileName();
             copy(self::TXT_FILE, $srcFile);
             /** @var Writer $writer */
             $writer = Tools::move('file://'.$srcFile)->toTarget('');
@@ -271,7 +272,7 @@ namespace ApparatTest {
          */
         public function testDeleteFile()
         {
-            $srcFile = $this->createTemporaryFile(true);
+            $srcFile = $this->createTemporaryFileName();
             copy(self::TXT_FILE, $srcFile);
             $this->assertEquals(true, Tools::delete('file://'.$srcFile));
             $this->assertFileNotExists($srcFile);
