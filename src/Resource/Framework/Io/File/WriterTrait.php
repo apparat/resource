@@ -100,9 +100,14 @@ trait WriterTrait
         }
 
         // If the file exists but cannot be overwritten
-        if (@file_exists($this->file) && (!@is_file($this->file) || !@is_writeable(
+        if (@file_exists($this->file) &&
+            (
+                !@is_file($this->file) ||
+                !@is_writeable(
                     $this->file
-                ) || !($this->options & Writer::FILE_OVERWRITE))
+                ) ||
+                !($this->options & Writer::FILE_OVERWRITE)
+            )
         ) {
             throw new InvalidArgumentException(
                 sprintf('File "%s" cannot be overwritten', $this->file),

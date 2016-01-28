@@ -55,10 +55,8 @@ trait AggregateHydratorMockTrait
      */
     protected function dehydrateOccurrence(array $occurrence)
     {
-
         // If the default validation should be used
         if (empty($GLOBALS['mockOccurrenceDehydration'])) {
-
             // If an empty occurrence shall be tested
             if (!empty($GLOBALS['mockEmptyOccurrence'])) {
                 /** @noinspection PhpUndefinedMethodInspection */

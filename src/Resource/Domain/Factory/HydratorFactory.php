@@ -95,8 +95,7 @@ class HydratorFactory
                 );
 
                 // Else: if the multipart hydrator is invalid
-            } elseif (
-                !strlen(trim($config[1])) ||
+            } elseif (!strlen(trim($config[1])) ||
                 !is_subclass_of(
                     trim($config[1]),
                     AbstractMultipartHydrator::class
@@ -108,8 +107,7 @@ class HydratorFactory
                 );
 
                 // Else: Validate the remaining hydrator arguments
-            } elseif (
-                (count($config) > 2) &&
+            } elseif ((count($config) > 2) &&
                 !call_user_func_array(
                     array($config[1], 'validateParameters'),
                     array_slice($config, 2)
@@ -123,7 +121,6 @@ class HydratorFactory
 
             // Run through all multipart subhydrators
             foreach ($config[0] as $multipartHydrator) {
-
                 // If it's neither a multipart nor a valid single part hydrator
                 if (!is_array($multipartHydrator) && !is_subclass_of($multipartHydrator, HydratorInterface::class)) {
                     throw new InvalidArgumentException(

@@ -98,7 +98,6 @@ class Copy extends AbstractService
     {
         // If a file resource is read
         if ($this->reader instanceof FileReader) {
-
             // If a copy error occurs
             if (!@copy($this->reader->getFile(), $writer->getFile())) {
                 throw new RuntimeException(

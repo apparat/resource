@@ -22,4 +22,3 @@ class AbstractSequenceHydrator extends \Apparat\Resource\Domain\Model\Hydrator\A
      */
     use AggregateHydratorMockTrait;
 }
-

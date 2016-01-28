@@ -159,8 +159,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
     protected function initializeOccurrences($occurrences)
     {
         // If the occurrences number is invalid
-        if (
-            ($occurrences < $this->minimumOccurrences) ||
+        if (($occurrences < $this->minimumOccurrences) ||
             (($this->maximumOccurrences != self::UNBOUND) && ($occurrences > $this->maximumOccurrences))
         ) {
             throw new OutOfBoundsException(
