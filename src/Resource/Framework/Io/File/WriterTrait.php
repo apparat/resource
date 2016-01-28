@@ -44,7 +44,6 @@ namespace Apparat\Resource\Framework\Io\File;
  * @property string $file File path
  */
 trait WriterTrait
-
 {
     /**
      * File options

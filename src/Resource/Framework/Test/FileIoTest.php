@@ -34,31 +34,6 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Io\File {
-
-    /**
-     * Mocked version of the native is_readable() function
-     *
-     * @param $filename
-     * @return bool
-     */
-    function is_readable($filename)
-    {
-        return empty($GLOBALS['mockIsReadable']) ? \is_readable($filename) : false;
-    }
-
-    /**
-     * Mocked version of the native is_writeable() function
-     *
-     * @param $filename
-     * @return bool
-     */
-    function is_writeable($filename)
-    {
-        return empty($GLOBALS['mockIsWriteable']) ? \is_writeable($filename) : false;
-    }
-}
-
 namespace ApparatTest {
 
     use Apparat\Kernel\Tests\AbstractTest;
@@ -228,5 +203,30 @@ namespace ApparatTest {
             $textReource->appendPart($randomAppend)->dump($fileReaderWriter);
             $this->assertStringEqualsFile($tempFile, $this->text.$randomAppend);
         }
+    }
+}
+
+namespace Apparat\Resource\Framework\Io\File {
+
+    /**
+     * Mocked version of the native is_readable() function
+     *
+     * @param $filename
+     * @return bool
+     */
+    function is_readable($filename)
+    {
+        return empty($GLOBALS['mockIsReadable']) ? \is_readable($filename) : false;
+    }
+
+    /**
+     * Mocked version of the native is_writeable() function
+     *
+     * @param $filename
+     * @return bool
+     */
+    function is_writeable($filename)
+    {
+        return empty($GLOBALS['mockIsWriteable']) ? \is_writeable($filename) : false;
     }
 }

@@ -170,10 +170,10 @@ abstract class AbstractResource
     /**
      * Private constructor
      *
-     * @param ReaderInterface $reader Reader instance
      * @param HydratorInterface|array|string $hydrator File hydrator
+     * @param ReaderInterface $reader Reader instance
      */
-    protected function __construct(ReaderInterface $reader = null, $hydrator)
+    protected function __construct($hydrator, ReaderInterface $reader = null)
     {
         // If the hydrator needs to be instantiated from a string or array
         if (!($hydrator instanceof HydratorInterface)) {
@@ -227,7 +227,8 @@ abstract class AbstractResource
                 $pathIdentifier = trim($pathIdentifier);
                 AbstractPart::validatePartIdentifier($pathIdentifier);
                 return $pathIdentifier;
-            }, explode('/', ltrim($path, '/'))
+            },
+            explode('/', ltrim($path, '/'))
         );
     }
 }

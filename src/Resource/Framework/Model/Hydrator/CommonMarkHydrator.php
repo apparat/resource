@@ -54,6 +54,6 @@ class CommonMarkHydrator extends TextHydrator
      */
     public function hydrate($data)
     {
-        return new CommonMarkPart($data, $this);
+        return new CommonMarkPart($this, $data);
     }
 }

@@ -68,9 +68,8 @@ abstract class AbstractSequenceHydrator extends AbstractMultipartHydrator
         // If the occurrence is invalid
         if (!count($occurrence)) {
             throw new $this->occDhdrException(
-                'Empty occurrence', constant(
-                $this->occDhdrException.'::EMPTY_OCCURRENCE'
-            )
+                'Empty occurrence',
+                constant($this->occDhdrException.'::EMPTY_OCCURRENCE')
             );
         }
 
@@ -82,9 +81,8 @@ abstract class AbstractSequenceHydrator extends AbstractMultipartHydrator
             // If the part name doesn't match a known subhydrator
             if (!strlen($subhydrator) || !array_key_exists($subhydrator, $this->subhydrators)) {
                 throw new $this->occDhdrException(
-                    sprintf('No matching subhydrator "%s"', $subhydrator), constant(
-                    $this->occDhdrException.'::NO_MATCHING_SUBHYDRATOR'
-                )
+                    sprintf('No matching subhydrator "%s"', $subhydrator),
+                    constant($this->occDhdrException.'::NO_MATCHING_SUBHYDRATOR')
                 );
             }
 
@@ -93,7 +91,8 @@ abstract class AbstractSequenceHydrator extends AbstractMultipartHydrator
                 throw new $this->occDhdrException(
                     sprintf(
                         'Invalid part instance "%s"', gettype($part).(is_object($part) ? '<'.get_class($part).'>' : '')
-                    ), constant($this->occDhdrException.'::INVALID_PART_INSTANCE')
+                    ),
+                    constant($this->occDhdrException.'::INVALID_PART_INSTANCE')
                 );
             }
 

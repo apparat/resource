@@ -34,50 +34,6 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Service {
-
-    /**
-     * Mocked version of the native copy() function
-     *
-     * @param string $source Source file
-     * @param string $dest Destination file
-     * @param resource $context Context resource
-     * @return bool
-     */
-    function copy($source, $dest, $context = null)
-    {
-        $arguments = func_get_args();
-        return empty($GLOBALS['mockCopy']) ? \copy(...$arguments) : false;
-    }
-
-    /**
-     * Mocked version of the native rename() function
-     *
-     * @param string $source Source file
-     * @param string $dest Destination file
-     * @param resource $context Context resource
-     * @return bool
-     */
-    function rename($source, $dest, $context = null)
-    {
-        $arguments = func_get_args();
-        return empty($GLOBALS['mockMove']) ? \rename(...$arguments) : false;
-    }
-
-    /**
-     * Mocked version of the native unlink() function
-     *
-     * @param string $filename File name
-     * @param resource $context Context resource
-     * @return bool
-     */
-    function unlink($filename, $context = null)
-    {
-        $arguments = func_get_args();
-        return empty($GLOBALS['mockUnlink']) ? \unlink(...$arguments) : false;
-    }
-}
-
 namespace ApparatTest {
 
     use Apparat\Kernel\Tests\AbstractTest;
@@ -301,5 +257,49 @@ namespace ApparatTest {
         {
             Tools::delete('foo://bar');
         }
+    }
+}
+
+namespace Apparat\Resource\Framework\Service {
+
+    /**
+     * Mocked version of the native copy() function
+     *
+     * @param string $source Source file
+     * @param string $dest Destination file
+     * @param resource $context Context resource
+     * @return bool
+     */
+    function copy($source, $dest, $context = null)
+    {
+        $arguments = func_get_args();
+        return empty($GLOBALS['mockCopy']) ? \copy(...$arguments) : false;
+    }
+
+    /**
+     * Mocked version of the native rename() function
+     *
+     * @param string $source Source file
+     * @param string $dest Destination file
+     * @param resource $context Context resource
+     * @return bool
+     */
+    function rename($source, $dest, $context = null)
+    {
+        $arguments = func_get_args();
+        return empty($GLOBALS['mockMove']) ? \rename(...$arguments) : false;
+    }
+
+    /**
+     * Mocked version of the native unlink() function
+     *
+     * @param string $filename File name
+     * @param resource $context Context resource
+     * @return bool
+     */
+    function unlink($filename, $context = null)
+    {
+        $arguments = func_get_args();
+        return empty($GLOBALS['mockUnlink']) ? \unlink(...$arguments) : false;
     }
 }

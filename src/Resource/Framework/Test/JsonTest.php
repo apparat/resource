@@ -41,8 +41,6 @@ use Apparat\Resource\Framework\Io\InMemory\Reader;
 use Apparat\Resource\Framework\Model\Part\JsonPart;
 use Apparat\Resource\Framework\Model\Resource\JsonResource;
 
-\date_default_timezone_set('UTC');
-
 /**
  * JSON file tests
  *
@@ -64,6 +62,14 @@ class JsonTest extends AbstractTest
      * @var string
      */
     const JSON_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.json';
+
+    /**
+     * Preparations before the first test is run
+     */
+    public static function setUpBeforeClass()
+    {
+        \date_default_timezone_set('UTC');
+    }
 
     /**
      * Sets up the fixture

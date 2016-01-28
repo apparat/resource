@@ -68,6 +68,6 @@ class JsonResource extends AbstractSinglePartResource
      */
     public function __construct(ReaderInterface $reader = null)
     {
-        parent::__construct($reader, JsonHydrator::class);
+        parent::__construct(JsonHydrator::class, $reader);
     }
 }

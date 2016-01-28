@@ -17,7 +17,7 @@
  *  Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
- *  this software and associated documentation files (the "Software"), to deal in
+ *  this software and associated documentation Fixture (the "Software"), to deal in
  *  the Software without restriction, including without limitation the rights to
  *  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  *  the Software, and to permit persons to whom the Software is furnished to do so,
@@ -34,33 +34,56 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Framework\Model\Hydrator;
+namespace ApparatTest;
 
-use Apparat\Resource\Framework\Model\Part\YamlPart;
+use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
+use Apparat\Resource\Domain\Model\Resource\AbstractResource;
+use Apparat\Resource\Framework\Io\InMemory\Reader;
+use Apparat\Resource\Framework\Model\Hydrator\CommonMarkHydrator;
+use Apparat\Resource\Framework\Model\Hydrator\FrontMatterHydrator;
+use Apparat\Resource\Framework\Model\Hydrator\JsonHydrator;
+use Apparat\Resource\Framework\Model\Hydrator\YamlHydrator;
 
 /**
- * CommonMark part hydrator
+ * Mocked FrontMark file
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Framework
  */
-class YamlHydrator extends TextHydrator
+class FrontMarkResourceMock extends AbstractResource
 {
     /**
-     * YAML part identifier
+     * FrontMark file constructor
      *
-     * @var string
+     * @param Reader $reader Reader instance
      */
-    const YAML = 'yaml';
+    public function __construct(Reader $reader = null)
+    {
+        parent::__construct(
+            array(
+                [
+                    FrontMatterHydrator::FRONTMATTER => [
+                        [
+                            JsonHydrator::JSON => JsonHydrator::class,
+                            YamlHydrator::YAML => YamlHydrator::class
+                        ],
+                        FrontMatterHydrator::class
+                    ],
+                    HydratorInterface::STANDARD => CommonMarkHydrator::class,
+                ],
+                FrontMarkHydratorMock::class
+            ),
+            $reader
+        );
+    }
 
     /**
-     * Translate data to a YAML resource part
-     *
-     * @param string $data Part data
-     * @return YamlPart YAML resource part
+     * Invalidate the CommonMark part
      */
-    public function hydrate($data)
+    public function invalidateCommonMarkPart()
     {
-        return new YamlPart($this, $data);
+        /** @var PartSequenceMock $sequence */
+        $sequence = $this->part();
+        $sequence->invalidateCommonMarkPart();
     }
 }

@@ -78,19 +78,20 @@ class FrontMarkResource extends AbstractResource
     public function __construct(ReaderInterface $reader = null)
     {
         parent::__construct(
-            $reader, array(
-                       [
-                           FrontMatterHydrator::FRONTMATTER => [
-                               [
-                                   JsonHydrator::JSON => JsonHydrator::class,
-                                   YamlHydrator::YAML => YamlHydrator::class
-                               ],
-                               FrontMatterHydrator::class
-                           ],
-                           HydratorInterface::STANDARD => CommonMarkHydrator::class,
-                       ],
-                       FrontMarkHydrator::class
-                   )
+            array(
+                [
+                    FrontMatterHydrator::FRONTMATTER => [
+                        [
+                            JsonHydrator::JSON => JsonHydrator::class,
+                            YamlHydrator::YAML => YamlHydrator::class
+                        ],
+                        FrontMatterHydrator::class
+                    ],
+                    HydratorInterface::STANDARD => CommonMarkHydrator::class,
+                ],
+                FrontMarkHydrator::class
+            ),
+            $reader
         );
     }
 

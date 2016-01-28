@@ -1,7 +1,7 @@
 # Apparat Resources
 [![Build Status](https://secure.travis-ci.org/apparat/resource.svg)](https://travis-ci.org/apparat/resource)
 [![Coverage Status](https://coveralls.io/repos/apparat/resource/badge.svg?branch=master&service=github)](https://coveralls.io/github/apparat/resource?branch=master)
-[![Code Climate](https://codeclimate.com/github/apparat/resource/badges/gpa.svg)](https://codeclimate.com/github/apparat/resource)[![Code Climate](https://codeclimate.com/github/apparat/resource/badges/gpa.svg)](https://codeclimate.com/github/apparat/resource)
+[![Code Climate](https://codeclimate.com/github/apparat/resource/badges/gpa.svg)](https://codeclimate.com/github/apparat/resource)
 
 Apparat resource abstraction layer
 

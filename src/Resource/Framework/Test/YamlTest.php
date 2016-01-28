@@ -41,8 +41,6 @@ use Apparat\Resource\Framework\Io\InMemory\Reader;
 use Apparat\Resource\Framework\Model\Part\YamlPart;
 use Apparat\Resource\Framework\Model\Resource\YamlResource;
 
-\date_default_timezone_set('UTC');
-
 /**
  * YAML file tests
  *
@@ -64,6 +62,14 @@ class YamlTest extends AbstractTest
      * @var string
      */
     const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.yaml';
+
+    /**
+     * Preparations before the first test is run
+     */
+    public static function setUpBeforeClass()
+    {
+        \date_default_timezone_set('UTC');
+    }
 
     /**
      * Sets up the fixture

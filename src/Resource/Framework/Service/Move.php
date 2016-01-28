@@ -103,9 +103,11 @@ class Move extends AbstractService
             if (!@rename($this->reader->getFile(), $writer->getFile())) {
                 throw new RuntimeException(
                     sprintf(
-                        'Could not move / rename "%s" to "%s"', $this->reader->getFile(),
+                        'Could not move / rename "%s" to "%s"',
+                        $this->reader->getFile(),
                         $writer->getFile()
-                    ), RuntimeException::COULD_NOT_MOVE_FILE_TO_FILE
+                    ),
+                    RuntimeException::COULD_NOT_MOVE_FILE_TO_FILE
                 );
             }
 

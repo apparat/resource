@@ -63,10 +63,10 @@ abstract class AbstractContentPart extends AbstractPart
     /**
      * Part constructor
      *
-     * @param string $content Part content
      * @param AbstractSinglepartHydrator $hydrator Associated hydrator
+     * @param string $content Part content
      */
-    public function __construct($content = '', AbstractSinglepartHydrator $hydrator)
+    public function __construct(AbstractSinglepartHydrator $hydrator, $content = '')
     {
         parent::__construct($hydrator);
         $this->content = $content;
@@ -102,7 +102,7 @@ abstract class AbstractContentPart extends AbstractPart
     public function set($data, array $subparts = [])
     {
         $class = get_class($this);
-        return new $class($data, $this->hydrator);
+        return new $class($this->hydrator, $data);
     }
 
     /**

@@ -41,93 +41,12 @@ use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;
 use Apparat\Resource\Domain\Model\Part\OutOfBoundsException;
 use Apparat\Resource\Domain\Model\Part\PartChoice;
-use Apparat\Resource\Domain\Model\Part\PartSequence;
-use Apparat\Resource\Domain\Model\Resource\AbstractResource;
 use Apparat\Resource\Framework\Io\InMemory\Reader;
-use Apparat\Resource\Framework\Model\Hydrator\CommonMarkHydrator;
-use Apparat\Resource\Framework\Model\Hydrator\FrontMarkHydrator;
 use Apparat\Resource\Framework\Model\Hydrator\FrontMatterHydrator;
 use Apparat\Resource\Framework\Model\Hydrator\JsonHydrator;
 use Apparat\Resource\Framework\Model\Hydrator\YamlHydrator;
 use Apparat\Resource\Framework\Model\Resource\FrontMarkResource;
 use Symfony\Component\Yaml\Yaml;
-
-
-/**
- * Mocked part sequence
- *
- * @package     Apparat\Resource
- * @subpackage  Apparat\Resource\Framework
- */
-class PartSequenceMock extends PartSequence
-{
-    /**
-     * Invalidate the CommonMark part
-     */
-    public function invalidateCommonMarkPart()
-    {
-        $this->occurrences[0][HydratorInterface::STANDARD] = null;
-    }
-}
-
-/**
- * Mocked FrontMark hydrator
- *
- * @package     Apparat\Resource
- * @subpackage  Apparat\Resource\Framework
- */
-class FrontMarkHydratorMock extends FrontMarkHydrator
-{
-    /**
-     * Part aggregate class name
-     *
-     * @var string
-     */
-    protected $aggregateClass = PartSequenceMock::class;
-}
-
-/**
- * Mocked FrontMark file
- *
- * @package     Apparat\Resource
- * @subpackage  Apparat\Resource\Framework
- */
-class FrontMarkResourceMock extends AbstractResource
-{
-    /**
-     * FrontMark file constructor
-     *
-     * @param Reader $reader Reader instance
-     */
-    public function __construct(Reader $reader = null)
-    {
-        parent::__construct(
-            $reader, array(
-            [
-                FrontMatterHydrator::FRONTMATTER => [
-                    [
-                        JsonHydrator::JSON => JsonHydrator::class,
-                        YamlHydrator::YAML => YamlHydrator::class
-                    ],
-                    FrontMatterHydrator::class
-                ],
-                HydratorInterface::STANDARD => CommonMarkHydrator::class,
-            ],
-            FrontMarkHydratorMock::class
-        )
-        );
-    }
-
-    /**
-     * Invalidate the CommonMark part
-     */
-    public function invalidateCommonMarkPart()
-    {
-        /** @var PartSequenceMock $sequence */
-        $sequence = $this->part();
-        $sequence->invalidateCommonMarkPart();
-    }
-}
 
 /**
  * FrontMark file tests

@@ -61,6 +61,6 @@ class JsonHydrator extends TextHydrator
      */
     public function hydrate($data)
     {
-        return new JsonPart($data, $this);
+        return new JsonPart($this, $data);
     }
 }

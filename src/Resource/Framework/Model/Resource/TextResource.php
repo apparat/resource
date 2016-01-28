@@ -69,6 +69,6 @@ class TextResource extends AbstractSinglePartResource
      */
     public function __construct(ReaderInterface $reader = null)
     {
-        parent::__construct($reader, TextHydrator::class);
+        parent::__construct(TextHydrator::class, $reader);
     }
 }

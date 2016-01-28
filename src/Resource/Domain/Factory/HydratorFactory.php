@@ -87,7 +87,6 @@ class HydratorFactory
 
         // If the content model has more than one part
         if (count($config[0]) > 1) {
-
             // If no multipart hydrator is specified
             if (count($config) < 2) {
                 throw new InvalidArgumentException(
@@ -96,7 +95,9 @@ class HydratorFactory
                 );
 
                 // Else: if the multipart hydrator is invalid
-            } elseif (!strlen(trim($config[1])) || !is_subclass_of(
+            } elseif (
+                !strlen(trim($config[1])) ||
+                !is_subclass_of(
                     trim($config[1]),
                     AbstractMultipartHydrator::class
                 )
@@ -107,7 +108,9 @@ class HydratorFactory
                 );
 
                 // Else: Validate the remaining hydrator arguments
-            } elseif ((count($config) > 2) && !call_user_func_array(
+            } elseif (
+                (count($config) > 2) &&
+                !call_user_func_array(
                     array($config[1], 'validateParameters'),
                     array_slice($config, 2)
                 )

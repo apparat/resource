@@ -69,7 +69,7 @@ class CommonMarkResource extends AbstractSinglePartResource
      */
     public function __construct(ReaderInterface $reader = null)
     {
-        parent::__construct($reader, CommonMarkHydrator::class);
+        parent::__construct(CommonMarkHydrator::class, $reader);
     }
 
     /**

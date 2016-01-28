@@ -68,6 +68,6 @@ class YamlResource extends AbstractSinglePartResource
      */
     public function __construct(ReaderInterface $reader = null)
     {
-        parent::__construct($reader, YamlHydrator::class);
+        parent::__construct(YamlHydrator::class, $reader);
     }
 }

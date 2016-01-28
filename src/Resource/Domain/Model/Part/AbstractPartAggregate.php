@@ -92,16 +92,16 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
     /**
      * Part constructor
      *
+     * @param AbstractMultipartHydrator $hydrator
      * @param array $template Subpart template
      * @param array|int $minOccurrences Minimum occurrences
      * @param int $maxOccurrences Maximum occurrences
-     * @param AbstractMultipartHydrator $hydrator
      */
     public function __construct(
+        AbstractMultipartHydrator $hydrator,
         array $template,
         $minOccurrences = 1,
-        $maxOccurrences = 1,
-        AbstractMultipartHydrator $hydrator
+        $maxOccurrences = 1
     ) {
         self::validateOccurrences($minOccurrences, $maxOccurrences);
         $this->template = $template;
@@ -132,7 +132,8 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
                 sprintf(
                     'Invalid part aggregate minimum occurrences "%s"',
                     $minOccurrences
-                ), InvalidArgumentException::INVALID_MINIMUM_OCCURRENCES
+                ),
+                InvalidArgumentException::INVALID_MINIMUM_OCCURRENCES
             );
         }
 
@@ -143,7 +144,8 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
                 sprintf(
                     'Invalid part aggregate maximum occurrences "%s"',
                     $maxOccurrences
-                ), InvalidArgumentException::INVALID_MAXIMUM_OCCURRENCES
+                ),
+                InvalidArgumentException::INVALID_MAXIMUM_OCCURRENCES
             );
         }
     }
@@ -157,7 +159,10 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
     protected function initializeOccurrences($occurrences)
     {
         // If the occurrences number is invalid
-        if (($occurrences < $this->minimumOccurrences) || (($this->maximumOccurrences != self::UNBOUND) && ($occurrences > $this->maximumOccurrences))) {
+        if (
+            ($occurrences < $this->minimumOccurrences) ||
+            (($this->maximumOccurrences != self::UNBOUND) && ($occurrences > $this->maximumOccurrences))
+        ) {
             throw new OutOfBoundsException(
                 sprintf('Invalid occurrences number "%s"', $occurrences),
                 OutOfBoundsException::INVALID_OCCURRENCES_NUMBER

@@ -68,6 +68,6 @@ class TextHydrator extends AbstractSinglepartHydrator
      */
     public function hydrate($data)
     {
-        return new TextPart($data, $this);
+        return new TextPart($this, $data);
     }
 }

@@ -173,8 +173,10 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
         }
 
         return new $this->aggregateClass(
-            $this->subhydrators, $this->minimumOccurrences, $this->maximumOccurrences,
-            $this
+            $this,
+            $this->subhydrators,
+            $this->minimumOccurrences,
+            $this->maximumOccurrences
         );
     }
 
@@ -201,7 +203,8 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
                 sprintf(
                     'Invalid multipart hydrator parameter count (%s)',
                     count($parameters)
-                ), InvalidArgumentException::INVALID_MULTIPART_HYDRATOR_PARAMETER_COUNT
+                ),
+                InvalidArgumentException::INVALID_MULTIPART_HYDRATOR_PARAMETER_COUNT
             );
         }
 
