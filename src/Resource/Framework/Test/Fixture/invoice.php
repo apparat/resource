@@ -44,8 +44,8 @@ return array(
             'address' =>
                 array(
                     'lines' => '458 Walkman Dr.
-    Suite #292
-    ',
+Suite #292
+',
                     'city' => 'Royal Oak',
                     'state' => 'MI',
                     'postal' => 48046,
@@ -58,8 +58,8 @@ return array(
             'address' =>
                 array(
                     'lines' => '458 Walkman Dr.
-    Suite #292
-    ',
+Suite #292
+',
                     'city' => 'Royal Oak',
                     'state' => 'MI',
                     'postal' => 48046,
