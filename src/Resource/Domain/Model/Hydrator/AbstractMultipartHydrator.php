@@ -160,8 +160,7 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
     public function hydrate($data)
     {
         // If the part aggregate class isn't valid
-        if (
-            !$this->aggregateClass ||
+        if (!$this->aggregateClass ||
             !class_exists($this->aggregateClass) ||
             !is_subclass_of(
                 $this->aggregateClass,

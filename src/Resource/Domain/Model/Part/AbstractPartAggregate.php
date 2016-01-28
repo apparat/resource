@@ -355,7 +355,6 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
 
             // If it's a setter method
             if (!strncmp('set', $method, 3)) {
-
                 // Exchange the modified part
                 $this->occurrences[$occurrence][$part] = $result;
 

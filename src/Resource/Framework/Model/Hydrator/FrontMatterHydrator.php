@@ -89,10 +89,8 @@ class FrontMatterHydrator extends AbstractChoiceHydrator
         $content = trim(parent::dehydratePart($subhydrator, $part));
 
         // If it's a YAML part: Terminate if necessary
-        if (strlen($content) && ($part instanceof YamlPart) && !preg_match(
-                '%\R'.preg_quote(YamlPart::DOCUMENT_END).'$%',
-                $content
-            )
+        if (strlen($content) && ($part instanceof YamlPart) &&
+            !preg_match('%\R'.preg_quote(YamlPart::DOCUMENT_END).'$%', $content)
         ) {
             $content .= "\n".YamlPart::DOCUMENT_END;
         }
