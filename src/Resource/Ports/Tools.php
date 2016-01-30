@@ -146,7 +146,7 @@ class Tools
         $reader = self::reader($src, $parameters);
         if ($reader instanceof ReaderInterface) {
             return Kernel::create(Copy::class, [$reader]);
-    }
+        }
 
         throw new InvalidArgumentException(
             'Invalid reader stream wrapper',

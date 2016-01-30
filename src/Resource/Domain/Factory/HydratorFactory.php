@@ -88,77 +88,96 @@ class HydratorFactory
 
         // If the content model has more than one part
         if (count($config[0]) > 1) {
-            // If no multipart hydrator is specified
-            if (count($config) < 2) {
-                throw new InvalidArgumentException(
-                    'A multipart hydrator must be specified',
-                    InvalidArgumentException::MISSING_MULTIPART_HYDRATOR
-                );
+            return self::buildMultipart($config);
+        }
 
-                // Else: if the multipart hydrator is invalid
-            } elseif (!strlen(trim($config[1])) ||
-                !is_subclass_of(
-                    trim($config[1]),
-                    AbstractMultipartHydrator::class
-                )
-            ) {
-                throw new InvalidArgumentException(
-                    sprintf('Invalid multipart hydrator class "%s"', trim($config[1])),
-                    InvalidArgumentException::INVALID_MULTIPART_HYDRATOR_CLASS
-                );
+        // Build a single part hydrator
+        return self::buildSingle($config);
+    }
 
-                // Else: Validate the remaining hydrator arguments
-            } elseif ((count($config) > 2) &&
-                !call_user_func_array(
-                    array($config[1], 'validateParameters'),
-                    array_slice($config, 2)
-                )
-            ) {
-                throw new InvalidArgumentException(
-                    'Invalid multipart hydrator parameters',
-                    InvalidArgumentException::INVALID_MULTIPART_HYDRATOR_PARAMETERS
-                );
-            }
+    /**
+     * Build a single part hydrator
+     *
+     * @param array $config Hydrator configuration
+     * @return HydratorInterface Hydrator
+     */
+    protected static function buildSingle(array $config) {
+        reset($config[0]);
+        $singlepartName = trim(key($config[0]));
+        $singlepartHydrator = trim(current($config[0]));
 
-            // Run through all multipart subhydrators
-            foreach ($config[0] as $multipartHydrator) {
-                // If it's neither a multipart nor a valid single part hydrator
-                if (!is_array($multipartHydrator) && !is_subclass_of($multipartHydrator, HydratorInterface::class)) {
-                    throw new InvalidArgumentException(
-                        sprintf(
-                            'Invalid multipart subhydrator class "%s"',
-                            $multipartHydrator
-                        ),
-                        InvalidArgumentException::INVALID_MULTIPART_SUBHYDRATOR_CLASS
-                    );
-                }
-            }
+        // If it's not a valid simple part hydrator
+        if (!is_subclass_of($singlepartHydrator, AbstractSinglepartHydrator::class)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Invalid single part hydrator class "%s"',
+                    $singlepartHydrator
+                ),
+                InvalidArgumentException::INVALID_SINGLEPART_HYDRATOR_CLASS
+            );
+        }
 
-            // Instantiate the multipart hydrator
-            $multipartHydrator = trim($config[1]);
-            $multipartHydratorParameters = array_slice($config, 2);
-            array_unshift($multipartHydratorParameters, $config[0]);
-            return Kernel::create($multipartHydrator, $multipartHydratorParameters);
+        // Instantiate the simple hydrator
+        return new $singlepartHydrator($singlepartName);
+    }
 
-            // Else
-        } else {
-            reset($config[0]);
-            $singlepartName = trim(key($config[0]));
-            $singlepartHydrator = trim(current($config[0]));
+    /**
+     * Build a multipart hydrator
+     *
+     * @param array $config Hydrator configuration
+     * @return HydratorInterface Hydrator
+     */
+    protected static function buildMultipart(array $config) {
+        // If no multipart hydrator is specified
+        if (count($config) < 2) {
+            throw new InvalidArgumentException(
+                'A multipart hydrator must be specified',
+                InvalidArgumentException::MISSING_MULTIPART_HYDRATOR
+            );
 
-            // If it's not a valid simple part hydrator
-            if (!is_subclass_of($singlepartHydrator, AbstractSinglepartHydrator::class)) {
+            // Else: if the multipart hydrator is invalid
+        } elseif (!strlen(trim($config[1])) ||
+            !is_subclass_of(
+                trim($config[1]),
+                AbstractMultipartHydrator::class
+            )
+        ) {
+            throw new InvalidArgumentException(
+                sprintf('Invalid multipart hydrator class "%s"', trim($config[1])),
+                InvalidArgumentException::INVALID_MULTIPART_HYDRATOR_CLASS
+            );
+
+            // Else: Validate the remaining hydrator arguments
+        } elseif ((count($config) > 2) &&
+            !call_user_func_array(
+                array($config[1], 'validateParameters'),
+                array_slice($config, 2)
+            )
+        ) {
+            throw new InvalidArgumentException(
+                'Invalid multipart hydrator parameters',
+                InvalidArgumentException::INVALID_MULTIPART_HYDRATOR_PARAMETERS
+            );
+        }
+
+        // Run through all multipart subhydrators
+        foreach ($config[0] as $multipartHydrator) {
+            // If it's neither a multipart nor a valid single part hydrator
+            if (!is_array($multipartHydrator) && !is_subclass_of($multipartHydrator, HydratorInterface::class)) {
                 throw new InvalidArgumentException(
                     sprintf(
-                        'Invalid single part hydrator class "%s"',
-                        $singlepartHydrator
+                        'Invalid multipart subhydrator class "%s"',
+                        $multipartHydrator
                     ),
-                    InvalidArgumentException::INVALID_SINGLEPART_HYDRATOR_CLASS
+                    InvalidArgumentException::INVALID_MULTIPART_SUBHYDRATOR_CLASS
                 );
             }
-
-            // Instantiate the simple hydrator
-            return Kernel::create($singlepartHydrator, [$singlepartName]);
         }
+
+        // Instantiate the multipart hydrator
+        $multipartHydrator = trim($config[1]);
+        $hydratorParameters = array_slice($config, 2);
+        array_unshift($hydratorParameters, $config[0]);
+        return Kernel::create($multipartHydrator, $hydratorParameters);
     }
 }

@@ -89,7 +89,8 @@ class CommonMarkTest extends AbstractTest
     public function testCommonMarkResourceReader()
     {
         $commonMarkResource = Kernel::create(
-            CommonMarkResource::class, [Kernel::create(Reader::class, [$this->commonMark])]
+            CommonMarkResource::class,
+            [Kernel::create(Reader::class, [$this->commonMark])]
         );
         $this->assertEquals($this->commonMark, $commonMarkResource->getPart());
     }
@@ -138,7 +139,8 @@ class CommonMarkTest extends AbstractTest
     public function testCommonMarkResourceHtmlSubparts()
     {
         $commonMarkResource = Kernel::create(
-            CommonMarkResource::class, [Kernel::create(Reader::class, [$this->commonMark])]
+            CommonMarkResource::class,
+            [Kernel::create(Reader::class, [$this->commonMark])]
         );
         $commonMarkResource->getHtmlPart('a/b/c');
     }
@@ -152,7 +154,8 @@ class CommonMarkTest extends AbstractTest
             file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
         );
         $commonMarkResource = Kernel::create(
-            CommonMarkResource::class, [Kernel::create(Reader::class, [$this->commonMark])]
+            CommonMarkResource::class,
+            [Kernel::create(Reader::class, [$this->commonMark])]
         );
         $this->assertEquals($expectedHtml, $this->normalizeHtml($commonMarkResource->getHtmlPart()));
     }
@@ -166,7 +169,8 @@ class CommonMarkTest extends AbstractTest
             file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
         );
         $commonMarkResource = Kernel::create(
-            CommonMarkResource::class, [Kernel::create(Reader::class, [$this->commonMark])]
+            CommonMarkResource::class,
+            [Kernel::create(Reader::class, [$this->commonMark])]
         );
         $this->assertEquals($expectedHtml, $this->normalizeHtml($commonMarkResource->getHtml()));
     }

@@ -148,19 +148,19 @@ abstract class AbstractResource
                 (count($arguments) > $subpartPathArgIndex) ? $arguments[$subpartPathArgIndex] : '/'
             );
             $delegateResult = $this->part()->delegate($partMethod, $subparts, $delegateArguments);
+
             if ($isGetterMethod) {
                 return $delegateResult;
-            } else {
-                $this->part = $delegateResult;
-                return $this;
             }
 
-        } else {
-            throw new RuntimeException(
-                sprintf('Invalid file method "%s"', $name),
-                RuntimeException::INVALID_FILE_METHOD
-            );
+            $this->part = $delegateResult;
+            return $this;
         }
+
+        throw new RuntimeException(
+            sprintf('Invalid file method "%s"', $name),
+            RuntimeException::INVALID_FILE_METHOD
+        );
     }
 
     /*******************************************************************************

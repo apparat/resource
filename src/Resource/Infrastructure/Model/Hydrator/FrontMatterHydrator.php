@@ -68,12 +68,11 @@ class FrontMatterHydrator extends AbstractChoiceHydrator
         // If it's a JSON front matter
         if (!strncmp('{', trim($data), 1)) {
             $aggregate->assign(JsonHydrator::JSON, $data, 0);
-
-            // Else: Assign as YAML front matter
-        } else {
-            $aggregate->assign(YamlHydrator::YAML, $data, 0);
+            return $aggregate;
         }
 
+        // Assign as YAML front matter
+        $aggregate->assign(YamlHydrator::YAML, $data, 0);
         return $aggregate;
     }
 

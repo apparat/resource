@@ -156,7 +156,8 @@ namespace Apparat\Resource\Tests {
         {
             $GLOBALS['mockIsWriteable'] = true;
             Kernel::create(
-                \Apparat\Resource\Infrastructure\Io\File\Writer::class, [self::TXT_FILE, Writer::FILE_OVERWRITE]
+                \Apparat\Resource\Infrastructure\Io\File\Writer::class,
+                [self::TXT_FILE, Writer::FILE_OVERWRITE]
             );
             unset($GLOBALS['mockIsWriteable']);
         }

@@ -37,11 +37,11 @@
 namespace Apparat\Resource\Infrastructure\Service;
 
 use Apparat\Resource\Domain\Contract\WriterInterface;
-use Apparat\Resource\Ports\InvalidArgumentException;
-use Apparat\Resource\Ports\Tools;
 use Apparat\Resource\Infrastructure\Io\File\Reader as FileReader;
 use Apparat\Resource\Infrastructure\Io\File\Writer as FileWriter;
 use Apparat\Resource\Infrastructure\Io\InMemory\Writer as InMemoryWriter;
+use Apparat\Resource\Ports\InvalidArgumentException;
+use Apparat\Resource\Ports\Tools;
 
 /**
  * Resource move operation
@@ -110,11 +110,11 @@ class Move extends AbstractService
                 );
             }
 
-            // Else: In-memory resource
-        } else {
-            $writer->write($this->reader->read());
+            return $writer;
         }
 
+        // In-memory resource
+        $writer->write($this->reader->read());
         return $writer;
     }
 

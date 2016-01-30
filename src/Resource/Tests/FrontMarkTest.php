@@ -148,7 +148,8 @@ class FrontMarkTest extends AbstractTest
     public function testYamlTooFewPartIdentifiers()
     {
         $frontMarkResource = Kernel::create(
-            FrontMarkResource::class, [Kernel::create(Reader::class, [$this->yamlFrontMark])]
+            FrontMarkResource::class,
+            [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $frontMarkResource->getPart('/0');
     }
@@ -162,7 +163,8 @@ class FrontMarkTest extends AbstractTest
     public function testYamlInvalidOccurrenceIndex()
     {
         $frontMarkResource = Kernel::create(
-            FrontMarkResource::class, [Kernel::create(Reader::class, [$this->yamlFrontMark])]
+            FrontMarkResource::class,
+            [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $frontMarkResource->getPart('/abc/123');
     }
@@ -176,7 +178,8 @@ class FrontMarkTest extends AbstractTest
     public function testYamlOccurrenceIndexOutOfBounds()
     {
         $frontMarkResource = Kernel::create(
-            FrontMarkResource::class, [Kernel::create(Reader::class, [$this->yamlFrontMark])]
+            FrontMarkResource::class,
+            [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $frontMarkResource->getPart('/123/abc');
     }
@@ -190,7 +193,8 @@ class FrontMarkTest extends AbstractTest
     public function testYamlInvalidSubpartIdentifier()
     {
         $frontMarkResource = Kernel::create(
-            FrontMarkResource::class, [Kernel::create(Reader::class, [$this->yamlFrontMark])]
+            FrontMarkResource::class,
+            [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $frontMarkResource->getPart('/123/~');
     }
@@ -204,7 +208,8 @@ class FrontMarkTest extends AbstractTest
     public function testYamlUnknownSubpartIdentifier()
     {
         $frontMarkResource = Kernel::create(
-            FrontMarkResource::class, [Kernel::create(Reader::class, [$this->yamlFrontMark])]
+            FrontMarkResource::class,
+            [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $frontMarkResource->getPart('/0/abc');
     }
@@ -218,7 +223,8 @@ class FrontMarkTest extends AbstractTest
     public function testYamlInvalidPartInstance()
     {
         $frontMarkResource = Kernel::create(
-            FrontMarkResourceMock::class, [Kernel::create(Reader::class, [$this->yamlFrontMark])]
+            FrontMarkResourceMock::class,
+            [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $frontMarkResource->invalidateCommonMarkPart();
         $frontMarkResource->getPart('/0/'.HydratorInterface::STANDARD);
@@ -231,7 +237,8 @@ class FrontMarkTest extends AbstractTest
     {
         $expectedData = Yaml::parse(file_get_contents(self::YAML_FRONTMATTER_FILE));
         $frontMarkResource = Kernel::create(
-            FrontMarkResource::class, [Kernel::create(Reader::class, [$this->yamlFrontMark])]
+            FrontMarkResource::class,
+            [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $actualData = Yaml::parse($frontMarkResource->getPart('/0/'.FrontMatterHydrator::FRONTMATTER));
         $this->assertArrayEquals($expectedData, $actualData);
@@ -246,7 +253,8 @@ class FrontMarkTest extends AbstractTest
         $yaml = file_get_contents(self::YAML_FILE);
         $expectedData = Yaml::parse($yaml);
         $frontMarkResource = Kernel::create(
-            FrontMarkResource::class, [Kernel::create(Reader::class, [$this->yamlFrontMark])]
+            FrontMarkResource::class,
+            [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $frontMarkResource->setPart($yaml, '/0/'.FrontMatterHydrator::FRONTMATTER);
         $actualData = Yaml::parse(
@@ -349,7 +357,8 @@ class FrontMarkTest extends AbstractTest
     {
         $randomSet = md5(rand());
         $frontMarkResource = Kernel::create(
-            FrontMarkResource::class, [Kernel::create(Reader::class, [$this->yamlFrontMark])]
+            FrontMarkResource::class,
+            [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $frontMarkResource->set($randomSet);
         $this->assertEquals($randomSet, $frontMarkResource->getPart('/0/'.HydratorInterface::STANDARD));
@@ -363,7 +372,8 @@ class FrontMarkTest extends AbstractTest
     {
         $randomAppend = md5(rand());
         $frontMarkResource = Kernel::create(
-            FrontMarkResource::class, [Kernel::create(Reader::class, [$this->yamlFrontMark])]
+            FrontMarkResource::class,
+            [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $frontMarkResource->append($randomAppend);
         $this->assertEquals($this->commonMark.$randomAppend, $frontMarkResource->get());
@@ -376,7 +386,8 @@ class FrontMarkTest extends AbstractTest
     {
         $randomPrepend = md5(rand());
         $frontMarkResource = Kernel::create(
-            FrontMarkResource::class, [Kernel::create(Reader::class, [$this->yamlFrontMark])]
+            FrontMarkResource::class,
+            [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $frontMarkResource->prepend($randomPrepend);
         $this->assertEquals($randomPrepend.$this->commonMark, $frontMarkResource->get());
@@ -391,7 +402,8 @@ class FrontMarkTest extends AbstractTest
             file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
         );
         $frontMarkResource = Kernel::create(
-            FrontMarkResource::class, [Kernel::create(Reader::class, [$this->yamlFrontMark])]
+            FrontMarkResource::class,
+            [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $this->assertEquals($expectedHtml, $this->normalizeHtml($frontMarkResource->getHtml()));
     }

@@ -360,11 +360,10 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
 
                 // Return a self reference
                 return $this;
-
-                // Else: Return the method result
-            } else {
-                return $result;
             }
+
+            // Return the method result
+            return $result;
         }
 
         return parent::delegate($method, $subparts, $arguments);
