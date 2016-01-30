@@ -5,7 +5,7 @@
  *
  * @category    Apparat
  * @package     Apparat\Resource
- * @subpackage  Apparat\Resource\Tests
+ * @subpackage  Apparat\Resource\Infrastructure
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
@@ -17,7 +17,7 @@
  *  Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
- *  this software and associated documentation Fixture (the "Software"), to deal in
+ *  this software and associated documentation files (the "Software"), to deal in
  *  the Software without restriction, including without limitation the rights to
  *  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  *  the Software, and to permit persons to whom the Software is furnished to do so,
@@ -34,22 +34,40 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Tests;
+namespace Apparat\Resource\Infrastructure\Model\Resource;
 
-use Apparat\Resource\Infrastructure\Model\Hydrator\FrontMarkHydrator;
+use Apparat\Resource\Domain\Contract\ReaderInterface;
+use Apparat\Resource\Domain\Contract\WriterInterface;
+use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
+use Apparat\Resource\Infrastructure\Model\Hydrator\YamlHydrator;
 
 /**
- * Mocked FrontMark hydrator
+ * YAML resource
  *
  * @package     Apparat\Resource
- * @subpackage  Apparat\Resource\Tests
+ * @subpackage  Apparat\Resource\Infrastructure
+ * @method YamlResource set() set(array $data) Set the content of the resource
+ * @method YamlResource setPart() setPart(array $data, string $part = '/') Set the content of the resource
+ * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the resource
+ * @method YamlResource setData() setData(array $data) Set the YAML data of the resource
+ * @method YamlResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the resource
+ * @method YamlResource from($src) static from($src, ...$parameters) Instantiate from source
+ * @method WriterInterface to() to($target, ...$parameters) Write to target
  */
-class FrontMarkHydratorMock extends FrontMarkHydrator
+class YamlResource extends AbstractSinglePartResource
 {
     /**
-     * Part aggregate class name
-     *
-     * @var string
+     * Use resource factory and data resource convenience methods and properties
      */
-    protected $aggregateClass = PartSequenceMock::class;
+    use ResourceTrait, DataResourceTrait;
+
+    /**
+     * YAML resource constructor
+     *
+     * @param ReaderInterface $reader Reader instance
+     */
+    public function __construct(ReaderInterface $reader = null)
+    {
+        parent::__construct(YamlHydrator::class, $reader);
+    }
 }

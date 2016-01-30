@@ -37,15 +37,15 @@
 namespace Apparat\Resource\Tests;
 
 use Apparat\Kernel\Tests\AbstractTest;
-use Apparat\Resource\Framework\Api\InvalidArgumentException;
-use Apparat\Resource\Framework\Api\Resource;
-use Apparat\Resource\Framework\Io\File\Writer as FileWriter;
-use Apparat\Resource\Framework\Io\InMemory\Writer as InMemoryWriter;
-use Apparat\Resource\Framework\Model\Resource\CommonMarkResource;
-use Apparat\Resource\Framework\Model\Resource\FrontMarkResource;
-use Apparat\Resource\Framework\Model\Resource\JsonResource;
-use Apparat\Resource\Framework\Model\Resource\TextResource;
-use Apparat\Resource\Framework\Model\Resource\YamlResource;
+use Apparat\Resource\Ports\InvalidArgumentException;
+use Apparat\Resource\Ports\Resource;
+use Apparat\Resource\Infrastructure\Io\File\Writer as FileWriter;
+use Apparat\Resource\Infrastructure\Io\InMemory\Writer as InMemoryWriter;
+use Apparat\Resource\Infrastructure\Model\Resource\CommonMarkResource;
+use Apparat\Resource\Infrastructure\Model\Resource\FrontMarkResource;
+use Apparat\Resource\Infrastructure\Model\Resource\JsonResource;
+use Apparat\Resource\Infrastructure\Model\Resource\TextResource;
+use Apparat\Resource\Infrastructure\Model\Resource\YamlResource;
 
 /**
  * Resource factory tests

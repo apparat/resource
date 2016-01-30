@@ -37,11 +37,11 @@
 namespace Apparat\Resource\Tests {
 
     use Apparat\Kernel\Tests\AbstractTest;
-    use Apparat\Resource\Framework\Io\File\InvalidArgumentException;
-    use Apparat\Resource\Framework\Io\File\Reader;
-    use Apparat\Resource\Framework\Io\File\ReaderWriter;
-    use Apparat\Resource\Framework\Io\File\Writer;
-    use Apparat\Resource\Framework\Model\Resource\TextResource;
+    use Apparat\Resource\Infrastructure\Io\File\InvalidArgumentException;
+    use Apparat\Resource\Infrastructure\Io\File\Reader;
+    use Apparat\Resource\Infrastructure\Io\File\ReaderWriter;
+    use Apparat\Resource\Infrastructure\Io\File\Writer;
+    use Apparat\Resource\Infrastructure\Model\Resource\TextResource;
 
     /**
      * FileIo tests
@@ -117,7 +117,7 @@ namespace Apparat\Resource\Tests {
             $fileReader = new Reader(self::TXT_FILE);
             $this->assertInstanceOf(Reader::class, $fileReader);
             $textReource = new TextResource($fileReader);
-            $inMemoryWriter = new \Apparat\Resource\Framework\Io\InMemory\Writer();
+            $inMemoryWriter = new \Apparat\Resource\Infrastructure\Io\InMemory\Writer();
             $textReource->dump($inMemoryWriter);
             $this->assertEquals($this->text, $inMemoryWriter->getData());
         }
@@ -130,7 +130,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileWriterWithInvalidOptions()
         {
-            new \Apparat\Resource\Framework\Io\File\Writer(self::TXT_FILE, pow(2, 10));
+            new \Apparat\Resource\Infrastructure\Io\File\Writer(self::TXT_FILE, pow(2, 10));
         }
 
         /**
@@ -141,7 +141,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileWriterWithNonCreatableFile()
         {
-            new \Apparat\Resource\Framework\Io\File\Writer(self::TXT_FILE.'_new', 0);
+            new \Apparat\Resource\Infrastructure\Io\File\Writer(self::TXT_FILE.'_new', 0);
         }
 
         /**
@@ -152,7 +152,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileWriterWithNonOverwriteableFile()
         {
-            new \Apparat\Resource\Framework\Io\File\Writer(self::TXT_FILE, 0);
+            new \Apparat\Resource\Infrastructure\Io\File\Writer(self::TXT_FILE, 0);
         }
 
         /**
@@ -164,7 +164,7 @@ namespace Apparat\Resource\Tests {
         public function testFileWriterWithNonWriteableFile()
         {
             $GLOBALS['mockIsWriteable'] = true;
-            new \Apparat\Resource\Framework\Io\File\Writer(self::TXT_FILE, Writer::FILE_OVERWRITE);
+            new \Apparat\Resource\Infrastructure\Io\File\Writer(self::TXT_FILE, Writer::FILE_OVERWRITE);
             unset($GLOBALS['mockIsWriteable']);
         }
 
@@ -173,7 +173,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileWriterWithCreatedFile()
         {
-            $textReource = new TextResource(new \Apparat\Resource\Framework\Io\InMemory\Reader($this->text));
+            $textReource = new TextResource(new \Apparat\Resource\Infrastructure\Io\InMemory\Reader($this->text));
             $tempFile = $this->createTemporaryFileName();
             $textReource->dump(new Writer($tempFile, Writer::FILE_CREATE));
             $this->assertFileEquals(self::TXT_FILE, $tempFile);
@@ -184,7 +184,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileWriterWithOverwrittenFile()
         {
-            $textReource = new TextResource(new \Apparat\Resource\Framework\Io\InMemory\Reader($this->text));
+            $textReource = new TextResource(new \Apparat\Resource\Infrastructure\Io\InMemory\Reader($this->text));
             $tempFile = $this->createTemporaryFile();
             $textReource->dump(new Writer($tempFile, Writer::FILE_OVERWRITE));
             $this->assertFileEquals(self::TXT_FILE, $tempFile);
@@ -206,7 +206,7 @@ namespace Apparat\Resource\Tests {
     }
 }
 
-namespace Apparat\Resource\Framework\Io\File {
+namespace Apparat\Resource\Infrastructure\Io\File {
 
     /**
      * Mocked version of the native is_readable() function

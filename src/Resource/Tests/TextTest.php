@@ -39,11 +39,11 @@ namespace Apparat\Resource\Tests;
 use Apparat\Kernel\Tests\AbstractTest;
 use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;
 use Apparat\Resource\Domain\Model\Resource\RuntimeException;
-use Apparat\Resource\Framework\Io\InMemory\Reader;
-use Apparat\Resource\Framework\Io\InMemory\ReaderWriter;
-use Apparat\Resource\Framework\Io\InMemory\Writer;
-use Apparat\Resource\Framework\Model\Part\TextPart;
-use Apparat\Resource\Framework\Model\Resource\TextResource;
+use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
+use Apparat\Resource\Infrastructure\Io\InMemory\ReaderWriter;
+use Apparat\Resource\Infrastructure\Io\InMemory\Writer;
+use Apparat\Resource\Infrastructure\Model\Part\TextPart;
+use Apparat\Resource\Infrastructure\Model\Resource\TextResource;
 
 /**
  * Text file tests

@@ -37,9 +37,9 @@
 namespace Apparat\Resource\Tests;
 
 use Apparat\Kernel\Tests\AbstractTest;
-use Apparat\Resource\Framework\Io\InMemory\Reader;
-use Apparat\Resource\Framework\Model\Part\YamlPart;
-use Apparat\Resource\Framework\Model\Resource\YamlResource;
+use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
+use Apparat\Resource\Infrastructure\Model\Part\YamlPart;
+use Apparat\Resource\Infrastructure\Model\Resource\YamlResource;
 
 /**
  * YAML file tests

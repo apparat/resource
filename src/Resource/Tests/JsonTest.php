@@ -37,9 +37,9 @@
 namespace Apparat\Resource\Tests;
 
 use Apparat\Kernel\Tests\AbstractTest;
-use Apparat\Resource\Framework\Io\InMemory\Reader;
-use Apparat\Resource\Framework\Model\Part\JsonPart;
-use Apparat\Resource\Framework\Model\Resource\JsonResource;
+use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
+use Apparat\Resource\Infrastructure\Model\Part\JsonPart;
+use Apparat\Resource\Infrastructure\Model\Resource\JsonResource;
 
 /**
  * JSON file tests

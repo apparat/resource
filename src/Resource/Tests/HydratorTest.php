@@ -42,8 +42,8 @@ use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Hydrator\InvalidArgumentException;
 use Apparat\Resource\Domain\Model\Hydrator\RuntimeException;
 use Apparat\Resource\Domain\Model\Part\OutOfBoundsException;
-use Apparat\Resource\Framework\Model\Hydrator\TextHydrator;
-use Apparat\Resource\Framework\Model\Part\TextPart;
+use Apparat\Resource\Infrastructure\Model\Hydrator\TextHydrator;
+use Apparat\Resource\Infrastructure\Model\Part\TextPart;
 
 /**
  * Hydrator tests

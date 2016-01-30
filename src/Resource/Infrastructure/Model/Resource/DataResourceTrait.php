@@ -5,7 +5,7 @@
  *
  * @category    Apparat
  * @package     Apparat\Resource
- * @subpackage  Apparat\Resource\Tests
+ * @subpackage  Apparat\Resource\Infrastructure
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
@@ -17,7 +17,7 @@
  *  Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
- *  this software and associated documentation Fixture (the "Software"), to deal in
+ *  this software and associated documentation files (the "Software"), to deal in
  *  the Software without restriction, including without limitation the rights to
  *  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  *  the Software, and to permit persons to whom the Software is furnished to do so,
@@ -34,22 +34,39 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Tests;
+namespace Apparat\Resource\Infrastructure\Model\Resource;
 
-use Apparat\Resource\Infrastructure\Model\Hydrator\FrontMarkHydrator;
+use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
+use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
 
 /**
- * Mocked FrontMark hydrator
+ * Data resource convenience methods
  *
  * @package     Apparat\Resource
- * @subpackage  Apparat\Resource\Tests
+ * @subpackage  Apparat\Resource\Infrastructure
+ * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the resource
+ * @method AbstractSinglePartResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the resource
  */
-class FrontMarkHydratorMock extends FrontMarkHydrator
+trait DataResourceTrait
 {
     /**
-     * Part aggregate class name
+     * Return the unserialized sole data content
      *
-     * @var string
+     * @return array Unserialized data content
      */
-    protected $aggregateClass = PartSequenceMock::class;
+    public function getData()
+    {
+        return $this->getDataPart('/');
+    }
+
+    /**
+     * Set the sole data content
+     *
+     * @param array $data New data
+     * @return AbstractContentPart Self reference
+     */
+    public function setData(array $data)
+    {
+        return $this->setDataPart($data, '/');
+    }
 }

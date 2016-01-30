@@ -37,10 +37,10 @@
 namespace Apparat\Resource\Tests {
 
     use Apparat\Kernel\Tests\AbstractTest;
-    use Apparat\Resource\Framework\Api\InvalidArgumentException;
-    use Apparat\Resource\Framework\Api\Tools;
-    use Apparat\Resource\Framework\Io\InMemory\Writer;
-    use Apparat\Resource\Framework\Service\RuntimeException;
+    use Apparat\Resource\Ports\InvalidArgumentException;
+    use Apparat\Resource\Ports\Tools;
+    use Apparat\Resource\Infrastructure\Io\InMemory\Writer;
+    use Apparat\Resource\Infrastructure\Service\RuntimeException;
 
     /**
      * I/O handler test
@@ -260,7 +260,7 @@ namespace Apparat\Resource\Tests {
     }
 }
 
-namespace Apparat\Resource\Framework\Service {
+namespace Apparat\Resource\Infrastructure\Service {
 
     /**
      * Mocked version of the native copy() function

@@ -38,11 +38,11 @@ namespace Apparat\Resource\Tests;
 
 use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Resource\AbstractResource;
-use Apparat\Resource\Framework\Io\InMemory\Reader;
-use Apparat\Resource\Framework\Model\Hydrator\CommonMarkHydrator;
-use Apparat\Resource\Framework\Model\Hydrator\FrontMatterHydrator;
-use Apparat\Resource\Framework\Model\Hydrator\JsonHydrator;
-use Apparat\Resource\Framework\Model\Hydrator\YamlHydrator;
+use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
+use Apparat\Resource\Infrastructure\Model\Hydrator\CommonMarkHydrator;
+use Apparat\Resource\Infrastructure\Model\Hydrator\FrontMatterHydrator;
+use Apparat\Resource\Infrastructure\Model\Hydrator\JsonHydrator;
+use Apparat\Resource\Infrastructure\Model\Hydrator\YamlHydrator;
 
 /**
  * Mocked FrontMark file

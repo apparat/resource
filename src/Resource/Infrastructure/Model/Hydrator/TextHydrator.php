@@ -5,7 +5,7 @@
  *
  * @category    Apparat
  * @package     Apparat\Resource
- * @subpackage  Apparat\Resource\Tests
+ * @subpackage  Apparat\Resource\Infrastructure
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
@@ -17,7 +17,7 @@
  *  Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy of
- *  this software and associated documentation Fixture (the "Software"), to deal in
+ *  this software and associated documentation files (the "Software"), to deal in
  *  the Software without restriction, including without limitation the rights to
  *  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  *  the Software, and to permit persons to whom the Software is furnished to do so,
@@ -34,22 +34,40 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Tests;
+namespace Apparat\Resource\Infrastructure\Model\Hydrator;
 
-use Apparat\Resource\Infrastructure\Model\Hydrator\FrontMarkHydrator;
+use Apparat\Resource\Domain\Model\Hydrator\AbstractSinglepartHydrator;
+use Apparat\Resource\Domain\Model\Part\PartInterface;
+use Apparat\Resource\Infrastructure\Model\Part\TextPart;
 
 /**
- * Mocked FrontMark hydrator
+ * Text part hydrator
  *
  * @package     Apparat\Resource
- * @subpackage  Apparat\Resource\Tests
+ * @subpackage  Apparat\Resource\Infrastructure
  */
-class FrontMarkHydratorMock extends FrontMarkHydrator
+class TextHydrator extends AbstractSinglepartHydrator
 {
+
     /**
-     * Part aggregate class name
+     * Serialize a resource part
      *
-     * @var string
+     * @param PartInterface $part Resource part
+     * @return string Serialized resource part
      */
-    protected $aggregateClass = PartSequenceMock::class;
+    public function dehydrate(PartInterface $part)
+    {
+        return strval($part);
+    }
+
+    /**
+     * Translate data to a text resource part
+     *
+     * @param string $data Part data
+     * @return TextPart Text resource part
+     */
+    public function hydrate($data)
+    {
+        return new TextPart($this, $data);
+    }
 }

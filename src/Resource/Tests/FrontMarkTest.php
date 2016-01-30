@@ -41,11 +41,11 @@ use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;
 use Apparat\Resource\Domain\Model\Part\OutOfBoundsException;
 use Apparat\Resource\Domain\Model\Part\PartChoice;
-use Apparat\Resource\Framework\Io\InMemory\Reader;
-use Apparat\Resource\Framework\Model\Hydrator\FrontMatterHydrator;
-use Apparat\Resource\Framework\Model\Hydrator\JsonHydrator;
-use Apparat\Resource\Framework\Model\Hydrator\YamlHydrator;
-use Apparat\Resource\Framework\Model\Resource\FrontMarkResource;
+use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
+use Apparat\Resource\Infrastructure\Model\Hydrator\FrontMatterHydrator;
+use Apparat\Resource\Infrastructure\Model\Hydrator\JsonHydrator;
+use Apparat\Resource\Infrastructure\Model\Hydrator\YamlHydrator;
+use Apparat\Resource\Infrastructure\Model\Resource\FrontMarkResource;
 use Symfony\Component\Yaml\Yaml;
 
 /**
