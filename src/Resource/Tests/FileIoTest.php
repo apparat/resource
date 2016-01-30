@@ -5,7 +5,7 @@
  *
  * @category    Apparat
  * @package     Apparat\Resource
- * @subpackage  Apparat\Resource\Framework
+ * @subpackage  Apparat\Resource\Tests
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
@@ -34,7 +34,7 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace ApparatTest {
+namespace Apparat\Resource\Tests {
 
     use Apparat\Kernel\Tests\AbstractTest;
     use Apparat\Resource\Framework\Io\File\InvalidArgumentException;
@@ -47,7 +47,7 @@ namespace ApparatTest {
      * FileIo tests
      *
      * @package     Apparat\Resource
-     * @subpackage  Apparat\Resource\Framework
+     * @subpackage  Apparat\Resource\Tests
      */
     class FileIoTest extends AbstractTest
     {

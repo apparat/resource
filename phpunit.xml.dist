@@ -1,7 +1,7 @@
 <phpunit bootstrap="./phpunit.php">
     <testsuites>
         <testsuite>
-            <directory>./src/Resource/Framework/Test</directory>
+            <directory>./src/Resource/Tests</directory>
         </testsuite>
     </testsuites>
 
@@ -13,7 +13,7 @@
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src</directory>
             <exclude>
-                <directory suffix=".php">src/Resource/Framework/Test</directory>
+                <directory suffix=".php">src/Resource/Tests</directory>
             </exclude>
         </whitelist>
     </filter>

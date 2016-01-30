@@ -5,7 +5,7 @@
  *
  * @category    Apparat
  * @package     Apparat\Resource
- * @subpackage  Apparat\Resource\Framework
+ * @subpackage  Apparat\Resource\Tests
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT The MIT License (MIT)

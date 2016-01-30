@@ -5,7 +5,7 @@
  *
  * @category    Apparat
  * @package     Apparat\Resource
- * @subpackage  Apparat\Resource\Framework
+ * @subpackage  Apparat\Resource\Tests
  * @author      Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @copyright   Copyright © 2016 Joschi Kuphal <joschi@kuphal.net> / @jkphl
  * @license     http://opensource.org/licenses/MIT The MIT License (MIT)
@@ -34,56 +34,18 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace ApparatTest;
-
-use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
-use Apparat\Resource\Domain\Model\Resource\AbstractResource;
-use Apparat\Resource\Framework\Io\InMemory\Reader;
-use Apparat\Resource\Framework\Model\Hydrator\CommonMarkHydrator;
-use Apparat\Resource\Framework\Model\Hydrator\FrontMatterHydrator;
-use Apparat\Resource\Framework\Model\Hydrator\JsonHydrator;
-use Apparat\Resource\Framework\Model\Hydrator\YamlHydrator;
+namespace Apparat\Resource\Tests;
 
 /**
- * Mocked FrontMark file
+ * Sequence hydrator mock
  *
  * @package     Apparat\Resource
- * @subpackage  Apparat\Resource\Framework
+ * @subpackage  Apparat\Resource\Tests
  */
-class FrontMarkResourceMock extends AbstractResource
+class AbstractSequenceHydrator extends \Apparat\Resource\Domain\Model\Hydrator\AbstractSequenceHydrator
 {
     /**
-     * FrontMark file constructor
-     *
-     * @param Reader $reader Reader instance
+     * Use multipart hydrator mock methods
      */
-    public function __construct(Reader $reader = null)
-    {
-        parent::__construct(
-            array(
-                [
-                    FrontMatterHydrator::FRONTMATTER => [
-                        [
-                            JsonHydrator::JSON => JsonHydrator::class,
-                            YamlHydrator::YAML => YamlHydrator::class
-                        ],
-                        FrontMatterHydrator::class
-                    ],
-                    HydratorInterface::STANDARD => CommonMarkHydrator::class,
-                ],
-                FrontMarkHydratorMock::class
-            ),
-            $reader
-        );
-    }
-
-    /**
-     * Invalidate the CommonMark part
-     */
-    public function invalidateCommonMarkPart()
-    {
-        /** @var PartSequenceMock $sequence */
-        $sequence = $this->part();
-        $sequence->invalidateCommonMarkPart();
-    }
+    use AggregateHydratorMockTrait;
 }

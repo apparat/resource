@@ -33,10 +33,5 @@
     "psr-4": {
       "Apparat\\": "src/"
     }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "ApparatTest\\": "src/Resource/Framework/Test"
-    }
   }
 }
