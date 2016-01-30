@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Infrastructure\Model\Part;
 
+use Apparat\Kernel\Tests\Kernel;
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
 use League\CommonMark\HtmlRenderer;
@@ -66,8 +67,8 @@ class CommonMarkPart extends TextPart
 
         if (strlen($this->content)) {
             $environment = $this->environment();
-            $parser = new DocParser($environment);
-            $renderer = new HtmlRenderer($environment);
+            $parser = Kernel::create(DocParser::class, [$environment]);
+            $renderer = Kernel::create(HtmlRenderer::class, [$environment]);
             $html = $renderer->renderBlock($parser->parse($this->content));
         }
 
@@ -105,6 +106,6 @@ class CommonMarkPart extends TextPart
     protected function initializeEnvironment(Environment $environment)
     {
         // Optional: Add your own parsers/renderers here, if desired
-        // For example:  $environment->addInlineParser(new TwitterHandleParser());
+        // For example:  $environment->addInlineParser(Kernel::create(TwitterHandleParser::class));
     }
 }

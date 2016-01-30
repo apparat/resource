@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Tests;
 
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Kernel\Tests\AbstractTest;
 use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
 use Apparat\Resource\Infrastructure\Model\Part\YamlPart;
@@ -85,7 +86,7 @@ class YamlTest extends AbstractTest
      */
     public function testYamlResource()
     {
-        $yamlResource = new YamlResource();
+        $yamlResource = Kernel::create(YamlResource::class, [null]);
         $this->assertInstanceOf(YamlResource::class, $yamlResource);
         $this->assertEquals(YamlPart::MIME_TYPE, $yamlResource->getMimeTypePart());
     }
@@ -95,7 +96,7 @@ class YamlTest extends AbstractTest
      */
     public function testYamlResourceReader()
     {
-        $yamlResource = new YamlResource(new Reader($this->yaml));
+        $yamlResource = Kernel::create(YamlResource::class, [Kernel::create(Reader::class, [$this->yaml])]);
         $this->assertEquals($this->yaml, $yamlResource->getPart());
     }
 
@@ -107,7 +108,7 @@ class YamlTest extends AbstractTest
      */
     public function testYamlResourceHtmlSubparts()
     {
-        $yamlResource = new YamlResource(new Reader($this->yaml));
+        $yamlResource = Kernel::create(YamlResource::class, [Kernel::create(Reader::class, [$this->yaml])]);
         $yamlResource->getDataPart('a/b/c');
     }
 
@@ -117,7 +118,7 @@ class YamlTest extends AbstractTest
     public function testYamlResourceGetData()
     {
         $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
-        $yamlResource = new YamlResource(new Reader($this->yaml));
+        $yamlResource = Kernel::create(YamlResource::class, [Kernel::create(Reader::class, [$this->yaml])]);
         $this->assertArrayEquals($expectedData, $yamlResource->getDataPart());
         $this->assertArrayEquals($expectedData, $yamlResource->getData());
     }
@@ -139,7 +140,7 @@ class YamlTest extends AbstractTest
             'price' => 123
         ];
         unset($expectedData['comments']);
-        $yamlResource = new YamlResource(new Reader($this->yaml));
+        $yamlResource = Kernel::create(YamlResource::class, [Kernel::create(Reader::class, [$this->yaml])]);
         $yamlResource->setDataPart($expectedData);
         $this->assertArrayEquals($expectedData, $yamlResource->getDataPart());
     }
@@ -161,7 +162,7 @@ class YamlTest extends AbstractTest
             'price' => 123
         ];
         unset($expectedData['comments']);
-        $yamlResource = new YamlResource(new Reader($this->yaml));
+        $yamlResource = Kernel::create(YamlResource::class, [Kernel::create(Reader::class, [$this->yaml])]);
         $yamlResource->setData($expectedData);
         $this->assertArrayEquals($expectedData, $yamlResource->getData());
     }

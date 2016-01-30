@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Ports;
 
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Resource\Domain\Contract\ReaderInterface;
 use Apparat\Resource\Domain\Model\Resource\AbstractResource;
 use Apparat\Resource\Infrastructure\Model\Resource\CommonMarkResource;
@@ -135,7 +136,7 @@ class Resource
     {
         $reader = Tools::reader($src, $parameters);
         if ($reader instanceof ReaderInterface) {
-            return new $resourceClass($reader);
+            return Kernel::create($resourceClass, [$reader]);
         }
 
         throw new InvalidArgumentException(

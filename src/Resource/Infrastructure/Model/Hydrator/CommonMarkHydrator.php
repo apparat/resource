@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Infrastructure\Model\Hydrator;
 
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Resource\Infrastructure\Model\Part\CommonMarkPart;
 
 /**
@@ -54,6 +55,6 @@ class CommonMarkHydrator extends TextHydrator
      */
     public function hydrate($data)
     {
-        return new CommonMarkPart($this, $data);
+        return Kernel::create(CommonMarkPart::class, [$this, $data]);
     }
 }

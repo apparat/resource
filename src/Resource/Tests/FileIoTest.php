@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Tests {
 
+    use Apparat\Kernel\Ports\Kernel;
     use Apparat\Kernel\Tests\AbstractTest;
     use Apparat\Resource\Infrastructure\Io\File\InvalidArgumentException;
     use Apparat\Resource\Infrastructure\Io\File\Reader;
@@ -52,27 +53,17 @@ namespace Apparat\Resource\Tests {
     class FileIoTest extends AbstractTest
     {
         /**
-         * Example text data
-         *
-         * @var string
-         */
-        protected $text = null;
-
-        /**
          * Example text file
          *
          * @var string
          */
         const TXT_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'cc0.txt';
-
         /**
-         * Sets up the fixture
+         * Example text data
+         *
+         * @var string
          */
-        protected function setUp()
-        {
-            parent::setUp();
-            $this->text = file_get_contents(self::TXT_FILE);
-        }
+        protected $text = null;
 
         /**
          * Test the file reader with an invalid file path
@@ -82,7 +73,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileReaderWithInvalidFilepath()
         {
-            new Reader(self::TXT_FILE.'_invalid');
+            Kernel::create(Reader::class, [self::TXT_FILE.'_invalid']);
         }
 
         /**
@@ -93,7 +84,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileReaderWithDirectory()
         {
-            new Reader(dirname(self::TXT_FILE));
+            Kernel::create(Reader::class, [dirname(self::TXT_FILE)]);
         }
 
         /**
@@ -105,7 +96,7 @@ namespace Apparat\Resource\Tests {
         public function testFileReaderWithUnreadableFile()
         {
             $GLOBALS['mockIsReadable'] = true;
-            new Reader(self::TXT_FILE);
+            Kernel::create(Reader::class, [self::TXT_FILE]);
             unset($GLOBALS['mockIsReadable']);
         }
 
@@ -114,10 +105,10 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileReader()
         {
-            $fileReader = new Reader(self::TXT_FILE);
+            $fileReader = Kernel::create(Reader::class, [self::TXT_FILE]);
             $this->assertInstanceOf(Reader::class, $fileReader);
-            $textReource = new TextResource($fileReader);
-            $inMemoryWriter = new \Apparat\Resource\Infrastructure\Io\InMemory\Writer();
+            $textReource = Kernel::create(TextResource::class, [$fileReader]);
+            $inMemoryWriter = Kernel::create(\Apparat\Resource\Infrastructure\Io\InMemory\Writer::class);
             $textReource->dump($inMemoryWriter);
             $this->assertEquals($this->text, $inMemoryWriter->getData());
         }
@@ -130,7 +121,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileWriterWithInvalidOptions()
         {
-            new \Apparat\Resource\Infrastructure\Io\File\Writer(self::TXT_FILE, pow(2, 10));
+            Kernel::create(\Apparat\Resource\Infrastructure\Io\File\Writer::class, [self::TXT_FILE, pow(2, 10)]);
         }
 
         /**
@@ -141,7 +132,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileWriterWithNonCreatableFile()
         {
-            new \Apparat\Resource\Infrastructure\Io\File\Writer(self::TXT_FILE.'_new', 0);
+            Kernel::create(\Apparat\Resource\Infrastructure\Io\File\Writer::class, [self::TXT_FILE.'_new', 0]);
         }
 
         /**
@@ -152,7 +143,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileWriterWithNonOverwriteableFile()
         {
-            new \Apparat\Resource\Infrastructure\Io\File\Writer(self::TXT_FILE, 0);
+            Kernel::create(\Apparat\Resource\Infrastructure\Io\File\Writer::class, [self::TXT_FILE, 0]);
         }
 
         /**
@@ -164,7 +155,9 @@ namespace Apparat\Resource\Tests {
         public function testFileWriterWithNonWriteableFile()
         {
             $GLOBALS['mockIsWriteable'] = true;
-            new \Apparat\Resource\Infrastructure\Io\File\Writer(self::TXT_FILE, Writer::FILE_OVERWRITE);
+            Kernel::create(
+                \Apparat\Resource\Infrastructure\Io\File\Writer::class, [self::TXT_FILE, Writer::FILE_OVERWRITE]
+            );
             unset($GLOBALS['mockIsWriteable']);
         }
 
@@ -173,9 +166,12 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileWriterWithCreatedFile()
         {
-            $textReource = new TextResource(new \Apparat\Resource\Infrastructure\Io\InMemory\Reader($this->text));
+            $textReource = Kernel::create(
+                TextResource::class,
+                [Kernel::create(\Apparat\Resource\Infrastructure\Io\InMemory\Reader::class, [$this->text])]
+            );
             $tempFile = $this->createTemporaryFileName();
-            $textReource->dump(new Writer($tempFile, Writer::FILE_CREATE));
+            $textReource->dump(Kernel::create(Writer::class, [$tempFile, Writer::FILE_CREATE]));
             $this->assertFileEquals(self::TXT_FILE, $tempFile);
         }
 
@@ -184,9 +180,12 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileWriterWithOverwrittenFile()
         {
-            $textReource = new TextResource(new \Apparat\Resource\Infrastructure\Io\InMemory\Reader($this->text));
+            $textReource = Kernel::create(
+                TextResource::class,
+                [Kernel::create(\Apparat\Resource\Infrastructure\Io\InMemory\Reader::class, [$this->text])]
+            );
             $tempFile = $this->createTemporaryFile();
-            $textReource->dump(new Writer($tempFile, Writer::FILE_OVERWRITE));
+            $textReource->dump(Kernel::create(Writer::class, [$tempFile, Writer::FILE_OVERWRITE]));
             $this->assertFileEquals(self::TXT_FILE, $tempFile);
         }
 
@@ -198,10 +197,19 @@ namespace Apparat\Resource\Tests {
             $tempFile = $this->createTemporaryFileName();
             copy(self::TXT_FILE, $tempFile);
             $randomAppend = md5(rand());
-            $fileReaderWriter = new ReaderWriter($tempFile);
-            $textReource = new TextResource($fileReaderWriter);
+            $fileReaderWriter = Kernel::create(ReaderWriter::class, [$tempFile]);
+            $textReource = Kernel::create(TextResource::class, [$fileReaderWriter]);
             $textReource->appendPart($randomAppend)->dump($fileReaderWriter);
             $this->assertStringEqualsFile($tempFile, $this->text.$randomAppend);
+        }
+
+        /**
+         * Sets up the fixture
+         */
+        protected function setUp()
+        {
+            parent::setUp();
+            $this->text = file_get_contents(self::TXT_FILE);
         }
     }
 }

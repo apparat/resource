@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Domain\Model\Part;
 
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Resource\Domain\Model\Hydrator\AbstractSinglepartHydrator;
 
 /**
@@ -102,7 +103,7 @@ abstract class AbstractContentPart extends AbstractPart
     public function set($data, array $subparts = [])
     {
         $class = get_class($this);
-        return new $class($this->hydrator, $data);
+        return Kernel::create($class, [$this->hydrator, $data]);
     }
 
     /**

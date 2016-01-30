@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Ports;
 
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Resource\Domain\Contract\ReaderInterface;
 use Apparat\Resource\Domain\Contract\WriterInterface;
 use Apparat\Resource\Infrastructure\Io\File\AbstractFileReaderWriter;
@@ -93,8 +94,8 @@ class Tools
 
             // If this wrapper is used: Instantiate the reader and resource
             if ($wrapperLength ? !strncmp($wrapper, $src, $wrapperLength) : !preg_match("%^[a-z0-9\.]+\:\/\/%", $src)) {
-                $src = substr($src, $wrapperLength);
-                $reader = new $readerClass($src, ...$parameters);
+                array_unshift($parameters, substr($src, $wrapperLength));
+                $reader = Kernel::create($readerClass, $parameters);
                 break;
             }
         }
@@ -123,8 +124,8 @@ class Tools
                 $target
             )
             ) {
-                $target = substr($target, $wrapperLength);
-                $writer = new $writerClass($target, ...$parameters);
+                array_unshift($parameters, substr($target, $wrapperLength));
+                $writer = Kernel::create($writerClass, $parameters);
                 break;
             }
         }
@@ -144,8 +145,8 @@ class Tools
     {
         $reader = self::reader($src, $parameters);
         if ($reader instanceof ReaderInterface) {
-            return new Copy($reader);
-        }
+            return Kernel::create(Copy::class, [$reader]);
+    }
 
         throw new InvalidArgumentException(
             'Invalid reader stream wrapper',
@@ -165,7 +166,7 @@ class Tools
     {
         $reader = self::reader($src, $parameters);
         if ($reader instanceof ReaderInterface) {
-            return new Move($reader);
+            return Kernel::create(Move::class, [$reader]);
         }
 
         throw new InvalidArgumentException(
@@ -186,7 +187,8 @@ class Tools
     {
         $reader = self::reader($src, $parameters);
         if ($reader instanceof ReaderInterface) {
-            $deleter = new Delete($reader);
+            /** @var Delete $deleter */
+            $deleter = Kernel::create(Delete::class, [$reader]);
             return $deleter();
         }
 

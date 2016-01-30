@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Infrastructure\Model\Hydrator;
 
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Resource\Domain\Model\Hydrator\AbstractSinglepartHydrator;
 use Apparat\Resource\Domain\Model\Part\PartInterface;
 use Apparat\Resource\Infrastructure\Model\Part\TextPart;
@@ -68,6 +69,6 @@ class TextHydrator extends AbstractSinglepartHydrator
      */
     public function hydrate($data)
     {
-        return new TextPart($this, $data);
+        return Kernel::create(TextPart::class, [$this, $data]);
     }
 }

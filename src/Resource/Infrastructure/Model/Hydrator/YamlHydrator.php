@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Infrastructure\Model\Hydrator;
 
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Resource\Infrastructure\Model\Part\YamlPart;
 
 /**
@@ -61,6 +62,6 @@ class YamlHydrator extends TextHydrator
      */
     public function hydrate($data)
     {
-        return new YamlPart($this, $data);
+        return Kernel::create(YamlPart::class, [$this, $data]);
     }
 }

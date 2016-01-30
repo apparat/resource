@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Tests;
 
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Kernel\Tests\AbstractTest;
 use Apparat\Resource\Domain\Factory\HydratorFactory;
 use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
@@ -219,6 +220,9 @@ class HydratorTest extends AbstractTest
      */
     public function testMultipartHydratorDehydrationOfInvalidPart()
     {
+        /** @var TextPart $textPart */
+        $textPart = Kernel::create(TextPart::class, [Kernel::create(TextHydrator::class, ['name']), '']);
+
         /** @var AbstractSequenceHydrator $sequenceHydrator */
         $sequenceHydrator = HydratorFactory::build(
             [
@@ -228,7 +232,8 @@ class HydratorTest extends AbstractTest
                 1
             ]
         );
-        $sequenceHydrator->dehydrate(new TextPart(new TextHydrator('name'), ''));
+
+        $sequenceHydrator->dehydrate($textPart);
     }
 
     /**

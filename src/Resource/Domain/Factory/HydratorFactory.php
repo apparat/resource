@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Domain\Factory;
 
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Resource\Domain\Model\Hydrator\AbstractMultipartHydrator;
 use Apparat\Resource\Domain\Model\Hydrator\AbstractSinglepartHydrator;
 use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
@@ -137,7 +138,7 @@ class HydratorFactory
             $multipartHydrator = trim($config[1]);
             $multipartHydratorParameters = array_slice($config, 2);
             array_unshift($multipartHydratorParameters, $config[0]);
-            return new $multipartHydrator(...$multipartHydratorParameters);
+            return Kernel::create($multipartHydrator, $multipartHydratorParameters);
 
             // Else
         } else {
@@ -157,7 +158,7 @@ class HydratorFactory
             }
 
             // Instantiate the simple hydrator
-            return new $singlepartHydrator($singlepartName);
+            return Kernel::create($singlepartHydrator, [$singlepartName]);
         }
     }
 }

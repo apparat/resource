@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Domain\Model\Hydrator;
 
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Resource\Domain\Factory\HydratorFactory;
 use Apparat\Resource\Domain\Model\Part\AbstractPart;
 use Apparat\Resource\Domain\Model\Part\AbstractPartAggregate;
@@ -173,11 +174,14 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
             );
         }
 
-        return new $this->aggregateClass(
-            $this,
-            $this->subhydrators,
-            $this->minimumOccurrences,
-            $this->maximumOccurrences
+        return Kernel::create(
+            $this->aggregateClass,
+            [
+                $this,
+                $this->subhydrators,
+                $this->minimumOccurrences,
+                $this->maximumOccurrences
+            ]
         );
     }
 

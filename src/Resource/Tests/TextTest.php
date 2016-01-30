@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Tests;
 
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Kernel\Tests\AbstractTest;
 use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;
 use Apparat\Resource\Domain\Model\Resource\RuntimeException;
@@ -81,7 +82,7 @@ class TextTest extends AbstractTest
      */
     public function testTextResource()
     {
-        $textReource = new TextResource();
+        $textReource = Kernel::create(TextResource::class, [null]);
         $this->assertInstanceOf(TextResource::class, $textReource);
         $this->assertEquals(TextPart::MIME_TYPE, $textReource->getMimeTypePart());
     }
@@ -91,7 +92,7 @@ class TextTest extends AbstractTest
      */
     public function testTextResourceReader()
     {
-        $textReource = new TextResource(new Reader($this->text));
+        $textReource = Kernel::create(TextResource::class, [Kernel::create(Reader::class, [$this->text])]);
         $this->assertEquals($this->text, $textReource->getPart());
     }
 
@@ -100,8 +101,8 @@ class TextTest extends AbstractTest
      */
     public function testTextResourceLoad()
     {
-        $textReource = new TextResource();
-        $textReource->load(new Reader($this->text));
+        $textReource = Kernel::create(TextResource::class, [null]);
+        $textReource->load(Kernel::create(Reader::class, [$this->text]));
         $this->assertEquals($this->text, $textReource->getPart());
     }
 
@@ -113,7 +114,7 @@ class TextTest extends AbstractTest
      */
     public function testTextResourceInvalidMethod()
     {
-        $textReource = new TextResource();
+        $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->undefinedMethod();
     }
 
@@ -123,7 +124,7 @@ class TextTest extends AbstractTest
     public function testTextResourceSetPart()
     {
         $randomSet = md5(rand());
-        $textReource = new TextResource();
+        $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->setPart($randomSet);
         $this->assertEquals($randomSet, $textReource->getPart());
     }
@@ -134,7 +135,7 @@ class TextTest extends AbstractTest
     public function testTextResourceSet()
     {
         $randomSet = md5(rand());
-        $textReource = new TextResource();
+        $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->set($randomSet);
         $this->assertEquals($randomSet, $textReource->getPart());
     }
@@ -144,7 +145,7 @@ class TextTest extends AbstractTest
      */
     public function testTextResourceGet()
     {
-        $textReource = new TextResource(new Reader($this->text));
+        $textReource = Kernel::create(TextResource::class, [Kernel::create(Reader::class, [$this->text])]);
         $this->assertEquals($this->text, $textReource->get());
     }
 
@@ -155,7 +156,7 @@ class TextTest extends AbstractTest
     {
         $randomSet = md5(rand());
         $randomAppend = md5(rand());
-        $textReource = new TextResource();
+        $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->setPart($randomSet)->appendPart($randomAppend);
         $this->assertEquals($randomSet.$randomAppend, $textReource->getPart());
     }
@@ -167,7 +168,7 @@ class TextTest extends AbstractTest
     {
         $randomSet = md5(rand());
         $randomAppend = md5(rand());
-        $textReource = new TextResource();
+        $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->set($randomSet)->append($randomAppend);
         $this->assertEquals($randomSet.$randomAppend, $textReource->get());
     }
@@ -179,7 +180,7 @@ class TextTest extends AbstractTest
     {
         $randomSet = md5(rand());
         $randomPrepend = md5(rand());
-        $textReource = new TextResource();
+        $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->setPart($randomSet)->prependPart($randomPrepend);
         $this->assertEquals($randomPrepend.$randomSet, $textReource->getPart());
     }
@@ -192,7 +193,7 @@ class TextTest extends AbstractTest
     {
         $randomSet = md5(rand());
         $randomPrepend = md5(rand());
-        $textReource = new TextResource();
+        $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->set($randomSet)->prepend($randomPrepend);
         $this->assertEquals($randomPrepend.$randomSet, $textReource->get());
     }
@@ -205,7 +206,7 @@ class TextTest extends AbstractTest
      */
     public function testTextResourceInvalidPathIdentifier()
     {
-        $textReource = new TextResource();
+        $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->getPart('-');
     }
 
@@ -217,7 +218,7 @@ class TextTest extends AbstractTest
      */
     public function testTextResourceAppendSubparts()
     {
-        $textReource = new TextResource();
+        $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->appendPart(md5(rand()), 'a/b/c');
     }
 
@@ -229,7 +230,7 @@ class TextTest extends AbstractTest
      */
     public function testTextResourcePrependSubparts()
     {
-        $textReource = new TextResource();
+        $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->prependPart(md5(rand()), 'a/b/c');
     }
 
@@ -241,7 +242,7 @@ class TextTest extends AbstractTest
      */
     public function testTextResourceMimeTypeSubparts()
     {
-        $textReource = new TextResource();
+        $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->getMimeTypePart('a/b/c');
     }
 
@@ -251,8 +252,8 @@ class TextTest extends AbstractTest
     public function testTextResourceDump()
     {
         $randomSet = md5(rand());
-        $writer = new Writer();
-        $textReource = new TextResource();
+        $writer = Kernel::create(Writer::class);
+        $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->setPart($randomSet)->dump($writer);
         $this->assertEquals($randomSet, $writer->getData());
     }
@@ -263,8 +264,8 @@ class TextTest extends AbstractTest
     public function testTextResourceReaderWriter()
     {
         $randomAppend = md5(rand());
-        $readerWriter = new ReaderWriter($this->text);
-        $textReource = new TextResource($readerWriter);
+        $readerWriter = Kernel::create(ReaderWriter::class, [$this->text]);
+        $textReource = Kernel::create(TextResource::class, [$readerWriter]);
         $textReource->appendPart($randomAppend)->dump($readerWriter);
         $this->assertEquals($this->text.$randomAppend, $readerWriter->getData());
     }

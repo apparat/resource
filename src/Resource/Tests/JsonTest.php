@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Tests;
 
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Kernel\Tests\AbstractTest;
 use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
 use Apparat\Resource\Infrastructure\Model\Part\JsonPart;
@@ -85,7 +86,7 @@ class JsonTest extends AbstractTest
      */
     public function testJsonResource()
     {
-        $jsonResource = new JsonResource();
+        $jsonResource = Kernel::create(JsonResource::class, [null]);
         $this->assertInstanceOf(JsonResource::class, $jsonResource);
         $this->assertEquals(JsonPart::MIME_TYPE, $jsonResource->getMimeTypePart());
     }
@@ -95,7 +96,7 @@ class JsonTest extends AbstractTest
      */
     public function testJsonResourceReader()
     {
-        $jsonResource = new JsonResource(new Reader($this->json));
+        $jsonResource = Kernel::create(JsonResource::class, [Kernel::create(Reader::class, [$this->json])]);
         $this->assertEquals($this->json, $jsonResource->getPart());
     }
 
@@ -107,7 +108,7 @@ class JsonTest extends AbstractTest
      */
     public function testJsonResourceHtmlSubparts()
     {
-        $jsonResource = new JsonResource(new Reader($this->json));
+        $jsonResource = Kernel::create(JsonResource::class, [Kernel::create(Reader::class, [$this->json])]);
         $jsonResource->getDataPart('a/b/c');
     }
 
@@ -117,7 +118,7 @@ class JsonTest extends AbstractTest
     public function testJsonResourceGetData()
     {
         $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
-        $jsonResource = new JsonResource(new Reader($this->json));
+        $jsonResource = Kernel::create(JsonResource::class, [Kernel::create(Reader::class, [$this->json])]);
         $this->assertArrayEquals($expectedData, $jsonResource->getDataPart());
     }
 
@@ -138,7 +139,7 @@ class JsonTest extends AbstractTest
             'price' => 123
         ];
         unset($expectedData['comments']);
-        $jsonResource = new JsonResource(new Reader($this->json));
+        $jsonResource = Kernel::create(JsonResource::class, [Kernel::create(Reader::class, [$this->json])]);
         $jsonResource->setDataPart($expectedData);
         $this->assertArrayEquals($expectedData, $jsonResource->getDataPart());
     }

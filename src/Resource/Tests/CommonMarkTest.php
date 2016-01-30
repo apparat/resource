@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Tests;
 
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Kernel\Tests\AbstractTest;
 use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
 use Apparat\Resource\Infrastructure\Model\Part\CommonMarkPart;
@@ -77,7 +78,7 @@ class CommonMarkTest extends AbstractTest
      */
     public function testCommonMarkResource()
     {
-        $commonMarkResource = new CommonMarkResource();
+        $commonMarkResource = Kernel::create(CommonMarkResource::class, [null]);
         $this->assertInstanceOf(CommonMarkResource::class, $commonMarkResource);
         $this->assertEquals(CommonMarkPart::MIME_TYPE, $commonMarkResource->getMimeTypePart());
     }
@@ -87,7 +88,9 @@ class CommonMarkTest extends AbstractTest
      */
     public function testCommonMarkResourceReader()
     {
-        $commonMarkResource = new CommonMarkResource(new Reader($this->commonMark));
+        $commonMarkResource = Kernel::create(
+            CommonMarkResource::class, [Kernel::create(Reader::class, [$this->commonMark])]
+        );
         $this->assertEquals($this->commonMark, $commonMarkResource->getPart());
     }
 
@@ -97,7 +100,7 @@ class CommonMarkTest extends AbstractTest
     public function testCommonMarkResourceSet()
     {
         $randomSet = md5(rand());
-        $commonMarkResource = new CommonMarkResource();
+        $commonMarkResource = Kernel::create(CommonMarkResource::class, [null]);
         $commonMarkResource->setPart($randomSet);
         $this->assertEquals($randomSet, $commonMarkResource->getPart());
     }
@@ -109,7 +112,7 @@ class CommonMarkTest extends AbstractTest
     {
         $randomSet = md5(rand());
         $randomAppend = md5(rand());
-        $commonMarkResource = new CommonMarkResource();
+        $commonMarkResource = Kernel::create(CommonMarkResource::class, [null]);
         $commonMarkResource->setPart($randomSet)->appendPart($randomAppend);
         $this->assertEquals($randomSet.$randomAppend, $commonMarkResource->getPart());
     }
@@ -121,7 +124,7 @@ class CommonMarkTest extends AbstractTest
     {
         $randomSet = md5(rand());
         $randomPrepend = md5(rand());
-        $commonMarkResource = new CommonMarkResource();
+        $commonMarkResource = Kernel::create(CommonMarkResource::class, [null]);
         $commonMarkResource->setPart($randomSet)->prependPart($randomPrepend);
         $this->assertEquals($randomPrepend.$randomSet, $commonMarkResource->getPart());
     }
@@ -134,7 +137,9 @@ class CommonMarkTest extends AbstractTest
      */
     public function testCommonMarkResourceHtmlSubparts()
     {
-        $commonMarkResource = new CommonMarkResource(new Reader($this->commonMark));
+        $commonMarkResource = Kernel::create(
+            CommonMarkResource::class, [Kernel::create(Reader::class, [$this->commonMark])]
+        );
         $commonMarkResource->getHtmlPart('a/b/c');
     }
 
@@ -146,7 +151,9 @@ class CommonMarkTest extends AbstractTest
         $expectedHtml = $this->normalizeHtml(
             file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
         );
-        $commonMarkResource = new CommonMarkResource(new Reader($this->commonMark));
+        $commonMarkResource = Kernel::create(
+            CommonMarkResource::class, [Kernel::create(Reader::class, [$this->commonMark])]
+        );
         $this->assertEquals($expectedHtml, $this->normalizeHtml($commonMarkResource->getHtmlPart()));
     }
 
@@ -158,7 +165,9 @@ class CommonMarkTest extends AbstractTest
         $expectedHtml = $this->normalizeHtml(
             file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
         );
-        $commonMarkResource = new CommonMarkResource(new Reader($this->commonMark));
+        $commonMarkResource = Kernel::create(
+            CommonMarkResource::class, [Kernel::create(Reader::class, [$this->commonMark])]
+        );
         $this->assertEquals($expectedHtml, $this->normalizeHtml($commonMarkResource->getHtml()));
     }
 }

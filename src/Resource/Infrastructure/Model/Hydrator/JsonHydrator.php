@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Infrastructure\Model\Hydrator;
 
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Resource\Infrastructure\Model\Part\JsonPart;
 
 /**
@@ -61,6 +62,6 @@ class JsonHydrator extends TextHydrator
      */
     public function hydrate($data)
     {
-        return new JsonPart($this, $data);
+        return Kernel::create(JsonPart::class, [$this, $data]);
     }
 }

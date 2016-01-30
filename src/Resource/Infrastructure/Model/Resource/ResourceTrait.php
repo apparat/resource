@@ -37,6 +37,7 @@
 
 namespace Apparat\Resource\Infrastructure\Model\Resource;
 
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Resource\Domain\Contract\WriterInterface;
 use Apparat\Resource\Domain\Model\Resource\AbstractResource;
 use Apparat\Resource\Ports\InvalidArgumentException;
@@ -62,7 +63,8 @@ trait ResourceTrait
      */
     public function __toString()
     {
-        $writer = new InMemoryWriter();
+        /** @var InMemoryWriter $writer */
+        $writer = Kernel::create(InMemoryWriter::class);
 
         /** @var AbstractResource $this */
         $this->dump($writer);
