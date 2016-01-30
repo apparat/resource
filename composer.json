@@ -32,6 +32,10 @@
   "autoload": {
     "psr-4": {
       "Apparat\\": "src/"
-    }
+    },
+    "files": [
+      "src/Resource/Module.php",
+      "src/Resource/Autorun.php"
+    ]
   }
 }
