@@ -56,7 +56,7 @@ trait AggregateHydratorMockTrait
      */
     public function hydrate($data)
     {
-        if (!empty($GLOBALS['mockAggregateClass'])) {
+        if (getenv('MOCK_AGGREGATE_CLASS') == 1) {
             $this->aggregateClass = self::class;
         }
 
@@ -64,9 +64,9 @@ trait AggregateHydratorMockTrait
         /** @noinspection  PhpUndefinedMethodInspection */
         $aggregate = parent::hydrate(null);
         foreach (explode('|', $data) as $part => $str) {
-            if (!empty($GLOBALS['mockOccurrenceNumber'])) {
+            if (getenv('MOCK_OCCURRENCE_NUMBER') == 1) {
                 $aggregate->assign(0, $str, $part);
-            } elseif (!empty($GLOBALS['mockAssignmentPartIdentifier'])) {
+            } elseif (getenv('MOCK_ASSIGNMENT_PART_IDENTIFIER') == 1) {
                 $aggregate->assign("_$part", $str, 0);
             } else {
                 $aggregate->assign("$part", $str);
@@ -84,14 +84,14 @@ trait AggregateHydratorMockTrait
     protected function dehydrateOccurrence(array $occurrence)
     {
         // If the default validation should be used
-        if (empty($GLOBALS['mockOccurrenceDehydration'])) {
+        if (getenv('MOCK_OCCURRENCE_DEHYDRATION') != 1) {
             // If an empty occurrence shall be tested
-            if (!empty($GLOBALS['mockEmptyOccurrence'])) {
+            if (getenv('MOCK_EMPTY_OCCURRENCE') == 1) {
                 /** @noinspection PhpUndefinedMethodInspection */
                 return parent::dehydrateOccurrence([]);
 
                 // If an invalid subhydrator name should be tested
-            } elseif (!empty($GLOBALS['mockSubhydratorName'])) {
+            } elseif (getenv('MOCK_SUBHYDRATOR_NAME') == 1) {
                 /** @noinspection PhpUndefinedMethodInspection */
                 return parent::dehydrateOccurrence(
                     array_combine(
@@ -106,7 +106,7 @@ trait AggregateHydratorMockTrait
                 );
 
                 // If an invalid part instance should be tested
-            } elseif (!empty($GLOBALS['mockPartInstance'])) {
+            } elseif (getenv('MOCK_PART_INSTANCE') == 1) {
                 /** @noinspection PhpUndefinedMethodInspection */
                 return parent::dehydrateOccurrence(array_fill_keys(array_keys($occurrence), null));
 
@@ -135,7 +135,7 @@ trait AggregateHydratorMockTrait
     {
 
         // If the default validation should be used
-        if (empty($GLOBALS['mockValidateParameters'])) {
+        if (getenv('MOCK_VALIDATE_PARAMETERS') != 1) {
             /** @noinspection PhpUndefinedMethodInspection */
             return parent::validateParameters(...$parameters);
 

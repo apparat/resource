@@ -56,6 +56,25 @@ class HydratorTest extends AbstractTest
 {
 
     /**
+     * Tears down the fixture
+     */
+    public function tearDown()
+    {
+        putenv('MOCK_VALIDATE_PARAMETERS');
+        putenv('MOCK_OCCURRENCE_DEHYDRATION');
+        putenv('MOCK_AGGREGATE_CLASS');
+        putenv('MOCK_EMPTY_OCCURRENCE');
+        putenv('MOCK_SUBHYDRATOR_NAME');
+        putenv('MOCK_PART_INSTANCE');
+        putenv('MOCK_OCCURRENCE_NUMBER');
+        putenv('MOCK_ASSIGNMENT_PART_IDENTIFIER');
+        putenv('MOCK_EMPTY_OCCURRENCE');
+        putenv('MOCK_SUBHYDRATOR_NAME');
+        putenv('MOCK_PART_INSTANCE');
+        parent::tearDown();
+    }
+
+    /**
      * Test an invalid hydrator configuraton
      *
      * @expectedException InvalidArgumentException
@@ -129,9 +148,8 @@ class HydratorTest extends AbstractTest
      */
     public function testInvalidMultipartHydratorParameters()
     {
-        $GLOBALS['mockValidateParameters'] = true;
+        putenv('MOCK_VALIDATE_PARAMETERS=1');
         HydratorFactory::build([[1, 2], AbstractSequenceHydrator::class, true]);
-        unset($GLOBALS['mockValidateParameters']);
     }
 
     /**
@@ -254,9 +272,9 @@ class HydratorTest extends AbstractTest
             ]
         );
         $sequence = $sequenceHydrator->hydrate('one|two');
-        $GLOBALS['mockOccurrenceDehydration'] = true;
+
+        putenv('MOCK_OCCURRENCE_DEHYDRATION=1');
         $sequenceHydrator->dehydrate($sequence);
-        unset($GLOBALS['mockOccurrenceDehydration']);
     }
 
     /**
@@ -276,9 +294,9 @@ class HydratorTest extends AbstractTest
                 1
             ]
         );
-        $GLOBALS['mockAggregateClass'] = true;
+
+        putenv('MOCK_AGGREGATE_CLASS=1');
         $sequenceHydrator->hydrate('one|two');
-        unset($GLOBALS['mockAggregateClass']);
     }
 
     /**
@@ -299,9 +317,8 @@ class HydratorTest extends AbstractTest
             ]
         );
         $sequence = $sequenceHydrator->hydrate('one|two');
-        $GLOBALS['mockEmptyOccurrence'] = true;
+        putenv('MOCK_EMPTY_OCCURRENCE=1');
         $sequenceHydrator->dehydrate($sequence);
-        unset($GLOBALS['mockEmptyOccurrence']);
     }
 
     /**
@@ -322,9 +339,8 @@ class HydratorTest extends AbstractTest
             ]
         );
         $sequence = $sequenceHydrator->hydrate('one|two');
-        $GLOBALS['mockSubhydratorName'] = true;
+        putenv('MOCK_SUBHYDRATOR_NAME=1');
         $sequenceHydrator->dehydrate($sequence);
-        unset($GLOBALS['mockSubhydratorName']);
     }
 
     /**
@@ -345,9 +361,8 @@ class HydratorTest extends AbstractTest
             ]
         );
         $sequence = $sequenceHydrator->hydrate('one|two');
-        $GLOBALS['mockPartInstance'] = true;
+        putenv('MOCK_PART_INSTANCE=1');
         $sequenceHydrator->dehydrate($sequence);
-        unset($GLOBALS['mockPartInstance']);
     }
 
     /**
@@ -384,9 +399,8 @@ class HydratorTest extends AbstractTest
                 1
             ]
         );
-        $GLOBALS['mockOccurrenceNumber'] = true;
+        putenv('MOCK_OCCURRENCE_NUMBER=1');
         $sequenceHydrator->hydrate('one|two');
-        unset($GLOBALS['mockOccurrenceNumber']);
     }
 
     /**
@@ -424,9 +438,8 @@ class HydratorTest extends AbstractTest
                 1
             ]
         );
-        $GLOBALS['mockAssignmentPartIdentifier'] = true;
+        putenv('MOCK_ASSIGNMENT_PART_IDENTIFIER=1');
         $sequenceHydrator->hydrate('one|two');
-        unset($GLOBALS['mockAssignmentPartIdentifier']);
     }
 
     /**
@@ -468,9 +481,8 @@ class HydratorTest extends AbstractTest
             ]
         );
         $choice = $choiceHydrator->hydrate('one');
-        $GLOBALS['mockEmptyOccurrence'] = true;
+        putenv('MOCK_EMPTY_OCCURRENCE=1');
         $choiceHydrator->dehydrate($choice);
-        unset($GLOBALS['mockEmptyOccurrence']);
     }
 
     /**
@@ -491,9 +503,8 @@ class HydratorTest extends AbstractTest
             ]
         );
         $choice = $choiceHydrator->hydrate('one');
-        $GLOBALS['mockSubhydratorName'] = true;
+        putenv('MOCK_SUBHYDRATOR_NAME=1');
         $choiceHydrator->dehydrate($choice);
-        unset($GLOBALS['mockSubhydratorName']);
     }
 
     /**
@@ -514,9 +525,8 @@ class HydratorTest extends AbstractTest
             ]
         );
         $choice = $choiceHydrator->hydrate('one');
-        $GLOBALS['mockPartInstance'] = true;
+        putenv('MOCK_PART_INSTANCE=1');
         $choiceHydrator->dehydrate($choice);
-        unset($GLOBALS['mockPartInstance']);
     }
 
     /**

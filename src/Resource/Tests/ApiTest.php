@@ -108,11 +108,11 @@ namespace Apparat\Resource\Tests {
          */
         public function testCopyFileToFileError()
         {
-            $GLOBALS['mockCopy'] = true;
+            putenv('MOCK_COPY=1');
             $tempFile = $this->createTemporaryFileName();
             Tools::copy('file://'.self::TXT_FILE)->toTarget('file://'.$tempFile);
             $this->assertFileEquals($tempFile, self::TXT_FILE);
-            unset($GLOBALS['mockCopy']);
+            putenv('MOCK_COPY');
         }
 
         /**
@@ -191,11 +191,11 @@ namespace Apparat\Resource\Tests {
          */
         public function testMoveFileToFileError()
         {
-            $GLOBALS['mockMove'] = true;
+            putenv('MOCK_MOVE=1');
             $tempFile = $this->createTemporaryFileName();
             Tools::move('file://'.self::TXT_FILE)->toTarget('file://'.$tempFile);
             $this->assertFileEquals($tempFile, self::TXT_FILE);
-            unset($GLOBALS['mockMove']);
+            putenv('MOCK_MOVE');
         }
 
         /**
@@ -242,9 +242,9 @@ namespace Apparat\Resource\Tests {
          */
         public function testDeleteFileError()
         {
-            $GLOBALS['mockUnlink'] = true;
+            putenv('MOCK_UNLINK=1');
             Tools::delete('file://'.self::TXT_FILE);
-            unset($GLOBALS['mockUnlink']);
+            putenv('MOCK_UNLINK');
         }
 
         /**
@@ -267,13 +267,11 @@ namespace Apparat\Resource\Infrastructure\Service {
      *
      * @param string $source Source file
      * @param string $dest Destination file
-     * @param resource $context Context resource
      * @return bool
      */
-    function copy($source, $dest, $context = null)
+    function copy($source, $dest)
     {
-        $arguments = func_get_args();
-        return empty($GLOBALS['mockCopy']) ? \copy(...$arguments) : false;
+        return (getenv('MOCK_COPY') != 1) ? \copy($source, $dest) : false;
     }
 
     /**
@@ -281,25 +279,21 @@ namespace Apparat\Resource\Infrastructure\Service {
      *
      * @param string $source Source file
      * @param string $dest Destination file
-     * @param resource $context Context resource
      * @return bool
      */
-    function rename($source, $dest, $context = null)
+    function rename($source, $dest)
     {
-        $arguments = func_get_args();
-        return empty($GLOBALS['mockMove']) ? \rename(...$arguments) : false;
+        return (getenv('MOCK_MOVE') != 1) ? \rename($source, $dest) : false;
     }
 
     /**
      * Mocked version of the native unlink() function
      *
      * @param string $filename File name
-     * @param resource $context Context resource
      * @return bool
      */
-    function unlink($filename, $context = null)
+    function unlink($filename)
     {
-        $arguments = func_get_args();
-        return empty($GLOBALS['mockUnlink']) ? \unlink(...$arguments) : false;
+        return (getenv('MOCK_UNLINK') != 1) ? \unlink($filename) : false;
     }
 }

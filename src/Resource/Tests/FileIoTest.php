@@ -66,6 +66,16 @@ namespace Apparat\Resource\Tests {
         protected $text = null;
 
         /**
+         * Tears down the fixture
+         */
+        public function tearDown()
+        {
+            putenv('MOCK_IS_READABLE');
+            putenv('MOCK_IS_WRITEABLE');
+            parent::tearDown();
+        }
+
+        /**
          * Test the file reader with an invalid file path
          *
          * @expectedException InvalidArgumentException
@@ -95,9 +105,8 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileReaderWithUnreadableFile()
         {
-            $GLOBALS['mockIsReadable'] = true;
+            putenv('MOCK_IS_READABLE=1');
             Kernel::create(Reader::class, [self::TXT_FILE]);
-            unset($GLOBALS['mockIsReadable']);
         }
 
         /**
@@ -154,12 +163,11 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileWriterWithNonWriteableFile()
         {
-            $GLOBALS['mockIsWriteable'] = true;
+            putenv('MOCK_IS_WRITEABLE=1');
             Kernel::create(
                 \Apparat\Resource\Infrastructure\Io\File\Writer::class,
                 [self::TXT_FILE, Writer::FILE_OVERWRITE]
             );
-            unset($GLOBALS['mockIsWriteable']);
         }
 
         /**
@@ -225,7 +233,7 @@ namespace Apparat\Resource\Infrastructure\Io\File {
      */
     function is_readable($filename)
     {
-        return empty($GLOBALS['mockIsReadable']) ? \is_readable($filename) : false;
+        return (getenv('MOCK_IS_READABLE') != 1) ? \is_readable($filename) : false;
     }
 
     /**
@@ -236,6 +244,6 @@ namespace Apparat\Resource\Infrastructure\Io\File {
      */
     function is_writeable($filename)
     {
-        return empty($GLOBALS['mockIsWriteable']) ? \is_writeable($filename) : false;
+        return (getenv('MOCK_IS_WRITEABLE') != 1) ? \is_writeable($filename) : false;
     }
 }
