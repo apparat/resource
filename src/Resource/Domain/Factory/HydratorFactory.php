@@ -70,7 +70,9 @@ class HydratorFactory
             );
 
             // Else if it's the short instantiation notation
-        } elseif (is_string($config[0]) && is_subclass_of($config[0], AbstractSinglepartHydrator::class)) {
+        } elseif (is_string($config[0]) &&
+            (new \ReflectionClass($config[0]))->isSubclassOf(AbstractSinglepartHydrator::class)
+        ) {
             $config[0] = array(HydratorInterface::STANDARD => $config[0]);
 
             // Else: Make sure the content model is an array
@@ -101,13 +103,14 @@ class HydratorFactory
      * @param array $config Hydrator configuration
      * @return HydratorInterface Hydrator
      */
-    protected static function buildSingle(array $config) {
+    protected static function buildSingle(array $config)
+    {
         reset($config[0]);
         $singlepartName = trim(key($config[0]));
         $singlepartHydrator = trim(current($config[0]));
 
         // If it's not a valid simple part hydrator
-        if (!is_subclass_of($singlepartHydrator, AbstractSinglepartHydrator::class)) {
+        if (!(new \ReflectionClass($singlepartHydrator))->isSubclassOf(AbstractSinglepartHydrator::class)) {
             throw new InvalidArgumentException(
                 sprintf(
                     'Invalid single part hydrator class "%s"',
@@ -127,7 +130,8 @@ class HydratorFactory
      * @param array $config Hydrator configuration
      * @return HydratorInterface Hydrator
      */
-    protected static function buildMultipart(array $config) {
+    protected static function buildMultipart(array $config)
+    {
         // If no multipart hydrator is specified
         if (count($config) < 2) {
             throw new InvalidArgumentException(
@@ -137,10 +141,7 @@ class HydratorFactory
 
             // Else: if the multipart hydrator is invalid
         } elseif (!strlen(trim($config[1])) ||
-            !is_subclass_of(
-                trim($config[1]),
-                AbstractMultipartHydrator::class
-            )
+            !(new \ReflectionClass(trim($config[1])))->isSubclassOf(AbstractMultipartHydrator::class)
         ) {
             throw new InvalidArgumentException(
                 sprintf('Invalid multipart hydrator class "%s"', trim($config[1])),
@@ -163,7 +164,9 @@ class HydratorFactory
         // Run through all multipart subhydrators
         foreach ($config[0] as $multipartHydrator) {
             // If it's neither a multipart nor a valid single part hydrator
-            if (!is_array($multipartHydrator) && !is_subclass_of($multipartHydrator, HydratorInterface::class)) {
+            if (!is_array($multipartHydrator) &&
+                !(new \ReflectionClass($multipartHydrator))->implementsInterface(HydratorInterface::class)
+            ) {
                 throw new InvalidArgumentException(
                     sprintf(
                         'Invalid multipart subhydrator class "%s"',

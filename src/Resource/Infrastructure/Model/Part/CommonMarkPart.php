@@ -91,9 +91,7 @@ class CommonMarkPart extends TextPart
         $environment = Environment::createCommonMarkEnvironment();
 
         // Custom environment initialization
-        $this->initializeEnvironment($environment);
-
-        return $environment;
+        return $this->initializeEnvironment($environment);
     }
 
     /**
@@ -101,11 +99,14 @@ class CommonMarkPart extends TextPart
      *
      * Overwrite this method in subclasses to register your own parsers/renderers.
      *
-     * @param Environment $environment
+     * @param Environment $environment CommonMark environment
+     * @return Environment CommonMark environment
      */
     protected function initializeEnvironment(Environment $environment)
     {
         // Optional: Add your own parsers/renderers here, if desired
         // For example:  $environment->addInlineParser(Kernel::create(TwitterHandleParser::class));
+
+        return $environment;
     }
 }

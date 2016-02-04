@@ -53,15 +53,15 @@ use Apparat\Resource\Infrastructure\Model\Hydrator\YamlHydrator;
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Infrastructure
- * @method FrontMarkResource setPart() setPart(array $data, string $part = '/') Set the content of the resource
- * @method FrontMarkResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
- * @method FrontMarkResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
- * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the resource
- * @method array getDataPart() getDataPart(string $part = '/') Get the YAML / JSON front matter data of the resource
- * @method FrontMarkResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML / JSON front matter data of the resource
- * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
- * @method FrontMarkResource from($src) static from($src, ...$parameters) Instantiate from source
- * @method WriterInterface to() to($target, ...$parameters) Write to target
+ * @method FrontMarkResource setPart(array $data, string $part = '/') setPart(array $data, string $part = '/') Set the content of the resource
+ * @method FrontMarkResource appendPart(string $data, string $part = '/') appendPart(string $data, string $part = '/') Append content to the resource
+ * @method FrontMarkResource prependPart(string $data, string $part = '/') prependPart(string $data, string $part = '/') Prepend content to the resource
+ * @method string getHtmlPart(string $part = '/') getHtmlPart(string $part = '/') Get the HTML content of the resource
+ * @method array getDataPart(string $part = '/') getDataPart(string $part = '/') Get the YAML / JSON front matter data of the resource
+ * @method FrontMarkResource setDataPart(array $data, string $part = '/') setDataPart(array $data, string $part = '/') Set the YAML / JSON front matter data of the resource
+ * @method string getMimeTypePart(string $part = '/') getMimeTypePart(string $part = '/') Get the MIME type of this part
+ * @method FrontMarkResource from($src, ...$parameters) static from($src, ...$parameters) Instantiate from source
+ * @method WriterInterface to($target, ...$parameters) to($target, ...$parameters) Write to target
  */
 class FrontMarkResource extends AbstractResource
 {

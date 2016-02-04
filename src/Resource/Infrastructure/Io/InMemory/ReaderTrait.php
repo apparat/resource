@@ -41,6 +41,7 @@ namespace Apparat\Resource\Infrastructure\Io\InMemory;
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Infrastructure
+ * @property string $data Resource data
  */
 trait ReaderTrait
 {

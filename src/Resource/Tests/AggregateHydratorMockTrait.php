@@ -44,6 +44,7 @@ use Apparat\Resource\Domain\Model\Part\PartAggregateInterface;
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Tests
+ * @property string $aggregateClass Part aggregate class name
  */
 trait AggregateHydratorMockTrait
 {

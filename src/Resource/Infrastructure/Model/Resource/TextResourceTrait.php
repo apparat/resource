@@ -43,8 +43,8 @@ use Apparat\Resource\Domain\Model\Part\PartInterface;
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Infrastructure
- * @method TextResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
- * @method TextResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
+ * @method TextResource appendPart(string $data, string $part = '/') appendPart(string $data, string $part = '/') Append content to the resource
+ * @method TextResource prependPart(string $data, string $part = '/') prependPart(string $data, string $part = '/') Prepend content to the resource
  */
 trait TextResourceTrait
 {

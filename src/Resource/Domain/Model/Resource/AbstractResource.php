@@ -48,7 +48,7 @@ use Apparat\Resource\Domain\Model\Part\PartInterface;
  *
  * @package     Apparat\Resource
  * @subpackage Apparat\Resource\Domain
- * @method string getMimeTypePart() getMimeTypePart($part = '/') Get the MIME type of a particular part
+ * @method string getMimeTypePart($part = '/') getMimeTypePart($part = '/') Get the MIME type of a particular part
  */
 abstract class AbstractResource
 {
@@ -132,7 +132,7 @@ abstract class AbstractResource
      *
      * @param string $name Part method name
      * @param array $arguments Part method arguments
-     * @return Resource Self reference
+     * @return AbstractResource Self reference
      * @throw RuntimeException  If an invalid file method is called
      * @throw RuntimeException  If an invalid file part method is called
      */

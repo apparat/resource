@@ -163,10 +163,7 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
         // If the part aggregate class isn't valid
         if (!$this->aggregateClass ||
             !class_exists($this->aggregateClass) ||
-            !is_subclass_of(
-                $this->aggregateClass,
-                PartAggregateInterface::class
-            )
+            !(new \ReflectionClass($this->aggregateClass))->implementsInterface(PartAggregateInterface::class)
         ) {
             throw new RuntimeException(
                 sprintf('Invalid part aggregate class "%s"', $this->aggregateClass),
@@ -214,7 +211,10 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
         }
 
         // Validate the occurrence numbers
-        AbstractPartAggregate::validateOccurrences($parameters[0], $parameters[1]);
+        AbstractPartAggregate::validateOccurrences(
+            $minOccurrences = intval($parameters[0]),
+            $maxOccurrences = intval($parameters[1])
+        );
 
         return true;
     }

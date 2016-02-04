@@ -44,8 +44,8 @@ use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Infrastructure
- * @method array getDataPart() getDataPart(string $part = '/') Get the YAML data of the resource
- * @method AbstractSinglePartResource setDataPart() setDataPart(array $data, string $part = '/') Set the YAML data of the resource
+ * @method array getDataPart(string $part = '/') getDataPart(string $part = '/') Get the YAML data of the resource
+ * @method AbstractSinglePartResource setDataPart(array $data, string $part = '/') setDataPart(array $data, string $part = '/') Set the YAML data of the resource
  */
 trait DataResourceTrait
 {

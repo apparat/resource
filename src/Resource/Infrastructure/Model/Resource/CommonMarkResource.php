@@ -46,14 +46,14 @@ use Apparat\Resource\Infrastructure\Model\Hydrator\CommonMarkHydrator;
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Infrastructure
- * @method CommonMarkResource set() set(string $data) Set the content of the resource
- * @method CommonMarkResource setPart() setPart(string $data, string $part = '/') Set the content of the resource
- * @method CommonMarkResource appendPart() appendPart(string $data, string $part = '/') Append content to the resource
- * @method CommonMarkResource prependPart() prependPart(string $data, string $part = '/') Prepend content to the resource
- * @method string getHtmlPart() getHtmlPart(string $part = '/') Get the HTML content of the resource
- * @method string getMimeTypePart() getMimeTypePart(string $part = '/') Get the MIME type of this part
- * @method CommonMarkResource from($src) static from($src, ...$parameters) Instantiate from source
- * @method WriterInterface to() to($target, ...$parameters) Write to target
+ * @method CommonMarkResource set(string $data) set(string $data) Set the content of the resource
+ * @method CommonMarkResource setPart(string $data, string $part = '/') setPart(string $data, string $part = '/') Set the content of the resource
+ * @method CommonMarkResource appendPart(string $data, string $part = '/') appendPart(string $data, string $part = '/') Append content to the resource
+ * @method CommonMarkResource prependPart(string $data, string $part = '/') prependPart(string $data, string $part = '/') Prepend content to the resource
+ * @method string getHtmlPart(string $part = '/') getHtmlPart(string $part = '/') Get the HTML content of the resource
+ * @method string getMimeTypePart(string $part = '/') getMimeTypePart(string $part = '/') Get the MIME type of this part
+ * @method CommonMarkResource from($src, ...$parameters) static from($src, ...$parameters) Instantiate from source
+ * @method WriterInterface to($target, ...$parameters) to($target, ...$parameters) Write to target
  */
 class CommonMarkResource extends AbstractSinglePartResource
 {
