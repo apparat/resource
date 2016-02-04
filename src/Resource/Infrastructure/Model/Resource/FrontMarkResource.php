@@ -53,7 +53,6 @@ use Apparat\Resource\Infrastructure\Model\Hydrator\YamlHydrator;
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Infrastructure
- * @method FrontMarkResource setPart(array $data, string $part = '/') setPart(array $data, string $part = '/') Set the content of the resource
  * @method FrontMarkResource appendPart(string $data, string $part = '/') appendPart(string $data, string $part = '/') Append content to the resource
  * @method FrontMarkResource prependPart(string $data, string $part = '/') prependPart(string $data, string $part = '/') Prepend content to the resource
  * @method string getHtmlPart(string $part = '/') getHtmlPart(string $part = '/') Get the HTML content of the resource
