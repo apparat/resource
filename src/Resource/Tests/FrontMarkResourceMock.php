@@ -37,6 +37,7 @@
 namespace Apparat\Resource\Tests;
 
 use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
+use Apparat\Resource\Domain\Model\Part\PartSequence;
 use Apparat\Resource\Domain\Model\Resource\AbstractResource;
 use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
 use Apparat\Resource\Infrastructure\Model\Hydrator\CommonMarkHydrator;
@@ -85,5 +86,14 @@ class FrontMarkResourceMock extends AbstractResource
         /** @var PartSequenceMock $sequence */
         $sequence = $this->part();
         $sequence->invalidateCommonMarkPart();
+    }
+
+    /**
+     * Return the sequence aggregate
+     *
+     * @return PartSequence Sequence aggregate
+     */
+    public function getSequence() {
+        return $this->part();
     }
 }

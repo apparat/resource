@@ -138,7 +138,7 @@ class Tools
      *
      * @param string $src Stream-wrapped source
      * @param array ...$parameters Reader parameters
-     * @return void|Copy Copy handler
+     * @return Copy Copy handler
      * @api
      */
     public static function copy($src, ...$parameters)
@@ -148,7 +148,8 @@ class Tools
             return Kernel::create(Copy::class, [$reader]);
         }
 
-        return self::failInvalidReader();
+        self::failInvalidReader();
+        return null;
     }
 
     /**
@@ -156,7 +157,7 @@ class Tools
      *
      * @param string $src Stream-wrapped source
      * @param array ...$parameters Reader parameters
-     * @return void|Move move handler
+     * @return Move move handler
      * @api
      */
     public static function move($src, ...$parameters)
@@ -166,7 +167,8 @@ class Tools
             return Kernel::create(Move::class, [$reader]);
         }
 
-        return self::failInvalidReader();
+        self::failInvalidReader();
+        return null;
     }
 
     /**
@@ -174,7 +176,7 @@ class Tools
      *
      * @param string $src Stream-wrapped source
      * @param array ...$parameters Reader parameters
-     * @return void|Move move handler
+     * @return Move move handler
      * @api
      */
     public static function delete($src, ...$parameters)
@@ -186,13 +188,14 @@ class Tools
             return $deleter();
         }
 
-        return self::failInvalidReader();
+        self::failInvalidReader();
+        return null;
     }
 
     /**
      * Fail because of an invalid reader stream wrapper
      *
-     * @return boolean
+     * @return void
      * @throws \Apparat\Resource\Ports\InvalidArgumentException If the reader stream wrapper is invalid
      */
     protected static function failInvalidReader() {

@@ -42,6 +42,7 @@ use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;
 use Apparat\Resource\Domain\Model\Part\OutOfBoundsException;
 use Apparat\Resource\Domain\Model\Part\PartChoice;
+use Apparat\Resource\Domain\Model\Part\PartSequence;
 use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
 use Apparat\Resource\Infrastructure\Model\Hydrator\FrontMatterHydrator;
 use Apparat\Resource\Infrastructure\Model\Hydrator\JsonHydrator;
@@ -137,6 +138,7 @@ class FrontMarkTest extends AbstractTest
         $frontMarkResource = Kernel::create(FrontMarkResource::class, [null]);
         $this->assertInstanceOf(FrontMarkResource::class, $frontMarkResource);
         $this->assertEquals(null, $frontMarkResource->getMimeTypePart());
+
     }
 
     /**
@@ -231,6 +233,26 @@ class FrontMarkTest extends AbstractTest
     }
 
     /**
+     * Test sequence aggregate
+     */
+    public function testSequenceAggregate()
+    {
+        $frontMarkResource = Kernel::create(
+            FrontMarkResourceMock::class,
+            [Kernel::create(Reader::class, [$this->yamlFrontMark])]
+        );
+
+        /** @var PartSequence $sequence */
+        $sequence = $frontMarkResource->getSequence();
+        $this->assertInstanceOf(PartSequence::class, $sequence);
+        $this->assertEquals(1, count($sequence));
+        foreach ($sequence as $occurrenceIndex => $occurrence) {
+            $this->assertEquals(0, $occurrenceIndex);
+            $this->assertTrue(is_array($occurrence));
+        }
+    }
+
+    /**
      * Test YAML getting the front matter part
      */
     public function testYamlGetFrontmatterPart()
@@ -246,7 +268,6 @@ class FrontMarkTest extends AbstractTest
 
     /**
      * Test YAML setting the front matter part
-     *
      */
     public function testYamlSetFrontmatterPart()
     {
@@ -265,7 +286,6 @@ class FrontMarkTest extends AbstractTest
 
     /**
      * Test JSON FrontMark file
-     *
      */
     public function testJsonFrontMarkResource()
     {
@@ -281,7 +301,6 @@ class FrontMarkTest extends AbstractTest
 
     /**
      * Test JSON file
-     *
      */
     public function testJsonResource()
     {
@@ -302,7 +321,6 @@ class FrontMarkTest extends AbstractTest
 
     /**
      * Test JSON FrontMark frontmatter wildcard
-     *
      */
     public function testJsonFrontMarkFrontmatterWildcard()
     {
@@ -318,7 +336,6 @@ class FrontMarkTest extends AbstractTest
 
     /**
      * Test JSON FrontMark get frontmatter data
-     *
      */
     public function testJsonFrontMarkFrontmatterGetData()
     {
@@ -334,7 +351,6 @@ class FrontMarkTest extends AbstractTest
 
     /**
      * Test JSON FrontMark set frontmatter data
-     *
      */
     public function testJsonFrontMarkFrontmatterSetData()
     {
