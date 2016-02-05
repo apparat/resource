@@ -139,6 +139,7 @@ class Tools
      * @param string $src Stream-wrapped source
      * @param array ...$parameters Reader parameters
      * @return Copy Copy handler
+     * @throws \Apparat\Resource\Ports\InvalidArgumentException If the reader stream wrapper is invalid
      * @api
      */
     public static function copy($src, ...$parameters)
@@ -148,8 +149,7 @@ class Tools
             return Kernel::create(Copy::class, [$reader]);
         }
 
-        self::failInvalidReader();
-        return null;
+        throw self::failInvalidReader();
     }
 
     /**
@@ -158,6 +158,7 @@ class Tools
      * @param string $src Stream-wrapped source
      * @param array ...$parameters Reader parameters
      * @return Move move handler
+     * @throws \Apparat\Resource\Ports\InvalidArgumentException If the reader stream wrapper is invalid
      * @api
      */
     public static function move($src, ...$parameters)
@@ -167,8 +168,7 @@ class Tools
             return Kernel::create(Move::class, [$reader]);
         }
 
-        self::failInvalidReader();
-        return null;
+        throw self::failInvalidReader();
     }
 
     /**
@@ -177,6 +177,7 @@ class Tools
      * @param string $src Stream-wrapped source
      * @param array ...$parameters Reader parameters
      * @return Move move handler
+     * @throws \Apparat\Resource\Ports\InvalidArgumentException If the reader stream wrapper is invalid
      * @api
      */
     public static function delete($src, ...$parameters)
@@ -188,18 +189,16 @@ class Tools
             return $deleter();
         }
 
-        self::failInvalidReader();
-        return null;
+        throw self::failInvalidReader();
     }
 
     /**
      * Fail because of an invalid reader stream wrapper
      *
-     * @return void
-     * @throws \Apparat\Resource\Ports\InvalidArgumentException If the reader stream wrapper is invalid
+     * @return InvalidArgumentException If the reader stream wrapper is invalid
      */
     protected static function failInvalidReader() {
-        throw new InvalidArgumentException(
+        return new InvalidArgumentException(
             'Invalid reader stream wrapper',
             InvalidArgumentException::INVALID_READER_STREAM_WRAPPER
         );
