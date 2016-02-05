@@ -102,6 +102,7 @@ abstract class AbstractContentPart extends AbstractPart
      */
     public function set($data, array $subparts = [])
     {
+        unset($subparts);
         $class = get_class($this);
         return Kernel::create($class, [$this->hydrator, $data]);
     }
@@ -116,6 +117,7 @@ abstract class AbstractContentPart extends AbstractPart
      */
     public function get(array $subparts = [])
     {
+        unset($subparts);
         return $this;
     }
 

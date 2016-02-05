@@ -109,6 +109,8 @@ abstract class AbstractPart implements PartInterface
             );
         }
 
+        unset($subparts);
+
         // Call the method
         return call_user_func_array(array($this, $method), $arguments);
     }

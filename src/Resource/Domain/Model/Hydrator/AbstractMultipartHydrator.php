@@ -171,6 +171,8 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
             );
         }
 
+        unset($data);
+
         return Kernel::create(
             $this->aggregateClass,
             [
@@ -211,10 +213,7 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
         }
 
         // Validate the occurrence numbers
-        AbstractPartAggregate::validateOccurrences(
-            $minOccurrences = intval($parameters[0]),
-            $maxOccurrences = intval($parameters[1])
-        );
+        AbstractPartAggregate::validateOccurrences(intval($parameters[0]), intval($parameters[1]));
 
         return true;
     }

@@ -132,7 +132,7 @@ abstract class AbstractResource
      *
      * @param string $name Part method name
      * @param array $arguments Part method arguments
-     * @return AbstractResource Self reference
+     * @return mixed|AbstractResource Self reference
      * @throw RuntimeException  If an invalid file method is called
      * @throw RuntimeException  If an invalid file part method is called
      */
@@ -140,21 +140,7 @@ abstract class AbstractResource
     {
         // If a (sub)part method is called
         if (preg_match("%^(.+)Part$%", $name, $partMethod)) {
-            $partMethod = $partMethod[1];
-            $isGetterMethod = (!strncmp('get', $partMethod, 3));
-            $delegateArguments = $isGetterMethod ? array() : array_slice($arguments, 0, 1);
-            $subpartPathArgIndex = $isGetterMethod ? 0 : 1;
-            $subparts = $this->partPath(
-                (count($arguments) > $subpartPathArgIndex) ? $arguments[$subpartPathArgIndex] : '/'
-            );
-            $delegateResult = $this->part()->delegate($partMethod, $subparts, $delegateArguments);
-
-            if ($isGetterMethod) {
-                return $delegateResult;
-            }
-
-            $this->part = $delegateResult;
-            return $this;
+            return $this->callPartMethod($partMethod, $arguments);
         }
 
         throw new RuntimeException(
@@ -230,5 +216,30 @@ abstract class AbstractResource
             },
             explode('/', ltrim($path, '/'))
         );
+    }
+
+    /**
+     * Call a method on one of the subparts
+     *
+     * @param array $partMethod Part method components
+     * @param array $arguments Part method arguments
+     * @return mixed|AbstractResource Self reference
+     */
+    protected function callPartMethod(array $partMethod, array $arguments) {
+        $partMethod = $partMethod[1];
+        $isGetterMethod = (!strncmp('get', $partMethod, 3));
+        $delegateArguments = $isGetterMethod ? array() : array_slice($arguments, 0, 1);
+        $subpartPathArgIndex = $isGetterMethod ? 0 : 1;
+        $subparts = $this->partPath(
+            (count($arguments) > $subpartPathArgIndex) ? $arguments[$subpartPathArgIndex] : '/'
+        );
+        $delegateResult = $this->part()->delegate($partMethod, $subparts, $delegateArguments);
+
+        if ($isGetterMethod) {
+            return $delegateResult;
+        }
+
+        $this->part = $delegateResult;
+        return $this;
     }
 }

@@ -58,7 +58,7 @@ trait AggregateHydratorMockTrait
      * @param array $parameters Parameters
      * @return boolean Parameters are valid
      */
-    static function validateParameters(...$parameters)
+    public static function validateParameters(...$parameters)
     {
 
         // If the default validation should be used
