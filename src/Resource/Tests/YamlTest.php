@@ -37,7 +37,6 @@
 namespace Apparat\Resource\Tests;
 
 use Apparat\Kernel\Ports\Kernel;
-use Apparat\Kernel\Tests\AbstractTest;
 use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
 use Apparat\Resource\Infrastructure\Model\Part\YamlPart;
 use Apparat\Resource\Infrastructure\Model\Resource\YamlResource;
@@ -48,7 +47,7 @@ use Apparat\Resource\Infrastructure\Model\Resource\YamlResource;
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Tests
  */
-class YamlTest extends AbstractTest
+class YamlTest extends AbstractDataTest
 {
     /**
      * Example YAML data
@@ -128,18 +127,7 @@ class YamlTest extends AbstractTest
      */
     public function testYamlResourceSetDataPart()
     {
-        // Prepare modified expected data
-        $expectedData = include __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.php';
-        $expectedData['date'] = time();
-        $expectedData['bill-to']['given'] = 'John';
-        $expectedData['bill-to']['family'] = 'Doe';
-        $expectedData['product'][] = [
-            'sku' => 'ABC123',
-            'quantity' => 1,
-            'description' => 'Dummy',
-            'price' => 123
-        ];
-        unset($expectedData['comments']);
+        $expectedData = $this->getExpectedInvoiceData();
         $yamlResource = Kernel::create(YamlResource::class, [Kernel::create(Reader::class, [$this->yaml])]);
         $yamlResource->setDataPart($expectedData);
         $this->assertArrayEquals($expectedData, $yamlResource->getDataPart());
@@ -150,18 +138,7 @@ class YamlTest extends AbstractTest
      */
     public function testYamlResourceSetData()
     {
-        // Prepare modified expected data
-        $expectedData = include __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.php';
-        $expectedData['date'] = time();
-        $expectedData['bill-to']['given'] = 'John';
-        $expectedData['bill-to']['family'] = 'Doe';
-        $expectedData['product'][] = [
-            'sku' => 'ABC123',
-            'quantity' => 1,
-            'description' => 'Dummy',
-            'price' => 123
-        ];
-        unset($expectedData['comments']);
+        $expectedData = $this->getExpectedInvoiceData();
         $yamlResource = Kernel::create(YamlResource::class, [Kernel::create(Reader::class, [$this->yaml])]);
         $yamlResource->setData($expectedData);
         $this->assertArrayEquals($expectedData, $yamlResource->getData());

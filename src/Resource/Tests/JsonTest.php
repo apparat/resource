@@ -37,7 +37,6 @@
 namespace Apparat\Resource\Tests;
 
 use Apparat\Kernel\Ports\Kernel;
-use Apparat\Kernel\Tests\AbstractTest;
 use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
 use Apparat\Resource\Infrastructure\Model\Part\JsonPart;
 use Apparat\Resource\Infrastructure\Model\Resource\JsonResource;
@@ -48,7 +47,7 @@ use Apparat\Resource\Infrastructure\Model\Resource\JsonResource;
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Tests
  */
-class JsonTest extends AbstractTest
+class JsonTest extends AbstractDataTest
 {
     /**
      * Example JSON data
@@ -127,18 +126,7 @@ class JsonTest extends AbstractTest
      */
     public function testJsonResourceSetData()
     {
-        // Prepare modified expected data
-        $expectedData = include __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.php';
-        $expectedData['date'] = time();
-        $expectedData['bill-to']['given'] = 'John';
-        $expectedData['bill-to']['family'] = 'Doe';
-        $expectedData['product'][] = [
-            'sku' => 'ABC123',
-            'quantity' => 1,
-            'description' => 'Dummy',
-            'price' => 123
-        ];
-        unset($expectedData['comments']);
+        $expectedData = $this->getExpectedInvoiceData();
         $jsonResource = Kernel::create(JsonResource::class, [Kernel::create(Reader::class, [$this->json])]);
         $jsonResource->setDataPart($expectedData);
         $this->assertArrayEquals($expectedData, $jsonResource->getDataPart());

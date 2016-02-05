@@ -225,7 +225,8 @@ abstract class AbstractResource
      * @param array $arguments Part method arguments
      * @return mixed|AbstractResource Self reference
      */
-    protected function callPartMethod(array $partMethod, array $arguments) {
+    protected function callPartMethod(array $partMethod, array $arguments)
+    {
         $partMethod = $partMethod[1];
         $isGetterMethod = (!strncmp('get', $partMethod, 3));
         $delegateArguments = $isGetterMethod ? array() : array_slice($arguments, 0, 1);
