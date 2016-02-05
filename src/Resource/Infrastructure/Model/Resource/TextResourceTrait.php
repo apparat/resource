@@ -50,25 +50,25 @@ use Apparat\Resource\Domain\Model\Part\PartInterface;
  */
 trait TextResourceTrait
 {
-	/**
-	 * Append content to the sole part
-	 *
-	 * @param string $data Contents
-	 * @return PartInterface New part
-	 */
-	public function append($data)
-	{
-		return $this->appendPart($data, '/');
-	}
+    /**
+     * Append content to the sole part
+     *
+     * @param string $data Contents
+     * @return PartInterface New part
+     */
+    public function append($data)
+    {
+        return $this->appendPart($data, '/');
+    }
 
-	/**
-	 * Prepend content to the sole part
-	 *
-	 * @param string $data Contents
-	 * @return PartInterface New text part
-	 */
-	public function prepend($data)
-	{
-		return $this->prependPart($data, '/');
-	}
+    /**
+     * Prepend content to the sole part
+     *
+     * @param string $data Contents
+     * @return PartInterface New text part
+     */
+    public function prepend($data)
+    {
+        return $this->prependPart($data, '/');
+    }
 }

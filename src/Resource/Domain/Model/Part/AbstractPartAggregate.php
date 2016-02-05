@@ -304,7 +304,7 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
         $partInstance = $this->getOccurrencePart($occurrence, $part);
         if (!($partInstance instanceof PartInterface)) {
             throw new InvalidArgumentException(
-                sprintf('Part "%s" does not exist', $occurrence.'/'.$part),
+                sprintf('Part "%s" does not exist', $occurrence . '/' . $part),
                 InvalidArgumentException::PART_DOES_NOT_EXIST
             );
         }

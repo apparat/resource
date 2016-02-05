@@ -50,24 +50,24 @@ use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
  */
 trait DataResourceTrait
 {
-	/**
-	 * Return the unserialized sole data content
-	 *
-	 * @return array Unserialized data content
-	 */
-	public function getData()
-	{
-		return $this->getDataPart('/');
-	}
+    /**
+     * Return the unserialized sole data content
+     *
+     * @return array Unserialized data content
+     */
+    public function getData()
+    {
+        return $this->getDataPart('/');
+    }
 
-	/**
-	 * Set the sole data content
-	 *
-	 * @param array $data New data
-	 * @return AbstractContentPart Self reference
-	 */
-	public function setData(array $data)
-	{
-		return $this->setDataPart($data, '/');
-	}
+    /**
+     * Set the sole data content
+     *
+     * @param array $data New data
+     * @return AbstractContentPart Self reference
+     */
+    public function setData(array $data)
+    {
+        return $this->setDataPart($data, '/');
+    }
 }

@@ -61,28 +61,28 @@ use Apparat\Resource\Infrastructure\Model\Hydrator\CommonMarkHydrator;
  */
 class CommonMarkResource extends AbstractSinglePartResource
 {
-	/**
-	 * Use resource factory and text resource convenience methods and properties
-	 */
-	use ResourceTrait, TextResourceTrait;
+    /**
+     * Use resource factory and text resource convenience methods and properties
+     */
+    use ResourceTrait, TextResourceTrait;
 
-	/**
-	 * CommonMark resource constructor
-	 *
-	 * @param ReaderInterface $reader Reader instance
-	 */
-	public function __construct(ReaderInterface $reader = null)
-	{
-		parent::__construct(CommonMarkHydrator::class, $reader);
-	}
+    /**
+     * CommonMark resource constructor
+     *
+     * @param ReaderInterface $reader Reader instance
+     */
+    public function __construct(ReaderInterface $reader = null)
+    {
+        parent::__construct(CommonMarkHydrator::class, $reader);
+    }
 
-	/**
-	 * Convert the sole CommonMark source to HTML
-	 *
-	 * @return string CommonMark HTML
-	 */
-	public function getHtml()
-	{
-		return $this->getHtmlPart('/');
-	}
+    /**
+     * Convert the sole CommonMark source to HTML
+     *
+     * @return string CommonMark HTML
+     */
+    public function getHtml()
+    {
+        return $this->getHtmlPart('/');
+    }
 }

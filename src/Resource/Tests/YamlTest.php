@@ -62,7 +62,7 @@ class YamlTest extends AbstractTest
      *
      * @var string
      */
-    const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.yaml';
+    const YAML_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.yaml';
 
     /**
      * Preparations before the first test is run
@@ -117,7 +117,7 @@ class YamlTest extends AbstractTest
      */
     public function testYamlResourceGetData()
     {
-        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
+        $expectedData = include __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.php';
         $yamlResource = Kernel::create(YamlResource::class, [Kernel::create(Reader::class, [$this->yaml])]);
         $this->assertArrayEquals($expectedData, $yamlResource->getDataPart());
         $this->assertArrayEquals($expectedData, $yamlResource->getData());
@@ -129,7 +129,7 @@ class YamlTest extends AbstractTest
     public function testYamlResourceSetDataPart()
     {
         // Prepare modified expected data
-        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
+        $expectedData = include __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.php';
         $expectedData['date'] = time();
         $expectedData['bill-to']['given'] = 'John';
         $expectedData['bill-to']['family'] = 'Doe';
@@ -151,7 +151,7 @@ class YamlTest extends AbstractTest
     public function testYamlResourceSetData()
     {
         // Prepare modified expected data
-        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
+        $expectedData = include __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.php';
         $expectedData['date'] = time();
         $expectedData['bill-to']['given'] = 'John';
         $expectedData['bill-to']['family'] = 'Doe';

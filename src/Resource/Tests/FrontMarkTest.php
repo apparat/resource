@@ -80,43 +80,43 @@ class FrontMarkTest extends AbstractTest
      *
      * @var string
      */
-    const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.yaml';
+    const YAML_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.yaml';
     /**
      * Example JSON file
      *
      * @var string
      */
-    const JSON_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.json';
+    const JSON_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.json';
     /**
      * Example CommonMark file
      *
      * @var string
      */
-    const COMMONMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.md';
+    const COMMONMARK_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'commonmark.md';
     /**
      * Example FrontMark file with YAML front matter
      *
      * @var string
      */
-    const YAML_FRONTMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'yaml-frontmark.md';
+    const YAML_FRONTMARK_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'yaml-frontmark.md';
     /**
      * Example FrontMark file with JSON front matter
      *
      * @var string
      */
-    const JSON_FRONTMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'json-frontmark.md';
+    const JSON_FRONTMARK_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'json-frontmark.md';
     /**
      * Example front matter YAML file
      *
      * @var string
      */
-    const YAML_FRONTMATTER_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'frontmatter.yaml';
+    const YAML_FRONTMATTER_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'frontmatter.yaml';
     /**
      * Example front matter JSON file
      *
      * @var string
      */
-    const JSON_FRONTMATTER_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'frontmatter.json';
+    const JSON_FRONTMATTER_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'frontmatter.json';
 
     /**
      * Sets up the fixture
@@ -227,7 +227,7 @@ class FrontMarkTest extends AbstractTest
             [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $frontMarkResource->invalidateCommonMarkPart();
-        $frontMarkResource->getPart('/0/'.HydratorInterface::STANDARD);
+        $frontMarkResource->getPart('/0/' . HydratorInterface::STANDARD);
     }
 
     /**
@@ -240,7 +240,7 @@ class FrontMarkTest extends AbstractTest
             FrontMarkResource::class,
             [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
-        $actualData = Yaml::parse($frontMarkResource->getPart('/0/'.FrontMatterHydrator::FRONTMATTER));
+        $actualData = Yaml::parse($frontMarkResource->getPart('/0/' . FrontMatterHydrator::FRONTMATTER));
         $this->assertArrayEquals($expectedData, $actualData);
     }
 
@@ -256,9 +256,9 @@ class FrontMarkTest extends AbstractTest
             FrontMarkResource::class,
             [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
-        $frontMarkResource->setPart($yaml, '/0/'.FrontMatterHydrator::FRONTMATTER);
+        $frontMarkResource->setPart($yaml, '/0/' . FrontMatterHydrator::FRONTMATTER);
         $actualData = Yaml::parse(
-            $frontMarkResource->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.YamlHydrator::YAML)
+            $frontMarkResource->getPart('/0/' . FrontMatterHydrator::FRONTMATTER . '/0/' . YamlHydrator::YAML)
         );
         $this->assertArrayEquals($expectedData, $actualData);
     }
@@ -275,7 +275,7 @@ class FrontMarkTest extends AbstractTest
         );
         $this->assertStringEqualsFile(
             self::JSON_FRONTMATTER_FILE,
-            $frontMarkResource->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.JsonHydrator::JSON)
+            $frontMarkResource->getPart('/0/' . FrontMatterHydrator::FRONTMATTER . '/0/' . JsonHydrator::JSON)
         );
     }
 
@@ -296,7 +296,7 @@ class FrontMarkTest extends AbstractTest
         );
         $this->assertStringEqualsFile(
             self::JSON_FRONTMATTER_FILE,
-            $frontMarkResource->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.JsonHydrator::JSON)
+            $frontMarkResource->getPart('/0/' . FrontMatterHydrator::FRONTMATTER . '/0/' . JsonHydrator::JSON)
         );
     }
 
@@ -312,7 +312,7 @@ class FrontMarkTest extends AbstractTest
         );
         $this->assertStringEqualsFile(
             self::JSON_FRONTMATTER_FILE,
-            $frontMarkResource->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.PartChoice::WILDCARD)
+            $frontMarkResource->getPart('/0/' . FrontMatterHydrator::FRONTMATTER . '/0/' . PartChoice::WILDCARD)
         );
     }
 
@@ -346,7 +346,7 @@ class FrontMarkTest extends AbstractTest
         $frontMarkResource->setData($expectedJson);
         $this->assertArrayEquals(
             $expectedJson,
-            $frontMarkResource->getDataPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.PartChoice::WILDCARD)
+            $frontMarkResource->getDataPart('/0/' . FrontMatterHydrator::FRONTMATTER . '/0/' . PartChoice::WILDCARD)
         );
     }
 
@@ -361,7 +361,7 @@ class FrontMarkTest extends AbstractTest
             [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $frontMarkResource->set($randomSet);
-        $this->assertEquals($randomSet, $frontMarkResource->getPart('/0/'.HydratorInterface::STANDARD));
+        $this->assertEquals($randomSet, $frontMarkResource->getPart('/0/' . HydratorInterface::STANDARD));
         $this->assertEquals($randomSet, $frontMarkResource->get());
     }
 
@@ -376,7 +376,7 @@ class FrontMarkTest extends AbstractTest
             [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $frontMarkResource->append($randomAppend);
-        $this->assertEquals($this->commonMark.$randomAppend, $frontMarkResource->get());
+        $this->assertEquals($this->commonMark . $randomAppend, $frontMarkResource->get());
     }
 
     /**
@@ -390,7 +390,7 @@ class FrontMarkTest extends AbstractTest
             [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $frontMarkResource->prepend($randomPrepend);
-        $this->assertEquals($randomPrepend.$this->commonMark, $frontMarkResource->get());
+        $this->assertEquals($randomPrepend . $this->commonMark, $frontMarkResource->get());
     }
 
     /**
@@ -399,7 +399,7 @@ class FrontMarkTest extends AbstractTest
     public function testYamlGetCommonMarkHtml()
     {
         $expectedHtml = $this->normalizeHtml(
-            file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
+            file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'commonmark.html')
         );
         $frontMarkResource = Kernel::create(
             FrontMarkResource::class,

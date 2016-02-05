@@ -57,7 +57,7 @@ namespace Apparat\Resource\Tests {
          *
          * @var string
          */
-        const TXT_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'cc0.txt';
+        const TXT_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'cc0.txt';
         /**
          * Example text data
          *
@@ -83,7 +83,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileReaderWithInvalidFilepath()
         {
-            Kernel::create(Reader::class, [self::TXT_FILE.'_invalid']);
+            Kernel::create(Reader::class, [self::TXT_FILE . '_invalid']);
         }
 
         /**
@@ -141,7 +141,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileWriterWithNonCreatableFile()
         {
-            Kernel::create(\Apparat\Resource\Infrastructure\Io\File\Writer::class, [self::TXT_FILE.'_new', 0]);
+            Kernel::create(\Apparat\Resource\Infrastructure\Io\File\Writer::class, [self::TXT_FILE . '_new', 0]);
         }
 
         /**
@@ -209,7 +209,7 @@ namespace Apparat\Resource\Tests {
             $fileReaderWriter = Kernel::create(ReaderWriter::class, [$tempFile]);
             $textReource = Kernel::create(TextResource::class, [$fileReaderWriter]);
             $textReource->appendPart($randomAppend)->dump($fileReaderWriter);
-            $this->assertStringEqualsFile($tempFile, $this->text.$randomAppend);
+            $this->assertStringEqualsFile($tempFile, $this->text . $randomAppend);
         }
 
         /**

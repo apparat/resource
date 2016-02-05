@@ -49,6 +49,30 @@ use Apparat\Resource\Domain\Model\Part\PartAggregateInterface;
 trait AggregateHydratorMockTrait
 {
     /**
+     * Validate the parameters accepted by this hydrator
+     *
+     * By default, a multipart parameter accepts exactly two parameters:
+     * - the minimum number of occurrences of the contained part aggregate
+     * - the maximum number of occurrences of the contained part aggregate
+     *
+     * @param array $parameters Parameters
+     * @return boolean Parameters are valid
+     */
+    static function validateParameters(...$parameters)
+    {
+
+        // If the default validation should be used
+        if (getenv('MOCK_VALIDATE_PARAMETERS') != 1) {
+            /** @noinspection PhpUndefinedMethodInspection */
+            return parent::validateParameters(...$parameters);
+
+            // Else return a mock result
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Translate data to a file part
      *
      * @param string $data Part data
@@ -97,7 +121,7 @@ trait AggregateHydratorMockTrait
                     array_combine(
                         array_map(
                             function ($name) {
-                                return '_'.$name.'_';
+                                return '_' . $name . '_';
                             },
                             array_keys($occurrence)
                         ),
@@ -118,30 +142,6 @@ trait AggregateHydratorMockTrait
             // Else return a mock result
         } else {
             return [];
-        }
-    }
-
-    /**
-     * Validate the parameters accepted by this hydrator
-     *
-     * By default, a multipart parameter accepts exactly two parameters:
-     * - the minimum number of occurrences of the contained part aggregate
-     * - the maximum number of occurrences of the contained part aggregate
-     *
-     * @param array $parameters Parameters
-     * @return boolean Parameters are valid
-     */
-    static function validateParameters(...$parameters)
-    {
-
-        // If the default validation should be used
-        if (getenv('MOCK_VALIDATE_PARAMETERS') != 1) {
-            /** @noinspection PhpUndefinedMethodInspection */
-            return parent::validateParameters(...$parameters);
-
-            // Else return a mock result
-        } else {
-            return false;
         }
     }
 }

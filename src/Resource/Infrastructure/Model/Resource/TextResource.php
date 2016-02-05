@@ -61,18 +61,18 @@ use Apparat\Resource\Infrastructure\Model\Hydrator\TextHydrator;
  */
 class TextResource extends AbstractSinglePartResource
 {
-	/**
-	 * Use resource factory and text resource convenience methods and properties
-	 */
-	use ResourceTrait, TextResourceTrait;
+    /**
+     * Use resource factory and text resource convenience methods and properties
+     */
+    use ResourceTrait, TextResourceTrait;
 
-	/**
-	 * Text resource constructor
-	 *
-	 * @param ReaderInterface $reader Reader instance
-	 */
-	public function __construct(ReaderInterface $reader = null)
-	{
-		parent::__construct(TextHydrator::class, $reader);
-	}
+    /**
+     * Text resource constructor
+     *
+     * @param ReaderInterface $reader Reader instance
+     */
+    public function __construct(ReaderInterface $reader = null)
+    {
+        parent::__construct(TextHydrator::class, $reader);
+    }
 }

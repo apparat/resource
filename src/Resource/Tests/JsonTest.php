@@ -62,7 +62,7 @@ class JsonTest extends AbstractTest
      *
      * @var string
      */
-    const JSON_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.json';
+    const JSON_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.json';
 
     /**
      * Preparations before the first test is run
@@ -117,7 +117,7 @@ class JsonTest extends AbstractTest
      */
     public function testJsonResourceGetData()
     {
-        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
+        $expectedData = include __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.php';
         $jsonResource = Kernel::create(JsonResource::class, [Kernel::create(Reader::class, [$this->json])]);
         $this->assertArrayEquals($expectedData, $jsonResource->getDataPart());
     }
@@ -128,7 +128,7 @@ class JsonTest extends AbstractTest
     public function testJsonResourceSetData()
     {
         // Prepare modified expected data
-        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
+        $expectedData = include __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.php';
         $expectedData['date'] = time();
         $expectedData['bill-to']['given'] = 'John';
         $expectedData['bill-to']['family'] = 'Doe';
