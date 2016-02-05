@@ -10,8 +10,6 @@
  * @license     http://opensource.org/licenses/MIT	The MIT License (MIT)
  */
 
-namespace Jkphl;
-
 /***********************************************************************************
  *  The MIT License (MIT)
  *
@@ -37,7 +35,6 @@ namespace Jkphl;
 
 namespace Apparat\Resource\Tests;
 
-
 use Apparat\Kernel\Tests\AbstractTest;
 
 /**
@@ -56,7 +53,7 @@ abstract class AbstractDataTest extends AbstractTest
     protected function getExpectedInvoiceData()
     {
         // Prepare modified expected data
-        $expectedData = include __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.php';
+        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
         $expectedData['date'] = time();
         $expectedData['bill-to']['given'] = 'John';
         $expectedData['bill-to']['family'] = 'Doe';
