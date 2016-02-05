@@ -47,38 +47,42 @@ use Apparat\Resource\Infrastructure\Model\Hydrator\CommonMarkHydrator;
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Infrastructure
  * @method CommonMarkResource set(string $data) set(string $data) Set the content of the resource
- * @method CommonMarkResource setPart(string $data, string $part = '/') setPart(string $data, string $part = '/') Set the content of the resource
- * @method CommonMarkResource appendPart(string $data, string $part = '/') appendPart(string $data, string $part = '/') Append content to the resource
- * @method CommonMarkResource prependPart(string $data, string $part = '/') prependPart(string $data, string $part = '/') Prepend content to the resource
+ * @method CommonMarkResource setPart(string $data, string $part = '/') setPart(string $data, string $part = '/') Set
+ *     the content of the resource
+ * @method CommonMarkResource appendPart(string $data, string $part = '/') appendPart(string $data, string $part = '/')
+ *     Append content to the resource
+ * @method CommonMarkResource prependPart(string $data, string $part = '/') prependPart(string $data, string $part =
+ *     '/') Prepend content to the resource
  * @method string getHtmlPart(string $part = '/') getHtmlPart(string $part = '/') Get the HTML content of the resource
- * @method string getMimeTypePart(string $part = '/') getMimeTypePart(string $part = '/') Get the MIME type of this part
+ * @method string getMimeTypePart(string $part = '/') getMimeTypePart(string $part = '/') Get the MIME type of this
+ *     part
  * @method CommonMarkResource from($src, ...$parameters) static from($src, ...$parameters) Instantiate from source
  * @method WriterInterface to($target, ...$parameters) to($target, ...$parameters) Write to target
  */
 class CommonMarkResource extends AbstractSinglePartResource
 {
-    /**
-     * Use resource factory and text resource convenience methods and properties
-     */
-    use ResourceTrait, TextResourceTrait;
+	/**
+	 * Use resource factory and text resource convenience methods and properties
+	 */
+	use ResourceTrait, TextResourceTrait;
 
-    /**
-     * CommonMark resource constructor
-     *
-     * @param ReaderInterface $reader Reader instance
-     */
-    public function __construct(ReaderInterface $reader = null)
-    {
-        parent::__construct(CommonMarkHydrator::class, $reader);
-    }
+	/**
+	 * CommonMark resource constructor
+	 *
+	 * @param ReaderInterface $reader Reader instance
+	 */
+	public function __construct(ReaderInterface $reader = null)
+	{
+		parent::__construct(CommonMarkHydrator::class, $reader);
+	}
 
-    /**
-     * Convert the sole CommonMark source to HTML
-     *
-     * @return string CommonMark HTML
-     */
-    public function getHtml()
-    {
-        return $this->getHtmlPart('/');
-    }
+	/**
+	 * Convert the sole CommonMark source to HTML
+	 *
+	 * @return string CommonMark HTML
+	 */
+	public function getHtml()
+	{
+		return $this->getHtmlPart('/');
+	}
 }

@@ -47,27 +47,29 @@ use Apparat\Resource\Infrastructure\Model\Hydrator\JsonHydrator;
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Infrastructure
  * @method JsonResource set(array $data) set(array $data) Set the content of the resource
- * @method JsonResource setPart(array $data, string $part = '/') setPart(array $data, string $part = '/') Set the content of the resource
+ * @method JsonResource setPart(array $data, string $part = '/') setPart(array $data, string $part = '/') Set the
+ *     content of the resource
  * @method array getDataPart(string $part = '/') getDataPart(string $part = '/') Get the JSON data of the resource
  * @method JsonResource setData(array $data) setData(array $data) Set the JSON data of the resource
- * @method JsonResource setDataPart(array $data, string $part = '/') setDataPart(array $data, string $part = '/') Set the JSON data of the resource
+ * @method JsonResource setDataPart(array $data, string $part = '/') setDataPart(array $data, string $part = '/') Set
+ *     the JSON data of the resource
  * @method JsonResource from($src, ...$parameters) static from($src, ...$parameters) Instantiate from source
  * @method WriterInterface to($target, ...$parameters) to($target, ...$parameters) Write to target
  */
 class JsonResource extends AbstractSinglePartResource
 {
-    /**
-     * Use resource factory and data resource convenience methods and properties
-     */
-    use ResourceTrait, DataResourceTrait;
+	/**
+	 * Use resource factory and data resource convenience methods and properties
+	 */
+	use ResourceTrait, DataResourceTrait;
 
-    /**
-     * JSON resource constructor
-     *
-     * @param ReaderInterface $reader Reader instance
-     */
-    public function __construct(ReaderInterface $reader = null)
-    {
-        parent::__construct(JsonHydrator::class, $reader);
-    }
+	/**
+	 * JSON resource constructor
+	 *
+	 * @param ReaderInterface $reader Reader instance
+	 */
+	public function __construct(ReaderInterface $reader = null)
+	{
+		parent::__construct(JsonHydrator::class, $reader);
+	}
 }

@@ -47,28 +47,32 @@ use Apparat\Resource\Infrastructure\Model\Hydrator\TextHydrator;
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Infrastructure
  * @method TextResource set(string $data) set(string $data) Set the content of the resource
- * @method TextResource setPart(string $data, string $part = '/') setPart(string $data, string $part = '/') Set the content of the resource
- * @method TextResource appendPart(string $data, string $part = '/') appendPart(string $data, string $part = '/') Append content to the resource
- * @method TextResource prependPart(string $data, string $part = '/') prependPart(string $data, string $part = '/') Prepend content to the resource
- * @method string getMimeTypePart(string $part = '/') getMimeTypePart(string $part = '/') Get the MIME type of this part
+ * @method TextResource setPart(string $data, string $part = '/') setPart(string $data, string $part = '/') Set the
+ *     content of the resource
+ * @method TextResource appendPart(string $data, string $part = '/') appendPart(string $data, string $part = '/')
+ *     Append content to the resource
+ * @method TextResource prependPart(string $data, string $part = '/') prependPart(string $data, string $part = '/')
+ *     Prepend content to the resource
+ * @method string getMimeTypePart(string $part = '/') getMimeTypePart(string $part = '/') Get the MIME type of this
+ *     part
  * @method string undefinedMethod() undefinedMethod() Undefined method dummy
  * @method TextResource from($src, ...$parameters) static from($src, ...$parameters) Instantiate from source
  * @method WriterInterface to($target, ...$parameters) to($target, ...$parameters) Write to target
  */
 class TextResource extends AbstractSinglePartResource
 {
-    /**
-     * Use resource factory and text resource convenience methods and properties
-     */
-    use ResourceTrait, TextResourceTrait;
+	/**
+	 * Use resource factory and text resource convenience methods and properties
+	 */
+	use ResourceTrait, TextResourceTrait;
 
-    /**
-     * Text resource constructor
-     *
-     * @param ReaderInterface $reader Reader instance
-     */
-    public function __construct(ReaderInterface $reader = null)
-    {
-        parent::__construct(TextHydrator::class, $reader);
-    }
+	/**
+	 * Text resource constructor
+	 *
+	 * @param ReaderInterface $reader Reader instance
+	 */
+	public function __construct(ReaderInterface $reader = null)
+	{
+		parent::__construct(TextHydrator::class, $reader);
+	}
 }

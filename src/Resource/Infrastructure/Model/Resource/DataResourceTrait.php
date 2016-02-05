@@ -45,28 +45,29 @@ use Apparat\Resource\Domain\Model\Resource\AbstractSinglePartResource;
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Infrastructure
  * @method array getDataPart(string $part = '/') getDataPart(string $part = '/') Get the YAML data of the resource
- * @method AbstractSinglePartResource setDataPart(array $data, string $part = '/') setDataPart(array $data, string $part = '/') Set the YAML data of the resource
+ * @method AbstractSinglePartResource setDataPart(array $data, string $part = '/') setDataPart(array $data, string
+ *     $part = '/') Set the YAML data of the resource
  */
 trait DataResourceTrait
 {
-    /**
-     * Return the unserialized sole data content
-     *
-     * @return array Unserialized data content
-     */
-    public function getData()
-    {
-        return $this->getDataPart('/');
-    }
+	/**
+	 * Return the unserialized sole data content
+	 *
+	 * @return array Unserialized data content
+	 */
+	public function getData()
+	{
+		return $this->getDataPart('/');
+	}
 
-    /**
-     * Set the sole data content
-     *
-     * @param array $data New data
-     * @return AbstractContentPart Self reference
-     */
-    public function setData(array $data)
-    {
-        return $this->setDataPart($data, '/');
-    }
+	/**
+	 * Set the sole data content
+	 *
+	 * @param array $data New data
+	 * @return AbstractContentPart Self reference
+	 */
+	public function setData(array $data)
+	{
+		return $this->setDataPart($data, '/');
+	}
 }
