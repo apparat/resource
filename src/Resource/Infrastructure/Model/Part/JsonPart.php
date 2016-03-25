@@ -47,11 +47,11 @@ use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
 class JsonPart extends AbstractContentPart
 {
     /**
-     * Mime type
+     * Media type
      *
      * @var string
      */
-    const MIME_TYPE = 'application/json';
+    const MEDIA_TYPE = 'application/json';
 
     /**
      * Return the unserialized JSON source

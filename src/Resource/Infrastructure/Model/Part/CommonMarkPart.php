@@ -50,11 +50,11 @@ use League\CommonMark\HtmlRenderer;
 class CommonMarkPart extends TextPart
 {
     /**
-     * Mime type
+     * Media type
      *
      * @var string
      */
-    const MIME_TYPE = 'text/x-markdown';
+    const MEDIA_TYPE = 'text/markdown; charset=UTF-8; variant=CommonMark';
 
     /**
      * Convert the CommonMark source to HTML

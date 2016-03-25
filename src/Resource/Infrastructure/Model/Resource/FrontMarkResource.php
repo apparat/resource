@@ -62,7 +62,7 @@ use Apparat\Resource\Infrastructure\Model\Hydrator\YamlHydrator;
  *     of the resource
  * @method FrontMarkResource setDataPart(array $data, string $part = '/') setDataPart(array $data, string $part = '/')
  *     Set the YAML / JSON front matter data of the resource
- * @method string getMimeTypePart(string $part = '/') getMimeTypePart(string $part = '/') Get the MIME type of this
+ * @method string getMediaTypePart(string $part = '/') getMediaTypePart(string $part = '/') Get the media type of this
  *     part
  * @method FrontMarkResource from($src, ...$parameters) static from($src, ...$parameters) Instantiate from source
  * @method WriterInterface to($target, ...$parameters) to($target, ...$parameters) Write to target

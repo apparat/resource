@@ -47,11 +47,11 @@ use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
 class TextPart extends AbstractContentPart
 {
     /**
-     * Mime type
+     * Media type
      *
      * @var string
      */
-    const MIME_TYPE = 'plain/text';
+    const MEDIA_TYPE = 'plain/text';
 
     /**
      * Append content to this part

@@ -80,7 +80,7 @@ class CommonMarkTest extends AbstractTest
     {
         $commonMarkResource = Kernel::create(CommonMarkResource::class, [null]);
         $this->assertInstanceOf(CommonMarkResource::class, $commonMarkResource);
-        $this->assertEquals(CommonMarkPart::MIME_TYPE, $commonMarkResource->getMimeTypePart());
+        $this->assertEquals(CommonMarkPart::MEDIA_TYPE, $commonMarkResource->getMediaTypePart());
     }
 
     /**

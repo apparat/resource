@@ -50,11 +50,11 @@ use Symfony\Component\Yaml\Yaml;
 class YamlPart extends AbstractContentPart
 {
     /**
-     * Mime type
+     * Media type
      *
      * @var string
      */
-    const MIME_TYPE = 'text/x-yaml';
+    const MEDIA_TYPE = 'text/x-yaml';
     /**
      * Document end marker
      *

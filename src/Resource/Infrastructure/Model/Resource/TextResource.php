@@ -53,7 +53,7 @@ use Apparat\Resource\Infrastructure\Model\Hydrator\TextHydrator;
  *     Append content to the resource
  * @method TextResource prependPart(string $data, string $part = '/') prependPart(string $data, string $part = '/')
  *     Prepend content to the resource
- * @method string getMimeTypePart(string $part = '/') getMimeTypePart(string $part = '/') Get the MIME type of this
+ * @method string getMediaTypePart(string $part = '/') getMediaTypePart(string $part = '/') Get the media type of this
  *     part
  * @method string undefinedMethod() undefinedMethod() Undefined method dummy
  * @method TextResource from($src, ...$parameters) static from($src, ...$parameters) Instantiate from source

@@ -54,7 +54,7 @@ use Apparat\Resource\Infrastructure\Model\Hydrator\CommonMarkHydrator;
  * @method CommonMarkResource prependPart(string $data, string $part = '/') prependPart(string $data, string $part =
  *     '/') Prepend content to the resource
  * @method string getHtmlPart(string $part = '/') getHtmlPart(string $part = '/') Get the HTML content of the resource
- * @method string getMimeTypePart(string $part = '/') getMimeTypePart(string $part = '/') Get the MIME type of this
+ * @method string getMediaTypePart(string $part = '/') getMediaTypePart(string $part = '/') Get the media type of this
  *     part
  * @method CommonMarkResource from($src, ...$parameters) static from($src, ...$parameters) Instantiate from source
  * @method WriterInterface to($target, ...$parameters) to($target, ...$parameters) Write to target

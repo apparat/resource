@@ -87,7 +87,7 @@ class YamlTest extends AbstractDataTest
     {
         $yamlResource = Kernel::create(YamlResource::class, [null]);
         $this->assertInstanceOf(YamlResource::class, $yamlResource);
-        $this->assertEquals(YamlPart::MIME_TYPE, $yamlResource->getMimeTypePart());
+        $this->assertEquals(YamlPart::MEDIA_TYPE, $yamlResource->getMediaTypePart());
     }
 
     /**

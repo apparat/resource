@@ -48,11 +48,11 @@ use Apparat\Resource\Domain\Model\Hydrator\AbstractSinglepartHydrator;
 abstract class AbstractContentPart extends AbstractPart
 {
     /**
-     * Mime type
+     * Media type
      *
      * @var string
      */
-    const MIME_TYPE = 'application/octet-stream';
+    const MEDIA_TYPE = 'application/octet-stream';
 
     /**
      * Text content
@@ -84,13 +84,13 @@ abstract class AbstractContentPart extends AbstractPart
     }
 
     /**
-     * Return the mime type of this part
+     * Return the media type of this part
      *
-     * @return string   MIME type
+     * @return string   Media type
      */
-    public function getMimeType()
+    public function getMediaType()
     {
-        return static::MIME_TYPE;
+        return static::MEDIA_TYPE;
     }
 
     /**

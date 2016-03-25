@@ -71,11 +71,11 @@ interface PartInterface
     public function get(array $subparts = []);
 
     /**
-     * Get the MIME type of this part
+     * Get the media type of this part
      *
-     * @return string   MIME type
+     * @return string   Media type
      */
-    public function getMimeType();
+    public function getMediaType();
 
     /**
      * Return the associated hydrator

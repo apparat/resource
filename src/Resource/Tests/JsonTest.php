@@ -87,7 +87,7 @@ class JsonTest extends AbstractDataTest
     {
         $jsonResource = Kernel::create(JsonResource::class, [null]);
         $this->assertInstanceOf(JsonResource::class, $jsonResource);
-        $this->assertEquals(JsonPart::MIME_TYPE, $jsonResource->getMimeTypePart());
+        $this->assertEquals(JsonPart::MEDIA_TYPE, $jsonResource->getMediaTypePart());
     }
 
     /**

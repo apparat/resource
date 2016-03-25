@@ -48,7 +48,7 @@ use Apparat\Resource\Domain\Model\Part\PartInterface;
  *
  * @package     Apparat\Resource
  * @subpackage Apparat\Resource\Domain
- * @method string getMimeTypePart($part = '/') getMimeTypePart($part = '/') Get the MIME type of a particular part
+ * @method string getMediaTypePart($part = '/') getMediaTypePart($part = '/') Get the media type of a particular part
  */
 abstract class AbstractResource
 {

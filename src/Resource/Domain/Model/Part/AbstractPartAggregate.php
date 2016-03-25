@@ -192,11 +192,11 @@ abstract class AbstractPartAggregate extends AbstractPart implements PartAggrega
     }
 
     /**
-     * Return the mime type of this part
+     * Return the media type of this part
      *
-     * @return string   MIME type
+     * @return string   Media type
      */
-    public function getMimeType()
+    public function getMediaType()
     {
         return null;
     }

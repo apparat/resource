@@ -84,7 +84,7 @@ class TextTest extends AbstractTest
     {
         $textReource = Kernel::create(TextResource::class, [null]);
         $this->assertInstanceOf(TextResource::class, $textReource);
-        $this->assertEquals(TextPart::MIME_TYPE, $textReource->getMimeTypePart());
+        $this->assertEquals(TextPart::MEDIA_TYPE, $textReource->getMediaTypePart());
     }
 
     /**
@@ -235,7 +235,7 @@ class TextTest extends AbstractTest
     }
 
     /**
-     * Test getting the MIME type of a text file with unallowed subparts
+     * Test getting the media type of a text file with unallowed subparts
      *
      * @expectedException InvalidArgumentException
      * @expectedExceptionCode 1447365624
@@ -243,7 +243,7 @@ class TextTest extends AbstractTest
     public function testTextResourceMimeTypeSubparts()
     {
         $textReource = Kernel::create(TextResource::class, [null]);
-        $textReource->getMimeTypePart('a/b/c');
+        $textReource->getMediaTypePart('a/b/c');
     }
 
     /**

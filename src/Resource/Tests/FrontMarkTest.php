@@ -137,7 +137,7 @@ class FrontMarkTest extends AbstractTest
     {
         $frontMarkResource = Kernel::create(FrontMarkResource::class, [null]);
         $this->assertInstanceOf(FrontMarkResource::class, $frontMarkResource);
-        $this->assertEquals(null, $frontMarkResource->getMimeTypePart());
+        $this->assertEquals(null, $frontMarkResource->getMediaTypePart());
 
     }
 
