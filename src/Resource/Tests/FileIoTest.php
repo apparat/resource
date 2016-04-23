@@ -116,9 +116,9 @@ namespace Apparat\Resource\Tests {
         {
             $fileReader = Kernel::create(Reader::class, [self::TXT_FILE]);
             $this->assertInstanceOf(Reader::class, $fileReader);
-            $textReource = Kernel::create(TextResource::class, [$fileReader]);
+            $textResource = Kernel::create(TextResource::class, [$fileReader]);
             $inMemoryWriter = Kernel::create(\Apparat\Resource\Infrastructure\Io\InMemory\Writer::class);
-            $textReource->dump($inMemoryWriter);
+            $textResource->dump($inMemoryWriter);
             $this->assertEquals($this->text, $inMemoryWriter->getData());
         }
 
@@ -175,12 +175,12 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileWriterWithCreatedFile()
         {
-            $textReource = Kernel::create(
+            $textResource = Kernel::create(
                 TextResource::class,
                 [Kernel::create(\Apparat\Resource\Infrastructure\Io\InMemory\Reader::class, [$this->text])]
             );
             $tempFile = $this->createTemporaryFileName();
-            $textReource->dump(Kernel::create(Writer::class, [$tempFile, Writer::FILE_CREATE]));
+            $textResource->dump(Kernel::create(Writer::class, [$tempFile, Writer::FILE_CREATE]));
             $this->assertFileEquals(self::TXT_FILE, $tempFile);
         }
 
@@ -189,12 +189,12 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileWriterWithOverwrittenFile()
         {
-            $textReource = Kernel::create(
+            $textResource = Kernel::create(
                 TextResource::class,
                 [Kernel::create(\Apparat\Resource\Infrastructure\Io\InMemory\Reader::class, [$this->text])]
             );
             $tempFile = $this->createTemporaryFile();
-            $textReource->dump(Kernel::create(Writer::class, [$tempFile, Writer::FILE_OVERWRITE]));
+            $textResource->dump(Kernel::create(Writer::class, [$tempFile, Writer::FILE_OVERWRITE]));
             $this->assertFileEquals(self::TXT_FILE, $tempFile);
         }
 
@@ -207,8 +207,8 @@ namespace Apparat\Resource\Tests {
             copy(self::TXT_FILE, $tempFile);
             $randomAppend = md5(rand());
             $fileReaderWriter = Kernel::create(ReaderWriter::class, [$tempFile]);
-            $textReource = Kernel::create(TextResource::class, [$fileReaderWriter]);
-            $textReource->appendPart($randomAppend)->dump($fileReaderWriter);
+            $textResource = Kernel::create(TextResource::class, [$fileReaderWriter]);
+            $textResource->appendPart($randomAppend)->dump($fileReaderWriter);
             $this->assertStringEqualsFile($tempFile, $this->text . $randomAppend);
         }
 
