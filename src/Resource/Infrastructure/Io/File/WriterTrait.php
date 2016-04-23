@@ -60,6 +60,11 @@ trait WriterTrait
      */
     public function write($data)
     {
+        // If the parent directory does not exist but may be created
+        if (!@is_dir(dirname($this->file)) && ($this->options & Writer::FILE_CREATE_DIRS)) {
+            mkdir(dirname($this->file), 0777, true);
+        }
+
         return file_put_contents($this->file, $data);
     }
 
@@ -71,7 +76,7 @@ trait WriterTrait
     protected function setOptions($options)
     {
         $options = intval($options);
-        $allOptions = Writer::FILE_CREATE | Writer::FILE_OVERWRITE;
+        $allOptions = Writer::FILE_CREATE | Writer::FILE_CREATE_DIRS | Writer::FILE_OVERWRITE;
 
         if (($options & $allOptions) != $options) {
             throw new InvalidArgumentException(
@@ -91,6 +96,14 @@ trait WriterTrait
      */
     protected function validateWriterFile()
     {
+        // If the parent directory does not exist and cannot be created
+        if (!@is_dir(dirname($this->file)) && !($this->options & Writer::FILE_CREATE_DIRS)) {
+            throw new InvalidArgumentException(
+                sprintf('Parent directory "%s" cannot be created', dirname($this->file)),
+                InvalidArgumentException::DIR_CANNOT_BE_CREATED
+            );
+        }
+
         // If the file does not exist and cannot be created
         if (!@file_exists($this->file) && !($this->options & Writer::FILE_CREATE)) {
             throw new InvalidArgumentException(

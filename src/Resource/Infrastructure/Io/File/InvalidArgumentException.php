@@ -85,4 +85,11 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @var int
      */
     const FILE_CANNOT_BE_OVERWRITTEN = 1447617979;
+
+    /**
+     * File cannot be created
+     *
+     * @var int
+     */
+    const DIR_CANNOT_BE_CREATED = 1461448384;
 }

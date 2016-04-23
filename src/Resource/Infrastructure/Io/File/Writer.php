@@ -57,11 +57,17 @@ class Writer extends AbstractFileReaderWriter implements WriterInterface
      */
     const FILE_CREATE = 1;
     /**
+     * Recursively create the parent directories of they do not exist
+     *
+     * @var int
+     */
+    const FILE_CREATE_DIRS = 2;
+    /**
      * Overwrite the file if it already exists
      *
      * @var int
      */
-    const FILE_OVERWRITE = 2;
+    const FILE_OVERWRITE = 4;
 
     /**
      * Constructor

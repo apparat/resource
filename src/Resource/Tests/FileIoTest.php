@@ -57,7 +57,7 @@ namespace Apparat\Resource\Tests {
          *
          * @var string
          */
-        const TXT_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'cc0.txt';
+        const TXT_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'cc0.txt';
         /**
          * Example text data
          *
@@ -83,7 +83,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileReaderWithInvalidFilepath()
         {
-            Kernel::create(Reader::class, [self::TXT_FILE . '_invalid']);
+            Kernel::create(Reader::class, [self::TXT_FILE.'_invalid']);
         }
 
         /**
@@ -141,7 +141,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testFileWriterWithNonCreatableFile()
         {
-            Kernel::create(\Apparat\Resource\Infrastructure\Io\File\Writer::class, [self::TXT_FILE . '_new', 0]);
+            Kernel::create(\Apparat\Resource\Infrastructure\Io\File\Writer::class, [self::TXT_FILE.'_new', 0]);
         }
 
         /**
@@ -199,6 +199,42 @@ namespace Apparat\Resource\Tests {
         }
 
         /**
+         * Test the file writer with recursive directory creation
+         */
+        public function testFileWriterWithRecursiveDirectoryCreation()
+        {
+            $textResource = Kernel::create(
+                TextResource::class,
+                [Kernel::create(\Apparat\Resource\Infrastructure\Io\InMemory\Reader::class, [$this->text])]
+            );
+            $tempFile = $this->createTemporaryFile();
+            unlink($tempFile);
+            $this->tmpFiles[] = $tempFile .= DIRECTORY_SEPARATOR.'recursive.txt';
+            $textResource->dump(Kernel::create(Writer::class,
+                [$tempFile, Writer::FILE_CREATE | Writer::FILE_CREATE_DIRS]));
+            $this->assertFileEquals(self::TXT_FILE, $tempFile);
+        }
+
+        /**
+         * Test the file writer with recursive directory creation
+         *
+         * @expectedException InvalidArgumentException
+         * @expectedExceptionCode 1461448384
+         */
+        public function testFileWriterWithoutDirectoryCreation()
+        {
+            $textResource = Kernel::create(
+                TextResource::class,
+                [Kernel::create(\Apparat\Resource\Infrastructure\Io\InMemory\Reader::class, [$this->text])]
+            );
+            $tempFile = $this->createTemporaryFile();
+            unlink($tempFile);
+            $this->tmpFiles[] = $tempFile .= DIRECTORY_SEPARATOR.'recursive.txt';
+            $textResource->dump(Kernel::create(Writer::class, [$tempFile, Writer::FILE_CREATE]));
+            $this->assertFileEquals(self::TXT_FILE, $tempFile);
+        }
+
+        /**
          * Test the file reader/writer
          */
         public function testFileReaderWriterWithCreatedFile()
@@ -209,7 +245,7 @@ namespace Apparat\Resource\Tests {
             $fileReaderWriter = Kernel::create(ReaderWriter::class, [$tempFile]);
             $textResource = Kernel::create(TextResource::class, [$fileReaderWriter]);
             $textResource->appendPart($randomAppend)->dump($fileReaderWriter);
-            $this->assertStringEqualsFile($tempFile, $this->text . $randomAppend);
+            $this->assertStringEqualsFile($tempFile, $this->text.$randomAppend);
         }
 
         /**
