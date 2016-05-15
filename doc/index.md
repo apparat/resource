@@ -28,7 +28,7 @@ Purpose of this module:
 * Implementing several file types and structures (see below)
 	* Possibly special behaviour based on file type
 
-### File types planned to be supported
+# File types planned to be supported
 
 * [x] Text
 * [x] Markdown (CommonMark)
@@ -36,7 +36,6 @@ Purpose of this module:
 * [x] JSON
 * [x] YFM-Markdown (Markdown with YAML front matter)
 * [x] JFM-Markdown (Markdown with JSON front matter)
-* [ ] MIME Messages (?)
 
 Each file consists of one or more **file parts**. The content model of a file is described in terms of
 

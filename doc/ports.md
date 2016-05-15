@@ -12,7 +12,7 @@ Provides factory methods for the supported file types:
 * YAML files (`yaml`),
 * JSON files (`json`),
 * CommonMark files (`commonMark`),
-* text files with CommonMark front matter (`frontMark`).
+* CommonMark files with YAML or JSON front matter (`frontMark`).
 
 ### `Tools`
 
