@@ -1,6 +1,7 @@
-# Apparat Resources
+# apparat/resource
 
 Purpose of this module:
+
 * Provide an abstract low-level interface for basic file operations
 	* [x] Creating
 	* [x] Reading
@@ -27,27 +28,9 @@ Purpose of this module:
 * Implementing several file types and structures (see below)
 	* Possibly special behaviour based on file type
 
-### File types planned to be supported
+## Documentation
 
-* [x] Text
-* [x] Markdown (CommonMark)
-* [x] YAML
-* [x] JSON
-* [x] YFM-Markdown (Markdown with YAML front matter)
-* [x] JFM-Markdown (Markdown with JSON front matter)
-* [ ] MIME Messages (?)
-
-Each file consists of one or more **file parts**. The content model of a file is described in terms of
-
-* **content parts** (containing true file content like text or image data) and / or
-* **part aggregates** (each consisting of one or more subparts).
-
-A part aggregage may either be a
-
-* **part sequence** (a predefined sequence of subparts of particular types) or a
-* **part choice** (one of several allowed subpart types)
-
-and may be repeated more than once.
+Please find the [project documentation](doc/index.md) in the `doc` directory. I recommend [reading it](http://apparat-kernel.readthedocs.io/) via *Read the Docs*.
 
 ## Installation
 
@@ -59,6 +42,7 @@ This library requires PHP 5.6 or later. I recommend using the latest available v
 [![Coverage Status](https://coveralls.io/repos/apparat/resource/badge.svg?branch=master&service=github)](https://coveralls.io/github/apparat/resource?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/apparat/resource/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/apparat/resource/?branch=master)
 [![Code Climate](https://codeclimate.com/github/apparat/resource/badges/gpa.svg)](https://codeclimate.com/github/apparat/resource)
+[![Documentation Status](https://readthedocs.org/projects/apparat-resource/badge/?version=latest)](http://apparat-resource.readthedocs.io/en/latest/?badge=latest)
 
 To run the unit tests at the command line, issue `composer install` and then `phpunit` at the package root. This requires [Composer](http://getcomposer.org/) to be available as `composer`, and [PHPUnit](http://phpunit.de/manual/) to be available as `phpunit`.
 
