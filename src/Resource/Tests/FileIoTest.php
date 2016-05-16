@@ -210,8 +210,9 @@ namespace Apparat\Resource\Tests {
             $tempFile = $this->createTemporaryFile();
             unlink($tempFile);
             $this->tmpFiles[] = $tempFile .= DIRECTORY_SEPARATOR.'recursive.txt';
-            $textResource->dump(Kernel::create(Writer::class,
-                [$tempFile, Writer::FILE_CREATE | Writer::FILE_CREATE_DIRS]));
+            $textResource->dump(
+                Kernel::create(Writer::class, [$tempFile, Writer::FILE_CREATE | Writer::FILE_CREATE_DIRS])
+            );
             $this->assertFileEquals(self::TXT_FILE, $tempFile);
         }
 
