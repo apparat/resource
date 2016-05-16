@@ -3,9 +3,19 @@ engines:
     enabled: true
   phpmd:
     enabled: true
-    config:
-      file_extensions: "php"
-      rulesets: "phpmd.xml"
+    checks:
+      Controversial/CamelCasePropertyName:
+        enabled: true
+      Controversial/CamelCaseMethodName:
+        enabled: true
+      CleanCode/StaticAccess:
+        enabled: false
+      Codesize/TooManyMethods:
+        enabled: true
+        maxmethods: 25
+      Codesize/TooManyPublicMethods:
+        enabled: true
+        maxmethods: 25
   phpcodesniffer:
     enabled: true
     config:
