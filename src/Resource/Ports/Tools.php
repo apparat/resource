@@ -197,7 +197,8 @@ class Tools
      *
      * @return InvalidArgumentException If the reader stream wrapper is invalid
      */
-    protected static function failInvalidReader() {
+    protected static function failInvalidReader()
+    {
         return new InvalidArgumentException(
             'Invalid reader stream wrapper',
             InvalidArgumentException::INVALID_READER_STREAM_WRAPPER

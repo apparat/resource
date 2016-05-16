@@ -93,7 +93,8 @@ class FrontMarkResourceMock extends AbstractResource
      *
      * @return PartSequence Sequence aggregate
      */
-    public function getSequence() {
+    public function getSequence()
+    {
         return $this->part();
     }
 }
