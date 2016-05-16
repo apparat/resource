@@ -223,24 +223,38 @@ abstract class AbstractResource
      *
      * @param array $partMethod Part method components
      * @param array $arguments Part method arguments
-     * @return mixed|AbstractResource Self reference
+     * @return mixed|AbstractResource Getter result / self reference
      */
     protected function callPartMethod(array $partMethod, array $arguments)
     {
         $partMethod = $partMethod[1];
-        $isGetterMethod = (!strncmp('get', $partMethod, 3));
-        $delegateArguments = $isGetterMethod ? array() : array_slice($arguments, 0, 1);
-        $subpartPathArgIndex = $isGetterMethod ? 0 : 1;
-        $subparts = $this->partPath(
-            (count($arguments) > $subpartPathArgIndex) ? $arguments[$subpartPathArgIndex] : '/'
-        );
-        $delegateResult = $this->part()->delegate($partMethod, $subparts, $delegateArguments);
+        return strncmp('get', $partMethod, 3)
+            ? $this->callNonGetterPartMethod($partMethod, $arguments)
+            : $this->callGetterPartMethod($partMethod, $arguments);
+    }
 
-        if ($isGetterMethod) {
-            return $delegateResult;
-        }
+    /**
+     * Call a getter method on one of the subparts
+     *
+     * @param string $partMethod Part method
+     * @param array $arguments Part method arguments
+     * @return mixed Getter result
+     */
+    protected function callGetterPartMethod($partMethod, array $arguments) {
+        $subparts = $this->partPath(count($arguments) ? $arguments[0] : '/');
+        return $this->part()->delegate($partMethod, $subparts, []);
+    }
 
-        $this->part = $delegateResult;
+    /**
+     * Call a non-getter method on one of the subparts
+     *
+     * @param string $partMethod Part method
+     * @param array $arguments Part method arguments
+     * @return AbstractResource Self reference
+     */
+    protected function callNonGetterPartMethod($partMethod, array $arguments) {
+        $subparts = $this->partPath((count($arguments) > 1) ? $arguments[1] : '/');
+        $this->part = $this->part()->delegate($partMethod, $subparts, array_slice($arguments, 0, 1));
         return $this;
     }
 }
