@@ -240,7 +240,8 @@ abstract class AbstractResource
      * @param array $arguments Part method arguments
      * @return mixed Getter result
      */
-    protected function callGetterPartMethod($partMethod, array $arguments) {
+    protected function callGetterPartMethod($partMethod, array $arguments)
+    {
         $subparts = $this->partPath(count($arguments) ? $arguments[0] : '/');
         return $this->part()->delegate($partMethod, $subparts, []);
     }
@@ -252,7 +253,8 @@ abstract class AbstractResource
      * @param array $arguments Part method arguments
      * @return AbstractResource Self reference
      */
-    protected function callNonGetterPartMethod($partMethod, array $arguments) {
+    protected function callNonGetterPartMethod($partMethod, array $arguments)
+    {
         $subparts = $this->partPath((count($arguments) > 1) ? $arguments[1] : '/');
         $this->part = $this->part()->delegate($partMethod, $subparts, array_slice($arguments, 0, 1));
         return $this;
