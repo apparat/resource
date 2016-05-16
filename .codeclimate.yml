@@ -10,10 +10,10 @@ engines:
         enabled: true
       CleanCode/StaticAccess:
         enabled: false
-      Codesize/TooManyMethods:
+      CodeSize/TooManyMethods:
         enabled: true
         maxmethods: 25
-      Codesize/TooManyPublicMethods:
+      CodeSize/TooManyPublicMethods:
         enabled: true
         maxmethods: 25
   phpcodesniffer:
