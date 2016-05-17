@@ -5,20 +5,7 @@ engines:
     enabled: true
     config:
       file_extensions: "php"
-      rulesets: "cleancode,controversial,design,naming,unusedcode,phpmd.xml"
-    checks:
-      Controversial/CamelCasePropertyName:
-        enabled: true
-      Controversial/CamelCaseMethodName:
-        enabled: true
-      CleanCode/StaticAccess:
-        enabled: false
-      CodeSize/TooManyMethods:
-        enabled: true
-        maxmethods: 25
-      CodeSize/TooManyPublicMethods:
-        enabled: true
-        maxmethods: 25
+      rulesets: "controversial,design,naming,unusedcode,phpmd.xml"
   phpcodesniffer:
     enabled: true
     config:
