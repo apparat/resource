@@ -37,55 +37,11 @@
 namespace Apparat\Resource\Infrastructure\Io\File;
 
 /**
- * File reader trait
+ * File reader/writer invalid argument exception
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Infrastructure
- * @property string $file File path
  */
-trait ReaderTrait
+class InvalidWriterArgumentException extends \Apparat\Resource\Ports\InvalidWriterArgumentException
 {
-    /**
-     * Read the file content
-     *
-     * @return string File content
-     */
-    public function read()
-    {
-        return file_get_contents($this->file);
-    }
-
-    /**
-     * Validate the reader file
-     *
-     * @throws InvalidReaderArgumentException If the file does not exist
-     * @throws InvalidReaderArgumentException If the file is not a file
-     * @throws InvalidReaderArgumentException If the file is not readable
-     */
-    protected function validateReaderFile()
-    {
-        // If the file does not exist
-        if (!@file_exists($this->file)) {
-            throw new InvalidReaderArgumentException(
-                sprintf('File "%s" does not exist', $this->file),
-                InvalidReaderArgumentException::RESOURCE_DOES_NOT_EXIST
-            );
-        }
-
-        // If the file is not a file
-        if (!@is_file($this->file)) {
-            throw new InvalidReaderArgumentException(
-                sprintf('File "%s" is not a file', $this->file),
-                InvalidReaderArgumentException::RESOURCE_IS_OF_WRONG_TYPE
-            );
-        }
-
-        // If the file is not readable
-        if (!@is_readable($this->file)) {
-            throw new InvalidReaderArgumentException(
-                sprintf('File "%s" is not readable', $this->file),
-                InvalidReaderArgumentException::RESOURCE_IS_NOT_READABLE
-            );
-        }
-    }
 }

@@ -42,6 +42,7 @@ use Apparat\Resource\Domain\Contract\WriterInterface;
 use Apparat\Resource\Domain\Model\Resource\AbstractResource;
 use Apparat\Resource\Infrastructure\Io\InMemory\Writer as InMemoryWriter;
 use Apparat\Resource\Ports\InvalidArgumentException;
+use Apparat\Resource\Ports\InvalidWriterArgumentException;
 use Apparat\Resource\Ports\Tools;
 
 /**
@@ -78,7 +79,7 @@ trait ResourceTrait
      * @param string $target Stream-wrapped target
      * @param array $parameters Writer parameters
      * @return WriterInterface Writer instance
-     * @throws InvalidArgumentException If an invalid reader stream wrapper is given
+     * @throws InvalidWriterArgumentException If an invalid reader stream wrapper is given
      */
     public function toTarget($target, ...$parameters)
     {
@@ -90,7 +91,7 @@ trait ResourceTrait
 
         throw new InvalidArgumentException(
             'Invalid writer stream wrapper',
-            InvalidArgumentException::INVALID_WRITER_STREAM_WRAPPER
+            InvalidWriterArgumentException::INVALID_WRITER_STREAM_WRAPPER
         );
     }
 

@@ -34,62 +34,38 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Infrastructure\Io\File;
+namespace Apparat\Resource\Ports;
 
 /**
- * File reader/writer invalid argument exception
+ * Invalid API argument exception
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Infrastructure
  */
-class InvalidArgumentException extends \InvalidArgumentException
+class InvalidReaderArgumentException extends InvalidArgumentException
 {
     /**
-     * File does not exist
+     * Invalid reader stream wrapper
      *
      * @var int
      */
-    const FILE_DOES_NOT_EXIST = 1447616824;
-
+    const INVALID_READER_STREAM_WRAPPER = 1448493550;
     /**
-     * File is not a file
+     * Resource does not exist
      *
      * @var int
      */
-    const FILE_IS_NOT_A_FILE = 1447618938;
-
+    const RESOURCE_DOES_NOT_EXIST = 1447616824;
     /**
-     * File is not readable
+     * Resource is of wrong type
      *
      * @var int
      */
-    const FILE_NOT_READABLE = 1447617006;
-
+    const RESOURCE_IS_OF_WRONG_TYPE = 1447618938;
     /**
-     * Invalid file writer options
+     * Resource is not readable
      *
      * @var int
      */
-    const INVALID_FILE_WRITER_OPTIONS = 1447617559;
-
-    /**
-     * File cannot be created
-     *
-     * @var int
-     */
-    const FILE_CANNOT_BE_CREATED = 1447617960;
-
-    /**
-     * File cannot be overwritten
-     *
-     * @var int
-     */
-    const FILE_CANNOT_BE_OVERWRITTEN = 1447617979;
-
-    /**
-     * File cannot be created
-     *
-     * @var int
-     */
-    const DIR_CANNOT_BE_CREATED = 1461448384;
+    const RESOURCE_IS_NOT_READABLE = 1447617006;
 }

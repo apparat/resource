@@ -130,7 +130,7 @@ class Resource
      * @param string $resourceClass Resource class name
      * @param array $parameters Reader parameters
      * @return AbstractResource Resource instance
-     * @throws InvalidArgumentException If an invalid reader stream wrapper is given
+     * @throws InvalidReaderArgumentException If an invalid reader stream wrapper is given
      */
     protected static function fromSource($src, $resourceClass, ...$parameters)
     {
@@ -141,7 +141,7 @@ class Resource
 
         throw new InvalidArgumentException(
             'Invalid reader stream wrapper',
-            InvalidArgumentException::INVALID_READER_STREAM_WRAPPER
+            InvalidReaderArgumentException::INVALID_READER_STREAM_WRAPPER
         );
     }
 }

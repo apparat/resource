@@ -72,6 +72,7 @@ trait WriterTrait
      * Set the file options
      *
      * @param int $options File options
+     * @throws InvalidWriterArgumentException If the writer options are invalid
      */
     protected function setOptions($options)
     {
@@ -79,9 +80,9 @@ trait WriterTrait
         $allOptions = Writer::FILE_CREATE | Writer::FILE_CREATE_DIRS | Writer::FILE_OVERWRITE;
 
         if (($options & $allOptions) != $options) {
-            throw new InvalidArgumentException(
+            throw new InvalidWriterArgumentException(
                 sprintf('Invalid file writer option "%s"', $options & ~$allOptions),
-                InvalidArgumentException::INVALID_FILE_WRITER_OPTIONS
+                InvalidWriterArgumentException::INVALID_WRITER_OPTIONS
             );
         }
 
@@ -91,24 +92,25 @@ trait WriterTrait
     /**
      * Validate the writer file
      *
-     * @throws InvalidArgumentException If the file cannot be created
-     * @throws InvalidArgumentException If the file cannot be overwritten
+     * @throws InvalidWriterArgumentException If the file cannot be created
+     * @throws InvalidWriterArgumentException If the file cannot be replaced
+     * @throws InvalidWriterArgumentException If the directory cannot be created
      */
     protected function validateWriterFile()
     {
         // If the parent directory does not exist and cannot be created
         if (!@is_dir(dirname($this->file)) && !($this->options & Writer::FILE_CREATE_DIRS)) {
-            throw new InvalidArgumentException(
+            throw new InvalidWriterArgumentException(
                 sprintf('Parent directory "%s" cannot be created', dirname($this->file)),
-                InvalidArgumentException::DIR_CANNOT_BE_CREATED
+                InvalidWriterArgumentException::RESOURCE_CONTAINER_CANNOT_BE_CREATED
             );
         }
 
         // If the file does not exist and cannot be created
         if (!@file_exists($this->file) && !($this->options & Writer::FILE_CREATE)) {
-            throw new InvalidArgumentException(
+            throw new InvalidWriterArgumentException(
                 sprintf('File "%s" cannot be created', $this->file),
-                InvalidArgumentException::FILE_CANNOT_BE_CREATED
+                InvalidWriterArgumentException::RESOURCE_CANNOT_BE_CREATED
             );
         }
 
@@ -122,9 +124,9 @@ trait WriterTrait
                 !($this->options & Writer::FILE_OVERWRITE)
             )
         ) {
-            throw new InvalidArgumentException(
+            throw new InvalidWriterArgumentException(
                 sprintf('File "%s" cannot be overwritten', $this->file),
-                InvalidArgumentException::FILE_CANNOT_BE_OVERWRITTEN
+                InvalidWriterArgumentException::RESOURCE_CANNOT_BE_REPLACED
             );
         }
     }

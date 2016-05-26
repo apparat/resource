@@ -41,6 +41,7 @@ use Apparat\Resource\Infrastructure\Io\File\Reader as FileReader;
 use Apparat\Resource\Infrastructure\Io\File\Writer as FileWriter;
 use Apparat\Resource\Infrastructure\Io\InMemory\Writer as InMemoryWriter;
 use Apparat\Resource\Ports\InvalidArgumentException;
+use Apparat\Resource\Ports\InvalidWriterArgumentException;
 use Apparat\Resource\Ports\Tools;
 
 /**
@@ -61,7 +62,7 @@ class Move extends AbstractService
      * @param string $target Stream wrapped target
      * @param array $parameters Writer parameters
      * @return WriterInterface Writer instance
-     * @throws InvalidArgumentException If the writer stream wrapper is invalid
+     * @throws InvalidWriterArgumentException If the writer stream wrapper is invalid
      */
     public function toTarget($target, ...$parameters)
     {
@@ -79,7 +80,7 @@ class Move extends AbstractService
 
         throw new InvalidArgumentException(
             'Invalid writer stream wrapper',
-            InvalidArgumentException::INVALID_WRITER_STREAM_WRAPPER
+            InvalidWriterArgumentException::INVALID_WRITER_STREAM_WRAPPER
         );
     }
 

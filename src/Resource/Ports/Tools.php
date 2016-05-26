@@ -195,13 +195,13 @@ class Tools
     /**
      * Fail because of an invalid reader stream wrapper
      *
-     * @return InvalidArgumentException If the reader stream wrapper is invalid
+     * @return InvalidReaderArgumentException If the reader stream wrapper is invalid
      */
     protected static function failInvalidReader()
     {
         return new InvalidArgumentException(
             'Invalid reader stream wrapper',
-            InvalidArgumentException::INVALID_READER_STREAM_WRAPPER
+            InvalidReaderArgumentException::INVALID_READER_STREAM_WRAPPER
         );
     }
 }

@@ -34,58 +34,46 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ***********************************************************************************/
 
-namespace Apparat\Resource\Infrastructure\Io\File;
+namespace Apparat\Resource\Ports;
 
 /**
- * File reader trait
+ * Invalid API argument exception
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Infrastructure
- * @property string $file File path
  */
-trait ReaderTrait
+class InvalidWriterArgumentException extends InvalidArgumentException
 {
     /**
-     * Read the file content
+     * Invalid writer stream wrapper
      *
-     * @return string File content
+     * @var int
      */
-    public function read()
-    {
-        return file_get_contents($this->file);
-    }
+    const INVALID_WRITER_STREAM_WRAPPER = 1448493564;
+    /**
+     * Invalid writer options
+     *
+     * @var int
+     */
+    const INVALID_WRITER_OPTIONS = 1447617559;
+    /**
+     * Resource cannot be created
+     *
+     * @var int
+     */
+    const RESOURCE_CANNOT_BE_CREATED = 1447617960;
 
     /**
-     * Validate the reader file
+     * Resource cannot be replaced
      *
-     * @throws InvalidReaderArgumentException If the file does not exist
-     * @throws InvalidReaderArgumentException If the file is not a file
-     * @throws InvalidReaderArgumentException If the file is not readable
+     * @var int
      */
-    protected function validateReaderFile()
-    {
-        // If the file does not exist
-        if (!@file_exists($this->file)) {
-            throw new InvalidReaderArgumentException(
-                sprintf('File "%s" does not exist', $this->file),
-                InvalidReaderArgumentException::RESOURCE_DOES_NOT_EXIST
-            );
-        }
+    const RESOURCE_CANNOT_BE_REPLACED = 1447617979;
 
-        // If the file is not a file
-        if (!@is_file($this->file)) {
-            throw new InvalidReaderArgumentException(
-                sprintf('File "%s" is not a file', $this->file),
-                InvalidReaderArgumentException::RESOURCE_IS_OF_WRONG_TYPE
-            );
-        }
-
-        // If the file is not readable
-        if (!@is_readable($this->file)) {
-            throw new InvalidReaderArgumentException(
-                sprintf('File "%s" is not readable', $this->file),
-                InvalidReaderArgumentException::RESOURCE_IS_NOT_READABLE
-            );
-        }
-    }
+    /**
+     * Resource container cannot be created
+     *
+     * @var int
+     */
+    const RESOURCE_CONTAINER_CANNOT_BE_CREATED = 1461448384;
 }
