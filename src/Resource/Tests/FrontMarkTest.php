@@ -246,14 +246,14 @@ class FrontMarkTest extends AbstractTest
      */
     public function testYamlGetFrontmatterPart()
     {
-        $expectedData = Yaml::parse(file_get_contents(self::YAML_FRONTMATTER_FILE), 0);
+        $expectedData = Yaml::parse(file_get_contents(self::YAML_FRONTMATTER_FILE), Yaml::PARSE_DATETIME);
         $frontMarkResource = Kernel::create(
             FrontMarkResource::class,
             [Kernel::create(Reader::class, [$this->yamlFrontMark])]
         );
         $actualData = Yaml::parse(
             $frontMarkResource->getPart('/0/'.FrontMatterHydrator::FRONTMATTER),
-            0
+            Yaml::PARSE_DATETIME
         );
         $this->assertArrayEquals($expectedData, $actualData);
     }
@@ -264,7 +264,7 @@ class FrontMarkTest extends AbstractTest
     public function testYamlSetFrontmatterPart()
     {
         $yaml = file_get_contents(self::YAML_FILE);
-        $expectedData = Yaml::parse($yaml, 0);
+        $expectedData = Yaml::parse($yaml, Yaml::PARSE_DATETIME);
         $frontMarkResource = Kernel::create(
             FrontMarkResource::class,
             [Kernel::create(Reader::class, [$this->yamlFrontMark])]
@@ -272,7 +272,7 @@ class FrontMarkTest extends AbstractTest
         $frontMarkResource->setPart($yaml, '/0/'.FrontMatterHydrator::FRONTMATTER);
         $actualData = Yaml::parse(
             $frontMarkResource->getPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.YamlHydrator::YAML),
-            0
+            Yaml::PARSE_DATETIME
         );
         $this->assertArrayEquals($expectedData, $actualData);
     }

@@ -74,7 +74,7 @@ class YamlPart extends AbstractContentPart
         if (strlen($this->content)) {
             $defaultTimezone = date_default_timezone_get();
             date_default_timezone_set('UTC');
-            $data = Yaml::parse($this->content, 0);
+            $data = Yaml::parse($this->content, Yaml::PARSE_DATETIME);
             date_default_timezone_set($defaultTimezone);
         }
 

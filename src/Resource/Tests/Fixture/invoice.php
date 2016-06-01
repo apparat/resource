@@ -36,7 +36,8 @@
 
 return array(
     'invoice' => 34843,
-    'date' => 980208000,
+//    'date' => 980208000,
+    'date' => new \DateTime('2001-01-23'),
     'bill-to' => array(
         'given' => 'Chris',
         'family' => 'Dumars',
