@@ -49,7 +49,7 @@ class JsonUtility
      *
      * @var string
      */
-    const iso8601DateRegex = '~^
+    const ISO_8601_DATE_REGEX = '~^
         (?P<year>[0-9][0-9][0-9][0-9])
         -(?P<month>[0-9][0-9]?)
         -(?P<day>[0-9][0-9]?)
@@ -82,12 +82,10 @@ class JsonUtility
     protected static function encodeDates($data)
     {
         switch (true) {
-            case $data instanceof \DateTime:
-            case $data instanceof \DateTimeImmutable:
+            case $data instanceof \DateTimeInterface:
                 return $data->format('c');
-                break;
             case $data instanceof \stdClass:
-                foreach ($data as $key => $value) {
+                foreach (get_object_vars($data) as $key => $value) {
                     $data->$key = self::encodeDates($value);
                 }
                 break;
@@ -120,11 +118,10 @@ class JsonUtility
     protected static function decodeDates($data)
     {
         switch (true) {
-            case is_string($data) && preg_match(self::iso8601DateRegex, $data):
+            case is_string($data) && preg_match(self::ISO_8601_DATE_REGEX, $data):
                 return new \DateTimeImmutable($data);
-                break;
             case $data instanceof \stdClass:
-                foreach ($data as $key => $value) {
+                foreach (get_object_vars($data) as $key => $value) {
                     $data->$key = self::decodeDates($value);
                 }
                 break;

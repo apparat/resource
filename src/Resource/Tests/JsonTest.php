@@ -37,6 +37,7 @@
 namespace Apparat\Resource\Tests;
 
 use Apparat\Kernel\Ports\Kernel;
+use Apparat\Resource\Application\Service\JsonUtility;
 use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
 use Apparat\Resource\Infrastructure\Model\Part\JsonPart;
 use Apparat\Resource\Infrastructure\Model\Resource\JsonResource;
@@ -130,5 +131,13 @@ class JsonTest extends AbstractDataTest
         $jsonResource = Kernel::create(JsonResource::class, [Kernel::create(Reader::class, [$this->json])]);
         $jsonResource->setDataPart($expectedData);
         $this->assertArrayEquals($expectedData, $jsonResource->getDataPart());
+    }
+
+    /**
+     * Test the JSON Utility
+     */
+    public function testJsonEncodingDecoding() {
+        $array = [(object)['a' => 1], [2, 3]];
+        $this->assertEquals($array, JsonUtility::decode(JsonUtility::encode($array)));
     }
 }
