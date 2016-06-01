@@ -38,6 +38,7 @@ namespace Apparat\Resource\Tests;
 
 use Apparat\Kernel\Ports\Kernel;
 use Apparat\Kernel\Tests\AbstractTest;
+use Apparat\Resource\Application\Service\JsonUtility;
 use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;
 use Apparat\Resource\Domain\Model\Part\OutOfBoundsException;
@@ -337,7 +338,7 @@ class FrontMarkTest extends AbstractTest
             [Kernel::create(Reader::class, [$this->jsonFrontMark])]
         );
         $this->assertArrayEquals(
-            json_decode(file_get_contents(self::JSON_FRONTMATTER_FILE), true),
+            JsonUtility::decode(file_get_contents(self::JSON_FRONTMATTER_FILE), true),
             $frontMarkResource->getData()
         );
     }
@@ -347,7 +348,7 @@ class FrontMarkTest extends AbstractTest
      */
     public function testJsonFrontMarkFrontmatterSetData()
     {
-        $expectedJson = json_decode(file_get_contents(self::JSON_FILE), true);
+        $expectedJson = JsonUtility::decode(file_get_contents(self::JSON_FILE), true);
         $frontMarkResource = Kernel::create(
             FrontMarkResource::class,
             [Kernel::create(Reader::class, [$this->jsonFrontMark])]

@@ -36,6 +36,7 @@
 
 namespace Apparat\Resource\Infrastructure\Model\Part;
 
+use Apparat\Resource\Application\Service\JsonUtility;
 use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
 
 /**
@@ -63,7 +64,7 @@ class JsonPart extends AbstractContentPart
         $data = array();
 
         if (strlen($this->content)) {
-            $data = json_decode($this->content, true);
+            $data = JsonUtility::decode($this->content, true);
         }
 
         return $data;
@@ -77,6 +78,6 @@ class JsonPart extends AbstractContentPart
      */
     public function setData(array $data)
     {
-        return $this->set(json_encode($data, JSON_PRETTY_PRINT));
+        return $this->set(JsonUtility::encode($data));
     }
 }
