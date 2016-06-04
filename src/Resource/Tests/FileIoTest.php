@@ -36,9 +36,8 @@
 
 namespace Apparat\Resource\Tests {
 
+    use Apparat\Dev\Tests\AbstractTest;
     use Apparat\Kernel\Ports\Kernel;
-    use Apparat\Kernel\Tests\AbstractTest;
-    use Apparat\Resource\Infrastructure\Io\File\InvalidArgumentException;
     use Apparat\Resource\Infrastructure\Io\File\Reader;
     use Apparat\Resource\Infrastructure\Io\File\ReaderWriter;
     use Apparat\Resource\Infrastructure\Io\File\Writer;
@@ -78,7 +77,7 @@ namespace Apparat\Resource\Tests {
         /**
          * Test the file reader with an invalid file path
          *
-         * @expectedException InvalidArgumentException
+         * @expectedException \Apparat\Resource\Ports\InvalidReaderArgumentException
          * @expectedExceptionCode 1447616824
          */
         public function testFileReaderWithInvalidFilepath()
@@ -89,7 +88,7 @@ namespace Apparat\Resource\Tests {
         /**
          * Test the file reader with a directory path
          *
-         * @expectedException InvalidArgumentException
+         * @expectedException \Apparat\Resource\Ports\InvalidReaderArgumentException
          * @expectedExceptionCode 1447618938
          */
         public function testFileReaderWithDirectory()
@@ -100,7 +99,7 @@ namespace Apparat\Resource\Tests {
         /**
          * Test the file reader with an unreadable file
          *
-         * @expectedException InvalidArgumentException
+         * @expectedException \Apparat\Resource\Ports\InvalidReaderArgumentException
          * @expectedExceptionCode 1447617006
          */
         public function testFileReaderWithUnreadableFile()
@@ -125,7 +124,7 @@ namespace Apparat\Resource\Tests {
         /**
          * Test the file writer with invalid writer options
          *
-         * @expectedException InvalidArgumentException
+         * @expectedException \Apparat\Resource\Ports\InvalidWriterArgumentException
          * @expectedExceptionCode 1447617559
          */
         public function testFileWriterWithInvalidOptions()
@@ -136,7 +135,7 @@ namespace Apparat\Resource\Tests {
         /**
          * Test the file writer with non-creatable file
          *
-         * @expectedException InvalidArgumentException
+         * @expectedException \Apparat\Resource\Ports\InvalidWriterArgumentException
          * @expectedExceptionCode 1447617960
          */
         public function testFileWriterWithNonCreatableFile()
@@ -147,7 +146,7 @@ namespace Apparat\Resource\Tests {
         /**
          * Test the file writer with non-overwriteable file
          *
-         * @expectedException InvalidArgumentException
+         * @expectedException \Apparat\Resource\Ports\InvalidWriterArgumentException
          * @expectedExceptionCode 1447617979
          */
         public function testFileWriterWithNonOverwriteableFile()
@@ -158,7 +157,7 @@ namespace Apparat\Resource\Tests {
         /**
          * Test the file writer with non-writeable file
          *
-         * @expectedException InvalidArgumentException
+         * @expectedException \Apparat\Resource\Ports\InvalidWriterArgumentException
          * @expectedExceptionCode 1447617979
          */
         public function testFileWriterWithNonWriteableFile()
@@ -219,7 +218,7 @@ namespace Apparat\Resource\Tests {
         /**
          * Test the file writer with recursive directory creation
          *
-         * @expectedException InvalidArgumentException
+         * @expectedException \Apparat\Resource\Ports\InvalidWriterArgumentException
          * @expectedExceptionCode 1461448384
          */
         public function testFileWriterWithoutDirectoryCreation()

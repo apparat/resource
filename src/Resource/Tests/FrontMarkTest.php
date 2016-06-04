@@ -37,7 +37,7 @@
 namespace Apparat\Resource\Tests;
 
 use Apparat\Kernel\Ports\Kernel;
-use Apparat\Kernel\Tests\AbstractTest;
+use Apparat\Dev\Tests\AbstractTest;
 use Apparat\Resource\Application\Service\JsonUtility;
 use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;

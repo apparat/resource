@@ -35,7 +35,7 @@
 
 namespace Apparat\Resource\Tests;
 
-use Apparat\Kernel\Tests\AbstractTest;
+use Apparat\Dev\Tests\AbstractTest;
 
 /**
  * Abstract data tests

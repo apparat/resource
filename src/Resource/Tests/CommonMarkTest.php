@@ -37,7 +37,7 @@
 namespace Apparat\Resource\Tests;
 
 use Apparat\Kernel\Ports\Kernel;
-use Apparat\Kernel\Tests\AbstractTest;
+use Apparat\Dev\Tests\AbstractTest;
 use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
 use Apparat\Resource\Infrastructure\Model\Part\CommonMarkPart;
 use Apparat\Resource\Infrastructure\Model\Resource\CommonMarkResource;

@@ -36,7 +36,7 @@
 
 namespace Apparat\Resource\Tests {
 
-    use Apparat\Kernel\Tests\AbstractTest;
+    use Apparat\Dev\Tests\AbstractTest;
     use Apparat\Resource\Infrastructure\Io\InMemory\Writer;
     use Apparat\Resource\Infrastructure\Service\RuntimeException;
     use Apparat\Resource\Ports\InvalidArgumentException;

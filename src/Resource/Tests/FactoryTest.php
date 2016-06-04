@@ -36,7 +36,7 @@
 
 namespace Apparat\Resource\Tests;
 
-use Apparat\Kernel\Tests\AbstractTest;
+use Apparat\Dev\Tests\AbstractTest;
 use Apparat\Resource\Infrastructure\Io\File\Writer as FileWriter;
 use Apparat\Resource\Infrastructure\Io\InMemory\Writer as InMemoryWriter;
 use Apparat\Resource\Infrastructure\Model\Resource\CommonMarkResource;
