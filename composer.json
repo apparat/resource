@@ -20,6 +20,8 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^5.3",
+    "satooshi/php-coveralls": "^1.0",
+    "codeclimate/php-test-reporter": "dev-master",
     "apparat/dev": "dev-master"
   },
   "repositories": [
