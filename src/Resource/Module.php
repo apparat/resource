@@ -60,6 +60,20 @@ class Module extends AbstractModule
      *******************************************************************************/
 
     /**
+     * Validate the environment
+     *
+     * @param Dotenv $environment Environment
+     */
+    protected static function validateEnvironment(Dotenv $environment)
+    {
+        parent::validateEnvironment($environment);
+    }
+
+    /*******************************************************************************
+     * PRIVATE METHODS
+     *******************************************************************************/
+
+    /**
      * Configure the dependency injection container
      *
      * @param DependencyInjectionContainerInterface $diContainer Dependency injection container
@@ -69,19 +83,5 @@ class Module extends AbstractModule
     public function configureDependencyInjection(DependencyInjectionContainerInterface $diContainer)
     {
         parent::configureDependencyInjection($diContainer);
-    }
-
-    /*******************************************************************************
-     * PRIVATE METHODS
-     *******************************************************************************/
-
-    /**
-     * Validate the environment
-     *
-     * @param Dotenv $environment Environment
-     */
-    protected static function validateEnvironment(Dotenv $environment)
-    {
-        parent::validateEnvironment($environment);
     }
 }

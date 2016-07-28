@@ -28,12 +28,14 @@
     {
       "type": "vcs",
       "url": "git@github.com:apparat/kernel.git",
-      "reference": "master"
+      "reference": "master",
+      "version": "dev-master"
     },
     {
       "type": "vcs",
       "url": "git@github.com:apparat/dev.git",
-      "reference": "master"
+      "reference": "master",
+      "version": "dev-master"
     }
   ],
   "autoload": {

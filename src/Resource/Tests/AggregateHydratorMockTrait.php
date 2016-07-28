@@ -121,7 +121,7 @@ trait AggregateHydratorMockTrait
                     array_combine(
                         array_map(
                             function ($name) {
-                                return '_' . $name . '_';
+                                return '_'.$name.'_';
                             },
                             array_keys($occurrence)
                         ),

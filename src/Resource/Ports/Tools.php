@@ -78,32 +78,6 @@ class Tools
     );
 
     /**
-     * Find and instantiate a reader for a particular source
-     *
-     * @param string $src Source
-     * @param array $parameters Parameters
-     * @return null|ReaderInterface  Reader instance
-     */
-    public static function reader(&$src, array $parameters = array())
-    {
-        $reader = null;
-
-        // Run through all registered readers
-        foreach (self::$reader as $wrapper => $readerClass) {
-            $wrapperLength = strlen($wrapper);
-
-            // If this wrapper is used: Instantiate the reader and resource
-            if ($wrapperLength ? !strncmp($wrapper, $src, $wrapperLength) : !preg_match("%^[a-z0-9\.]+\:\/\/%", $src)) {
-                array_unshift($parameters, substr($src, $wrapperLength));
-                $reader = Kernel::create($readerClass, $parameters);
-                break;
-            }
-        }
-
-        return $reader;
-    }
-
-    /**
      * Find and instantiate a writer for a particular target
      *
      * @param string $target Target
@@ -153,6 +127,45 @@ class Tools
     }
 
     /**
+     * Find and instantiate a reader for a particular source
+     *
+     * @param string $src Source
+     * @param array $parameters Parameters
+     * @return null|ReaderInterface  Reader instance
+     */
+    public static function reader(&$src, array $parameters = array())
+    {
+        $reader = null;
+
+        // Run through all registered readers
+        foreach (self::$reader as $wrapper => $readerClass) {
+            $wrapperLength = strlen($wrapper);
+
+            // If this wrapper is used: Instantiate the reader and resource
+            if ($wrapperLength ? !strncmp($wrapper, $src, $wrapperLength) : !preg_match("%^[a-z0-9\.]+\:\/\/%", $src)) {
+                array_unshift($parameters, substr($src, $wrapperLength));
+                $reader = Kernel::create($readerClass, $parameters);
+                break;
+            }
+        }
+
+        return $reader;
+    }
+
+    /**
+     * Fail because of an invalid reader stream wrapper
+     *
+     * @return InvalidReaderArgumentException If the reader stream wrapper is invalid
+     */
+    protected static function failInvalidReader()
+    {
+        return new InvalidReaderArgumentException(
+            'Invalid reader stream wrapper',
+            InvalidReaderArgumentException::INVALID_READER_STREAM_WRAPPER
+        );
+    }
+
+    /**
      * Move / rename a resource
      *
      * @param string $src Stream-wrapped source
@@ -190,18 +203,5 @@ class Tools
         }
 
         throw self::failInvalidReader();
-    }
-
-    /**
-     * Fail because of an invalid reader stream wrapper
-     *
-     * @return InvalidReaderArgumentException If the reader stream wrapper is invalid
-     */
-    protected static function failInvalidReader()
-    {
-        return new InvalidArgumentException(
-            'Invalid reader stream wrapper',
-            InvalidReaderArgumentException::INVALID_READER_STREAM_WRAPPER
-        );
     }
 }

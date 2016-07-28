@@ -115,6 +115,36 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
     }
 
     /**
+     * Validate the parameters accepted by this hydrator
+     *
+     * By default, a multipart parameter accepts exactly two parameters:
+     * - the minimum number of occurrences of the contained part aggregate
+     * - the maximum number of occurrences of the contained part aggregate
+     *
+     * @param array $parameters Parameters
+     * @return boolean Parameters are valid
+     */
+    public static function validateParameters(...$parameters)
+    {
+
+        // If the number of parameters isn't exactly 2
+        if (count($parameters) != 2) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Invalid multipart hydrator parameter count (%s)',
+                    count($parameters)
+                ),
+                InvalidArgumentException::INVALID_MULTIPART_HYDRATOR_PARAMETER_COUNT
+            );
+        }
+
+        // Validate the occurrence numbers
+        AbstractPartAggregate::validateOccurrences(intval($parameters[0]), intval($parameters[1]));
+
+        return true;
+    }
+
+    /**
      * Serialize a file part
      *
      * @param PartInterface $part File part
@@ -152,6 +182,33 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
         return $this->combineDehydratedOccurrences($occurrences);
     }
 
+    /*******************************************************************************
+     * STATIC METHODS
+     *******************************************************************************/
+
+    /**
+     * Dehydrate a single occurrence
+     *
+     * @param array $occurrence Occurrence
+     * @return string Dehydrated occurrence
+     */
+    abstract protected function dehydrateOccurrence(array $occurrence);
+
+    /*******************************************************************************
+     * PRIVATE METHODS
+     *******************************************************************************/
+
+    /**
+     * Combine a list of dehydrated occurrences
+     *
+     * @param array $occurrences List of dehydrated occurrences
+     * @return string Combined dehydrated occurrences
+     */
+    protected function combineDehydratedOccurrences(array $occurrences)
+    {
+        return implode('', array_map('strval', $occurrences));
+    }
+
     /**
      * Initialize the aggregate part
      *
@@ -184,52 +241,6 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
         );
     }
 
-    /*******************************************************************************
-     * STATIC METHODS
-     *******************************************************************************/
-
-    /**
-     * Validate the parameters accepted by this hydrator
-     *
-     * By default, a multipart parameter accepts exactly two parameters:
-     * - the minimum number of occurrences of the contained part aggregate
-     * - the maximum number of occurrences of the contained part aggregate
-     *
-     * @param array $parameters Parameters
-     * @return boolean Parameters are valid
-     */
-    public static function validateParameters(...$parameters)
-    {
-
-        // If the number of parameters isn't exactly 2
-        if (count($parameters) != 2) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Invalid multipart hydrator parameter count (%s)',
-                    count($parameters)
-                ),
-                InvalidArgumentException::INVALID_MULTIPART_HYDRATOR_PARAMETER_COUNT
-            );
-        }
-
-        // Validate the occurrence numbers
-        AbstractPartAggregate::validateOccurrences(intval($parameters[0]), intval($parameters[1]));
-
-        return true;
-    }
-
-    /*******************************************************************************
-     * PRIVATE METHODS
-     *******************************************************************************/
-
-    /**
-     * Dehydrate a single occurrence
-     *
-     * @param array $occurrence Occurrence
-     * @return string Dehydrated occurrence
-     */
-    abstract protected function dehydrateOccurrence(array $occurrence);
-
     /**
      * Dehydrate a single part with a particular subhydrator
      *
@@ -242,16 +253,5 @@ abstract class AbstractMultipartHydrator extends AbstractHydrator
         /** @var HydratorInterface $subhydratorInstance */
         $subhydratorInstance = $this->subhydrators[$subhydrator];
         return $subhydratorInstance->dehydrate($part);
-    }
-
-    /**
-     * Combine a list of dehydrated occurrences
-     *
-     * @param array $occurrences List of dehydrated occurrences
-     * @return string Combined dehydrated occurrences
-     */
-    protected function combineDehydratedOccurrences(array $occurrences)
-    {
-        return implode('', array_map('strval', $occurrences));
     }
 }

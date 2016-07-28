@@ -107,7 +107,7 @@ class FrontMarkResource extends AbstractResource
      */
     public function set($data)
     {
-        return $this->setPart($data, '/0/' . HydratorInterface::STANDARD);
+        return $this->setPart($data, '/0/'.HydratorInterface::STANDARD);
     }
 
     /**
@@ -117,7 +117,7 @@ class FrontMarkResource extends AbstractResource
      */
     public function get()
     {
-        return $this->getPart('/0/' . HydratorInterface::STANDARD);
+        return $this->getPart('/0/'.HydratorInterface::STANDARD);
     }
 
     /**
@@ -128,7 +128,7 @@ class FrontMarkResource extends AbstractResource
      */
     public function append($data)
     {
-        return $this->appendPart($data, '/0/' . HydratorInterface::STANDARD);
+        return $this->appendPart($data, '/0/'.HydratorInterface::STANDARD);
     }
 
     /**
@@ -139,7 +139,7 @@ class FrontMarkResource extends AbstractResource
      */
     public function prepend($data)
     {
-        return $this->prependPart($data, '/0/' . HydratorInterface::STANDARD);
+        return $this->prependPart($data, '/0/'.HydratorInterface::STANDARD);
     }
 
     /**
@@ -149,7 +149,7 @@ class FrontMarkResource extends AbstractResource
      */
     public function getHtml()
     {
-        return $this->getHtmlPart('/0/' . HydratorInterface::STANDARD);
+        return $this->getHtmlPart('/0/'.HydratorInterface::STANDARD);
     }
 
     /**
@@ -159,7 +159,7 @@ class FrontMarkResource extends AbstractResource
      */
     public function getData()
     {
-        return $this->getDataPart('/0/' . FrontMatterHydrator::FRONTMATTER . '/0/' . PartChoice::WILDCARD);
+        return $this->getDataPart('/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.PartChoice::WILDCARD);
     }
 
     /**
@@ -170,6 +170,6 @@ class FrontMarkResource extends AbstractResource
      */
     public function setData(array $data)
     {
-        return $this->setDataPart($data, '/0/' . FrontMatterHydrator::FRONTMATTER . '/0/' . PartChoice::WILDCARD);
+        return $this->setDataPart($data, '/0/'.FrontMatterHydrator::FRONTMATTER.'/0/'.PartChoice::WILDCARD);
     }
 }

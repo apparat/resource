@@ -44,5 +44,5 @@ namespace Apparat\Resource\Ports;
  */
 class InvalidArgumentException extends \InvalidArgumentException
 {
-    
+
 }

@@ -98,33 +98,6 @@ class HydratorFactory
     }
 
     /**
-     * Build a single part hydrator
-     *
-     * @param array $config Hydrator configuration
-     * @return HydratorInterface Hydrator
-     */
-    protected static function buildSingle(array $config)
-    {
-        reset($config[0]);
-        $singlepartName = trim(key($config[0]));
-        $singlepartHydrator = trim(current($config[0]));
-
-        // If it's not a valid simple part hydrator
-        if (!(new \ReflectionClass($singlepartHydrator))->isSubclassOf(AbstractSinglepartHydrator::class)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Invalid single part hydrator class "%s"',
-                    $singlepartHydrator
-                ),
-                InvalidArgumentException::INVALID_SINGLEPART_HYDRATOR_CLASS
-            );
-        }
-
-        // Instantiate the simple hydrator
-        return new $singlepartHydrator($singlepartName);
-    }
-
-    /**
      * Build a multipart hydrator
      *
      * @param array $config Hydrator configuration
@@ -182,5 +155,32 @@ class HydratorFactory
         $hydratorParameters = array_slice($config, 2);
         array_unshift($hydratorParameters, $config[0]);
         return Kernel::create($multipartHydrator, $hydratorParameters);
+    }
+
+    /**
+     * Build a single part hydrator
+     *
+     * @param array $config Hydrator configuration
+     * @return HydratorInterface Hydrator
+     */
+    protected static function buildSingle(array $config)
+    {
+        reset($config[0]);
+        $singlepartName = trim(key($config[0]));
+        $singlepartHydrator = trim(current($config[0]));
+
+        // If it's not a valid simple part hydrator
+        if (!(new \ReflectionClass($singlepartHydrator))->isSubclassOf(AbstractSinglepartHydrator::class)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Invalid single part hydrator class "%s"',
+                    $singlepartHydrator
+                ),
+                InvalidArgumentException::INVALID_SINGLEPART_HYDRATOR_CLASS
+            );
+        }
+
+        // Instantiate the simple hydrator
+        return new $singlepartHydrator($singlepartName);
     }
 }

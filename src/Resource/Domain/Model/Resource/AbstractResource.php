@@ -77,10 +77,32 @@ abstract class AbstractResource
      *******************************************************************************/
 
     /**
+     * Private constructor
+     *
+     * @param HydratorInterface|array|string $hydrator File hydrator
+     * @param ReaderInterface $reader Reader instance
+     */
+    protected function __construct($hydrator, ReaderInterface $reader = null)
+    {
+        // If the hydrator needs to be instantiated from a string or array
+        if (!($hydrator instanceof HydratorInterface)) {
+            $hydrator = HydratorFactory::build((array)$hydrator);
+        }
+
+        // Register the hydrator
+        $this->hydrator = $hydrator;
+
+        // Register the reader if available
+        if ($reader instanceof ReaderInterface) {
+            $this->load($reader);
+        }
+    }
+
+    /**
      * Set a reader instance for this file
      *
      * @param ReaderInterface $reader Reader instance
-     * @return Resource Self reference
+     * @return AbstractResource Self reference
      */
     public function load(ReaderInterface $reader)
     {
@@ -90,27 +112,24 @@ abstract class AbstractResource
     }
 
     /**
+     * Reset the file
+     *
+     * @return void
+     */
+    protected function reset()
+    {
+        $this->part = null;
+    }
+
+    /**
      * Dump this files contents into a writer
      *
      * @param WriterInterface $writer Writer instance
-     * @return Resource Self reference
+     * @return AbstractResource Self reference
      */
     public function dump(WriterInterface $writer)
     {
         $writer->write($this->getPart('/'));
-        return $this;
-    }
-
-    /**
-     * Set the content of a particular part
-     *
-     * @param mixed $data Content
-     * @param string $part Part path
-     * @return Resource Self reference
-     */
-    public function setPart($data, $part = '/')
-    {
-        $this->part = $this->part()->set($data, $this->partPath($part));
         return $this;
     }
 
@@ -125,6 +144,56 @@ abstract class AbstractResource
         $partPath = $this->partPath($part);
         $part = $this->part()->get($partPath);
         return $part->getHydrator()->dehydrate($part);
+    }
+
+    /*******************************************************************************
+     * PRIVATE METHODS
+     *******************************************************************************/
+
+    /**
+     * Set the content of a particular part
+     *
+     * @param mixed $data Content
+     * @param string $part Part path
+     * @return AbstractResource Self reference
+     */
+    public function setPart($data, $part = '/')
+    {
+        $this->part = $this->part()->set($data, $this->partPath($part));
+        return $this;
+    }
+
+    /**
+     * Split a part path string into path identifiers
+     *
+     * @param string $path Part path string
+     * @return array Part path identifiers
+     */
+    protected function partPath($path)
+    {
+        return (trim($path) == '/') ? [] : array_map(
+            function ($pathIdentifier) {
+                $pathIdentifier = trim($pathIdentifier);
+                AbstractPart::validatePartIdentifier($pathIdentifier);
+                return $pathIdentifier;
+            },
+            explode('/', ltrim($path, '/'))
+        );
+    }
+
+    /**
+     * Lazy-hydrate and return the main file part
+     *
+     * @return PartInterface Main file part
+     */
+    protected function part()
+    {
+        if (!($this->part instanceof PartInterface)) {
+            $this->part = $this->hydrator->hydrate(
+                ($this->reader instanceof ReaderInterface) ? $this->reader->read() : ''
+            );
+        }
+        return $this->part;
     }
 
     /**
@@ -149,75 +218,6 @@ abstract class AbstractResource
         );
     }
 
-    /*******************************************************************************
-     * PRIVATE METHODS
-     *******************************************************************************/
-
-    /**
-     * Private constructor
-     *
-     * @param HydratorInterface|array|string $hydrator File hydrator
-     * @param ReaderInterface $reader Reader instance
-     */
-    protected function __construct($hydrator, ReaderInterface $reader = null)
-    {
-        // If the hydrator needs to be instantiated from a string or array
-        if (!($hydrator instanceof HydratorInterface)) {
-            $hydrator = HydratorFactory::build((array)$hydrator);
-        }
-
-        // Register the hydrator
-        $this->hydrator = $hydrator;
-
-        // Register the reader if available
-        if ($reader instanceof ReaderInterface) {
-            $this->load($reader);
-        }
-    }
-
-    /**
-     * Reset the file
-     *
-     * @return void
-     */
-    protected function reset()
-    {
-        $this->part = null;
-    }
-
-    /**
-     * Lazy-hydrate and return the main file part
-     *
-     * @return PartInterface Main file part
-     */
-    protected function part()
-    {
-        if (!($this->part instanceof PartInterface)) {
-            $this->part = $this->hydrator->hydrate(
-                ($this->reader instanceof ReaderInterface) ? $this->reader->read() : ''
-            );
-        }
-        return $this->part;
-    }
-
-    /**
-     * Split a part path string into path identifiers
-     *
-     * @param string $path Part path string
-     * @return array Part path identifiers
-     */
-    protected function partPath($path)
-    {
-        return (trim($path) == '/') ? [] : array_map(
-            function ($pathIdentifier) {
-                $pathIdentifier = trim($pathIdentifier);
-                AbstractPart::validatePartIdentifier($pathIdentifier);
-                return $pathIdentifier;
-            },
-            explode('/', ltrim($path, '/'))
-        );
-    }
-
     /**
      * Call a method on one of the subparts
      *
@@ -234,19 +234,6 @@ abstract class AbstractResource
     }
 
     /**
-     * Call a getter method on one of the subparts
-     *
-     * @param string $partMethod Part method
-     * @param array $arguments Part method arguments
-     * @return mixed Getter result
-     */
-    protected function callGetterPartMethod($partMethod, array $arguments)
-    {
-        $subparts = $this->partPath(count($arguments) ? $arguments[0] : '/');
-        return $this->part()->delegate($partMethod, $subparts, []);
-    }
-
-    /**
      * Call a non-getter method on one of the subparts
      *
      * @param string $partMethod Part method
@@ -258,5 +245,18 @@ abstract class AbstractResource
         $subparts = $this->partPath((count($arguments) > 1) ? $arguments[1] : '/');
         $this->part = $this->part()->delegate($partMethod, $subparts, array_slice($arguments, 0, 1));
         return $this;
+    }
+
+    /**
+     * Call a getter method on one of the subparts
+     *
+     * @param string $partMethod Part method
+     * @param array $arguments Part method arguments
+     * @return mixed Getter result
+     */
+    protected function callGetterPartMethod($partMethod, array $arguments)
+    {
+        $subparts = $this->partPath(count($arguments) ? $arguments[0] : '/');
+        return $this->part()->delegate($partMethod, $subparts, []);
     }
 }

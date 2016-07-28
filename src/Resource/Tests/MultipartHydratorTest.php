@@ -36,8 +36,8 @@
 
 namespace Apparat\Resource\Tests;
 
-use Apparat\Kernel\Ports\Kernel;
 use Apparat\Dev\Tests\AbstractTest;
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Resource\Domain\Factory\HydratorFactory;
 use Apparat\Resource\Domain\Model\Hydrator\HydratorInterface;
 use Apparat\Resource\Domain\Model\Hydrator\InvalidArgumentException;

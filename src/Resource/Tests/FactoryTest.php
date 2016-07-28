@@ -56,75 +56,29 @@ use Apparat\Resource\Ports\Resource;
 class FactoryTest extends AbstractTest
 {
     /**
-     * Example text data
-     *
-     * @var string
-     */
-    protected $text = null;
-
-    /**
-     * Example JSON data
-     *
-     * @var string
-     */
-    protected $json = null;
-
-    /**
-     * Example YAML data
-     *
-     * @var string
-     */
-    protected $yaml = null;
-
-    /**
-     * Example CommonMark data
-     *
-     * @var string
-     */
-    protected $commonMark = null;
-
-    /**
-     * Example FrontMark data with YAML front matter
-     *
-     * @var string
-     */
-    protected $yamlFrontMark = null;
-
-    /**
-     * Example FrontMark file with JSON front matter
-     *
-     * @var string
-     */
-    protected $jsonFrontMark = null;
-
-    /**
      * Example text file
      *
      * @var string
      */
     const TXT_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'cc0.txt';
-
     /**
      * Example JSON file
      *
      * @var string
      */
     const JSON_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.json';
-
     /**
      * Example YAML file
      *
      * @var string
      */
     const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.yaml';
-
     /**
      * Example CommonMark file
      *
      * @var string
      */
     const COMMONMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.md';
-
     /**
      * Example FrontMark file with YAML front matter
      *
@@ -137,20 +91,42 @@ class FactoryTest extends AbstractTest
      * @var string
      */
     const JSON_FRONTMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'json-frontmark.md';
-
     /**
-     * Sets up the fixture
+     * Example text data
+     *
+     * @var string
      */
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->text = file_get_contents(self::TXT_FILE);
-        $this->json = file_get_contents(self::JSON_FILE);
-        $this->yaml = file_get_contents(self::YAML_FILE);
-        $this->commonMark = file_get_contents(self::COMMONMARK_FILE);
-        $this->yamlFrontMark = file_get_contents(self::YAML_FRONTMARK_FILE);
-        $this->jsonFrontMark = file_get_contents(self::JSON_FRONTMARK_FILE);
-    }
+    protected $text = null;
+    /**
+     * Example JSON data
+     *
+     * @var string
+     */
+    protected $json = null;
+    /**
+     * Example YAML data
+     *
+     * @var string
+     */
+    protected $yaml = null;
+    /**
+     * Example CommonMark data
+     *
+     * @var string
+     */
+    protected $commonMark = null;
+    /**
+     * Example FrontMark data with YAML front matter
+     *
+     * @var string
+     */
+    protected $yamlFrontMark = null;
+    /**
+     * Example FrontMark file with JSON front matter
+     *
+     * @var string
+     */
+    protected $jsonFrontMark = null;
 
     /**
      * Test the text resource factory with a string literal input (in-memory reader)
@@ -268,5 +244,19 @@ class FactoryTest extends AbstractTest
         $jsonFMResource = Resource::frontMark('file://'.self::JSON_FRONTMARK_FILE);
         $this->assertInstanceOf(FrontMarkResource::class, $jsonFMResource);
         $this->assertEquals($this->jsonFrontMark, strval($jsonFMResource));
+    }
+
+    /**
+     * Sets up the fixture
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->text = file_get_contents(self::TXT_FILE);
+        $this->json = file_get_contents(self::JSON_FILE);
+        $this->yaml = file_get_contents(self::YAML_FILE);
+        $this->commonMark = file_get_contents(self::COMMONMARK_FILE);
+        $this->yamlFrontMark = file_get_contents(self::YAML_FRONTMARK_FILE);
+        $this->jsonFrontMark = file_get_contents(self::JSON_FRONTMARK_FILE);
     }
 }

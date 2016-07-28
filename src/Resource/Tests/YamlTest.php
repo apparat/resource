@@ -50,6 +50,12 @@ use Apparat\Resource\Infrastructure\Model\Resource\YamlResource;
 class YamlTest extends AbstractDataTest
 {
     /**
+     * Example YAML file
+     *
+     * @var string
+     */
+    const YAML_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.yaml';
+    /**
      * Example YAML data
      *
      * @var string
@@ -57,27 +63,11 @@ class YamlTest extends AbstractDataTest
     protected $yaml = null;
 
     /**
-     * Example YAML file
-     *
-     * @var string
-     */
-    const YAML_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.yaml';
-
-    /**
      * Preparations before the first test is run
      */
     public static function setUpBeforeClass()
     {
         \date_default_timezone_set('UTC');
-    }
-
-    /**
-     * Sets up the fixture
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->yaml = file_get_contents(self::YAML_FILE);
     }
 
     /**
@@ -116,7 +106,7 @@ class YamlTest extends AbstractDataTest
      */
     public function testYamlResourceGetData()
     {
-        $expectedData = include __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.php';
+        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
         $yamlResource = Kernel::create(YamlResource::class, [Kernel::create(Reader::class, [$this->yaml])]);
         $this->assertArrayEquals($expectedData, $yamlResource->getDataPart());
         $this->assertArrayEquals($expectedData, $yamlResource->getData());
@@ -142,5 +132,14 @@ class YamlTest extends AbstractDataTest
         $yamlResource = Kernel::create(YamlResource::class, [Kernel::create(Reader::class, [$this->yaml])]);
         $yamlResource->setData($expectedData);
         $this->assertArrayEquals($expectedData, $yamlResource->getData());
+    }
+
+    /**
+     * Sets up the fixture
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->yaml = file_get_contents(self::YAML_FILE);
     }
 }

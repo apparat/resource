@@ -51,6 +51,12 @@ use Apparat\Resource\Infrastructure\Model\Resource\JsonResource;
 class JsonTest extends AbstractDataTest
 {
     /**
+     * Example JSON file
+     *
+     * @var string
+     */
+    const JSON_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.json';
+    /**
      * Example JSON data
      *
      * @var string
@@ -58,27 +64,11 @@ class JsonTest extends AbstractDataTest
     protected $json = null;
 
     /**
-     * Example JSON file
-     *
-     * @var string
-     */
-    const JSON_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.json';
-
-    /**
      * Preparations before the first test is run
      */
     public static function setUpBeforeClass()
     {
         \date_default_timezone_set('UTC');
-    }
-
-    /**
-     * Sets up the fixture
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->json = file_get_contents(self::JSON_FILE);
     }
 
     /**
@@ -117,7 +107,7 @@ class JsonTest extends AbstractDataTest
      */
     public function testJsonResourceGetData()
     {
-        $expectedData = include __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'invoice.php';
+        $expectedData = include __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'invoice.php';
         $jsonResource = Kernel::create(JsonResource::class, [Kernel::create(Reader::class, [$this->json])]);
         $this->assertArrayEquals($expectedData, $jsonResource->getDataPart());
     }
@@ -136,8 +126,18 @@ class JsonTest extends AbstractDataTest
     /**
      * Test the JSON Utility
      */
-    public function testJsonEncodingDecoding() {
+    public function testJsonEncodingDecoding()
+    {
         $array = [(object)['a' => 1], [2, 3]];
         $this->assertEquals($array, JsonUtility::decode(JsonUtility::encode($array)));
+    }
+
+    /**
+     * Sets up the fixture
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->json = file_get_contents(self::JSON_FILE);
     }
 }

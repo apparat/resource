@@ -43,6 +43,7 @@ use Apparat\Resource\Domain\Model\Part\AbstractContentPart;
  *
  * @package     Apparat\Resource
  * @subpackage  Apparat\Resource\Infrastructure
+ * @method TextPart set($data, array $subparts = []) Set the contents of a part
  */
 class TextPart extends AbstractContentPart
 {
@@ -61,7 +62,7 @@ class TextPart extends AbstractContentPart
      */
     public function append($data)
     {
-        return $this->set($this->content . $data);
+        return $this->set($this->content.$data);
     }
 
     /**
@@ -72,6 +73,6 @@ class TextPart extends AbstractContentPart
      */
     public function prepend($data)
     {
-        return $this->set($data . $this->content);
+        return $this->set($data.$this->content);
     }
 }

@@ -36,8 +36,8 @@
 
 namespace Apparat\Resource\Tests;
 
-use Apparat\Kernel\Ports\Kernel;
 use Apparat\Dev\Tests\AbstractTest;
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Resource\Domain\Model\Part\InvalidArgumentException;
 use Apparat\Resource\Domain\Model\Resource\RuntimeException;
 use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
@@ -55,27 +55,17 @@ use Apparat\Resource\Infrastructure\Model\Resource\TextResource;
 class TextTest extends AbstractTest
 {
     /**
+     * Example text file
+     *
+     * @var string
+     */
+    const TXT_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'cc0.txt';
+    /**
      * Example text data
      *
      * @var string
      */
     protected $text = null;
-
-    /**
-     * Example text file
-     *
-     * @var string
-     */
-    const TXT_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'cc0.txt';
-
-    /**
-     * Sets up the fixture
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->text = file_get_contents(self::TXT_FILE);
-    }
 
     /**
      * Test the text file constructor
@@ -158,7 +148,7 @@ class TextTest extends AbstractTest
         $randomAppend = md5(rand());
         $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->setPart($randomSet)->appendPart($randomAppend);
-        $this->assertEquals($randomSet . $randomAppend, $textReource->getPart());
+        $this->assertEquals($randomSet.$randomAppend, $textReource->getPart());
     }
 
     /**
@@ -170,7 +160,7 @@ class TextTest extends AbstractTest
         $randomAppend = md5(rand());
         $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->set($randomSet)->append($randomAppend);
-        $this->assertEquals($randomSet . $randomAppend, $textReource->get());
+        $this->assertEquals($randomSet.$randomAppend, $textReource->get());
     }
 
     /**
@@ -182,9 +172,8 @@ class TextTest extends AbstractTest
         $randomPrepend = md5(rand());
         $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->setPart($randomSet)->prependPart($randomPrepend);
-        $this->assertEquals($randomPrepend . $randomSet, $textReource->getPart());
+        $this->assertEquals($randomPrepend.$randomSet, $textReource->getPart());
     }
-
 
     /**
      * Test appending content to a text file
@@ -195,7 +184,7 @@ class TextTest extends AbstractTest
         $randomPrepend = md5(rand());
         $textReource = Kernel::create(TextResource::class, [null]);
         $textReource->set($randomSet)->prepend($randomPrepend);
-        $this->assertEquals($randomPrepend . $randomSet, $textReource->get());
+        $this->assertEquals($randomPrepend.$randomSet, $textReource->get());
     }
 
     /**
@@ -267,6 +256,15 @@ class TextTest extends AbstractTest
         $readerWriter = Kernel::create(ReaderWriter::class, [$this->text]);
         $textReource = Kernel::create(TextResource::class, [$readerWriter]);
         $textReource->appendPart($randomAppend)->dump($readerWriter);
-        $this->assertEquals($this->text . $randomAppend, $readerWriter->getData());
+        $this->assertEquals($this->text.$randomAppend, $readerWriter->getData());
+    }
+
+    /**
+     * Sets up the fixture
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->text = file_get_contents(self::TXT_FILE);
     }
 }

@@ -49,7 +49,7 @@ use Apparat\Resource\Infrastructure\Model\Resource\YamlResource;
  * Resource factory
  *
  * @package Apparat\Resource
- * @subpackage Apparat\Resource\Infrastructure
+ * @subpackage Apparat\Resource\Ports
  */
 class Resource
 {
@@ -65,6 +65,28 @@ class Resource
     public static function text($src, ...$parameters)
     {
         return self::fromSource($src, TextResource::class, ...$parameters);
+    }
+
+    /**
+     * Create a reader instance from a stream-wrapped source
+     *
+     * @param string $src Stream-wrapped source
+     * @param string $resourceClass Resource class name
+     * @param array $parameters Reader parameters
+     * @return AbstractResource Resource instance
+     * @throws InvalidReaderArgumentException If an invalid reader stream wrapper is given
+     */
+    protected static function fromSource($src, $resourceClass, ...$parameters)
+    {
+        $reader = Tools::reader($src, $parameters);
+        if ($reader instanceof ReaderInterface) {
+            return Kernel::create($resourceClass, [$reader]);
+        }
+
+        throw new InvalidArgumentException(
+            'Invalid reader stream wrapper',
+            InvalidReaderArgumentException::INVALID_READER_STREAM_WRAPPER
+        );
     }
 
     /**
@@ -106,6 +128,10 @@ class Resource
         return self::fromSource($src, CommonMarkResource::class, ...$parameters);
     }
 
+    /*******************************************************************************
+     * STATIC METHODS
+     *******************************************************************************/
+
     /**
      * Create and return a FrontMark resource instance
      *
@@ -117,31 +143,5 @@ class Resource
     public static function frontMark($src, ...$parameters)
     {
         return self::fromSource($src, FrontMarkResource::class, ...$parameters);
-    }
-
-    /*******************************************************************************
-     * STATIC METHODS
-     *******************************************************************************/
-
-    /**
-     * Create a reader instance from a stream-wrapped source
-     *
-     * @param string $src Stream-wrapped source
-     * @param string $resourceClass Resource class name
-     * @param array $parameters Reader parameters
-     * @return AbstractResource Resource instance
-     * @throws InvalidReaderArgumentException If an invalid reader stream wrapper is given
-     */
-    protected static function fromSource($src, $resourceClass, ...$parameters)
-    {
-        $reader = Tools::reader($src, $parameters);
-        if ($reader instanceof ReaderInterface) {
-            return Kernel::create($resourceClass, [$reader]);
-        }
-
-        throw new InvalidArgumentException(
-            'Invalid reader stream wrapper',
-            InvalidReaderArgumentException::INVALID_READER_STREAM_WRAPPER
-        );
     }
 }

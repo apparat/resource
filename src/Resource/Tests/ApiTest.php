@@ -55,7 +55,7 @@ namespace Apparat\Resource\Tests {
          *
          * @var string
          */
-        const TXT_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'cc0.txt';
+        const TXT_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'cc0.txt';
 
         /**
          * Test invalid reader stream wrapper while copying
@@ -76,7 +76,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testCopyInvalidWriterStreamWrapper()
         {
-            Tools::copy('file://' . self::TXT_FILE)->toTarget('foo://bar');
+            Tools::copy('file://'.self::TXT_FILE)->toTarget('foo://bar');
         }
 
         /**
@@ -86,7 +86,7 @@ namespace Apparat\Resource\Tests {
         {
             $tempFile = $this->createTemporaryFileName();
             $randomString = md5(rand());
-            Tools::copy($randomString)->toTarget('file://' . $tempFile);
+            Tools::copy($randomString)->toTarget('file://'.$tempFile);
             $this->assertStringEqualsFile($tempFile, $randomString);
         }
 
@@ -96,7 +96,7 @@ namespace Apparat\Resource\Tests {
         public function testCopyFileToFile()
         {
             $tempFile = $this->createTemporaryFileName();
-            Tools::copy('file://' . self::TXT_FILE)->toTarget('file://' . $tempFile);
+            Tools::copy('file://'.self::TXT_FILE)->toTarget('file://'.$tempFile);
             $this->assertFileEquals($tempFile, self::TXT_FILE);
         }
 
@@ -110,7 +110,7 @@ namespace Apparat\Resource\Tests {
         {
             putenv('MOCK_COPY=1');
             $tempFile = $this->createTemporaryFileName();
-            Tools::copy('file://' . self::TXT_FILE)->toTarget('file://' . $tempFile);
+            Tools::copy('file://'.self::TXT_FILE)->toTarget('file://'.$tempFile);
             $this->assertFileEquals($tempFile, self::TXT_FILE);
             putenv('MOCK_COPY');
         }
@@ -133,7 +133,7 @@ namespace Apparat\Resource\Tests {
         public function testCopyFileToString()
         {
             /** @var Writer $writer */
-            $writer = Tools::copy('file://' . self::TXT_FILE)->toTarget('');
+            $writer = Tools::copy('file://'.self::TXT_FILE)->toTarget('');
             $this->assertInstanceOf(Writer::class, $writer);
             $this->assertStringEqualsFile(self::TXT_FILE, $writer->getData());
         }
@@ -157,7 +157,7 @@ namespace Apparat\Resource\Tests {
          */
         public function testMoveInvalidWriterStreamWrapper()
         {
-            Tools::move('file://' . self::TXT_FILE)->toTarget('foo://bar');
+            Tools::move('file://'.self::TXT_FILE)->toTarget('foo://bar');
         }
 
         /**
@@ -167,7 +167,7 @@ namespace Apparat\Resource\Tests {
         {
             $tempFile = $this->createTemporaryFileName();
             $randomString = md5(rand());
-            Tools::move($randomString)->toTarget('file://' . $tempFile);
+            Tools::move($randomString)->toTarget('file://'.$tempFile);
             $this->assertStringEqualsFile($tempFile, $randomString);
         }
 
@@ -179,7 +179,7 @@ namespace Apparat\Resource\Tests {
             $srcFile = $this->createTemporaryFileName();
             copy(self::TXT_FILE, $srcFile);
             $tempFile = $this->createTemporaryFileName();
-            Tools::move('file://' . $srcFile)->toTarget('file://' . $tempFile);
+            Tools::move('file://'.$srcFile)->toTarget('file://'.$tempFile);
             $this->assertFileEquals(self::TXT_FILE, $tempFile);
         }
 
@@ -193,7 +193,7 @@ namespace Apparat\Resource\Tests {
         {
             putenv('MOCK_MOVE=1');
             $tempFile = $this->createTemporaryFileName();
-            Tools::move('file://' . self::TXT_FILE)->toTarget('file://' . $tempFile);
+            Tools::move('file://'.self::TXT_FILE)->toTarget('file://'.$tempFile);
             $this->assertFileEquals($tempFile, self::TXT_FILE);
             putenv('MOCK_MOVE');
         }
@@ -218,7 +218,7 @@ namespace Apparat\Resource\Tests {
             $srcFile = $this->createTemporaryFileName();
             copy(self::TXT_FILE, $srcFile);
             /** @var Writer $writer */
-            $writer = Tools::move('file://' . $srcFile)->toTarget('');
+            $writer = Tools::move('file://'.$srcFile)->toTarget('');
             $this->assertInstanceOf(Writer::class, $writer);
             $this->assertStringEqualsFile(self::TXT_FILE, $writer->getData());
         }
@@ -230,7 +230,7 @@ namespace Apparat\Resource\Tests {
         {
             $srcFile = $this->createTemporaryFileName();
             copy(self::TXT_FILE, $srcFile);
-            $this->assertEquals(true, Tools::delete('file://' . $srcFile));
+            $this->assertEquals(true, Tools::delete('file://'.$srcFile));
             $this->assertFileNotExists($srcFile);
         }
 
@@ -243,7 +243,7 @@ namespace Apparat\Resource\Tests {
         public function testDeleteFileError()
         {
             putenv('MOCK_UNLINK=1');
-            Tools::delete('file://' . self::TXT_FILE);
+            Tools::delete('file://'.self::TXT_FILE);
             putenv('MOCK_UNLINK');
         }
 

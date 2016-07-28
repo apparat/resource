@@ -36,8 +36,8 @@
 
 namespace Apparat\Resource\Tests;
 
-use Apparat\Kernel\Ports\Kernel;
 use Apparat\Dev\Tests\AbstractTest;
+use Apparat\Kernel\Ports\Kernel;
 use Apparat\Resource\Infrastructure\Io\InMemory\Reader;
 use Apparat\Resource\Infrastructure\Model\Part\CommonMarkPart;
 use Apparat\Resource\Infrastructure\Model\Resource\CommonMarkResource;
@@ -51,27 +51,17 @@ use Apparat\Resource\Infrastructure\Model\Resource\CommonMarkResource;
 class CommonMarkTest extends AbstractTest
 {
     /**
+     * Example CommonMark file
+     *
+     * @var string
+     */
+    const COMMONMARK_FILE = __DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.md';
+    /**
      * Example CommonMark data
      *
      * @var string
      */
     protected $commonMark = null;
-
-    /**
-     * Example CommonMark file
-     *
-     * @var string
-     */
-    const COMMONMARK_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'commonmark.md';
-
-    /**
-     * Sets up the fixture
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->commonMark = file_get_contents(self::COMMONMARK_FILE);
-    }
 
     /**
      * Test the CommonMark file constructor
@@ -115,7 +105,7 @@ class CommonMarkTest extends AbstractTest
         $randomAppend = md5(rand());
         $commonMarkResource = Kernel::create(CommonMarkResource::class, [null]);
         $commonMarkResource->setPart($randomSet)->appendPart($randomAppend);
-        $this->assertEquals($randomSet . $randomAppend, $commonMarkResource->getPart());
+        $this->assertEquals($randomSet.$randomAppend, $commonMarkResource->getPart());
     }
 
     /**
@@ -127,7 +117,7 @@ class CommonMarkTest extends AbstractTest
         $randomPrepend = md5(rand());
         $commonMarkResource = Kernel::create(CommonMarkResource::class, [null]);
         $commonMarkResource->setPart($randomSet)->prependPart($randomPrepend);
-        $this->assertEquals($randomPrepend . $randomSet, $commonMarkResource->getPart());
+        $this->assertEquals($randomPrepend.$randomSet, $commonMarkResource->getPart());
     }
 
     /**
@@ -151,7 +141,7 @@ class CommonMarkTest extends AbstractTest
     public function testCommonMarkResourceHtmlPart()
     {
         $expectedHtml = $this->normalizeHtml(
-            file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'commonmark.html')
+            file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
         );
         $commonMarkResource = Kernel::create(
             CommonMarkResource::class,
@@ -166,12 +156,21 @@ class CommonMarkTest extends AbstractTest
     public function testCommonMarkResourceHtml()
     {
         $expectedHtml = $this->normalizeHtml(
-            file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'Fixture' . DIRECTORY_SEPARATOR . 'commonmark.html')
+            file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'Fixture'.DIRECTORY_SEPARATOR.'commonmark.html')
         );
         $commonMarkResource = Kernel::create(
             CommonMarkResource::class,
             [Kernel::create(Reader::class, [$this->commonMark])]
         );
         $this->assertEquals($expectedHtml, $this->normalizeHtml($commonMarkResource->getHtml()));
+    }
+
+    /**
+     * Sets up the fixture
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->commonMark = file_get_contents(self::COMMONMARK_FILE);
     }
 }
