@@ -14,7 +14,7 @@
   ],
   "require": {
     "php": ">=5.6.0",
-    "apparat/kernel": "@dev",
+    "apparat/kernel": "dev-master",
     "league/commonmark": "^0.13",
     "symfony/yaml": "^3.1"
   },
@@ -22,7 +22,8 @@
     "phpunit/phpunit": "^5.3",
     "satooshi/php-coveralls": "^1.0",
     "codeclimate/php-test-reporter": "dev-master",
-    "apparat/dev": "@dev"
+    "apparat/dev": "dev-master",
+    "clue/graph-composer": "dev-master"
   },
   "repositories": [
     {
@@ -33,6 +34,11 @@
     {
       "type": "vcs",
       "url": "git@github.com:apparat/dev.git",
+      "reference": "master"
+    },
+    {
+      "type": "git",
+      "url": "git@github.com:jkphl/graph-composer.git",
       "reference": "master"
     }
   ],
